@@ -36,7 +36,7 @@
     <link href="css/animate.css" rel="stylesheet" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="shortcut icon" href="images/favicon.webp" />
   </head>
 
   <body>
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="container">
           <div class="logo">
-            <a href="index.html"><img src="images/logo.png" alt="logo" /></a>
+            <a href="index.html"><img loading="lazy"loading="lazy" src="images/logo.webp" alt="logo" /></a>
           </div>
 
           <div class="responsive"><i data-icon="m" class="ion-navicon-round"></i></div>
@@ -98,9 +98,13 @@
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-4">
-            <div class="div-img-bg">
-              <div class="about-img">
-                <img src="images/HunterHo.jpeg" class="img-responsive" alt="me" />
+            <div class="div-img-bg card">
+              <div class="about-img " >
+                <img loading="lazy" src="images/HunterHo.webp" class="img-responsive" alt="me" />
+                <span class="span_effect top"></span>
+                <span class="span_effect right"></span>
+                <span class="span_effect bottom"></span>
+                <span class="span_effect left"></span>
               </div>
             </div>
           </div>
@@ -109,16 +113,24 @@
             <div class="about-descr">
               <p class="p-heading">Experienced Programmer<br />Develop Your Idea > Reality</p>
               <p class="separator">
-                Programming Languages: PHP, JavaScript / TypeScript, Python, Java, C++, HTML5 (CSS3), Dart. <br />
-                Frameworks: Laravel, React, Svelte, Django, Vue, Nuxtjs, Nextjs, AngularJS, JQuery, Bootstrap, Tailwind, Flowbite. <br />
-                Web Tech: Json, Ajax, ActionScript, CMS, MVC, Web & Mobile Responsive.<br />
-                Mobile App: React-Native, Flutter, Svelte Native, Ionic, Cordova, PWA.<br />
-                Server & Databases: API(RESTful / CRUD), MySQL, PostgreSQL, SQL, NoSQL, MongoDB, Node, Express, Linux Server, Sqlite, XML, Firebase, Apache,
-                Cpanel, FTP, Cloud.<br />
-                AI: Machine Learning, Deep Learning, TensorFlow, OpenCV, Yolo.<br />
-                Payment Gateway: API (Paypal, Stripe, Maybank2UPay, Billplz, iPay88) etc.<br />
-                UI/UX: Figma, Adobe XD, Wireframe, Prototype, MVP Design(Able to click inside the design), Mockups.<br />
-                Other: Github, Bitbucket, Gitee, Jupyter , Google Colab, Clean Code, #Comments, Docker, Discord, Zoom, <br />
+                <div class="pro_text">Programming Languages:</div>
+                PHP, JavaScript / TypeScript, Python, Java, C++, HTML5 (CSS3), Dart. 
+                <div class="pro_text">Frameworks:</div>
+                Laravel, React, Svelte, Django, Vue, Nuxtjs, Nextjs, AngularJS, JQuery, Bootstrap, Tailwind, Flowbite. 
+                <div class="pro_text">Web Tech: </div>
+                Json, Ajax, ActionScript, CMS, MVC, Web & Mobile Responsive.
+                <div class="pro_text">Mobile App: </div>
+                React-Native, Flutter, Svelte Native, Ionic, Cordova, PWA.
+                <div class="pro_text">Server & Databases: </div>
+                 API(RESTful / CRUD), MySQL, PostgreSQL, SQL, NoSQL, MongoDB, Node, Express, Linux Server, Sqlite, XML, Firebase, Apache,
+                Cpanel, FTP, Cloud.
+                <div class="pro_text">AI & ML: </div>
+                 Machine Learning, Deep Learning, TensorFlow, OpenCV, Yolo.
+                Payment Gateway: API (Paypal, Stripe, Maybank2UPay, Billplz, iPay88) etc.
+                <div class="pro_text">UI/UX Designer: </div>
+                Figma, Adobe XD, Wireframe, Prototype, MVP Design(Able to click inside the design), Mockups.
+                <div class="pro_text">Other: </div>
+                 Github, Bitbucket, Gitee, Jupyter , Google Colab, Clean Code, #Comments, Docker, Discord, Zoom, 
               </p>
             </div>
           </div>
@@ -181,11 +193,66 @@
     </div>
     <!-- end section services -->
 
+
+<!-- demo -->
+<div class="container">
+  <div class="section-title text-center">
+    <!-- <h2>My Service</h2> -->
+    <div class="glitch-wrapper">
+      <div class="glitch" data-text="Demo Projects">Demo Projects</div>
+   </div>
+  </div>
+  <div class="journal-block">
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <div class="journal-info">
+          <a target="_blank" href="https://hunterho07.github.io/Website_1"><img loading="lazy"src="images/p1.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
+
+          <div class="journal-txt">
+            <h4><a target="_blank" href="https://hunterho07.github.io/Website_1">Project 1 - Something Amazing With Technology & Gaming</a></h4>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="journal-info">
+          <a target="_blank" href="https://hunterho07.github.io/Website_2"><img loading="lazy"src="images/p2.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
+
+          <div class="journal-txt">
+            <h4><a target="_blank" href="https://hunterho07.github.io/Website_2">Project 2 - Personal Website Design & Animation</a></h4>
+        
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="journal-info">
+          <a target="_blank" href="https://hunterho07.github.io/Website_4"><img loading="lazy"src="images/p3.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
+
+          <div class="journal-txt">
+            <h4><a target="_blank" href="https://hunterho07.github.io/Website_4">Project 3 - Smart Payment & Subscription Plans</a></h4>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
     <!-- start section hunter -->
     <div id="hunter" class="text-center paddsection">
       <div class="container">
         <div class="section-title text-center">
-          <h2>Example Development</h2>
+          <h2>More Example Development</h2>
         </div>
       </div>
 
@@ -205,128 +272,128 @@
 
             <div class="hunter-container">
               <div class="col-lg-4 col-md-6 hunter-thumbnail all branding">
-                <a class="popup-img" href="images/hunter/w1.jpg">
-                  <img src="images/hunter/w1.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/w1.webp">
+                  <img loading="lazy" src="images/hunter/w1.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
 
               <div class="col-lg-4 col-md-6 hunter-thumbnail all branding">
-                <a class="popup-img" href="images/hunter/w2.jpg">
-                  <img src="images/hunter/w2.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/w2.webp">
+                  <img loading="lazy" src="images/hunter/w2.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
 
               <div class="col-lg-4 col-md-6 hunter-thumbnail all branding">
-                <a class="popup-img" href="images/hunter/w3.jpg">
-                  <img src="images/hunter/w3.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/w3.webp">
+                  <img loading="lazy" src="images/hunter/w3.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
 
               <div class="col-lg-4 col-md-6 hunter-thumbnail all branding">
-                <a class="popup-img" href="images/hunter/w4.jpg">
-                  <img src="images/hunter/w4.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/w4.webp">
+                  <img loading="lazy" src="images/hunter/w4.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
 
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a1.jpg">
-                  <img src="images/hunter/a1.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a1.webp">
+                  <img loading="lazy" src="images/hunter/a1.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a2.jpg">
-                  <img src="images/hunter/a2.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a2.webp">
+                  <img loading="lazy" src="images/hunter/a2.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a3.jpg">
-                  <img src="images/hunter/a3.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a3.webp">
+                  <img loading="lazy" src="images/hunter/a3.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a4.jpg">
-                  <img src="images/hunter/a4.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a4.webp">
+                  <img loading="lazy" src="images/hunter/a4.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a5.jpg">
-                  <img src="images/hunter/a5.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a5.webp">
+                  <img loading="lazy" src="images/hunter/a5.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all mockups">
-                <a class="popup-img" href="images/hunter/a6.jpg">
-                  <img src="images/hunter/a6.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/a6.webp">
+                  <img loading="lazy" src="images/hunter/a6.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all uikits">
-                <a class="popup-img" href="images/hunter/d1.jpg">
-                  <img src="images/hunter/d1.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/d1.webp">
+                  <img loading="lazy" src="images/hunter/d1.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all uikits">
-                <a class="popup-img" href="images/hunter/d2.jpg">
-                  <img src="images/hunter/d2.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/d2.webp">
+                  <img loading="lazy" src="images/hunter/d2.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u1.jpg">
-                  <img src="images/hunter/u1.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u1.webp">
+                  <img loading="lazy" src="images/hunter/u1.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u2.jpg">
-                  <img src="images/hunter/u2.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u2.webp">
+                  <img loading="lazy" src="images/hunter/u2.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u3.jpg">
-                  <img src="images/hunter/u3.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u3.webp">
+                  <img loading="lazy" src="images/hunter/u3.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u4.jpg">
-                  <img src="images/hunter/u4.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u4.webp">
+                  <img loading="lazy" src="images/hunter/u4.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u5.jpg">
-                  <img src="images/hunter/u5.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u5.webp">
+                  <img loading="lazy" src="images/hunter/u5.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u6.jpg">
-                  <img src="images/hunter/u6.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u6.webp">
+                  <img loading="lazy" src="images/hunter/u6.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all webdesign">
-                <a class="popup-img" href="images/hunter/u7.jpg">
-                  <img src="images/hunter/u7.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/u7.webp">
+                  <img loading="lazy" src="images/hunter/u7.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
 
               <div class="col-lg-4 col-md-6 hunter-thumbnail all photography">
-                <a class="popup-img" href="images/hunter/s1.jpg">
-                  <img src="images/hunter/s1.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/s1.webp">
+                  <img loading="lazy" src="images/hunter/s1.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all photography">
-                <a class="popup-img" href="images/hunter/s2.jpg">
-                  <img src="images/hunter/s2.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/s2.webp">
+                  <img loading="lazy" src="images/hunter/s2.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all photography">
-                <a class="popup-img" href="images/hunter/s3.jpg">
-                  <img src="images/hunter/s3.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/s3.webp">
+                  <img loading="lazy" src="images/hunter/s3.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all photography">
-                <a class="popup-img" href="images/hunter/s4.jpg">
-                  <img src="images/hunter/s4.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/s4.webp">
+                  <img loading="lazy" src="images/hunter/s4.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
               <div class="col-lg-4 col-md-6 hunter-thumbnail all photography">
-                <a class="popup-img" href="images/hunter/s6.jpg">
-                  <img src="images/hunter/s6.jpg" width="300" height="200" alt="img" />
+                <a class="popup-img" href="images/hunter/s6.webp">
+                  <img loading="lazy" src="images/hunter/s6.webp" width="300" height="200" alt="img" />
                 </a>
               </div>
             </div>
@@ -352,10 +419,10 @@
           <div class="row">
             <div class="col-lg-4 col-md-6">
               <div class="journal-info">
-                <a href="#"><img src="images/blog-post-1.jpg" width="450" height="300" class="img-responsive" alt="img" /></a>
+                <a><img loading="lazy"src="images/blog-post-1.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
 
                 <div class="journal-txt">
-                  <h4><a href="#">THE MOST BEAUTIFUL CUSTOM WEBSITE & PRICE</a></h4>
+                  <h4><a>THE MOST BEAUTIFUL CUSTOM WEBSITE & PRICE</a></h4>
                   <p class="separator">Project price will be lower than market rate from 20% up to 60% and Deliver the same Quality and Service.</p>
                 </div>
               </div>
@@ -363,10 +430,10 @@
 
             <div class="col-lg-4 col-md-6">
               <div class="journal-info">
-                <a href="#"><img src="images/blog-post-2.jpg" width="450" height="300" class="img-responsive" alt="img" /></a>
+                <a><img loading="lazy"src="images/blog-post-2.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
 
                 <div class="journal-txt">
-                  <h4><a href="#">1 DEVELOPMENT COST FOR BOTH IOS & ANDROID</a></h4>
+                  <h4><a>1 DEVELOPMENT COST FOR BOTH IOS & ANDROID</a></h4>
                   <p class="separator">
                     We deliver quality and service before and after projects, price will be lower than market rate from 30% up to 70% with same Quality and
                     Service.
@@ -377,10 +444,10 @@
 
             <div class="col-lg-4 col-md-6">
               <div class="journal-info">
-                <a href="#"><img src="images/blog-post-3.jpg" width="450" height="300" class="img-responsive" alt="img" /></a>
+                <a><img loading="lazy"src="images/blog-post-3.webp" width="450" height="300" class="img-responsive" alt="img" /></a>
 
                 <div class="journal-txt">
-                  <h4><a href="#">50% DISCOUNT MAINTENANCE FEE</a></h4>
+                  <h4><a>50% DISCOUNT MAINTENANCE FEE</a></h4>
                   <p class="separator">
                     Any of your existing website, server, database, mobile app, system, software that need maintenance and we offer you up to 50% discount on
                     your current existing maintenance fee.
@@ -391,6 +458,10 @@
           </div>
         </div>
       </div>
+      
+
+      
+      
     </div>
     <!-- End section journal -->
 

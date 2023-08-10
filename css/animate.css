@@ -113,6 +113,14 @@
   z-index: 1;
 }
 
+@media (width < 50em) {
+  .glitch {
+    margin-top: 50px;
+    /* margin-bottom: -20px; */
+    font-size: 24px;
+  }
+}
+
 .glitch:before,
 .glitch:after {
   display: block;

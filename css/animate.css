@@ -107,6 +107,7 @@
 .glitch {
   position: relative;
   font-size: 50px;
+  margin-top: 50px;
   font-weight: bold;
   color: black;
   letter-spacing: 3px;
@@ -115,9 +116,7 @@
 
 @media (width < 50em) {
   .glitch {
-    margin-top: 50px;
-    /* margin-bottom: -20px; */
-    font-size: 24px;
+    font-size: 8vw;
   }
 }
 

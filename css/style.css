@@ -317,11 +317,18 @@ nav ul li a {
 .journal-info {
   overflow: hidden;
 }
+.journal-info img {
+  border: 1px solid #cd60f7;
+  box-shadow: 8px 8px 8px 2px rgba(0, 0, 0, 0.76);
+  -webkit-box-shadow: 8px 8px 8px 2px rgba(0, 0, 0, 0.76);
+  -moz-box-shadow: 8px 8px 16px 2px rgba(0, 0, 0, 0.76);
+}
 
 .journal-info img:hover {
-  transition: all 0.3s ease-in-out;
+  border: 0px solid #60f7b6;
+  transition: all 0.5s ease-in-out;
   transform: scale(1.05);
-  transition: all 0.5s;
+  /* transition: all 0.5s; */
   overflow: hidden;
 }
 

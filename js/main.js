@@ -1,4 +1,57 @@
 /*global $, jQuery, alert*/
+(function () {
+  "use strict";
+
+  function closeProjectDetailModal() {
+    var modal = document.getElementById("project-detail-modal");
+    if (modal) {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  function setupProjectDetails() {
+    var modal = document.getElementById("project-detail-modal");
+    var title = document.getElementById("project-detail-title");
+    var tech = document.getElementById("project-detail-tech");
+    var skills = document.getElementById("project-detail-skills");
+    var about = document.getElementById("project-detail-about");
+
+    if (!modal || !title || !tech || !skills || !about) {
+      return;
+    }
+
+    document.querySelectorAll(".project-detail-btn").forEach(function (button) {
+      button.addEventListener("click", function () {
+        title.textContent = button.getAttribute("data-project-title") || "Project Details";
+        tech.textContent = button.getAttribute("data-project-tech") || "";
+        skills.textContent = button.getAttribute("data-project-skills") || "";
+        about.textContent = button.getAttribute("data-project-about") || "";
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+      });
+    });
+
+    modal.addEventListener("click", function (event) {
+      if (event.target === modal || event.target.classList.contains("project-detail-close")) {
+        closeProjectDetailModal();
+      }
+    });
+
+    document.addEventListener("keyup", function (event) {
+      if (event.key === "Escape") {
+        closeProjectDetailModal();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupProjectDetails);
+  } else {
+    setupProjectDetails();
+  }
+})();
+
 $(document).ready(function () {
   "use strict";
 
@@ -134,6 +187,7 @@ $(document).ready(function () {
 
   // Call the functions
   magnifPopup();
+
 });
 
 // ========================================================================= //

@@ -21,6 +21,13 @@ const requiredText = [
   "project-detail-modal",
   "theme-toggle",
   "data-theme",
+  "Founder Vision",
+  "founder-vision",
+  "Build products. Automate futures. Ship real impact.",
+  "Ahfaiz Founder",
+  "AI Automation Teacher",
+  "CTO / Startup Builder",
+  "Hackathon Winner",
 ];
 
 const requiredUrls = [
@@ -44,12 +51,23 @@ const requiredUrls = [
   "https://rj-assets-2-hunter5.vercel.app/",
 ];
 
+const requiredAssets = [
+  "images/founder-portrait.jpeg",
+  "images/founder-banner.jpeg",
+  "images/founder-vision-poster.jpeg",
+];
+
 for (const text of requiredText) {
   assert.ok(html.includes(text), `Missing required text: ${text}`);
 }
 
 for (const url of requiredUrls) {
   assert.ok(html.includes(url), `Missing required URL: ${url}`);
+}
+
+for (const asset of requiredAssets) {
+  assert.ok(html.includes(asset), `Missing required asset reference: ${asset}`);
+  assert.ok(fs.existsSync(asset), `Missing required asset file: ${asset}`);
 }
 
 const detailButtons = html.match(/class="[^"]*project-detail-btn[^"]*"/g) || [];
@@ -67,6 +85,10 @@ const themeSelectors = [
   "#about",
   "#services",
   "#journal",
+  "#founder-vision",
+  ".vision-shell",
+  ".vision-hero-media",
+  ".vision-proof-grid",
   ".journal-info",
   ".project-detail-dialog",
 ];

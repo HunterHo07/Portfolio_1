@@ -101,7 +101,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* background-color: #000000; */
 }
 
 .glitch {
@@ -109,9 +108,19 @@
   font-size: 50px;
   margin-top: 50px;
   font-weight: bold;
-  color: black;
-  letter-spacing: 3px;
+  line-height: 1.08;
+  color: #171a20;
+  letter-spacing: 1.5px;
   z-index: 1;
+  text-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .glitch {
+  background: linear-gradient(92deg, #f7f0de 0%, #d8b987 38%, #74e3ff 72%, #f0a2c5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
 }
 
 @media (width < 50em) {
@@ -122,24 +131,23 @@
 
 .glitch:before,
 .glitch:after {
-  display: block;
-  content: attr(data-text);
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
-}
-
-.glitch:before {
-  animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-  color: #00ffff;
-  z-index: -1;
+  left: 50%;
+  bottom: -14px;
+  width: min(220px, 52vw);
+  height: 3px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #d8b987, #74e3ff, transparent);
+  opacity: 0.72;
 }
 
 .glitch:after {
-  animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-  color: #ff00ff;
-  z-index: -2;
+  bottom: -22px;
+  width: min(130px, 36vw);
+  height: 1px;
+  opacity: 0.38;
 }
 
 @keyframes glitch-it {

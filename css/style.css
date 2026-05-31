@@ -822,6 +822,7 @@ nav ul li a {
 .journal-block .journal-info .journal-txt {
   padding: 25px 0px;
   position: relative;
+  text-align: center;
 }
 
 .journal-block .journal-info .journal-txt h4 a {
@@ -854,22 +855,29 @@ nav ul li a {
 }
 
 .project-detail-btn {
-  margin-top: 14px;
-  padding: 9px 18px;
-  border: 1px solid var(--color-button-bg);
-  background: var(--color-button-bg);
-  color: var(--color-button-text);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  display: inline-block;
+  margin: 14px auto 0;
+  padding: 4px 0;
+  border: 0;
+  background: linear-gradient(90deg, #ff3b3b, #ff9f1c, #f7d038, #2ecc71, #00bcd4, #4b7bec, #a55eea, #ff3b8d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: none;
   cursor: pointer;
 }
 
 .project-detail-btn:hover,
 .project-detail-btn:focus {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-button-text);
+  background: linear-gradient(90deg, #ff3b8d, #a55eea, #4b7bec, #00bcd4, #2ecc71, #f7d038, #ff9f1c, #ff3b3b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  outline: 0;
+  transform: translateY(-1px);
 }
 
 .project-detail-modal {

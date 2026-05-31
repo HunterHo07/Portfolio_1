@@ -8,7 +8,6 @@ const js = fs.readFileSync("js/main.js", "utf8");
 const requiredText = [
   "C#",
   "ASP.NET Core 10",
-  "Nice & Features",
   "ReportU",
   "NameCardAi",
   "BestzDealAi",
@@ -28,6 +27,10 @@ const requiredText = [
   "AI Automation Teacher",
   "CTO / Startup Builder",
   "Hackathon Winner",
+  "Project 10",
+  "Project 25",
+  "RunJian 3D Assets Demo",
+  "project-assets-section",
 ];
 
 const requiredUrls = [
@@ -55,6 +58,24 @@ const requiredAssets = [
   "images/founder-portrait.jpeg",
   "images/founder-banner.jpeg",
   "images/founder-vision-poster.jpeg",
+  "images/demo-thumb-bestzdeal-feature.png",
+  "images/demo-thumb-travel-feature.png",
+  "images/demo-thumb-sim-work-d27.png",
+  "images/demo-thumb-sim-work-d34.png",
+  "images/demo-thumb-reportu-d1.png",
+  "images/demo-thumb-reportu-d2.png",
+  "images/demo-thumb-namecardai-d1.png",
+  "images/demo-thumb-namecardai-d2.png",
+  "images/demo-thumb-bestzdealai-d1.png",
+  "images/demo-thumb-bestzdealai-d2.png",
+  "images/demo-thumb-bestzdealai-d3.png",
+  "images/demo-thumb-messageyou-d1.png",
+  "images/demo-thumb-messageyou-d2.png",
+  "images/demo-thumb-warrantyai-d2.png",
+  "images/demo-thumb-rj-1.png",
+  "images/demo-thumb-rj-2.png",
+  "images/demo-thumb-rj-assets-1.png",
+  "images/demo-thumb-rj-assets-2.png",
 ];
 
 for (const text of requiredText) {
@@ -75,6 +96,10 @@ assert.ok(detailButtons.length >= 25, `Expected at least 25 Details buttons, fou
 
 const projectCards = html.match(/class="[^"]*portfolio-project[^"]*"/g) || [];
 assert.ok(projectCards.length >= 25, `Expected at least 25 portfolio project cards, found ${projectCards.length}`);
+
+assert.ok(!html.includes('src="images/p1.webp" width="450" height="300" class="img-responsive" alt="Nice & Features BestzDeal"'), "BestzDeal feature demo still uses reused placeholder thumbnail");
+assert.ok(!html.includes('>ReportU <br /> D1<'), "ReportU card should use project number plus summary, not only project name");
+assert.ok(html.indexOf("RunJian 3D Assets Demo") > html.indexOf("Demo Mini Games"), "3D Assets section should be separated after demo sections");
 
 const themeSelectors = [
   ":root",

@@ -2,6 +2,49 @@
 (function () {
   "use strict";
 
+  var storageKey = "portfolio-theme";
+
+  function getPreferredTheme() {
+    var savedTheme = localStorage.getItem(storageKey);
+    if (savedTheme === "dark" || savedTheme === "light") {
+      return savedTheme;
+    }
+
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+
+    return "light";
+  }
+
+  function applyTheme(theme) {
+    var toggle = document.getElementById("theme-toggle");
+    var isDark = theme === "dark";
+
+    document.documentElement.setAttribute("data-theme", theme);
+
+    if (toggle) {
+      toggle.textContent = isDark ? "Light" : "Dark";
+      toggle.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+      toggle.setAttribute("aria-pressed", String(isDark));
+    }
+  }
+
+  function setupThemeToggle() {
+    var toggle = document.getElementById("theme-toggle");
+    applyTheme(getPreferredTheme());
+
+    if (!toggle) {
+      return;
+    }
+
+    toggle.addEventListener("click", function () {
+      var nextTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      localStorage.setItem(storageKey, nextTheme);
+      applyTheme(nextTheme);
+    });
+  }
+
   function closeProjectDetailModal() {
     var modal = document.getElementById("project-detail-modal");
     if (modal) {
@@ -46,8 +89,12 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupProjectDetails);
+    document.addEventListener("DOMContentLoaded", function () {
+      setupThemeToggle();
+      setupProjectDetails();
+    });
   } else {
+    setupThemeToggle();
     setupProjectDetails();
   }
 })();

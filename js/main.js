@@ -5,6 +5,7 @@
   var themeStorageKey = "portfolio-theme";
   var languageStorageKey = "portfolio-language";
   var currentLanguage = localStorage.getItem(languageStorageKey) === "zh" ? "zh" : "en";
+  var heroTypingTimer = null;
 
   var translations = {
     en: {
@@ -303,6 +304,7 @@
     }
 
     applyTheme(document.documentElement.getAttribute("data-theme") || getPreferredTheme());
+    setupHeroKinetics();
   }
 
   function setupThemeToggle() {
@@ -466,19 +468,97 @@
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
-  function setupMagneticEffects() {
-    var doc = document.documentElement;
+  function setupHeroKinetics() {
+    var headline = document.querySelector(".hero-headline");
+    var capability = document.querySelector(".hero-capability");
 
-    function updatePointer(event) {
-      var x = event.clientX || window.innerWidth / 2;
-      var y = event.clientY || window.innerHeight / 2;
-      doc.style.setProperty("--pointer-x", x + "px");
-      doc.style.setProperty("--pointer-y", y + "px");
-      doc.style.setProperty("--motion-x", x - window.innerWidth / 2 + "px");
-      doc.style.setProperty("--motion-y", y - window.innerHeight / 2 + "px");
+    if (headline) {
+      var headlineText = headline.textContent.replace(/\s+/g, " ").trim();
+      var words = headlineText.split(" ").filter(Boolean);
+      headline.textContent = "";
+
+      words.forEach(function (word, index) {
+        var span = document.createElement("span");
+        span.className = "hero-word";
+        span.style.setProperty("--word-index", index);
+        span.textContent = word;
+        headline.appendChild(span);
+
+        if (index < words.length - 1) {
+          headline.appendChild(document.createTextNode(" "));
+        }
+      });
     }
 
-    window.addEventListener("pointermove", updatePointer, { passive: true });
+    if (!capability) {
+      return;
+    }
+
+    var capabilityText = capability.textContent.replace(/\s+/g, " ").trim();
+
+    if (heroTypingTimer) {
+      window.clearInterval(heroTypingTimer);
+      heroTypingTimer = null;
+    }
+
+    if (isReducedMotion()) {
+      capability.classList.remove("is-typing");
+      capability.textContent = capabilityText;
+      return;
+    }
+
+    capability.textContent = "";
+    capability.classList.add("is-typing");
+
+    var index = 0;
+    heroTypingTimer = window.setInterval(function () {
+      index += 1;
+      capability.textContent = capabilityText.slice(0, index);
+
+      if (index >= capabilityText.length) {
+        window.clearInterval(heroTypingTimer);
+        heroTypingTimer = null;
+        window.setTimeout(function () {
+          capability.classList.remove("is-typing");
+        }, 450);
+      }
+    }, 17);
+  }
+
+  function setupFounderJourney() {
+    var journey = document.getElementById("founder-journey");
+
+    if (!journey) {
+      return;
+    }
+
+    var steps = Array.prototype.slice.call(journey.querySelectorAll(".founder-journey-steps li"));
+    var maxIndex = Math.max(steps.length - 1, 0);
+
+    function setActiveStep(activeIndex) {
+      journey.setAttribute("data-active-step", String(activeIndex));
+      journey.style.setProperty("--journey-step", activeIndex);
+      journey.style.setProperty("--journey-focus", maxIndex > 0 ? (activeIndex / maxIndex) * 100 + "%" : "0%");
+
+      steps.forEach(function (step, index) {
+        step.classList.toggle("is-active", index === activeIndex);
+      });
+    }
+
+    function updateJourney() {
+      var rect = journey.getBoundingClientRect();
+      var denominator = Math.max(rect.height - window.innerHeight, 1);
+      var progress = Math.min(Math.max((0 - rect.top) / denominator, 0), 1);
+      var activeIndex = Math.min(maxIndex, Math.max(0, Math.round(progress * maxIndex)));
+      setActiveStep(activeIndex);
+    }
+
+    window.addEventListener("scroll", updateJourney, { passive: true });
+    window.addEventListener("resize", updateJourney);
+    updateJourney();
+  }
+
+  function setupMagneticEffects() {
 
     document.querySelectorAll(".magnetic-cta, [data-motion-card]").forEach(function (element) {
       element.addEventListener("pointermove", function (event) {
@@ -749,6 +829,7 @@
       setupLanguageToggle();
       setupProjectDetails();
       setupMagneticEffects();
+      setupFounderJourney();
       setupMotionAndHelper();
     });
   } else {
@@ -756,6 +837,7 @@
     setupLanguageToggle();
     setupProjectDetails();
     setupMagneticEffects();
+    setupFounderJourney();
     setupMotionAndHelper();
   }
 })();

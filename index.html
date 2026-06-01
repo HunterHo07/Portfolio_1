@@ -52,7 +52,6 @@
       <span class="parallax-orb parallax-orb-two"></span>
       <span class="parallax-grid"></span>
     </div>
-    <div class="motion-radar" id="motion-radar" aria-hidden="true"></div>
     <div class="celebration-layer" id="celebration-layer" aria-hidden="true"></div>
     <!-- start section navbar -->
     <nav id="main-nav">
@@ -88,6 +87,17 @@
 
     <!-- start section header -->
     <div id="header" class="home">
+      <div class="hero-parallax-stack" aria-hidden="true">
+        <span class="hero-layer hero-layer-vignette"></span>
+        <span class="hero-layer hero-layer-grid"></span>
+        <span class="hero-layer hero-layer-code-left"></span>
+        <span class="hero-layer hero-layer-code-right"></span>
+        <span class="hero-layer hero-layer-orbit"></span>
+        <span class="hero-layer hero-layer-node hero-layer-node-one"></span>
+        <span class="hero-layer hero-layer-node hero-layer-node-two"></span>
+        <span class="hero-layer hero-layer-wave"></span>
+        <span class="hero-layer hero-layer-scan"></span>
+      </div>
       <div class="container">
         
         <div class="header-content">
@@ -147,14 +157,49 @@
               <p>Years hands-on IT, builder since 2007, with practical delivery across software, automation, integration, and Web3.</p>
             </article>
 
-            <article class="vision-poster-card" data-motion-card>
-              <img loading="lazy" src="images/founder-vision-poster.jpeg" width="607" height="1280" alt="Hunter Ho vision poster showing founder, hackathon, teaching, and startup goals" />
+            <article class="vision-poster-card vision-journey-card" data-motion-card>
+              <span class="vision-label">7 Proof Scenes</span>
+              <h3>One Hunter. Seven proof moments.</h3>
+              <p>The full poster is now presented as a scroll theater, so each role appears one at a time instead of being buried in a small card.</p>
+              <a class="vision-journey-link smoothScroll" href="#founder-journey">Open the story</a>
             </article>
           </div>
         </div>
       </div>
     </section>
     <!-- end section founder vision -->
+
+    <!-- start section founder journey -->
+    <section id="founder-journey" class="founder-journey proof-motion-wall" data-active-step="0">
+      <div class="founder-journey-sticky">
+        <div class="container">
+          <div class="founder-journey-shell">
+            <div class="founder-poster-stage" aria-label="Hunter Ho proof poster scroll theater">
+              <img loading="lazy" src="images/founder-vision-poster.jpeg" width="607" height="1280" alt="Hunter Ho vision poster with founder, startup, teaching, hackathon, and product goals" />
+              <span class="founder-poster-mask"></span>
+              <span class="founder-poster-ring"></span>
+            </div>
+            <div class="founder-journey-copy">
+              <span class="vision-label">Founder Proof Theater</span>
+              <h2>One person. Multiple proof angles. Shown one scene at a time.</h2>
+              <p>
+                The poster becomes a scroll-controlled stage: founder, CTO builder, AI automation teacher, hackathon winner, product operator, and future-goal proof are revealed as separate moments.
+              </p>
+              <ol class="founder-journey-steps">
+                <li class="is-active"><strong>Fullstack Builder</strong><span>Web, mobile, system, database, automation, and deployment execution.</span></li>
+                <li><strong>Ahfaiz Founder</strong><span>AI life companion direction, product thinking, and startup ownership.</span></li>
+                <li><strong>CTO / Startup Builder</strong><span>Turning messy ideas into credible product, architecture, and demo direction.</span></li>
+                <li><strong>AI Automation Teacher</strong><span>Teaching practical automation, workflow tools, and real developer readiness.</span></li>
+                <li><strong>Hackathon Winner</strong><span>Pressure-tested execution across AI, Web3, and innovation events.</span></li>
+                <li><strong>Product Vision</strong><span>Direct goals, public proof, and high-agency product direction.</span></li>
+                <li><strong>Client-Ready Operator</strong><span>Design, code, proof, storytelling, and delivery connected into one portfolio path.</span></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end section founder journey -->
 
     <!-- start section TrillionUnicorn -->
     <section id="trillionunicorn-lab" class="proof-section startup-lab proof-motion-wall">
@@ -167,43 +212,58 @@
           </p>
         </div>
 
+        <div class="startup-metrics" aria-label="TrillionUnicorn proof metrics">
+          <article><strong>7</strong><span>public OSS concepts</span></article>
+          <article><strong>AI</strong><span>assistant, automation, verification</span></article>
+          <article><strong>Web3</strong><span>wallet, game, community thinking</span></article>
+          <article><strong>MVP</strong><span>client-ready product framing</span></article>
+        </div>
+
         <div class="startup-grid">
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-openchance" aria-hidden="true">OC</div>
             <span>01</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/OpenChance">OpenChance</a></h3>
             <p>Global open problem-solving hub for challenges, logic puzzles, and real-world problem discovery.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-workfree" aria-hidden="true">WF</div>
             <span>02</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/WorkFree">WorkFree</a></h3>
             <p>Immersive training platform where real-world tasks, quests, analytics, VR, AR, and MetaWorld replace static CVs.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-cto" aria-hidden="true">CTO</div>
             <span>03</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/CTOrendang">CTOrendang</a></h3>
             <p>AI plus human CTO platform and dev marketplace for non-IT founders who need safer software execution.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-game" aria-hidden="true">GM</div>
             <span>04</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/GameMind">GameMind</a></h3>
             <p>Multi-game AI engine concept for rule-based strategy games such as chess, mahjong, Go, and more.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-check" aria-hidden="true">CM</div>
             <span>05</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/CheckMe">CheckMe</a></h3>
             <p>Verification and anti-fraud hub for checking videos, news, offers, companies, people, emails, products, and claims.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-wallet" aria-hidden="true">3W</div>
             <span>06</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/3Wallet">3Wallet</a></h3>
             <p>Auto-chain Web3 wallet concept with main, sub, and small wallets plus AI risk, scam, phishing, and alert support.</p>
           </article>
           <article class="startup-card" data-motion-card>
+            <div class="startup-visual startup-visual-ahfai" aria-hidden="true">AI</div>
             <span>07</span>
             <h3><a target="_blank" href="https://github.com/TrillionUnicorn/AhFai">AhFai</a></h3>
             <p>Personal AI clone and life assistant for preferences, reminders, meals, events, lifestyle, and privacy-aware help.</p>
           </article>
           <article class="startup-card startup-card-private" data-motion-card>
+            <div class="startup-visual startup-visual-foundation" aria-hidden="true">PF</div>
             <span>Private</span>
             <h3>Platform Foundation</h3>
             <p>Private backend, infra, and website work supports the ecosystem without exposing sensitive implementation details.</p>
@@ -272,6 +332,18 @@
           <p>
             Competitive proof across AI, Web3, and innovation events. These wins show fast problem framing, practical build execution, and presentation-ready delivery.
           </p>
+        </div>
+        <div class="hackathon-proof-wall" data-motion-card>
+          <div class="hackathon-proof-media">
+            <img loading="lazy" src="images/ui/hackathon-proof-stage.png" width="1792" height="1024" alt="Privacy-safe cinematic hackathon winner proof stage with trophy and code screens" />
+          </div>
+          <div class="hackathon-proof-copy">
+            <span class="vision-label">Proof Direction</span>
+            <h3>Competition proof without exposing sensitive private event material.</h3>
+            <p>
+              The public portfolio uses a clean proof-stage visual and the win list below. If a client or interviewer needs private verification, it can be shared directly instead of leaking screenshots, usernames, or community details on the open web.
+            </p>
+          </div>
         </div>
         <div class="hackathon-grid">
           <article data-motion-card><strong>2025</strong><span>Deriv AI Hackathon Winner 2025</span></article>

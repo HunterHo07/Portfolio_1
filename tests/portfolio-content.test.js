@@ -55,6 +55,9 @@ const requiredText = [
   "Hackathon Wins",
   "Deriv AI Hackathon Winner 2025",
   "Builder Since 2007",
+  "Founder Proof Theater",
+  "One Hunter. Seven proof moments.",
+  "Proof Direction",
 ];
 
 const requiredUrls = [
@@ -121,6 +124,7 @@ const requiredAssets = [
   "images/teaching/teaching-safe-onsite.png",
   "images/teaching/teaching-safe-workflow.png",
   "images/ui/cinematic-product-overlay.jpg",
+  "images/ui/hackathon-proof-stage.png",
   "images/ui/husky-idle.png",
   "images/ui/husky-happy.png",
   "images/ui/husky-excited.png",
@@ -195,7 +199,17 @@ for (const token of [
   "teaching-safe-online.png",
   "teaching-safe-onsite.png",
   "teaching-safe-workflow.png",
-  "motion-radar",
+  "hero-parallax-stack",
+  "hero-layer",
+  "heroWordIn",
+  "heroTypingCaret",
+  "lazyWordPulse",
+  "founder-journey",
+  "founder-poster-stage",
+  "startup-metrics",
+  "startup-visual",
+  "hackathon-proof-wall",
+  "hackathon-proof-stage.png",
   "celebration-layer",
   "husky-contact-panel",
   "husky-sprite-stage",
@@ -203,6 +217,8 @@ for (const token of [
   "is-emote-excited",
   "setHuskyEmotion",
   "scheduleHuskyRoam",
+  "setupHeroKinetics",
+  "setupFounderJourney",
   "setupMagneticEffects",
   "setupCelebration",
   "moveHuskySafely",
@@ -215,6 +231,8 @@ for (const token of [
 ]) {
   assert.ok(html.includes(token) || css.includes(token) || js.includes(token), `Missing upgraded portfolio token: ${token}`);
 }
+
+assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js.includes("motion-radar"), "Mouse pointer radar effect should be removed");
 
 for (const sensitiveTeachingAsset of [
   "images/teaching/speaker-teaching-banner.png",

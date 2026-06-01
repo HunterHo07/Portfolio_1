@@ -15,10 +15,18 @@ const requiredText = [
   "WarrantyAi",
   "RJ-1",
   "RJ-2",
-  "3D Assets Demo",
+  "3D Models Demo",
+  "Games Demo",
+  "Mobile App Demo",
+  "WarrantyScan Mobile",
+  "NameCard Mobile",
   "data-project-title",
   "project-detail-modal",
   "theme-toggle",
+  "language-toggle",
+  "data-i18n",
+  "husky-helper",
+  "parallax-backdrop",
   "data-theme",
   "Founder Vision",
   "founder-vision",
@@ -29,7 +37,7 @@ const requiredText = [
   "Hackathon Winner",
   "Project 10",
   "Project 25",
-  "RunJian 3D Assets Demo",
+  "3D Models Demo",
   "project-assets-section",
   "hero-capability",
   "hero-promise",
@@ -64,10 +72,15 @@ const requiredUrls = [
   "https://i4-d1-messageyouai.vercel.app/",
   "https://i4-d2-messageyouai.vercel.app/",
   "https://i5-d2-warrantyai.vercel.app/",
-  "https://rj-1-hunter5.vercel.app",
+  "https://runjian-irun-simworld.vercel.app/",
   "https://rj-2.vercel.app",
   "https://rj-assets-hunter5.vercel.app/",
   "https://rj-assets-2-hunter5.vercel.app/",
+  "https://github.com/HunterHo07/O1-3d-Assets-1",
+  "https://hunterho07.github.io/mobile-warrantyscan-demo/",
+  "https://github.com/HunterHo07/mobile-warrantyscan-demo",
+  "https://hunterho07.github.io/mobile-namecard-demo/",
+  "https://github.com/HunterHo07/mobile-namecard-demo",
   "https://github.com/TrillionUnicorn/OpenChance",
   "https://github.com/TrillionUnicorn/WorkFree",
   "https://github.com/TrillionUnicorn/CTOrendang",
@@ -80,6 +93,7 @@ const requiredUrls = [
 const requiredAssets = [
   "images/founder-portrait.jpeg",
   "images/founder-banner.jpeg",
+  "images/hero-founder-banner-ai.png",
   "images/founder-vision-poster.jpeg",
   "images/demo-thumb-bestzdeal-feature.png",
   "images/demo-thumb-travel-feature.png",
@@ -99,6 +113,9 @@ const requiredAssets = [
   "images/demo-thumb-rj-2.png",
   "images/demo-thumb-rj-assets-1.png",
   "images/demo-thumb-rj-assets-2.png",
+  "images/demo-thumb-rj-assets-3.png",
+  "images/demo-thumb-mobile-warrantyscan.png",
+  "images/demo-thumb-mobile-namecard.png",
   "images/teaching/speaker-teaching-banner.png",
   "images/teaching/teaching-n8n-event.jpeg",
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
@@ -127,12 +144,17 @@ assert.ok(projectCards.length >= 25, `Expected at least 25 portfolio project car
 
 assert.ok(!html.includes('src="images/p1.webp" width="450" height="300" class="img-responsive" alt="Nice & Features BestzDeal"'), "BestzDeal feature demo still uses reused placeholder thumbnail");
 assert.ok(!html.includes('>ReportU <br /> D1<'), "ReportU card should use project number plus summary, not only project name");
-assert.ok(html.indexOf("RunJian 3D Assets Demo") > html.indexOf("Demo Mini Games"), "3D Assets section should be separated after demo sections");
+assert.ok(html.indexOf("3D Models Demo") > html.indexOf("Games Demo"), "3D Models section should be separated after games section");
+assert.ok((html.match(/Games Demo/g) || []).length >= 1, "Games Demo heading should exist");
+assert.ok((html.match(/<div class="col-lg-4 col-md-6">/g) || []).length >= 9, "Expected expanded game/demo card layout");
 
 const themeSelectors = [
   ":root",
   '[data-theme="dark"]',
   ".theme-toggle",
+  ".language-toggle",
+  ".husky-helper",
+  ".parallax-backdrop",
   "body",
   "nav",
   "#about",
@@ -154,9 +176,11 @@ for (const token of ["--color-bg", "--color-surface", "--color-text", "--color-h
   assert.ok(css.includes(token), `Missing theme token: ${token}`);
 }
 
-for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggle"]) {
+for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggle", "portfolio-language", "project-detail-chip"]) {
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
+
+assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 
 function parseThemeBlock(selector) {
   const pattern = new RegExp(`${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*{([\\s\\S]*?)}`);

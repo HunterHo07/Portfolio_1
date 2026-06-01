@@ -31,6 +31,8 @@ const requiredText = [
   "Project 25",
   "RunJian 3D Assets Demo",
   "project-assets-section",
+  "hero-capability",
+  "hero-promise",
 ];
 
 const requiredUrls = [

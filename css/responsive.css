@@ -118,6 +118,19 @@
   .head-info .header-content h1 {
     font-size: 32px;
   }
+  .header-content .hero-capability {
+    max-width: 92vw;
+    padding: 13px 15px 13px 17px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    line-height: 1.65;
+  }
+  .header-content .hero-promise {
+    max-width: 92vw;
+    padding: 9px 14px 10px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
   #about .div-img-bg {
     padding: 0;
   }
@@ -189,6 +202,13 @@
   .head-info .header-content h1 {
     font-size: 32px;
   }
+  .header-content .hero-capability {
+    letter-spacing: 0.035em;
+    line-height: 1.6;
+  }
+  .header-content .hero-promise {
+    letter-spacing: 0.07em;
+  }
   #about .div-img-bg {
     padding: 0;
   }
@@ -259,6 +279,16 @@
   /* About */
   .head-info .header-content h1 {
     font-size: 32px;
+  }
+  .header-content .hero-capability {
+    padding: 12px 13px;
+    border-left-width: 3px;
+    border-radius: 14px;
+  }
+  .header-content .hero-promise {
+    display: flex;
+    width: fit-content;
+    max-width: 92vw;
   }
   #about .div-img-bg {
     padding: 0;

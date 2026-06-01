@@ -118,12 +118,16 @@ const requiredAssets = [
   "images/demo-thumb-messageyou-d2.png",
   "images/demo-thumb-warrantyai-d2.png",
   "images/demo-thumb-rj-1.png",
+  "images/demo-thumb-rj-1-alt.png",
   "images/demo-thumb-rj-2.png",
   "images/demo-thumb-rj-assets-1.png",
+  "images/demo-thumb-rj-assets-1-alt.png",
   "images/demo-thumb-rj-assets-2.png",
   "images/demo-thumb-rj-assets-3.png",
   "images/demo-thumb-mobile-warrantyscan.png",
+  "images/demo-thumb-mobile-warrantyscan-alt.png",
   "images/demo-thumb-mobile-namecard.png",
+  "images/demo-thumb-mobile-namecard-alt.png",
   "images/teaching/teaching-proof-board.png",
   "images/teaching/teaching-proof-n8n.png",
   "images/teaching/teaching-proof-non-it.png",
@@ -227,6 +231,11 @@ for (const token of [
   "scheduleHuskyRoam",
   "setupHeroKinetics",
   "setupFounderJourney",
+  "setupProjectThumbnailLoops",
+  "setupSectionParallax",
+  "data-alt-thumb",
+  "is-thumb-swapping",
+  "parallax-live-section",
   "setupMagneticEffects",
   "setupCelebration",
   "moveHuskySafely",
@@ -241,6 +250,14 @@ for (const token of [
 }
 
 assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js.includes("motion-radar"), "Mouse pointer radar effect should be removed");
+
+const thumbnailLoops = html.match(/data-alt-thumb="images\/[^"]+-alt\.png"/g) || [];
+assert.ok(thumbnailLoops.length >= 30, `Expected at least 30 real second-state thumbnail loops, found ${thumbnailLoops.length}`);
+assert.ok(!/<a target="_blank" href="https:\/\/github\.com\/[^"]+"><img[^>]+data-alt-thumb=/.test(html), "GitHub-only cards should not use live demo thumbnail loops");
+
+for (const altThumb of [...html.matchAll(/data-alt-thumb="([^"]+)"/g)].map((match) => match[1])) {
+  assert.ok(fs.existsSync(altThumb), `Missing alternate thumbnail asset: ${altThumb}`);
+}
 
 for (const sensitiveTeachingAsset of [
   "images/teaching/speaker-teaching-banner.png",

@@ -867,6 +867,42 @@ nav ul li a {
   object-fit: cover;
 }
 
+.parallax-live-section {
+  --section-depth: 0;
+  --section-progress: 0;
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop {
+  cursor: pointer;
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop::before {
+  background-position:
+    calc(50% + (var(--section-depth, 0) * 26px)) calc(50% - (var(--section-depth, 0) * 16px)),
+    center;
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop::after {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.08)),
+    radial-gradient(circle at calc(50% + (var(--section-depth, 0) * 16%)) calc(24% + (var(--section-depth, 0) * 8%)), rgba(116, 227, 255, 0.16), transparent 28%);
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop img {
+  transform: translate3d(0, calc(var(--section-depth, 0) * -8px), 0) scale(1.035);
+  transition: opacity 0.22s ease, filter 0.55s ease, transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop img.is-thumb-alt {
+  filter: saturate(1.08) contrast(1.08) brightness(0.96);
+  transform: translate3d(0, calc(var(--section-depth, 0) * -12px), 0) scale(1.055);
+}
+
+:where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img).has-thumb-loop img.is-thumb-swapping {
+  opacity: 0.28;
+  transform: translate3d(0, calc(var(--section-depth, 0) * -4px), 0) scale(1.085);
+}
+
 :where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img, .speaker-hero, .vision-hero-media, .vision-poster-card, .vision-profile-card) img,
 .teaching-proof-card img {
   filter: saturate(0.92) contrast(1.05) brightness(0.98);
@@ -889,6 +925,19 @@ nav ul li a {
 .teaching-proof-card:hover img {
   filter: saturate(1.08) contrast(1.12) brightness(0.94);
   transform: translateZ(0) scale(1.065);
+}
+
+.speaker-hero img,
+.hackathon-proof-media img,
+.founder-poster-stage img {
+  transform: translate3d(0, calc(var(--section-depth, 0) * -18px), 0) scale(1.04);
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.55s ease;
+}
+
+.teaching-proof-card img,
+.startup-card,
+.hackathon-grid article {
+  transform: translate3d(0, calc(var(--section-depth, 0) * -10px), 0);
 }
 
 [data-theme="dark"] :where(.journal-info > a:first-child, .mobile-app-card > a:first-child, .hunter-thumbnail .popup-img, .speaker-hero, .vision-hero-media, .vision-poster-card)::after {
@@ -2892,7 +2941,11 @@ nav ul li a {
   .parallax-orb,
   .parallax-grid,
   .hero-layer,
-  .proof-motion-wall::before {
+  .proof-motion-wall::before,
+  .has-thumb-loop img,
+  .speaker-hero img,
+  .hackathon-proof-media img,
+  .founder-poster-stage img {
     transform: none !important;
   }
 
@@ -3016,6 +3069,10 @@ nav ul li a {
     linear-gradient(90deg, rgba(7, 11, 18, 0.96), rgba(7, 11, 18, 0.78), rgba(7, 11, 18, 0.36)),
     url("../images/founder-banner.jpeg") center center / cover no-repeat,
     var(--color-surface);
+  background-position:
+    center,
+    center calc(50% + (var(--section-depth, 0) * 42px)),
+    center;
   padding-top: 50px;
   padding-bottom: 50px;
 }

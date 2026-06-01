@@ -558,6 +558,166 @@
     updateJourney();
   }
 
+  function setupSectionParallax() {
+    if (isReducedMotion()) {
+      return;
+    }
+
+    var sections = Array.prototype.slice.call(
+      document.querySelectorAll(
+        "#header, .proof-motion-wall, #about, #services, #mobile-app-demos, .journal-block, .games-demo-section, #project-assets-section, #hunter, #contact, #footer"
+      )
+    );
+
+    if (!sections.length) {
+      return;
+    }
+
+    sections.forEach(function (section) {
+      section.classList.add("parallax-live-section");
+    });
+
+    var ticking = false;
+
+    function updateSectionDepth() {
+      ticking = false;
+      var viewportHeight = window.innerHeight || 1;
+
+      sections.forEach(function (section) {
+        var rect = section.getBoundingClientRect();
+        var range = viewportHeight + Math.max(rect.height, 1);
+        var progress = Math.min(Math.max((viewportHeight - rect.top) / range, 0), 1);
+        var depth = (progress - 0.5) * 2;
+
+        section.style.setProperty("--section-progress", progress.toFixed(4));
+        section.style.setProperty("--section-depth", depth.toFixed(4));
+      });
+    }
+
+    function requestSectionDepth() {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(updateSectionDepth);
+    }
+
+    window.addEventListener("scroll", requestSectionDepth, { passive: true });
+    window.addEventListener("resize", requestSectionDepth);
+    updateSectionDepth();
+  }
+
+  function setupProjectThumbnailLoops() {
+    var thumbnails = Array.prototype.slice.call(document.querySelectorAll("img[data-alt-thumb]"));
+
+    if (!thumbnails.length || isReducedMotion()) {
+      return;
+    }
+
+    function preload(src) {
+      var image = new Image();
+      image.src = src;
+      return image;
+    }
+
+    thumbnails.forEach(function (thumbnail, index) {
+      var primary = thumbnail.getAttribute("src");
+      var alternate = thumbnail.getAttribute("data-alt-thumb");
+      var link = thumbnail.closest("a");
+      var intervalId = null;
+      var visible = false;
+      var waitingForPreload = false;
+      var preloaded = preload(alternate);
+
+      if (!primary || !alternate) {
+        return;
+      }
+
+      thumbnail.setAttribute("data-primary-thumb", primary);
+      thumbnail.style.setProperty("--thumb-loop-index", index % 6);
+
+      if (link) {
+        link.classList.add("has-thumb-loop");
+        link.style.setProperty("--thumb-loop-index", index % 6);
+      }
+
+      function swapThumbnail(nextSrc, useAlternate) {
+        if (!visible || thumbnail.getAttribute("src") === nextSrc) {
+          return;
+        }
+
+        thumbnail.classList.add("is-thumb-swapping");
+
+        window.setTimeout(function () {
+          thumbnail.setAttribute("src", nextSrc);
+          thumbnail.classList.toggle("is-thumb-alt", useAlternate);
+          thumbnail.classList.remove("is-thumb-swapping");
+        }, 180);
+      }
+
+      function loop() {
+        var showingAlt = thumbnail.classList.contains("is-thumb-alt");
+        swapThumbnail(showingAlt ? primary : alternate, !showingAlt);
+      }
+
+      function start() {
+        visible = true;
+
+        if (intervalId) {
+          return;
+        }
+
+        if (!preloaded.complete) {
+          if (!waitingForPreload) {
+            waitingForPreload = true;
+            preloaded.addEventListener(
+              "load",
+              function () {
+                waitingForPreload = false;
+                if (visible) {
+                  start();
+                }
+              },
+              { once: true }
+            );
+          }
+          return;
+        }
+
+        intervalId = window.setInterval(loop, 4200 + (index % 5) * 360);
+        window.setTimeout(loop, 900 + (index % 7) * 180);
+      }
+
+      function stop() {
+        visible = false;
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = null;
+        }
+        thumbnail.classList.remove("is-thumb-swapping");
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                start();
+              } else {
+                stop();
+              }
+            });
+          },
+          { rootMargin: "180px 0px", threshold: 0.18 }
+        );
+        observer.observe(thumbnail);
+      } else {
+        start();
+      }
+    });
+  }
+
   function setupMagneticEffects() {
 
     document.querySelectorAll(".magnetic-cta, [data-motion-card]").forEach(function (element) {
@@ -828,6 +988,8 @@
       setupThemeToggle();
       setupLanguageToggle();
       setupProjectDetails();
+      setupProjectThumbnailLoops();
+      setupSectionParallax();
       setupMagneticEffects();
       setupFounderJourney();
       setupMotionAndHelper();
@@ -836,6 +998,8 @@
     setupThemeToggle();
     setupLanguageToggle();
     setupProjectDetails();
+    setupProjectThumbnailLoops();
+    setupSectionParallax();
     setupMagneticEffects();
     setupFounderJourney();
     setupMotionAndHelper();

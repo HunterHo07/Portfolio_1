@@ -1786,15 +1786,16 @@ nav ul li a {
 }
 
 .husky-helper {
+  --husky-size: 112px;
   position: fixed;
   right: auto;
   bottom: auto;
-  left: var(--husky-x, calc(100vw - 390px));
-  top: var(--husky-y, calc(100vh - 146px));
+  left: var(--husky-x, calc(100vw - 424px));
+  top: var(--husky-y, calc(100vh - 162px));
   z-index: 1900;
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: 10px;
   opacity: 0;
   pointer-events: none;
   transform: translate3d(0, 14px, 0) scale(0.9);
@@ -1812,15 +1813,115 @@ nav ul li a {
 }
 
 .husky-body {
+  appearance: none;
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: var(--husky-size);
+  height: var(--husky-size);
   border: 0;
-  border-radius: 32px 32px 38px 38px;
-  background: linear-gradient(145deg, #aeb7c4, #5f6b7c);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at 50% 78%, rgba(116, 227, 255, 0.22), transparent 38%),
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.18), transparent 58%);
+  box-shadow: none;
   cursor: pointer;
-  animation: huskyFloat 2.8s ease-in-out infinite;
+  isolation: isolate;
+  overflow: visible;
+  padding: 0;
+  animation: huskyFloat 3.1s ease-in-out infinite;
+}
+
+.husky-body::before {
+  content: "";
+  position: absolute;
+  left: 11%;
+  right: 11%;
+  bottom: -4px;
+  height: 16px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(20, 31, 47, 0.28), transparent 70%);
+  filter: blur(5px);
+  transform: scaleX(0.92);
+  z-index: 0;
+}
+
+.husky-body::after {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 22% 22%, #ff6aa8 0 4px, transparent 5px),
+    radial-gradient(circle at 76% 16%, #f7d038 0 3px, transparent 4px),
+    radial-gradient(circle at 84% 72%, #74e3ff 0 4px, transparent 5px),
+    radial-gradient(circle at 18% 78%, #7cf7b2 0 3px, transparent 4px);
+}
+
+.husky-body:hover .husky-sprite {
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28)) drop-shadow(0 0 18px rgba(116, 227, 255, 0.28));
+}
+
+.husky-body:focus,
+.husky-body:focus-visible {
+  outline: 0;
+}
+
+.husky-body:focus-visible .husky-sprite {
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 22px rgba(116, 227, 255, 0.42));
+}
+
+.husky-sprite-stage {
+  position: absolute;
+  inset: -22px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.husky-sprite {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transform: translate3d(0, 8px, 0) scale(0.92);
+  transform-origin: 50% 78%;
+  filter: drop-shadow(0 17px 22px rgba(0, 0, 0, 0.24)) drop-shadow(0 0 14px rgba(116, 227, 255, 0.18));
+  transition: opacity 0.18s ease, transform 0.34s cubic-bezier(0.18, 0.85, 0.24, 1.24), filter 0.24s ease;
+}
+
+.husky-helper:not(.is-emote-happy):not(.is-emote-excited):not(.is-emote-contact) .husky-sprite-idle,
+.husky-helper.is-emote-idle .husky-sprite-idle,
+.husky-helper.is-emote-happy .husky-sprite-happy,
+.husky-helper.is-emote-excited .husky-sprite-excited,
+.husky-helper.is-emote-contact .husky-sprite-contact {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.husky-helper.is-emote-happy .husky-sprite-happy {
+  animation: huskyHappyWave 1.45s ease-in-out infinite;
+}
+
+.husky-helper.is-emote-excited .husky-sprite-excited {
+  animation: huskyExcitedJump 0.78s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+}
+
+.husky-helper.is-emote-excited .husky-body::after {
+  animation: huskySparkle 0.9s ease-out both;
+}
+
+.husky-helper.is-emote-contact .husky-sprite-contact {
+  animation: huskyContactNod 2.2s ease-in-out infinite;
+}
+
+.husky-fallback {
+  position: absolute;
+  inset: 13px;
+  z-index: 1;
+  opacity: 0.16;
+  pointer-events: none;
 }
 
 .husky-face {
@@ -1904,14 +2005,35 @@ nav ul li a {
 }
 
 .husky-bubble {
+  position: relative;
   width: min(270px, calc(100vw - 142px));
-  padding: 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
-  background: var(--color-elevated);
-  box-shadow: var(--shadow-soft);
+  padding: 14px 15px;
+  border: 1px solid rgba(116, 227, 255, 0.26);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg, rgba(116, 227, 255, 0.08), rgba(216, 185, 135, 0.06)),
+    var(--color-elevated);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transform-origin: 100% 100%;
   transition: transform 0.24s ease, opacity 0.24s ease;
+  backdrop-filter: blur(16px);
+}
+
+.husky-bubble::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  bottom: 24px;
+  width: 14px;
+  height: 14px;
+  border-left: 1px solid rgba(116, 227, 255, 0.22);
+  border-bottom: 1px solid rgba(116, 227, 255, 0.22);
+  background: var(--color-elevated);
+  transform: rotate(45deg);
+}
+
+.husky-helper.is-chat-open .husky-bubble {
+  transform: translateY(-3px) scale(1.02);
 }
 
 .husky-bubble p {
@@ -1926,12 +2048,14 @@ nav ul li a {
   justify-content: center;
   align-items: center;
   margin: 4px 6px 0 0;
-  padding: 8px 12px;
+  min-height: 34px;
+  padding: 8px 13px;
   border-radius: 999px;
-  background: #25d366;
-  color: #062a16;
+  background: linear-gradient(135deg, #25d366, #9cffc4);
+  color: #052713;
   font-size: 12px;
   font-weight: 900;
+  box-shadow: 0 10px 22px rgba(37, 211, 102, 0.22);
 }
 
 .husky-contact-panel {
@@ -1947,6 +2071,7 @@ nav ul li a {
 #husky-email {
   background: linear-gradient(135deg, rgba(116, 227, 255, 0.9), rgba(216, 185, 135, 0.8));
   color: #111827;
+  box-shadow: 0 10px 22px rgba(116, 227, 255, 0.18);
 }
 
 .celebration-particle {
@@ -1993,6 +2118,58 @@ nav ul li a {
   }
 }
 
+@keyframes huskyHappyWave {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  28% {
+    transform: translate3d(0, -4px, 0) rotate(-5deg) scale(1.03);
+  }
+  56% {
+    transform: translate3d(0, 1px, 0) rotate(4deg) scale(0.99);
+  }
+}
+
+@keyframes huskyExcitedJump {
+  0% {
+    transform: translate3d(0, 10px, 0) scale(0.92);
+  }
+  46% {
+    transform: translate3d(0, -14px, 0) rotate(-3deg) scale(1.08);
+  }
+  76% {
+    transform: translate3d(0, 2px, 0) rotate(2deg) scale(0.98);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes huskyContactNod {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  45% {
+    transform: translate3d(0, -3px, 0) rotate(2deg) scale(1.01);
+  }
+}
+
+@keyframes huskySparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.66) rotate(0deg);
+  }
+  36% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2) rotate(18deg);
+  }
+}
+
 @keyframes skillPulse {
   0% {
     box-shadow: inset 0 0 0 0 rgba(116, 227, 255, 0);
@@ -2016,7 +2193,8 @@ nav ul li a {
   }
 
   .motion-radar,
-  .celebration-particle {
+  .celebration-particle,
+  .husky-body::after {
     display: none !important;
   }
 
@@ -2046,8 +2224,9 @@ nav ul li a {
   }
 
   .husky-helper {
-    left: var(--husky-x, calc(100vw - 318px));
-    top: var(--husky-y, calc(100vh - 116px));
+    --husky-size: 84px;
+    left: var(--husky-x, calc(100vw - 336px));
+    top: var(--husky-y, calc(100vh - 126px));
     right: auto;
     bottom: auto;
     gap: 8px;
@@ -2064,8 +2243,8 @@ nav ul li a {
   }
 
   .husky-body {
-    width: 74px;
-    height: 74px;
+    width: var(--husky-size);
+    height: var(--husky-size);
   }
 
   .husky-bubble {

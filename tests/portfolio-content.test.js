@@ -121,6 +121,10 @@ const requiredAssets = [
   "images/teaching/teaching-safe-onsite.png",
   "images/teaching/teaching-safe-workflow.png",
   "images/ui/cinematic-product-overlay.jpg",
+  "images/ui/husky-idle.png",
+  "images/ui/husky-happy.png",
+  "images/ui/husky-excited.png",
+  "images/ui/husky-contact.png",
 ];
 
 for (const text of requiredText) {
@@ -194,6 +198,10 @@ for (const token of [
   "motion-radar",
   "celebration-layer",
   "husky-contact-panel",
+  "husky-sprite-stage",
+  "husky-sprite-idle",
+  "is-emote-excited",
+  "setHuskyEmotion",
   "setupMagneticEffects",
   "setupCelebration",
   "moveHuskySafely",

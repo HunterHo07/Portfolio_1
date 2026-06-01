@@ -856,14 +856,22 @@
 
     <div class="husky-helper" id="husky-helper" aria-live="polite">
       <button type="button" class="husky-body" id="husky-button" aria-label="Open WhatsApp helper">
-        <span class="husky-ear husky-ear-left"></span>
-        <span class="husky-ear husky-ear-right"></span>
-        <span class="husky-face">
-          <span class="husky-eye husky-eye-left"></span>
-          <span class="husky-eye husky-eye-right"></span>
-          <span class="husky-muzzle"></span>
+        <span class="husky-sprite-stage" aria-hidden="true">
+          <img class="husky-sprite husky-sprite-idle" src="images/ui/husky-idle.png" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-happy" src="images/ui/husky-happy.png" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-excited" src="images/ui/husky-excited.png" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-contact" src="images/ui/husky-contact.png" alt="" loading="lazy" decoding="async">
         </span>
-        <span class="husky-tail"></span>
+        <span class="husky-fallback" aria-hidden="true">
+          <span class="husky-ear husky-ear-left"></span>
+          <span class="husky-ear husky-ear-right"></span>
+          <span class="husky-face">
+            <span class="husky-eye husky-eye-left"></span>
+            <span class="husky-eye husky-eye-right"></span>
+            <span class="husky-muzzle"></span>
+          </span>
+          <span class="husky-tail"></span>
+        </span>
       </button>
       <div class="husky-bubble">
         <p id="husky-message" data-i18n="husky.message">Need a project helper? I can call Hunter.</p>

@@ -418,20 +418,44 @@
     var huskyMessage = document.getElementById("husky-message");
     var celebrate = setupCelebration();
     var huskyHasAppeared = false;
+    var huskyEmotionTimer = null;
+    var huskyEmotions = ["idle", "happy", "excited", "contact"];
     var messages = {
       en: [
-        "Woof. I found the WhatsApp shortcut for you.",
-        "Need a website, app, system, or automation? I can call Hunter.",
-        "Small project or big idea, let's ask Hunter first.",
-        "I guard the bottom of this portfolio. Tap me when you want a fast reply."
+        "Woof. I found the fastest way to reach Hunter.",
+        "Need a website, app, system, or automation? Tap me and I will help.",
+        "Tiny idea or serious build, I can bring Hunter over.",
+        "I am the gray husky helper. I guard the contact shortcut.",
+        "Need a quote fast? My paws are already on the button."
       ],
       zh: [
-        "汪，我帮你找到 WhatsApp 入口了。",
-        "需要网站、App、系统或自动化？我可以帮你找 Hunter。",
-        "小项目或大想法，都可以先聊一聊。",
-        "我在页面底部守着，点我就能快速联系。"
+        "汪，我帮你找到最快联系 Hunter 的入口。",
+        "需要网站、App、系统或自动化？点我就可以。",
+        "小想法或大项目，我都可以帮你叫 Hunter。",
+        "我是灰色哈士奇助手，专门守着联系按钮。",
+        "想快速报价？我的小爪已经准备好了。"
       ]
     };
+
+    function setHuskyEmotion(emotion, duration) {
+      if (!husky) {
+        return;
+      }
+
+      window.clearTimeout(huskyEmotionTimer);
+      huskyEmotions.forEach(function (state) {
+        husky.classList.remove("is-emote-" + state);
+      });
+      husky.classList.add("is-emote-" + (emotion || "idle"));
+
+      if (duration) {
+        huskyEmotionTimer = window.setTimeout(function () {
+          if (!husky.classList.contains("is-chat-open")) {
+            setHuskyEmotion("idle");
+          }
+        }, duration);
+      }
+    }
 
     function setRandomHuskyMessage(contactMode) {
       if (!huskyMessage) {
@@ -440,11 +464,13 @@
 
       if (contactMode) {
         huskyMessage.textContent = currentLanguage === "zh" ? "想快速聊项目？WhatsApp 或 Email 都可以。" : "Want the fast path? WhatsApp or email Hunter here.";
+        setHuskyEmotion("contact");
         return;
       }
 
       var pool = messages[currentLanguage] || messages.en;
       huskyMessage.textContent = pool[Math.floor(Math.random() * pool.length)];
+      setHuskyEmotion(Math.random() > 0.32 ? "happy" : "idle", 4200);
     }
 
     revealTargets.forEach(function (element, index) {
@@ -483,6 +509,7 @@
         if (!huskyHasAppeared && window.scrollY + window.innerHeight > doc.scrollHeight - 900) {
           huskyHasAppeared = true;
           husky.classList.add("is-visible");
+          setHuskyEmotion("happy", 2400);
           window.setTimeout(function () {
             moveHuskySafely(husky);
           }, 180);
@@ -503,8 +530,14 @@
         husky.classList.add("is-visible");
         husky.classList.add("is-chat-open");
         setRandomHuskyMessage(true);
+        setHuskyEmotion("excited", 900);
         celebrate(rect.left + rect.width / 2, rect.top + rect.height / 2);
         moveHuskySafely(husky);
+        window.setTimeout(function () {
+          if (husky && husky.classList.contains("is-chat-open")) {
+            setHuskyEmotion("contact");
+          }
+        }, 850);
       });
 
       window.setInterval(function () {
@@ -523,6 +556,7 @@
         }
 
         moveHuskySafely(husky);
+        setHuskyEmotion("happy", 1800);
       }, 8200);
     }
 

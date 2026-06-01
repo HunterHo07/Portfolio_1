@@ -33,6 +33,20 @@ const requiredText = [
   "project-assets-section",
   "hero-capability",
   "hero-promise",
+  "TrillionUnicorn OSS & Startup Lab",
+  "OpenChance",
+  "WorkFree",
+  "CTOrendang",
+  "GameMind",
+  "CheckMe",
+  "3Wallet",
+  "AhFai",
+  "Speaker & Teaching",
+  "Free IT Speaker",
+  "Online / Offline / Onsite",
+  "Hackathon Wins",
+  "Deriv AI Hackathon Winner 2025",
+  "Builder Since 2007",
 ];
 
 const requiredUrls = [
@@ -54,6 +68,13 @@ const requiredUrls = [
   "https://rj-2.vercel.app",
   "https://rj-assets-hunter5.vercel.app/",
   "https://rj-assets-2-hunter5.vercel.app/",
+  "https://github.com/TrillionUnicorn/OpenChance",
+  "https://github.com/TrillionUnicorn/WorkFree",
+  "https://github.com/TrillionUnicorn/CTOrendang",
+  "https://github.com/TrillionUnicorn/GameMind",
+  "https://github.com/TrillionUnicorn/CheckMe",
+  "https://github.com/TrillionUnicorn/3Wallet",
+  "https://github.com/TrillionUnicorn/AhFai",
 ];
 
 const requiredAssets = [
@@ -78,6 +99,11 @@ const requiredAssets = [
   "images/demo-thumb-rj-2.png",
   "images/demo-thumb-rj-assets-1.png",
   "images/demo-thumb-rj-assets-2.png",
+  "images/teaching/speaker-teaching-banner.png",
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg",
 ];
 
 for (const text of requiredText) {
@@ -89,7 +115,7 @@ for (const url of requiredUrls) {
 }
 
 for (const asset of requiredAssets) {
-  assert.ok(html.includes(asset), `Missing required asset reference: ${asset}`);
+  assert.ok(html.includes(asset) || css.includes(asset), `Missing required asset reference: ${asset}`);
   assert.ok(fs.existsSync(asset), `Missing required asset file: ${asset}`);
 }
 

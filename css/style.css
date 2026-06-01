@@ -420,7 +420,8 @@ nav ul li a {
   overflow: hidden;
   padding: 92px 0;
   background:
-    radial-gradient(circle at 12% 12%, rgba(216, 185, 135, 0.18), transparent 32%),
+    linear-gradient(90deg, rgba(14, 17, 23, 0.92), rgba(14, 17, 23, 0.66), rgba(14, 17, 23, 0.34)),
+    url("../images/founder-banner.jpeg") center top / cover no-repeat,
     linear-gradient(135deg, var(--color-bg) 0%, var(--color-surface) 100%);
 }
 
@@ -441,7 +442,7 @@ nav ul li a {
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 28px;
+  gap: 30px;
   align-items: stretch;
 }
 
@@ -449,10 +450,12 @@ nav ul li a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 830px;
   padding: 42px;
   border: 1px solid var(--color-border);
-  background: var(--color-elevated);
+  background: rgba(14, 17, 23, 0.7);
   box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
 }
 
 .vision-label {
@@ -466,7 +469,7 @@ nav ul li a {
 
 .vision-copy h2 {
   max-width: 620px;
-  color: var(--color-heading);
+  color: #f8f2e6;
   font-family: "Playfair Display", serif;
   font-size: clamp(34px, 5vw, 64px);
   line-height: 0.98;
@@ -475,7 +478,7 @@ nav ul li a {
 .vision-copy p {
   max-width: 640px;
   margin: 24px 0 0;
-  color: var(--color-text);
+  color: rgba(247, 243, 232, 0.9);
 }
 
 .vision-roles {
@@ -487,9 +490,9 @@ nav ul li a {
 
 .vision-roles span {
   padding: 10px 13px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
-  color: var(--color-heading);
+  border: 1px solid rgba(216, 185, 135, 0.36);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8f2e6;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -528,7 +531,7 @@ nav ul li a {
 .vision-poster-card {
   overflow: hidden;
   border: 1px solid var(--color-border);
-  background: var(--color-elevated);
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: var(--shadow-soft);
 }
 
@@ -565,7 +568,7 @@ nav ul li a {
   padding: 34px;
   background:
     linear-gradient(145deg, rgba(216, 185, 135, 0.18), transparent 46%),
-    var(--color-elevated);
+    rgba(255, 255, 255, 0.94);
 }
 
 .vision-score {
@@ -577,7 +580,17 @@ nav ul li a {
 }
 
 .vision-poster-card {
-  max-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(8, 11, 17, 0.82);
+}
+
+.vision-poster-card img {
+  height: auto;
+  max-height: 760px;
+  object-fit: contain;
 }
 
 [data-theme="dark"] .vision-copy,
@@ -585,7 +598,228 @@ nav ul li a {
 [data-theme="dark"] .vision-profile-card,
 [data-theme="dark"] .vision-score-card,
 [data-theme="dark"] .vision-poster-card {
-  background-color: rgba(21, 26, 34, 0.92);
+  background-color: rgba(21, 26, 34, 0.94);
+}
+
+[data-theme="dark"] .vision-score-card {
+  background:
+    linear-gradient(145deg, rgba(216, 185, 135, 0.18), transparent 46%),
+    rgba(21, 26, 34, 0.94);
+}
+
+.proof-section {
+  position: relative;
+  overflow: hidden;
+  padding: 92px 0;
+  background: var(--color-bg);
+}
+
+.proof-section:nth-of-type(even) {
+  background: var(--color-surface);
+}
+
+.proof-section-heading {
+  max-width: 820px;
+  margin-bottom: 34px;
+}
+
+.proof-section-heading h2,
+.speaker-copy h2 {
+  color: var(--color-heading);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1;
+}
+
+.proof-section-heading p,
+.speaker-copy p {
+  margin: 20px 0 0;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.startup-lab {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(116, 227, 255, 0.14), transparent 30%),
+    var(--color-surface);
+}
+
+.startup-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.startup-card,
+.teaching-proof-card,
+.hackathon-grid article {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-elevated), var(--color-elevated)) padding-box,
+    linear-gradient(135deg, rgba(216, 185, 135, 0.45), rgba(116, 227, 255, 0.18), rgba(216, 111, 156, 0.28)) border-box;
+  box-shadow: var(--shadow-soft);
+}
+
+.startup-card {
+  min-height: 240px;
+  padding: 24px;
+}
+
+.startup-card span {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--color-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.startup-card h3 {
+  margin-bottom: 14px;
+  color: var(--color-heading);
+  font-size: 24px;
+}
+
+.startup-card h3 a {
+  color: inherit;
+}
+
+.startup-card p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.startup-card-private {
+  background:
+    linear-gradient(145deg, rgba(216, 185, 135, 0.16), transparent 42%),
+    var(--color-elevated);
+}
+
+.speaker-teaching {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(216, 185, 135, 0.16), transparent 32%),
+    var(--color-bg);
+}
+
+.speaker-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.speaker-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 38px;
+  border: 1px solid var(--color-border);
+  background: var(--color-elevated);
+  box-shadow: var(--shadow-soft);
+}
+
+.speaker-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.speaker-tags span {
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.speaker-hero {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: #05070c;
+  box-shadow: var(--shadow-soft);
+}
+
+.speaker-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  object-fit: cover;
+}
+
+.teaching-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.teaching-proof-card {
+  overflow: hidden;
+}
+
+.teaching-proof-card img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.teaching-proof-card h3 {
+  padding: 20px 20px 0;
+  color: var(--color-heading);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.teaching-proof-card p {
+  margin: 0;
+  padding: 12px 20px 22px;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hackathon-wins {
+  background:
+    linear-gradient(135deg, rgba(216, 185, 135, 0.1), transparent 38%),
+    var(--color-surface);
+}
+
+.hackathon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.hackathon-grid article {
+  min-height: 170px;
+  padding: 26px;
+}
+
+.hackathon-grid strong {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--color-accent);
+  font-family: "Playfair Display", serif;
+  font-size: 48px;
+  line-height: 0.9;
+}
+
+.hackathon-grid span {
+  color: var(--color-heading);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 @media (max-width: 991px) {
@@ -608,7 +842,18 @@ nav ul li a {
   }
 
   .vision-poster-card {
-    max-height: 620px;
+    max-height: none;
+  }
+
+  .vision-poster-card img {
+    max-height: none;
+  }
+
+  .startup-grid,
+  .teaching-proof-grid,
+  .hackathon-grid,
+  .speaker-shell {
+    grid-template-columns: 1fr;
   }
 }
 

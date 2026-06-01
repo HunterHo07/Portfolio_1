@@ -116,11 +116,10 @@ const requiredAssets = [
   "images/demo-thumb-rj-assets-3.png",
   "images/demo-thumb-mobile-warrantyscan.png",
   "images/demo-thumb-mobile-namecard.png",
-  "images/teaching/speaker-teaching-banner.png",
-  "images/teaching/teaching-n8n-event.jpeg",
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg",
+  "images/teaching/teaching-safe-stage.png",
+  "images/teaching/teaching-safe-online.png",
+  "images/teaching/teaching-safe-onsite.png",
+  "images/teaching/teaching-safe-workflow.png",
 ];
 
 for (const text of requiredText) {
@@ -181,6 +180,36 @@ for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggl
 }
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
+
+for (const token of [
+  "hero-actions",
+  "magnetic-cta",
+  "proof-motion-wall",
+  "privacy-safe-teaching",
+  "teaching-safe-stage.png",
+  "teaching-safe-online.png",
+  "teaching-safe-onsite.png",
+  "teaching-safe-workflow.png",
+  "motion-radar",
+  "celebration-layer",
+  "husky-contact-panel",
+  "setupMagneticEffects",
+  "setupCelebration",
+  "moveHuskySafely",
+  "prefers-reduced-motion"
+]) {
+  assert.ok(html.includes(token) || css.includes(token) || js.includes(token), `Missing upgraded portfolio token: ${token}`);
+}
+
+for (const sensitiveTeachingAsset of [
+  "images/teaching/speaker-teaching-banner.png",
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg"
+]) {
+  assert.ok(!html.includes(sensitiveTeachingAsset), `Sensitive teaching asset should not be public-facing: ${sensitiveTeachingAsset}`);
+}
 
 function parseThemeBlock(selector) {
   const pattern = new RegExp(`${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*{([\\s\\S]*?)}`);

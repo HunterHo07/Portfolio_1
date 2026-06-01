@@ -120,6 +120,7 @@ const requiredAssets = [
   "images/teaching/teaching-safe-online.png",
   "images/teaching/teaching-safe-onsite.png",
   "images/teaching/teaching-safe-workflow.png",
+  "images/ui/cinematic-product-overlay.jpg",
 ];
 
 for (const text of requiredText) {
@@ -196,7 +197,12 @@ for (const token of [
   "setupMagneticEffects",
   "setupCelebration",
   "moveHuskySafely",
-  "prefers-reduced-motion"
+  "prefers-reduced-motion",
+  "cinematic-media-frame",
+  "cinematic-product-overlay.jpg",
+  "mix-blend-mode",
+  ".hunter-thumbnail .popup-img",
+  ".journal-info > a:first-child"
 ]) {
   assert.ok(html.includes(token) || css.includes(token) || js.includes(token), `Missing upgraded portfolio token: ${token}`);
 }

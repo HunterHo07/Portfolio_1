@@ -83,7 +83,7 @@ body {
     radial-gradient(circle at 82% calc(70% - (var(--scroll-depth, 0) * 12%)), rgba(216, 185, 135, 0.13), transparent 30%);
 }
 
-body > *:not(.parallax-backdrop):not(.motion-radar):not(.celebration-layer):not(.theme-toggle):not(.language-toggle):not(.husky-helper) {
+body > *:not(.parallax-backdrop):not(.motion-radar):not(.celebration-layer):not(.theme-toggle):not(.language-toggle):not(.husky-helper):not(.project-detail-modal) {
   position: relative;
   z-index: 1;
 }

@@ -103,14 +103,134 @@
       match: ["dashboard", "api", "database"],
       title: "Dashboard & API Thinking",
       copy: "Mini demo: data cards, status tracking, API-ready structure, and admin-friendly UI patterns for real business systems."
+    },
+    {
+      match: ["image", "media", "loading", "pwa", "responsive"],
+      title: "Performance & Mobile Polish",
+      copy: "Mini demo: optimized thumbnails, mobile-safe spacing, fast perceived loading, and responsive interaction states that help clients review work on any device."
     }
   ];
 
   var projectProfiles = [
     {
+      match: "Amazing Technology",
+      story: "A technology-and-gaming landing experience shaped for fast first impressions: strong hero content, visual hierarchy, responsive sections, and enough motion to make the page feel alive without hiding the message.",
+      client: "Useful when a client needs a quick campaign site, product teaser, or event-style page that can explain an offer visually before deeper application work begins."
+    },
+    {
+      match: "Professional Design",
+      story: "A design-and-animation showcase focused on brand presentation, section rhythm, polished transitions, and visual trust. The page demonstrates how static content can be upgraded into a sharper client-facing experience.",
+      client: "Useful for service businesses, creators, trainers, and startups that need a memorable front page without overbuilding a full platform first."
+    },
+    {
+      match: "Mobile App The Future",
+      story: "A mobile-app presentation demo that packages app features, screen storytelling, and mobile-first layout into a clear product pitch. It shows the kind of structure needed before building a full iOS, Android, or PWA workflow.",
+      client: "Useful for founders validating an app idea, pitching investors, or explaining a mobile workflow to users before committing to full backend implementation."
+    },
+    {
+      match: "Smart Payment",
+      story: "A payment and subscription UI demo built around conversion clarity: plan comparison, trust-building copy, purchase intent, and checkout-style presentation.",
+      client: "Useful for SaaS, membership, service packages, booking businesses, and any client who needs pricing pages that feel credible instead of generic."
+    },
+    {
+      match: "Game Portal",
+      story: "A game portal concept that groups playable or presentable game ideas into one browsing surface, with enough visual energy to make game projects feel like a product lineup rather than isolated experiments.",
+      client: "Useful for game studios, educators, event organizers, and entertainment brands that need a lightweight catalog for demos, prototypes, or campaign launches."
+    },
+    {
+      match: "Mobile App Development Show",
+      story: "A mobile development showcase designed to communicate screens, app features, benefits, and responsive behavior in a compact product page. It gives clients a quick way to see mobile thinking before full engineering begins.",
+      client: "Useful for app pitches, agency portfolios, MVP planning, and clients comparing whether they need a native app, PWA, or responsive web app."
+    },
+    {
       match: "PalWorld",
-      story: "A Svelte-powered open-world game landing demo that sells a game concept with stronger art direction, media hierarchy, and immersive product storytelling.",
+      story: "An open-world multiplayer game landing demo that sells the fantasy first: immersive media framing, game-world positioning, cinematic layout, responsive sections, and campaign-ready storytelling.",
       client: "Useful for studios, game founders, NFT/game launches, and entertainment brands that need a high-impact campaign page before a full game release."
+    },
+    {
+      match: "Fintech",
+      story: "A fintech innovation demo that turns finance concepts into readable product UI: dashboard-style information, platform positioning, and structured feature communication.",
+      client: "Useful for fintech founders, payment tools, internal finance dashboards, and proof-of-concept pages where trust and clarity matter more than decoration."
+    },
+    {
+      match: "BlockChain",
+      story: "A Web3 dashboard presentation that packages blockchain data, API thinking, and platform-style navigation into a client-friendly interface.",
+      client: "Useful for Web3 products, token dashboards, wallet tools, analytics concepts, and blockchain teams that need a visual prototype before backend integration."
+    },
+    {
+      match: "BestzDeal Feature",
+      story: "A marketplace feature page that explains buyer demand, seller response, and conversion flow with a polished client-ready homepage structure.",
+      client: "Useful for commerce founders, local marketplaces, lead-generation products, and deal platforms that need to prove the business flow quickly."
+    },
+    {
+      match: "Travel Booking",
+      story: "A travel booking feature UI that focuses on destination appeal, search intent, responsive browsing, and service storytelling.",
+      client: "Useful for travel agencies, booking platforms, tourism campaigns, and local experience providers who need a polished front-end before full reservation logic."
+    },
+    {
+      match: "Sim Work",
+      story: "A simulation-work demo that presents operational workflows through visual dashboards, scenario framing, and deployed interactive product pages.",
+      client: "Useful for industrial demos, training simulations, operation centers, and clients who need complex workflows explained visually to non-technical stakeholders."
+    },
+    {
+      match: "Report Platform",
+      story: "A cross-border civic reporting concept for Malaysia and Singapore, structured around offense submission, triage clarity, department routing, and trust-focused public-service UX.",
+      client: "Useful for civic tech, complaint management, public reporting, government-adjacent workflows, and organizations that need sensitive forms to feel simple and credible."
+    },
+    {
+      match: "Report Routing",
+      story: "A refined ReportU iteration focused on making report intake, category selection, and routing decisions clearer for users who may be stressed or unsure where to submit.",
+      client: "Useful for public-service platforms, support operations, fraud/scam reporting, and multi-department request handling."
+    },
+    {
+      match: "AR Digital Name Card",
+      story: "An AR-enhanced digital identity concept that combines QR, NFC, scan-first profiles, and no-app sharing into a modern networking experience.",
+      client: "Useful for sales teams, founders, speakers, real estate agents, recruiters, and events that need contact exchange to feel premium and trackable."
+    },
+    {
+      match: "Scan-First Profile",
+      story: "A NameCardAi variant focused on fast profile discovery: camera scan, QR/NFC exchange, interactive profile preview, and networking follow-up.",
+      client: "Useful when a client wants to replace static paper cards with a measurable digital identity and lead-capture workflow."
+    },
+    {
+      match: "AI Reverse Marketplace",
+      story: "A reverse marketplace concept where buyer intent becomes the main product surface: one request, many seller offers, comparison flow, and AI-ready matching logic.",
+      client: "Useful for local commerce, procurement, services marketplaces, and deal platforms that need to reverse the usual seller-first listing model."
+    },
+    {
+      match: "Buyer Request",
+      story: "A BestzDealAi iteration centered on the buyer request journey, seller competition, and offer clarity, making the value proposition easy to understand in one demo.",
+      client: "Useful for commerce clients who want a marketplace MVP but need a clearer buying flow before investing in full seller tooling."
+    },
+    {
+      match: "Offer Comparison",
+      story: "A marketplace comparison variant that highlights buyer intent capture, competitive offers, and decision support as the core conversion engine.",
+      client: "Useful for marketplaces, quote platforms, B2B sourcing, and service comparison products where users need to evaluate multiple offers quickly."
+    },
+    {
+      match: "Visual Entity",
+      story: "A visual-first community platform concept where a photo can become the entry point into public discussion, reporting, scam alerts, civic history, and entity-linked conversations.",
+      client: "Useful for civic reporting, community safety, lost-and-found, local reviews, incident history, and any app where users know what they saw but not what to search."
+    },
+    {
+      match: "Community History",
+      story: "A MessageYou iteration focused on linking real-world photos to long-term discussion trails, alerts, reports, and public memory.",
+      client: "Useful for community platforms, safety apps, local councils, moderation workflows, and visual search products."
+    },
+    {
+      match: "Warranty Tracking",
+      story: "A warranty assistant concept for receipts, item photos, service dates, expiry reminders, coverage records, and future inventory visualization.",
+      client: "Useful for retailers, appliance services, vehicle workshops, insurance add-ons, and consumers who need less manual warranty management."
+    },
+    {
+      match: "RunJian Command",
+      story: "A RunJian simWorld command demo that presents 3D operations, dashboard signals, scenario storytelling, and a high-impact visual product direction.",
+      client: "Useful for simulation platforms, industrial command centers, training demos, and teams that need to turn complex operational data into a visual story."
+    },
+    {
+      match: "RunJian SimWorld",
+      story: "A second RunJian simulation iteration used to compare scene direction, dashboard framing, and command-world presentation quality across deployments.",
+      client: "Useful for stakeholders choosing between simulation UI directions before deeper 3D engine or backend investment."
     },
     {
       match: "WarrantyScan",
@@ -121,6 +241,11 @@
       match: "NameCard Mobile",
       story: "A mobile identity demo for QR sharing, NFC exchange, profile preview, and event networking follow-up.",
       client: "Useful for founders, real estate agents, trainers, sales teams, and event organizers who want contact exchange to become measurable."
+    },
+    {
+      match: "Assets",
+      story: "A 3D model showcase direction for reviewing deployable browser assets, Q-style characters, props, dragons, weapons, terrain, and game-ready visual catalogs.",
+      client: "Useful for game clients, simulation teams, education products, and brands that need asset previews before production or deeper 3D implementation."
     }
   ];
 
@@ -222,6 +347,36 @@
     });
   }
 
+  function buildProjectStory(projectTitle, projectTech, projectAbout, profile) {
+    if (profile && profile.story) {
+      return profile.story;
+    }
+
+    return (
+      projectTitle +
+      " is presented as a client-ready showcase with product positioning, responsive UI, interaction polish, and a clear demo path. The build turns a raw idea into something a client, interviewer, or investor can understand quickly, then expand into a real website, app, dashboard, system, or automation workflow."
+    );
+  }
+
+  function buildProjectAbout(projectAbout) {
+    if (!projectAbout) {
+      return "This project is framed as a practical portfolio demo: readable, responsive, demo-ready, and built to communicate value before overbuilding unnecessary backend complexity.";
+    }
+
+    return (
+      projectAbout +
+      " The important part is not only the visual page; it is the product thinking behind it: what the user should do next, what the client can validate, and how the demo can grow into a production-ready build."
+    );
+  }
+
+  function buildClientValue(profile) {
+    if (profile && profile.client) {
+      return profile.client;
+    }
+
+    return "This helps clients validate an idea, attract users or investors, explain a workflow, and choose a freelancer who can handle product thinking, front-end execution, mobile responsiveness, visual polish, and deployment.";
+  }
+
   function resolveSkillDemo(label) {
     var normalized = label.toLowerCase();
     return (
@@ -259,17 +414,13 @@
         var profile = findProfile(projectTitle);
 
         title.textContent = projectTitle;
-        story.textContent =
-          (profile && profile.story) ||
-          "A client-ready showcase project built to communicate the product idea quickly, make the workflow easy to understand, and prove I can move from concept to polished web/mobile presentation.";
+        story.textContent = buildProjectStory(projectTitle, projectTech, projectAbout, profile);
         skills.textContent =
           projectSkills +
           (projectSkills ? ". " : "") +
           "Premium but credible delivery focus: clear UX, readable content, responsive behavior, visual polish, and demo-ready storytelling.";
-        about.textContent = projectAbout;
-        client.textContent =
-          (profile && profile.client) ||
-          "This helps clients validate an idea, attract users or investors, explain a workflow, and choose a freelancer who can handle both product thinking and front-end execution.";
+        about.textContent = buildProjectAbout(projectAbout);
+        client.textContent = buildClientValue(profile);
 
         tech.innerHTML = "";
         projectTech.split(",").forEach(function (item) {

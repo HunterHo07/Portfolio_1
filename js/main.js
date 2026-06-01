@@ -17,6 +17,9 @@
       "hero.capability": "Programming & Coding : Website, Mobile App, Server, Database, System, Software, Automation, Web & Mobile Responsive, iOS & Android, Machine Learning Ai, Web3 Blockchain.",
       "hero.headline": "I build web, mobile, AI automation and systems.",
       "hero.promise": "Resolve Your Problem With The <strong>*Lazy*</strong> Way",
+      "hero.ctaProject": "Hire for a project",
+      "hero.ctaSpeak": "Invite me to speak",
+      "hero.ctaProof": "View proof",
       "sections.mobileTitle": "Mobile App Demo",
       "sections.mobileIntro": "Two mobile-first showcase apps proving scan flows, QR/NFC sharing, PWA thinking, responsive app shells, and API-ready product workflows.",
       "sections.gamesTitle": "Games Demo",
@@ -25,6 +28,9 @@
       "modal.skills": "Skills Used",
       "modal.about": "Project About",
       "modal.clientValue": "Client Value",
+      "husky.message": "Need a project helper? I can call Hunter.",
+      "husky.whatsapp": "WhatsApp Hunter",
+      "husky.email": "Email Hunter",
       "theme.dark": "Dark",
       "theme.light": "Light"
     },
@@ -38,6 +44,9 @@
       "hero.capability": "编程与开发：网站、手机 App、服务器、数据库、系统、软件、自动化、响应式网页与手机、iOS 与 Android、机器学习 AI、Web3 区块链。",
       "hero.headline": "我打造网站、手机 App、AI 自动化与系统。",
       "hero.promise": "用 <strong>*Lazy*</strong> 的聪明方式解决你的问题",
+      "hero.ctaProject": "找我做项目",
+      "hero.ctaSpeak": "邀请我分享",
+      "hero.ctaProof": "查看证明",
       "sections.mobileTitle": "手机 App Demo",
       "sections.mobileIntro": "两个手机优先的展示应用，证明扫描流程、QR/NFC 分享、PWA 思维、响应式 App 外壳与 API-ready 产品流程。",
       "sections.gamesTitle": "游戏 Demo",
@@ -46,6 +55,9 @@
       "modal.skills": "使用技能",
       "modal.about": "项目说明",
       "modal.clientValue": "客户价值",
+      "husky.message": "需要项目帮手吗？我可以帮你联系 Hunter。",
+      "husky.whatsapp": "WhatsApp Hunter",
+      "husky.email": "Email Hunter",
       "theme.dark": "暗色",
       "theme.light": "亮色"
     }
@@ -299,23 +311,138 @@
     });
   }
 
+  function isReducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function setupMagneticEffects() {
+    var doc = document.documentElement;
+
+    function updatePointer(event) {
+      var x = event.clientX || window.innerWidth / 2;
+      var y = event.clientY || window.innerHeight / 2;
+      doc.style.setProperty("--pointer-x", x + "px");
+      doc.style.setProperty("--pointer-y", y + "px");
+      doc.style.setProperty("--motion-x", x - window.innerWidth / 2 + "px");
+      doc.style.setProperty("--motion-y", y - window.innerHeight / 2 + "px");
+    }
+
+    window.addEventListener("pointermove", updatePointer, { passive: true });
+
+    document.querySelectorAll(".magnetic-cta, [data-motion-card]").forEach(function (element) {
+      element.addEventListener("pointermove", function (event) {
+        if (isReducedMotion()) {
+          return;
+        }
+
+        var rect = element.getBoundingClientRect();
+        var relativeX = event.clientX - rect.left;
+        var relativeY = event.clientY - rect.top;
+        var centerX = relativeX - rect.width / 2;
+        var centerY = relativeY - rect.height / 2;
+
+        element.style.setProperty("--cta-x", relativeX + "px");
+        element.style.setProperty("--cta-y", relativeY + "px");
+        element.style.setProperty("--magnet-x", centerX * 0.08 + "px");
+        element.style.setProperty("--magnet-y", centerY * 0.08 + "px");
+        element.style.setProperty("--card-tilt-x", centerX * 0.012 + "deg");
+        element.style.setProperty("--card-tilt-y", centerY * -0.012 + "deg");
+      });
+
+      element.addEventListener("pointerleave", function () {
+        element.style.setProperty("--magnet-x", "0px");
+        element.style.setProperty("--magnet-y", "0px");
+        element.style.setProperty("--card-tilt-x", "0deg");
+        element.style.setProperty("--card-tilt-y", "0deg");
+      });
+    });
+  }
+
+  function setupCelebration() {
+    var layer = document.getElementById("celebration-layer");
+    var colors = ["#74e3ff", "#d8b987", "#ff6aa8", "#7cf7b2", "#f7d038"];
+
+    return function launchCelebration(x, y) {
+      if (!layer || isReducedMotion()) {
+        return;
+      }
+
+      for (var index = 0; index < 24; index += 1) {
+        var particle = document.createElement("span");
+        var angle = Math.random() * Math.PI * 2;
+        var distance = 72 + Math.random() * 120;
+
+        particle.className = "celebration-particle";
+        particle.style.setProperty("--particle-x", x + "px");
+        particle.style.setProperty("--particle-y", y + "px");
+        particle.style.setProperty("--particle-dx", Math.cos(angle) * distance + "px");
+        particle.style.setProperty("--particle-dy", Math.sin(angle) * distance + "px");
+        particle.style.setProperty("--particle-size", 6 + Math.random() * 10 + "px");
+        particle.style.setProperty("--particle-color", colors[index % colors.length]);
+        layer.appendChild(particle);
+
+        window.setTimeout(function (node) {
+          node.remove();
+        }, 950, particle);
+      }
+    };
+  }
+
+  function moveHuskySafely(husky) {
+    if (!husky || isReducedMotion()) {
+      return;
+    }
+
+    var rect = husky.getBoundingClientRect();
+    var width = Math.min(Math.max(rect.width || 360, 300), window.innerWidth - 24);
+    var height = Math.min(Math.max(rect.height || 110, 92), window.innerHeight - 24);
+    var edge = window.innerWidth < 600 ? 10 : 22;
+    var minX = edge;
+    var maxX = Math.max(edge, window.innerWidth - width - edge);
+    var minY = Math.max(96, Math.round(window.innerHeight * 0.48));
+    var maxY = Math.max(minY, window.innerHeight - height - edge);
+    var x = minX + Math.random() * (maxX - minX);
+    var y = minY + Math.random() * (maxY - minY);
+
+    husky.style.setProperty("--husky-x", Math.round(x) + "px");
+    husky.style.setProperty("--husky-y", Math.round(y) + "px");
+  }
+
   function setupMotionAndHelper() {
     var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-card, .teaching-proof-card, .hackathon-grid article");
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
     var huskyMessage = document.getElementById("husky-message");
+    var celebrate = setupCelebration();
+    var huskyHasAppeared = false;
     var messages = {
       en: [
         "Woof. I found the WhatsApp shortcut for you.",
         "Need a website, app, system, or automation? I can call Hunter.",
-        "Small project or big idea, let's ask Hunter first."
+        "Small project or big idea, let's ask Hunter first.",
+        "I guard the bottom of this portfolio. Tap me when you want a fast reply."
       ],
       zh: [
         "汪，我帮你找到 WhatsApp 入口了。",
         "需要网站、App、系统或自动化？我可以帮你找 Hunter。",
-        "小项目或大想法，都可以先聊一聊。"
+        "小项目或大想法，都可以先聊一聊。",
+        "我在页面底部守着，点我就能快速联系。"
       ]
     };
+
+    function setRandomHuskyMessage(contactMode) {
+      if (!huskyMessage) {
+        return;
+      }
+
+      if (contactMode) {
+        huskyMessage.textContent = currentLanguage === "zh" ? "想快速聊项目？WhatsApp 或 Email 都可以。" : "Want the fast path? WhatsApp or email Hunter here.";
+        return;
+      }
+
+      var pool = messages[currentLanguage] || messages.en;
+      huskyMessage.textContent = pool[Math.floor(Math.random() * pool.length)];
+    }
 
     revealTargets.forEach(function (element, index) {
       element.classList.add("reveal-ready");
@@ -350,24 +477,50 @@
       doc.style.setProperty("--scroll-depth", ratio.toFixed(4));
 
       if (husky) {
-        husky.classList.toggle("is-visible", window.scrollY + window.innerHeight > doc.scrollHeight - 900);
+        if (!huskyHasAppeared && window.scrollY + window.innerHeight > doc.scrollHeight - 900) {
+          huskyHasAppeared = true;
+          husky.classList.add("is-visible");
+          window.setTimeout(function () {
+            moveHuskySafely(husky);
+          }, 180);
+        }
+
+        if (huskyHasAppeared) {
+          husky.classList.add("is-visible");
+        }
       }
     }
 
     if (huskyButton && huskyMessage) {
-      huskyButton.addEventListener("click", function () {
-        var pool = messages[currentLanguage] || messages.en;
-        huskyMessage.textContent = pool[Math.floor(Math.random() * pool.length)];
+      huskyButton.addEventListener("click", function (event) {
+        var rect = huskyButton.getBoundingClientRect();
+
+        event.stopPropagation();
+        huskyHasAppeared = true;
         husky.classList.add("is-visible");
+        husky.classList.add("is-chat-open");
+        setRandomHuskyMessage(true);
+        celebrate(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        moveHuskySafely(husky);
       });
 
       window.setInterval(function () {
         if (!husky || !husky.classList.contains("is-visible")) {
           return;
         }
-        var pool = messages[currentLanguage] || messages.en;
-        huskyMessage.textContent = pool[Math.floor(Math.random() * pool.length)];
+
+        if (!husky.classList.contains("is-chat-open")) {
+          setRandomHuskyMessage(false);
+        }
       }, 7500);
+
+      window.setInterval(function () {
+        if (!husky || !husky.classList.contains("is-visible") || husky.classList.contains("is-chat-open")) {
+          return;
+        }
+
+        moveHuskySafely(husky);
+      }, 8200);
     }
 
     window.addEventListener("scroll", updateScrollEffects, { passive: true });
@@ -380,12 +533,14 @@
       setupThemeToggle();
       setupLanguageToggle();
       setupProjectDetails();
+      setupMagneticEffects();
       setupMotionAndHelper();
     });
   } else {
     setupThemeToggle();
     setupLanguageToggle();
     setupProjectDetails();
+    setupMagneticEffects();
     setupMotionAndHelper();
   }
 })();

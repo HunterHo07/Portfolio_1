@@ -202,6 +202,7 @@ for (const token of [
   "husky-sprite-idle",
   "is-emote-excited",
   "setHuskyEmotion",
+  "scheduleHuskyRoam",
   "setupMagneticEffects",
   "setupCelebration",
   "moveHuskySafely",

@@ -570,6 +570,7 @@
     var celebrate = setupCelebration();
     var huskyHasAppeared = false;
     var huskyEmotionTimer = null;
+    var huskyMoveTimer = null;
     var huskyEmotions = ["idle", "happy", "excited", "contact"];
     var messages = {
       en: [
@@ -624,6 +625,36 @@
       setHuskyEmotion(Math.random() > 0.32 ? "happy" : "idle", 4200);
     }
 
+    function scheduleHuskyRoam(delay, force) {
+      if (!husky || isReducedMotion()) {
+        return;
+      }
+
+      if (huskyMoveTimer && !force) {
+        return;
+      }
+
+      window.clearTimeout(huskyMoveTimer);
+      huskyMoveTimer = window.setTimeout(function () {
+        huskyMoveTimer = null;
+
+        if (!husky.classList.contains("is-visible")) {
+          scheduleHuskyRoam(1800);
+          return;
+        }
+
+        moveHuskySafely(husky);
+
+        if (husky.classList.contains("is-chat-open")) {
+          setHuskyEmotion("contact");
+        } else {
+          setHuskyEmotion("happy", 1800);
+        }
+
+        scheduleHuskyRoam(4200 + Math.random() * 2600);
+      }, delay);
+    }
+
     revealTargets.forEach(function (element, index) {
       element.classList.add("reveal-ready");
       element.style.transitionDelay = Math.min(index % 6, 5) * 45 + "ms";
@@ -664,10 +695,12 @@
           window.setTimeout(function () {
             moveHuskySafely(husky);
           }, 180);
+          scheduleHuskyRoam(1800, true);
         }
 
         if (huskyHasAppeared) {
           husky.classList.add("is-visible");
+          scheduleHuskyRoam(4200 + Math.random() * 2600);
         }
       }
     }
@@ -684,6 +717,7 @@
         setHuskyEmotion("excited", 900);
         celebrate(rect.left + rect.width / 2, rect.top + rect.height / 2);
         moveHuskySafely(husky);
+        scheduleHuskyRoam(2600, true);
         window.setTimeout(function () {
           if (husky && husky.classList.contains("is-chat-open")) {
             setHuskyEmotion("contact");
@@ -701,14 +735,7 @@
         }
       }, 7500);
 
-      window.setInterval(function () {
-        if (!husky || !husky.classList.contains("is-visible") || husky.classList.contains("is-chat-open")) {
-          return;
-        }
-
-        moveHuskySafely(husky);
-        setHuskyEmotion("happy", 1800);
-      }, 8200);
+      scheduleHuskyRoam(2600);
     }
 
     window.addEventListener("scroll", updateScrollEffects, { passive: true });

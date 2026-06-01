@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Hunter Ho Icon</title>
+  <defs>
+    <linearGradient id="g" x1="18" x2="110" y1="18" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff5c65"/>
+      <stop offset=".52" stop-color="#d8b987"/>
+      <stop offset="1" stop-color="#74e3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#070b12"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="url(#g)" stroke-width="6"/>
+  <path d="M17 52h28M17 76h28M83 52h28M83 76h28" stroke="#ff686f" stroke-width="7" stroke-linecap="round"/>
+  <path d="M49 38v52M79 38v52M49 64h30" fill="none" stroke="#74e3ff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

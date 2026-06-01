@@ -224,8 +224,8 @@
       client: "Useful for retailers, appliance services, vehicle workshops, insurance add-ons, and consumers who need less manual warranty management."
     },
     {
-      match: "RunJian Command",
-      story: "A RunJian simWorld command demo that presents 3D operations, dashboard signals, scenario storytelling, and a high-impact visual product direction.",
+      match: "RunJian iRun",
+      story: "A RunJian iRun SimWorld demo that presents 3D operations, dashboard signals, scenario storytelling, and a high-impact visual product direction.",
       client: "Useful for simulation platforms, industrial command centers, training demos, and teams that need to turn complex operational data into a visual story."
     },
     {

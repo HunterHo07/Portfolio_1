@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 168" role="img" aria-labelledby="title">
+  <title id="title">Hunter Ho</title>
+  <defs>
+    <linearGradient id="ring" x1="32" x2="248" y1="26" y2="142" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff5c65"/>
+      <stop offset=".48" stop-color="#d8b987"/>
+      <stop offset="1" stop-color="#74e3ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feColorMatrix in="blur" values="0 0 0 0 0.45 0 0 0 0 0.89 0 0 0 0 1 0 0 0 .5 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="280" height="168" fill="none"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M42 71h38M42 96h38M200 71h38M200 96h38" stroke="#ff686f" stroke-width="9"/>
+    <path d="M104 35 78 60v48l26 25M176 35l26 25v48l-26 25" stroke="url(#ring)" stroke-width="9"/>
+    <circle cx="140" cy="84" r="48" stroke="url(#ring)" stroke-width="5"/>
+    <path d="M122 57v54M158 57v54M122 84h36" stroke="#74e3ff" stroke-width="6"/>
+  </g>
+  <text x="140" y="154" text-anchor="middle" fill="#74e3ff" font-family="Poppins, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4">Hunter</text>
+</svg>

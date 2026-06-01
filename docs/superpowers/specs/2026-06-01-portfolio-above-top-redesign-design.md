@@ -24,6 +24,7 @@ The page must feel more visual, interactive, and premium, but text readability a
 
 ## Current Audit Findings
 
+- The Facebook reel link resolves to `https://www.facebook.com/reel/866651105780608/`, but unauthenticated access exposes only metadata and a thumbnail, not the playable video stream. The design must therefore use the user's supplied screenshot and the public metadata as direction, not claim exact frame-by-frame video analysis.
 - The hero has a strong generated banner, but the above-fold story still lacks a clear conversion flow. It should immediately offer project hiring, speaking invitation, and proof viewing.
 - `#hackathon-wins` exists, but it is too visually small. It must become a major proof area rather than a quiet row of cards.
 - `#speaker-teaching` exists and uses the right evidence, but it should feel more like a branded speaking/training proof section and less like screenshots placed below a text block.
@@ -57,6 +58,7 @@ Use one cohesive "premium operator command center" language:
 - Fewer but stronger surfaces instead of many repeated Bootstrap-style cards.
 - Real evidence images framed professionally.
 - UI text remains code-native. Generated images are only used as backgrounds, thumbnails, proof posters, or visual assets.
+- Animation direction should borrow from the Facebook reference theme: multiple website styles, fast visual switching, cinematic depth, layered panels, masked reveals, kinetic typography, and high-motion design transitions. The implementation must adapt those techniques into a readable portfolio experience rather than copying the video.
 
 Avoid:
 
@@ -85,7 +87,9 @@ Avoid:
      - IOTA Hackathon Malaysia Winner 2025.
      - ETH Hackathon Winner 2023.
    - CTAs: "Invite Hunter to teach", "Discuss a project".
-   - Existing teaching proof images should be used as evidence, but cropped/framed to reduce unrelated platform clutter.
+   - Existing teaching proof images must not be shown directly if they expose sensitive, unrelated, or third-party channel/platform details.
+   - Replace the public-facing teaching proof visuals with privacy-safe generated/stylized class visuals: no platform logos, no Discord/social icons, no dates, no times, no private channel names, no attendee identities, no unrelated text.
+   - The section should still prove: online teaching, offline/onsite class support, mentoring, AI automation, n8n/workflow, developer readiness, productivity, and public speaking invitations.
 
 3. `What I Can Build`
    - Purpose: replace resume-like skill text with client-readable capabilities.
@@ -156,23 +160,32 @@ Avoid:
 7. `Husky Helper`
    - Purpose: memorable bottom-of-page helper and WhatsApp CTA.
    - Gray/white husky, cute but professional.
-   - Appears near bottom on scroll.
+   - Sticky on screen and cannot be closed.
+   - Starts subtle, then pops up near the bottom of the page.
+   - After first popup, stays visible and occasionally moves within a safe viewport zone without covering key text or buttons.
    - Rotates short EN/CN messages.
-   - Click opens WhatsApp to the existing number.
+   - Click opens a small contact bubble with WhatsApp and email choices.
+   - Click also triggers a short celebration effect across the screen.
+   - WhatsApp uses the existing number.
    - Motion must respect `prefers-reduced-motion`.
 
 ## Motion And Interaction
 
 Use motion as proof polish, not noise:
 
-- Parallax background layers that move subtly with scroll.
+- Multi-layer parallax background with depth planes, floating particles, pointer-reactive orbs, and scroll-tied offsets.
+- Cinematic reveal sequences inspired by the Facebook reel style: masked panel reveals, fast but readable section transitions, kinetic underline sweeps, rotating spotlight highlights, and staggered proof-card entrances.
+- Scroll progress/radar effect that makes the page feel alive without becoming a game.
 - Section reveal animations that cannot hide content if JavaScript is delayed or disabled.
 - Hero proof rail entrance.
+- Magnetic CTA buttons with subtle pointer-follow glow and pressed feedback.
+- Teaching proof cards animate like a privacy-safe digital stage wall: tilt, scan light, and layered poster/card depth.
+- Hackathon win cards get trophy-style shine, timeline glow, and scroll-triggered count/proof emphasis.
 - Project hover tilt and soft glow.
 - Details drawer/modal open animation.
 - Tech-chip mini demo progress or preview animation lasting about 3-5 seconds.
 - Demo lab booth hover previews.
-- Husky idle float/tail animation.
+- Husky idle float/tail animation, random safe-position movement, rotating messages, contact bubble, and celebration particles on click.
 
 Accessibility constraints:
 
@@ -181,6 +194,9 @@ Accessibility constraints:
 - Keyboard focus states must be visible.
 - Modal/drawer must close with Escape and click outside.
 - No horizontal overflow on desktop or mobile.
+- The husky cannot be closed, but it must not trap focus or block core content.
+- Celebration effects must be short, non-flashing, and disabled/reduced for `prefers-reduced-motion`.
+- Motion quality must be checked in both light and dark themes.
 
 ## Content Rules
 
@@ -260,7 +276,9 @@ Required checks before claiming implementation complete:
 - Games Demo still has 9 entries.
 - 3D Models Demo still has 3 entries.
 - Mobile App Demo still has 2 entries with GitHub/live links.
-- Husky appears near bottom and WhatsApp link works.
+- Husky is sticky, cannot be closed, pops up near page bottom, moves randomly inside safe screen bounds, rotates EN/CN messages, opens WhatsApp/email contact choices, and triggers celebration on click.
+- Teaching/class visuals are privacy-safe: no platform logos, no sensitive event details, no private channel names, no attendee identities, no unrelated text/icons.
+- Motion verification confirms parallax, masked reveals, magnetic CTAs, proof-card animation, demo-lab hover effects, and reduced-motion fallback.
 - Generated or copied assets are in the repo if referenced by production code.
 
 ## Non-Goals For This Pass

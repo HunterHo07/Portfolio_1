@@ -397,8 +397,11 @@
     var width = Math.min(Math.max(rect.width || 360, 300), window.innerWidth - 24);
     var height = Math.min(Math.max(rect.height || 110, 92), window.innerHeight - 24);
     var edge = window.innerWidth < 600 ? 10 : 22;
-    var minX = edge;
+    var minX = window.innerWidth < 600 ? edge : Math.max(edge, Math.round(window.innerWidth * 0.46));
     var maxX = Math.max(edge, window.innerWidth - width - edge);
+    if (maxX < minX) {
+      minX = edge;
+    }
     var minY = Math.max(96, Math.round(window.innerHeight * 0.48));
     var maxY = Math.max(minY, window.innerHeight - height - edge);
     var x = minX + Math.random() * (maxX - minX);
@@ -567,10 +570,14 @@ $(document).ready(function () {
 
     $(this).addClass("active");
 
-    var target = this.hash,
-      menu = target;
+    var targetHash = this.hash;
+    var target = $(targetHash);
 
-    target = $(target);
+    if (!target.length) {
+      $(document).on("scroll", onScroll);
+      return;
+    }
+
     $("html, body")
       .stop()
       .animate(
@@ -580,7 +587,11 @@ $(document).ready(function () {
         500,
         "swing",
         function () {
-          window.location.hash = target.selector;
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, "", targetHash);
+          } else {
+            window.location.hash = targetHash;
+          }
           $(document).on("scroll", onScroll);
         }
       );

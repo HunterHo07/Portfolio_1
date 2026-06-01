@@ -1692,14 +1692,15 @@ nav ul li a {
   display: flex;
   align-items: flex-end;
   gap: 12px;
-  opacity: 0.36;
-  pointer-events: auto;
+  opacity: 0;
+  pointer-events: none;
   transform: translate3d(0, 14px, 0) scale(0.9);
   transition: opacity 0.35s ease, transform 0.35s ease, left 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), top 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .husky-helper.is-visible {
   opacity: 1;
+  pointer-events: auto;
   transform: translate3d(0, 0, 0) scale(1);
 }
 

@@ -221,6 +221,9 @@ for (const token of [
   "hero-image-ui-depth",
   "hero-image-hunter-depth",
   "hero-image-foreground",
+  "hero.headlinePhrases",
+  "heroHeadlineTypingTimer",
+  "typeHeadline",
   "heroWordIn",
   "heroTypingCaret",
   "lazyWordPulse",
@@ -259,12 +262,25 @@ for (const token of [
 
 assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js.includes("motion-radar"), "Mouse pointer radar effect should be removed");
 
+const navBlock = (css.match(/nav\s*{([\s\S]*?)}/) || [])[1] || "";
+assert.ok(/display:\s*block/.test(navBlock), "Top navbar should be visible from page load");
+assert.ok(!js.includes('$("#main-nav").slideUp(700)'), "Top navbar should not be hidden at the hero top");
+assert.ok(js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should be forced visible by JS fallback");
+assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
+
 const heroImageLayers = html.match(/class="hero-layer hero-image-layer hero-image-[^"]+"/g) || [];
 assert.equal(heroImageLayers.length, 6, `Expected six image-derived hero parallax layers, found ${heroImageLayers.length}`);
 assert.ok((css.match(/background-image: url\("\.\.\/images\/hero-founder-banner-ai\.png"\)/g) || []).length >= 1, "Hero parallax must use the real hero background image");
 const heroImageCss = css.slice(css.indexOf(".hero-image-layer"), css.indexOf("#header::after"));
 assert.ok(heroImageCss.includes("-webkit-mask-image") && heroImageCss.includes("mask-image"), "Hero image layers should use soft masks for depth");
 assert.ok(!heroImageCss.includes("clip-path:"), "Hero image parallax should avoid hard clip-path overlay shapes");
+
+const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf("[data-theme=\"dark\"] .vision-copy"));
+assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 156px)"), "Founder theater should use a large full-screen shell");
+assert.ok(founderJourneyCss.includes("position: absolute") && founderJourneyCss.includes("inset: 0"), "Founder poster should fill the full theater shell as a background layer");
+assert.ok(founderJourneyCss.includes("justify-self: end") && founderJourneyCss.includes("width: min(46vw, 520px)"), "Founder copy should be a floating side panel over the image");
+assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
+assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 
 for (const oldHeroOverlay of [
   "hero-layer-vignette",

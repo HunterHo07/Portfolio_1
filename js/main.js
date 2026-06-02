@@ -6,6 +6,7 @@
   var languageStorageKey = "portfolio-language";
   var currentLanguage = localStorage.getItem(languageStorageKey) === "zh" ? "zh" : "en";
   var heroTypingTimer = null;
+  var heroHeadlineTypingTimer = null;
 
   var translations = {
     en: {
@@ -17,6 +18,12 @@
       "nav.contact": "Contact",
       "hero.capability": "Programming & Coding : Website, Mobile App, Server, Database, System, Software, Automation, Web & Mobile Responsive, iOS & Android, Machine Learning Ai, Web3 Blockchain.",
       "hero.headline": "I build web, mobile, AI automation and systems.",
+      "hero.headlinePhrases": [
+        "I build web, mobile, AI automation and systems.",
+        "I turn messy ideas into working products.",
+        "I ship websites, apps, dashboards and automation.",
+        "I help clients solve problems the Lazy way."
+      ],
       "hero.promise": "Resolve Your Problem With The <strong>*Lazy*</strong> Way",
       "hero.ctaProject": "Hire for a project",
       "hero.ctaSpeak": "Invite me to speak",
@@ -44,6 +51,12 @@
       "nav.contact": "联系",
       "hero.capability": "编程与开发：网站、手机 App、服务器、数据库、系统、软件、自动化、响应式网页与手机、iOS 与 Android、机器学习 AI、Web3 区块链。",
       "hero.headline": "我打造网站、手机 App、AI 自动化与系统。",
+      "hero.headlinePhrases": [
+        "我打造网站、手机 App、AI 自动化与系统。",
+        "我把混乱想法变成可上线产品。",
+        "我交付网站、App、仪表板与自动化。",
+        "我用 Lazy 的聪明方式帮客户解决问题。"
+      ],
       "hero.promise": "用 <strong>*Lazy*</strong> 的聪明方式解决你的问题",
       "hero.ctaProject": "找我做项目",
       "hero.ctaSpeak": "邀请我分享",
@@ -471,12 +484,17 @@
   function setupHeroKinetics() {
     var headline = document.querySelector(".hero-headline");
     var capability = document.querySelector(".hero-capability");
+    var dictionary = translations[currentLanguage] || translations.en;
+    var headlinePhrases = dictionary["hero.headlinePhrases"] || [dictionary["hero.headline"]];
 
-    if (headline) {
-      var headlineText = headline.textContent.replace(/\s+/g, " ").trim();
-      var words = headlineText.split(" ").filter(Boolean);
+    if (heroHeadlineTypingTimer) {
+      window.clearTimeout(heroHeadlineTypingTimer);
+      heroHeadlineTypingTimer = null;
+    }
+
+    function renderIntroHeadline(text) {
+      var words = text.replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
       headline.textContent = "";
-
       words.forEach(function (word, index) {
         var span = document.createElement("span");
         span.className = "hero-word";
@@ -488,6 +506,55 @@
           headline.appendChild(document.createTextNode(" "));
         }
       });
+    }
+
+    if (headline) {
+      headline.setAttribute("aria-live", "polite");
+
+      if (isReducedMotion()) {
+        headline.classList.remove("is-typing");
+        renderIntroHeadline(headlinePhrases[0]);
+      } else {
+        var phraseIndex = 0;
+        var characterIndex = 0;
+        var deleting = false;
+        var holdCycles = 0;
+
+        headline.classList.add("is-typing");
+        headline.textContent = "";
+
+        function typeHeadline() {
+          var phrase = headlinePhrases[phraseIndex] || "";
+          var delay = deleting ? 18 : 24;
+
+          if (!deleting && characterIndex < phrase.length) {
+            characterIndex += 1;
+            headline.textContent = phrase.slice(0, characterIndex);
+          } else if (!deleting) {
+            headline.textContent = phrase;
+            holdCycles += 1;
+            delay = holdCycles > 8 ? 28 : 70;
+            if (holdCycles > 8 && headlinePhrases.length > 1) {
+              deleting = true;
+              holdCycles = 0;
+            }
+          } else if (deleting) {
+            characterIndex -= 1;
+            headline.textContent = phrase.slice(0, Math.max(characterIndex, 0));
+
+            if (characterIndex <= 0) {
+              deleting = false;
+              phraseIndex = (phraseIndex + 1) % headlinePhrases.length;
+              characterIndex = 0;
+              delay = 150;
+            }
+          }
+
+          heroHeadlineTypingTimer = window.setTimeout(typeHeadline, delay);
+        }
+
+        typeHeadline();
+      }
     }
 
     if (!capability) {
@@ -1065,21 +1132,9 @@ $(document).ready(function () {
     }
   }
 
-  // ========================================================================= //
-  //  //NAVBAR SHOW - HIDE
-  // ========================================================================= //
-
-  $(window).scroll(function () {
-    var scroll = $(window).scrollTop();
-    if (scroll > 200) {
-      $("#main-nav, #main-nav-subpage").slideDown(700);
-      $("#main-nav-subpage").removeClass("subpage-nav");
-    } else {
-      $("#main-nav").slideUp(700);
-      $("#main-nav-subpage").hide();
-      $("#main-nav-subpage").addClass("subpage-nav");
-    }
-  });
+  // Keep the portfolio navigation visible from the first hero frame.
+  $("#main-nav, #main-nav-subpage").show();
+  $("#main-nav-subpage").removeClass("subpage-nav");
 
   // ========================================================================= //
   //  // RESPONSIVE MENU

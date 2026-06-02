@@ -516,12 +516,12 @@
         renderIntroHeadline(headlinePhrases[0]);
       } else {
         var phraseIndex = 0;
-        var characterIndex = 0;
+        var characterIndex = (headlinePhrases[0] || "").length;
         var deleting = false;
         var holdCycles = 0;
 
-        headline.classList.add("is-typing");
-        headline.textContent = "";
+        headline.classList.remove("is-typing");
+        renderIntroHeadline(headlinePhrases[0] || "");
 
         function typeHeadline() {
           var phrase = headlinePhrases[phraseIndex] || "";
@@ -553,7 +553,11 @@
           heroHeadlineTypingTimer = window.setTimeout(typeHeadline, delay);
         }
 
-        typeHeadline();
+        heroHeadlineTypingTimer = window.setTimeout(function () {
+          headline.classList.add("is-typing");
+          headline.textContent = headlinePhrases[0] || "";
+          typeHeadline();
+        }, 2800);
       }
     }
 

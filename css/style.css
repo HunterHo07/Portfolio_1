@@ -475,11 +475,11 @@ nav ul li a {
   --from-r: 1deg;
   --delay: 0.24s;
   --scroll-speed: -145px;
-  --final-opacity: 0.3;
-  background-position: right center;
+  --final-opacity: 0.22;
+  background-position: center center;
   filter: saturate(1.08) contrast(1.18) brightness(0.86);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0 44%, rgba(0, 0, 0, 0.48) 62%, #000 100%);
-  mask-image: linear-gradient(90deg, transparent 0 44%, rgba(0, 0, 0, 0.48) 62%, #000 100%);
+  -webkit-mask-image: radial-gradient(ellipse at 76% 22%, rgba(0, 0, 0, 0.72) 0 18%, rgba(0, 0, 0, 0.26) 36%, transparent 62%);
+  mask-image: radial-gradient(ellipse at 76% 22%, rgba(0, 0, 0, 0.72) 0 18%, rgba(0, 0, 0, 0.26) 36%, transparent 62%);
 }
 
 .hero-image-hunter-depth {
@@ -489,11 +489,11 @@ nav ul li a {
   --from-r: 0.5deg;
   --delay: 0.34s;
   --scroll-speed: -62px;
-  --final-opacity: 0.42;
-  background-position: right center;
+  --final-opacity: 0.28;
+  background-position: center center;
   filter: saturate(0.98) contrast(1.08) brightness(0.82);
-  -webkit-mask-image: radial-gradient(ellipse at 86% 42%, #000 0 22%, rgba(0, 0, 0, 0.56) 44%, transparent 74%);
-  mask-image: radial-gradient(ellipse at 86% 42%, #000 0 22%, rgba(0, 0, 0, 0.56) 44%, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse at 63% 42%, rgba(0, 0, 0, 0.74) 0 20%, rgba(0, 0, 0, 0.42) 40%, transparent 68%);
+  mask-image: radial-gradient(ellipse at 63% 42%, rgba(0, 0, 0, 0.74) 0 20%, rgba(0, 0, 0, 0.42) 40%, transparent 68%);
 }
 
 .hero-image-foreground {

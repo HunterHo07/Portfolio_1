@@ -165,6 +165,7 @@ assert.ok(!html.includes('>ReportU <br /> D1<'), "ReportU card should use projec
 assert.ok(html.indexOf("3D Models Demo") > html.indexOf("Games Demo"), "3D Models section should be separated after games section");
 assert.ok((html.match(/Games Demo/g) || []).length >= 1, "Games Demo heading should exist");
 assert.ok((html.match(/<div class="col-lg-4 col-md-6">/g) || []).length >= 9, "Expected expanded game/demo card layout");
+assert.equal((html.match(/data-project-title="Games Demo -/g) || []).length, 9, "Every Games Demo card should have a Details button");
 
 const themeSelectors = [
   ":root",

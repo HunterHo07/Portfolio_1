@@ -128,11 +128,10 @@ const requiredAssets = [
   "images/demo-thumb-mobile-warrantyscan-alt.png",
   "images/demo-thumb-mobile-namecard.png",
   "images/demo-thumb-mobile-namecard-alt.png",
-  "images/teaching/teaching-proof-board.png",
-  "images/teaching/teaching-proof-n8n.png",
-  "images/teaching/teaching-proof-non-it.png",
-  "images/teaching/teaching-proof-readiness.png",
-  "images/teaching/teaching-proof-productivity.png",
+  "images/teaching/teaching-safe-online.png",
+  "images/teaching/teaching-safe-onsite.png",
+  "images/teaching/teaching-safe-stage.png",
+  "images/teaching/teaching-safe-workflow.png",
   "images/ui/cinematic-product-overlay.jpg",
   "images/ui/hackathon-proof-stage.png",
   "images/ui/husky-idle.png",
@@ -206,11 +205,10 @@ for (const token of [
   "magnetic-cta",
   "proof-motion-wall",
   "privacy-safe-teaching",
-  "teaching-proof-board.png",
-  "teaching-proof-n8n.png",
-  "teaching-proof-non-it.png",
-  "teaching-proof-readiness.png",
-  "teaching-proof-productivity.png",
+  "teaching-safe-online.png",
+  "teaching-safe-onsite.png",
+  "teaching-safe-stage.png",
+  "teaching-safe-workflow.png",
   "speaker-proof-note",
   "hero-parallax-stack",
   "hero-layer",
@@ -242,6 +240,10 @@ for (const token of [
   "scheduleHuskyRoam",
   "setupHeroKinetics",
   "setupFounderJourney",
+  "setupSingleHunterFocus",
+  "data-hunter-zone",
+  "is-hunter-active",
+  "hunterRevealIn",
   "setupProjectThumbnailLoops",
   "setupSectionParallax",
   "data-alt-thumb",
@@ -267,6 +269,9 @@ assert.ok(/display:\s*block/.test(navBlock), "Top navbar should be visible from 
 assert.ok(!js.includes('$("#main-nav").slideUp(700)'), "Top navbar should not be hidden at the hero top");
 assert.ok(js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should be forced visible by JS fallback");
 assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
+assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
+assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
+assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");
 
 const heroImageLayers = html.match(/class="hero-layer hero-image-layer hero-image-[^"]+"/g) || [];
 assert.equal(heroImageLayers.length, 6, `Expected six image-derived hero parallax layers, found ${heroImageLayers.length}`);
@@ -309,7 +314,12 @@ for (const sensitiveTeachingAsset of [
   "images/teaching/teaching-n8n-event.jpeg",
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
   "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg"
+  "images/teaching/teaching-productivity.jpeg",
+  "images/teaching/teaching-proof-board.png",
+  "images/teaching/teaching-proof-n8n.png",
+  "images/teaching/teaching-proof-non-it.png",
+  "images/teaching/teaching-proof-readiness.png",
+  "images/teaching/teaching-proof-productivity.png"
 ]) {
   assert.ok(!html.includes(sensitiveTeachingAsset), `Sensitive teaching asset should not be public-facing: ${sensitiveTeachingAsset}`);
 }

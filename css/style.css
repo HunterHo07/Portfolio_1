@@ -535,6 +535,52 @@ nav ul li a {
   z-index: 2;
 }
 
+[data-hunter-zone] {
+  --hunter-reveal: 0;
+}
+
+[data-hunter-zone].is-hunter-active {
+  --hunter-reveal: 1;
+}
+
+#header[data-hunter-zone]:not(.is-hunter-active) .hero-image-hunter-depth {
+  --final-opacity: 0;
+  opacity: 0 !important;
+}
+
+.vision-profile-card[data-hunter-zone],
+.about-img[data-hunter-zone] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.vision-profile-card[data-hunter-zone]::after,
+.about-img[data-hunter-zone]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 52% 38%, rgba(116, 227, 255, 0.16), transparent 24%),
+    linear-gradient(135deg, rgba(5, 7, 12, 0.22), rgba(5, 7, 12, 0.9));
+  opacity: calc(1 - var(--hunter-reveal));
+  transition: opacity 0.55s ease;
+}
+
+.vision-profile-card[data-hunter-zone]:not(.is-hunter-active) img,
+.about-img[data-hunter-zone]:not(.is-hunter-active) img {
+  filter: brightness(0.03) saturate(0) contrast(1.3);
+  opacity: 0.28;
+  transform: scale(1.04);
+}
+
+.vision-profile-card[data-hunter-zone].is-hunter-active img,
+.about-img[data-hunter-zone].is-hunter-active img {
+  animation: hunterRevealIn 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 #header .header-content {
   height: 100vh;
   text-align: left;
@@ -1192,9 +1238,45 @@ nav ul li a {
   z-index: 2;
   pointer-events: none;
   background:
-    radial-gradient(circle at 39% 48%, transparent 0 21%, rgba(5, 7, 12, 0.1) 34%, rgba(5, 7, 12, 0.52) 76%),
-    linear-gradient(90deg, rgba(5, 7, 12, 0.16) 0%, rgba(5, 7, 12, 0.08) 42%, rgba(5, 7, 12, 0.86) 78%, rgba(5, 7, 12, 0.96) 100%),
-    linear-gradient(180deg, rgba(5, 7, 12, 0.55), transparent 28%, transparent 68%, rgba(5, 7, 12, 0.68));
+    linear-gradient(90deg, rgba(5, 7, 12, 0.7), rgba(5, 7, 12, 0.94) 72%, rgba(5, 7, 12, 0.99)),
+    radial-gradient(circle at var(--journey-mask-x, 50%) var(--journey-mask-y, 45%), rgba(116, 227, 255, 0.18), transparent 28%),
+    rgba(5, 7, 12, 0.98);
+  -webkit-mask-image: radial-gradient(ellipse var(--journey-mask-rx, 20%) var(--journey-mask-ry, 16%) at var(--journey-mask-x, 39%) var(--journey-mask-y, 45%), transparent 0 35%, rgba(0, 0, 0, 0.78) 49%, #000 66%);
+  mask-image: radial-gradient(ellipse var(--journey-mask-rx, 20%) var(--journey-mask-ry, 16%) at var(--journey-mask-x, 39%) var(--journey-mask-y, 45%), transparent 0 35%, rgba(0, 0, 0, 0.78) 49%, #000 66%);
+  transition: -webkit-mask-image 0.55s ease, mask-image 0.55s ease, background 0.55s ease;
+}
+
+.founder-poster-stage::after {
+  content: "";
+  position: absolute;
+  left: clamp(28px, 5.5vw, 82px);
+  top: 10%;
+  bottom: 10%;
+  z-index: 5;
+  width: min(42vw, 430px);
+  border: 1px solid rgba(216, 185, 135, 0.36);
+  border-radius: 38px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(5, 7, 12, 0.18)),
+    url("../images/founder-portrait.jpeg") center 34% / cover no-repeat;
+  box-shadow:
+    0 40px 110px rgba(0, 0, 0, 0.58),
+    0 0 0 1px rgba(116, 227, 255, 0.12) inset,
+    0 0 46px rgba(116, 227, 255, 0.2);
+  opacity: var(--hunter-reveal);
+  transform: translate3d(calc((1 - var(--hunter-reveal)) * -42px), calc((1 - var(--hunter-reveal)) * 28px), 0) scale(calc(0.92 + (var(--hunter-reveal) * 0.08)));
+  transition: opacity 0.62s ease, transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.founder-poster-stage[data-hunter-zone]:not(.is-hunter-active)::before {
+  background: rgba(5, 7, 12, 0.92);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.founder-poster-stage[data-hunter-zone]:not(.is-hunter-active) img {
+  filter: brightness(0.08) saturate(0) contrast(1.22);
 }
 
 .founder-poster-mask {
@@ -1207,7 +1289,7 @@ nav ul li a {
     radial-gradient(circle at calc(44% + (var(--journey-step, 0) * 3%)) calc(42% + (var(--journey-step, 0) * 5%)), transparent 0 15%, rgba(216, 185, 135, 0.2) 15.4%, transparent 16.2%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 18% 78%, rgba(216, 185, 135, 0.08));
   mix-blend-mode: screen;
-  opacity: 0.78;
+  opacity: 0.34;
   pointer-events: none;
   transition: background-position 0.55s ease, opacity 0.55s ease;
 }
@@ -2797,6 +2879,19 @@ nav ul li a {
   }
 }
 
+@keyframes hunterRevealIn {
+  0% {
+    opacity: 0.28;
+    filter: brightness(0.12) saturate(0) blur(6px);
+    transform: translate3d(0, 24px, 0) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    filter: saturate(0.92) contrast(1.05) brightness(0.98);
+    transform: translate3d(0, 0, 0) scale(1.01);
+  }
+}
+
 @keyframes lazyWordPulse {
   0%,
   100% {
@@ -3080,6 +3175,17 @@ nav ul li a {
     linear-gradient(0deg, rgba(216, 185, 135, 0.12) 0 1px, transparent 1px);
   background-size: 88px 88px;
   opacity: 0.18;
+}
+
+#footer[data-hunter-zone]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(5, 7, 12, 0.22), rgba(5, 7, 12, 0.86));
+  opacity: calc(1 - var(--hunter-reveal));
+  transition: opacity 0.55s ease;
 }
 
 #footer .container {

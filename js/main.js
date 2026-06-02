@@ -601,11 +601,25 @@
 
     var steps = Array.prototype.slice.call(journey.querySelectorAll(".founder-journey-steps li"));
     var maxIndex = Math.max(steps.length - 1, 0);
+    var focusPoints = [
+      { x: "39%", y: "38%", rx: "25%", ry: "23%" },
+      { x: "27%", y: "50%", rx: "23%", ry: "20%" },
+      { x: "38%", y: "30%", rx: "23%", ry: "20%" },
+      { x: "40%", y: "38%", rx: "25%", ry: "23%" },
+      { x: "35%", y: "77%", rx: "23%", ry: "20%" },
+      { x: "28%", y: "25%", rx: "22%", ry: "18%" },
+      { x: "40%", y: "38%", rx: "25%", ry: "23%" }
+    ];
 
     function setActiveStep(activeIndex) {
+      var focusPoint = focusPoints[activeIndex] || focusPoints[0];
       journey.setAttribute("data-active-step", String(activeIndex));
       journey.style.setProperty("--journey-step", activeIndex);
       journey.style.setProperty("--journey-focus", maxIndex > 0 ? (activeIndex / maxIndex) * 100 + "%" : "0%");
+      journey.style.setProperty("--journey-mask-x", focusPoint.x);
+      journey.style.setProperty("--journey-mask-y", focusPoint.y);
+      journey.style.setProperty("--journey-mask-rx", focusPoint.rx);
+      journey.style.setProperty("--journey-mask-ry", focusPoint.ry);
 
       steps.forEach(function (step, index) {
         step.classList.toggle("is-active", index === activeIndex);
@@ -673,6 +687,59 @@
     window.addEventListener("scroll", requestSectionDepth, { passive: true });
     window.addEventListener("resize", requestSectionDepth);
     updateSectionDepth();
+  }
+
+  function setupSingleHunterFocus() {
+    var hunterZones = Array.prototype.slice.call(document.querySelectorAll("[data-hunter-zone]"));
+
+    if (!hunterZones.length) {
+      return;
+    }
+
+    var ticking = false;
+
+    function updateHunterFocus() {
+      ticking = false;
+
+      var viewportHeight = window.innerHeight || 1;
+      var viewportCenter = viewportHeight * 0.48;
+      var activeZone = null;
+      var bestDistance = Number.POSITIVE_INFINITY;
+
+      hunterZones.forEach(function (zone) {
+        var rect = zone.getBoundingClientRect();
+        var overlap = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+
+        if (overlap <= 0) {
+          return;
+        }
+
+        var zoneCenter = rect.top + rect.height / 2;
+        var distance = Math.abs(zoneCenter - viewportCenter);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          activeZone = zone;
+        }
+      });
+
+      hunterZones.forEach(function (zone) {
+        zone.classList.toggle("is-hunter-active", zone === activeZone);
+      });
+    }
+
+    function requestHunterFocus() {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(updateHunterFocus);
+    }
+
+    window.addEventListener("scroll", requestHunterFocus, { passive: true });
+    window.addEventListener("resize", requestHunterFocus);
+    updateHunterFocus();
   }
 
   function setupProjectThumbnailLoops() {
@@ -1057,6 +1124,7 @@
       setupProjectDetails();
       setupProjectThumbnailLoops();
       setupSectionParallax();
+      setupSingleHunterFocus();
       setupMagneticEffects();
       setupFounderJourney();
       setupMotionAndHelper();
@@ -1067,6 +1135,7 @@
     setupProjectDetails();
     setupProjectThumbnailLoops();
     setupSectionParallax();
+    setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
     setupMotionAndHelper();

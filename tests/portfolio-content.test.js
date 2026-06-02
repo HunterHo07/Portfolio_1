@@ -214,6 +214,13 @@ for (const token of [
   "speaker-proof-note",
   "hero-parallax-stack",
   "hero-layer",
+  "hero-image-layer",
+  "hero-image-base",
+  "hero-image-left-depth",
+  "hero-image-workdesk",
+  "hero-image-ui-depth",
+  "hero-image-hunter-depth",
+  "hero-image-foreground",
   "heroWordIn",
   "heroTypingCaret",
   "lazyWordPulse",
@@ -251,6 +258,27 @@ for (const token of [
 }
 
 assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js.includes("motion-radar"), "Mouse pointer radar effect should be removed");
+
+const heroImageLayers = html.match(/class="hero-layer hero-image-layer hero-image-[^"]+"/g) || [];
+assert.equal(heroImageLayers.length, 6, `Expected six image-derived hero parallax layers, found ${heroImageLayers.length}`);
+assert.ok((css.match(/background-image: url\("\.\.\/images\/hero-founder-banner-ai\.png"\)/g) || []).length >= 1, "Hero parallax must use the real hero background image");
+const heroImageCss = css.slice(css.indexOf(".hero-image-layer"), css.indexOf("#header::after"));
+assert.ok(heroImageCss.includes("-webkit-mask-image") && heroImageCss.includes("mask-image"), "Hero image layers should use soft masks for depth");
+assert.ok(!heroImageCss.includes("clip-path:"), "Hero image parallax should avoid hard clip-path overlay shapes");
+
+for (const oldHeroOverlay of [
+  "hero-layer-vignette",
+  "hero-layer-grid",
+  "hero-layer-code-left",
+  "hero-layer-code-right",
+  "hero-layer-orbit",
+  "hero-layer-node",
+  "hero-layer-wave",
+  "hero-layer-scan",
+  "heroScanSweep"
+]) {
+  assert.ok(!html.includes(oldHeroOverlay) && !css.includes(oldHeroOverlay) && !js.includes(oldHeroOverlay), `Old CSS-drawn hero overlay should be removed: ${oldHeroOverlay}`);
+}
 
 const thumbnailLoops = html.match(/data-alt-thumb="images\/[^"]+-alt\.png"/g) || [];
 assert.ok(thumbnailLoops.length >= 30, `Expected at least 30 real second-state thumbnail loops, found ${thumbnailLoops.length}`);

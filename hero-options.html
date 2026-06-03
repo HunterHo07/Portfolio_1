@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero Options - Programmer Hunter</title>
+    <link rel="preload" as="image" href="images/hero-options/option-a-cinematic-source.png" />
+    <link rel="preload" as="image" href="images/hero-options/option-c-three-source.png" />
+    <link href="css/hero-options.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="option-nav" aria-label="Hero option navigation">
+      <a class="option-logo" href="index.html" aria-label="Back to portfolio">
+        <img src="images/logo.svg" width="82" height="49" alt="Hunter Ho logo" />
+      </a>
+      <nav class="option-links" aria-label="Hero choices">
+        <a href="#option-a">Option A</a>
+        <a href="#option-c">Option C</a>
+        <a href="index.html#header">Current</a>
+      </nav>
+    </header>
+
+    <main class="hero-option-page">
+      <section id="option-a" class="hero-preview cinematic-hero" data-hero-preview="option-a" aria-labelledby="option-a-title">
+        <div class="cinematic-stage" aria-hidden="true">
+          <span class="cinematic-plane plane-01" data-depth="-5"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-02" data-depth="-4"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-03" data-depth="-3"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-04" data-depth="-2"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-05" data-depth="-1"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-06" data-depth="1"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-07" data-depth="2"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-08" data-depth="3"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-09" data-depth="4"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-10" data-depth="5"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-11" data-depth="6"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-12" data-depth="7"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-13" data-depth="8"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-14" data-depth="9"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-15" data-depth="10"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-16" data-depth="11"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-17" data-depth="12"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+          <span class="cinematic-plane plane-18" data-depth="13"><img src="images/hero-options/option-a-cinematic-source.png" alt="" /></span>
+        </div>
+        <div class="hero-copy">
+          <p class="option-kicker">Option A - Cinematic Layers</p>
+          <h1 id="option-a-title">I help clients solve problems the Lazy way.</h1>
+          <p class="hero-subcopy">Programming and coding across websites, mobile apps, systems, automation, AI workflows, and Web3 products.</p>
+          <div class="hero-actions" aria-label="Option A actions">
+            <a href="#option-c" class="primary-action">Compare Option C</a>
+            <button type="button" class="ghost-action" data-choice="option-a">Pick Option A</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="option-c" class="hero-preview three-hero" data-hero-preview="option-c" aria-labelledby="option-c-title">
+        <img class="three-source" src="images/hero-options/option-c-three-source.png" alt="" aria-hidden="true" />
+        <canvas class="three-canvas" id="three-canvas" aria-hidden="true"></canvas>
+        <div class="three-orbit-field" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="hero-copy">
+          <p class="option-kicker">Option C - Interactive 3D</p>
+          <h1 id="option-c-title">I turn complex systems into clear products.</h1>
+          <p class="hero-subcopy">A real-time 3D command core shows AI automation, product architecture, and shipped software as one connected system.</p>
+          <div class="hero-actions" aria-label="Option C actions">
+            <a href="#option-a" class="primary-action">Compare Option A</a>
+            <button type="button" class="ghost-action" data-choice="option-c">Pick Option C</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="choice-toast" role="status" aria-live="polite"></div>
+    <script src="js/hero-options.js"></script>
+  </body>
+</html>

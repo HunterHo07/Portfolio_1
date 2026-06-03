@@ -6,6 +6,74 @@ const css = fs.readFileSync("css/style.css", "utf8");
 const responsiveCss = fs.readFileSync("css/responsive.css", "utf8");
 const js = fs.readFileSync("js/main.js", "utf8");
 
+for (const agentContextFile of ["AGENTS.md", "SKILL.md", "LLM.md"]) {
+  assert.ok(fs.existsSync(agentContextFile), `Missing project guidance file: ${agentContextFile}`);
+  const content = fs.readFileSync(agentContextFile, "utf8");
+  assert.ok(content.includes("Portfolio_1") && content.includes("CX") && content.includes("performance"), `${agentContextFile} should capture Portfolio_1 CX/performance guidance`);
+}
+
+const headHtml = html.slice(html.indexOf("<head>"), html.indexOf("</head>"));
+assert.ok(!/<script\s+src=/.test(headHtml), "Head should not contain external render-blocking scripts");
+assert.ok(headHtml.includes('rel="preconnect" href="https://fonts.googleapis.com"'), "Head should preconnect to Google Fonts");
+assert.ok(headHtml.includes('rel="preconnect" href="https://fonts.gstatic.com" crossorigin'), "Head should preconnect to Google font assets");
+assert.ok(headHtml.includes('rel="preload" as="image" href="images/hero-options/option-c-three-source.png"'), "Head should preload only the active hero source image");
+assert.ok(!headHtml.includes('rel="preload" as="image" href="images/founder-banner.jpeg"') && !headHtml.includes('rel="preload" as="image" href="images/founder-vision-poster.jpeg"'), "Below-fold images should not be preloaded");
+assert.ok(html.includes('class="hero-three-source" src="images/hero-options/option-c-three-source.png" width="1792" height="1024" alt="" loading="eager" decoding="async" fetchpriority="high"'), "Hero source image should be eager, async-decoded, and high priority");
+assert.ok(css.includes(".hero-three-stage::before") && css.includes("filter: blur(20px)") && css.includes("hero blur placeholder"), "Hero should have a lightweight blur placeholder before the hero image loads");
+assert.ok(!html.includes('src="lib/typed/typed.js"') && !html.includes('src="lib/owlcarousel/owl.carousel.min.js"') && !html.includes('src="lib/magnific-popup/magnific-popup.min.js"') && !html.includes('src="lib/isotope/isotope.pkgd.min.js"'), "Optional UI libraries should not be loaded as page-level script tags");
+assert.ok(!html.includes('src="lib/jquery/jquery-migrate.min.js"') && !html.includes('src="contactform/contactform.js"') && !html.includes("https://smtpjs.com/v3/smtp.js"), "Unused legacy scripts should not load on the critical path");
+assert.ok(js.includes("loadScriptOnce") && js.includes("loadOptionalPortfolioPlugins") && js.includes("runWhenElementIsNear") && js.includes("IntersectionObserver") && js.includes("lib/magnific-popup/magnific-popup.min.js"), "Optional libraries should be viewport-gated and lazy-loaded by main.js only when needed");
+
+for (const match of html.matchAll(/<img\b[^>]*>/g)) {
+  const tag = match[0];
+  const src = (tag.match(/src="([^"]+)"/) || [])[1] || "";
+  const isLogo = src.endsWith("logo.svg");
+  const isHero = tag.includes("hero-three-source");
+
+  assert.ok(/\bwidth="/.test(tag) && /\bheight="/.test(tag), `Image should include stable dimensions: ${src}`);
+
+  if (!isLogo) {
+    assert.ok(/\bdecoding="async"/.test(tag), `Image should decode async: ${src}`);
+  }
+
+  if (isHero) {
+    assert.ok(/\bloading="eager"/.test(tag), `Hero image should be eager: ${src}`);
+  } else if (!isLogo) {
+    assert.ok(/\bloading="lazy"/.test(tag), `Below-fold or delayed image should be lazy: ${src}`);
+  }
+}
+
+for (const match of html.matchAll(/<iframe\b[^>]*>/g)) {
+  const tag = match[0];
+  const src = (tag.match(/src="([^"]+)"/) || [])[1] || "";
+  assert.ok(/\bloading="lazy"/.test(tag), `Below-fold iframe should be lazy: ${src}`);
+}
+
+assert.ok(fs.existsSync("hero-options.html"), "Hero picker page should exist so Option A and Option C can be compared before replacing the homepage hero");
+const heroOptionsHtml = fs.readFileSync("hero-options.html", "utf8");
+const heroOptionsCss = fs.readFileSync("css/hero-options.css", "utf8");
+const heroOptionsJs = fs.readFileSync("js/hero-options.js", "utf8");
+
+const heroOptionAssets = [
+  "images/hero-options/option-a-cinematic-source.png",
+  "images/hero-options/option-c-three-source.png"
+];
+for (const asset of heroOptionAssets) {
+  assert.ok(fs.existsSync(asset), `Missing generated hero option source image: ${asset}`);
+  assert.ok(fs.statSync(asset).size > 10000, `Generated hero option source image looks too small: ${asset}`);
+}
+
+assert.ok(heroOptionsHtml.includes("data-hero-preview=\"option-a\""), "Hero picker should include Option A cinematic layer preview");
+assert.ok(heroOptionsHtml.includes("data-hero-preview=\"option-c\""), "Hero picker should include Option C interactive 3D preview");
+const cinematicPlanes = heroOptionsHtml.match(/class="cinematic-plane/g) || [];
+assert.ok(cinematicPlanes.length >= 18, `Option A should expose at least 18 visible depth planes, found ${cinematicPlanes.length}`);
+assert.ok(heroOptionsHtml.includes("option-a-cinematic-source.png"), "Option A should use the generated cinematic source image");
+assert.ok(heroOptionsHtml.includes("option-c-three-source.png"), "Option C should use the generated 3D source image");
+assert.ok(heroOptionsHtml.includes("three-canvas") && heroOptionsJs.includes("initThreeHero"), "Option C should mount a dedicated 3D scene hook");
+assert.ok(heroOptionsCss.includes("perspective:") && heroOptionsCss.includes("--plane-depth"), "Hero options CSS should support real depth-plane transforms");
+assert.ok(heroOptionsJs.includes("requestAnimationFrame") && heroOptionsJs.includes("prefers-reduced-motion"), "Hero options should animate efficiently and respect reduced motion");
+assert.ok(heroOptionsJs.includes("preserveDrawingBuffer: true"), "Option C Three.js renderer should preserve the frame buffer so browser verification can sample nonblank canvas pixels");
+
 const requiredText = [
   "C#",
   "ASP.NET Core 10",
@@ -42,7 +110,8 @@ const requiredText = [
   "project-assets-section",
   "hero-capability",
   "hero-promise",
-  "TrillionUnicorn OSS & Startup Lab",
+  "TrillionUnicorn Startup Lab",
+  "Turn on sound for the full startup story",
   "OpenChance",
   "WorkFree",
   "CTOrendang",
@@ -62,7 +131,7 @@ const requiredText = [
   "Founder Proof Theater",
   "One Hunter. Seven proof moments.",
   "Champion Stage",
-  "Portfolio v1.6.5",
+  "Hunter v1.6.6",
 ];
 
 const requiredUrls = [
@@ -115,7 +184,6 @@ const requiredAssets = [
   "images/founder-portrait.jpeg",
   "images/logo.svg",
   "images/favicon.svg",
-  "images/founder-vision-poster.jpeg",
   "images/demo-thumb-bestzdeal-feature.png",
   "images/demo-thumb-travel-feature.png",
   "images/demo-thumb-sim-work-d27.png",
@@ -158,11 +226,8 @@ const requiredAssets = [
   "images/ui/husky-happy.png",
   "images/ui/husky-excited.png",
   "images/ui/husky-contact.png",
-  "images/contact-footer-bg-v2.webp",
-  "images/contact-footer-layers/contact-footer-layer-01-backdrop.webp",
-  "images/contact-footer-layers/contact-footer-layer-02-ui.webp",
-  "images/contact-footer-layers/contact-footer-layer-03-person.webp",
-  "images/contact-footer-layers/contact-footer-layer-04-wave.webp",
+  "images/founder-banner.jpeg",
+  "images/hero-layers/hero-layer-04-hunter.webp",
 ];
 
 for (const text of requiredText) {
@@ -224,12 +289,52 @@ for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggl
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
 
-assert.ok(html.includes("contact-parallax-bg"), "Contact/footer section should use a layered parallax background");
-assert.ok(js.includes("--contact-layer-x"), "Contact parallax layers should receive scroll-based x offsets");
-assert.ok(js.includes("--contact-layer-y"), "Contact parallax layers should receive scroll-based y offsets");
+assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner.jpeg"), "Contact/footer section should use founder-banner.jpeg as its background");
+assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
+assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
+assert.ok(css.includes(".contact-footer-bg img") && css.includes("object-position: center center"), "Founder footer background should be styled as a real image background");
+assert.ok(!css.includes(".contact-parallax-bg") && !css.includes(".contact-layer-person"), "Contact/footer CSS should not keep the old layered parallax selectors");
+const visibleHtmlText = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+for (const footerText of [
+  "MALAYSIA & SINGAPORE (On-Site) / Worldwide (Remote Any Timezone )",
+  "KUALU LUMPUR, SELANGOR, PENANG, JOHOR BAHRU",
+  "Whatsapp: +60 016-2199186",
+  "Email: HunterHo.My@gmail.com",
+  "Linkedin: Profile",
+  "50% Discount",
+  "Of Your Current Using Service (Any Server/Hosting)"
+]) {
+  assert.ok(visibleHtmlText.includes(footerText), `Missing footer contact text: ${footerText}`);
+}
+assert.ok(html.includes('href="https://my.linkedin.com/in/hunter-ho-0bb450114"'), "Missing LinkedIn profile link");
 assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center center / cover no-repeat'), "Footer should not reuse the hero banner as a cover background");
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
+assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
+assert.ok(html.includes('<a class="release-badge" href="https://github.com/HunterHo07"') && html.includes("Hunter v1.6.6"), "Release badge should link to Hunter GitHub profile and use Hunter version label");
+assert.ok(!html.includes("Portfolio v1.6.6") && !html.includes("Portfolio_1/releases/tag/v1.6.6"), "Release badge should no longer use the Portfolio release label or release URL");
+assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
+assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
+assert.ok(!html.includes("Invite me to speak") && !js.includes("Invite me to speak") && !html.includes("View proof") && !js.includes('"hero.ctaProof": "View proof"'), "Hero CTAs should not keep the unclear old labels");
+assert.ok(html.includes('class="hero-hunter-popup"') && html.includes("data-hero-hunter-message"), "Hero should include the delayed Hunter popup markup");
+assert.ok(html.includes("images/hero-layers/hero-layer-04-hunter.webp"), "Hero Hunter popup should use the supplied hero-layer-04-hunter image");
+assert.ok(css.includes(".hero-hunter-popup") && css.includes(".hero-hunter-popup.is-visible") && css.includes(".hero-hunter-popup.is-leaving"), "Hero Hunter popup should include visible and leaving styles");
+assert.ok(css.includes("@keyframes heroHunterIntro") && css.includes("@keyframes heroHunterOutro"), "Hero Hunter popup should include intro and outro animation keyframes");
+assert.ok(js.includes("setupHeroHunterPopup") && js.includes("heroHunterDelay = 15000"), "Hero Hunter popup should wait 15 seconds before showing");
+assert.ok(js.includes("heroHunterMessages") && js.includes("data-hero-hunter-message"), "Hero Hunter popup should rotate through random messages");
+assert.ok(js.includes("isHeroSectionActive") && js.includes("hero-hunter-popup") && js.includes("is-leaving"), "Hero Hunter popup should hide with an outro when the hero is no longer active");
+
+const heroIndex = html.indexOf('id="header"');
+const labIndex = html.indexOf('id="trillionunicorn-lab"');
+const visionIndex = html.indexOf('id="founder-vision"');
+assert.ok(heroIndex !== -1 && labIndex !== -1 && visionIndex !== -1, "Hero, startup lab, and founder vision sections should exist");
+assert.ok(heroIndex < labIndex && labIndex < visionIndex, "Startup lab should be the second section immediately after the hero");
+assert.ok(html.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"), "Startup lab should embed the requested YouTube video");
+assert.ok(html.includes("allowfullscreen"), "Startup video should allow fullscreen playback");
+assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should include a direct YouTube link fallback");
+assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
+assert.ok(!html.includes("startup-metrics") && !html.includes("startup-grid") && !html.includes("Platform Foundation"), "Startup lab should not keep the old heavy metric/card grid");
+assert.ok(css.includes(".startup-video-frame") && css.includes(".startup-icon-row") && css.includes(".startup-sound-note"), "Startup lab should include focused video and compact icon styling");
 
 for (const token of [
   "hero-actions",
@@ -241,31 +346,30 @@ for (const token of [
   "teaching-safe-stage.png",
   "teaching-safe-workflow.png",
   "speaker-proof-note",
-  "hero-parallax-stack",
-  "hero-layer",
-  "hero-layer-backdrop",
-  "hero-layer-workdesk",
-  "hero-layer-ui",
-  "hero-layer-hunter",
-  "hero-layer-foreground",
-  "hero-layer-04-hunter.webp",
-  "heroLayerSpeeds",
-  "--layer-offset-y",
+  "hero-three-stage",
+  "hero-three-source",
+  "hero-three-canvas",
+  "hero-three-orbit-field",
+  "option-c-three-source.png",
+  "initHeroThreeScene",
+  "updateHeroThreeMotion",
+  "--hero-three-bg-x",
+  "--hero-three-bg-y",
   "hero.headlinePhrases",
-  "heroHeadlineTypingTimer",
   "headlineHoldDelay",
   "hero-word-special",
   "heroSpecialWordShine",
   "heroSpecialWordUnderline",
-  "v1.6.5",
+  "v1.6.6",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
   "lazyWordPulse",
   "founder-journey",
   "founder-poster-stage",
-  "startup-metrics",
-  "startup-visual",
+  "startup-video-frame",
+  "startup-icon-row",
+  "startup-sound-note",
   "hackathon-proof-wall",
   "hackathon-champion-stage-v2.png",
   "champion-route",
@@ -313,7 +417,16 @@ assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js
 const navBlock = (css.match(/nav\s*{([\s\S]*?)}/) || [])[1] || "";
 assert.ok(/display:\s*block/.test(navBlock), "Top navbar should be visible from page load");
 assert.ok(/position:\s*fixed/.test(navBlock) && /top:\s*0/.test(navBlock), "Top navbar should stick to the top of the viewport");
-assert.ok(css.includes("body.is-hero-top nav") && css.includes("pointer-events: auto"), "Top navbar should stay visible and clickable at the hero top");
+const heroTopNavBlock = (css.match(/body\.is-hero-top nav\s*{([\s\S]*?)}/) || [])[1] || "";
+assert.ok(/opacity:\s*0/.test(heroTopNavBlock), "Top navbar should be invisible at the very top of the hero");
+assert.ok(/pointer-events:\s*none/.test(heroTopNavBlock), "Top navbar should not be clickable at the very top of the hero");
+assert.ok(/translate3d\(0,\s*-100%,\s*0\)/.test(heroTopNavBlock), "Top navbar should slide fully out above the viewport at the hero top");
+assert.ok(css.includes("body.is-hero-top .theme-toggle") && css.includes("body.is-hero-top .language-toggle"), "Theme and language controls should share the hidden hero-top navbar state");
+const heroTopControlBlock = (css.match(/body\.is-hero-top \.theme-toggle,\s*body\.is-hero-top \.language-toggle\s*{([\s\S]*?)}/) || [])[1] || "";
+assert.ok(/opacity:\s*0/.test(heroTopControlBlock), "Theme and language controls should be invisible at the very top of the hero");
+assert.ok(/pointer-events:\s*none/.test(heroTopControlBlock), "Theme and language controls should not be clickable at the very top of the hero");
+const scrolledNavBlock = (css.match(/body:not\(\.is-hero-top\) nav\s*{([\s\S]*?)}/) || [])[1] || "";
+assert.ok(/opacity:\s*1/.test(scrolledNavBlock) && /pointer-events:\s*auto/.test(scrolledNavBlock), "Navbar should become visible and clickable after scrolling");
 const navSectionLabels = html.match(/data-nav-label="/g) || [];
 const staticNavLinks = html.match(/<li><a href="#[^"]+" class="smoothScroll"/g) || [];
 assert.equal(navSectionLabels.length, 13, `Expected 13 marked navbar sections, found ${navSectionLabels.length}`);
@@ -330,29 +443,24 @@ assert.ok(js.includes("specialWords") && js.includes("hero-word-special"), "Hero
 const heroKineticsBlock = js.slice(js.indexOf("function setupHeroKinetics()"), js.indexOf("if (!capability)"));
 assert.ok(heroKineticsBlock.includes("renderIntroHeadline(headlinePhrases[phraseIndex]") && heroKineticsBlock.includes("heroHeadlineSwap"), "Hero headline should rotate as whole phrases with a stable swap animation");
 assert.ok(!heroKineticsBlock.includes("characterIndex") && !heroKineticsBlock.includes("phrase.slice"), "Hero headline should not type/delete partial phrases because it looks unstable");
+const heroCapabilityBlock = js.slice(js.indexOf("if (!capability)"), js.indexOf("function setupFounderJourney()"));
+assert.ok(heroCapabilityBlock.includes("capability.textContent = capabilityText"), "Hero capability should render complete text immediately");
+assert.ok(!heroCapabilityBlock.includes("setInterval") && !heroCapabilityBlock.includes("slice(0, index)"), "Hero capability should not type partial text because it looks unfinished in the new 3D hero");
 assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");
 
-const heroImageLayers = html.match(/class="hero-layer hero-layer-[^"]+"/g) || [];
-assert.equal(heroImageLayers.length, 5, `Expected five transparent hero parallax image layers, found ${heroImageLayers.length}`);
-assert.ok(!html.includes("hero-image-layer") && !css.includes("hero-image-layer"), "Hero parallax should not use the old CSS background layer class");
-assert.ok(!css.includes('background-image: url("../images/hero-founder-banner-ai.png")'), "Hero parallax should use transparent image assets, not repeated CSS backgrounds");
-const heroLayerAssets = [
-  "images/hero-layers/hero-layer-01-backdrop.webp",
-  "images/hero-layers/hero-layer-02-workdesk.webp",
-  "images/hero-layers/hero-layer-03-ui-panels.webp",
-  "images/hero-layers/hero-layer-04-hunter.webp",
-  "images/hero-layers/hero-layer-05-foreground-wave.webp"
-];
-for (const asset of heroLayerAssets) {
-  assert.ok(html.includes(asset), `Missing hero layer asset in markup: ${asset}`);
-  assert.ok(fs.existsSync(asset), `Missing generated hero layer asset file: ${asset}`);
-  assert.ok(fs.statSync(asset).size > 10000, `Hero layer asset looks too small: ${asset}`);
-}
-const heroLayerCss = css.slice(css.indexOf(".hero-layer img"), css.indexOf("#header::after"));
-assert.ok(heroLayerCss.includes("object-fit: cover") && heroLayerCss.includes("translate3d(var(--layer-offset-x"), "Hero image layers should move via image transforms");
-assert.ok(js.includes("heroDepth") && js.includes("heroLayerSpeeds") && js.includes("--layer-offset-x"), "Hero parallax should compute visible per-layer scroll depth");
+assert.ok(html.includes('class="hero-three-stage"') && html.includes('id="hero-three-canvas"'), "Homepage hero should use the selected Option C 3D stage");
+assert.ok(html.includes("images/hero-options/option-c-three-source.png"), "Homepage hero should use the generated Option C source image");
+assert.ok(!html.includes("hero-parallax-stack"), "Homepage hero should not keep the old five-layer hero stack after Option C is selected");
+assert.ok(!js.includes("heroLayerSpeeds") && !js.includes("--layer-offset-x"), "Homepage hero JS should not keep the old five-layer scroll offset system");
+assert.ok(css.includes(".hero-three-stage") && css.includes(".hero-three-canvas") && css.includes(".hero-three-orbit-field"), "Homepage CSS should style the Option C 3D hero");
+assert.ok(css.includes("--hero-three-bg-x") && css.includes("--hero-three-bg-y"), "Option C hero background should still receive pointer and scroll depth offsets");
+assert.ok(js.includes("function initHeroThreeScene()") && js.includes("function updateHeroThreeMotion()"), "Homepage JS should initialize and animate the Option C hero");
+assert.ok(js.includes("preserveDrawingBuffer: true"), "Homepage Three.js renderer should preserve the frame buffer for browser verification");
+assert.ok(js.includes("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"), "Homepage Option C hero should load Three.js as a static-page module");
+assert.ok(fs.existsSync("images/hero-options/option-c-three-source.png"), "Missing selected Option C generated hero source image");
+assert.ok(fs.statSync("images/hero-options/option-c-three-source.png").size > 10000, "Selected Option C source image looks too small");
 
 const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf("[data-theme=\"dark\"] .vision-copy"));
 assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 156px)"), "Founder theater should use a large full-screen shell");

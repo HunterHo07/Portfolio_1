@@ -5,9 +5,10 @@
   var themeStorageKey = "portfolio-theme";
   var languageStorageKey = "portfolio-language";
   var currentLanguage = localStorage.getItem(languageStorageKey) === "zh" ? "zh" : "en";
-  var heroTypingTimer = null;
   var heroHeadlineTypingTimer = null;
   var navScrollHandler = null;
+  var heroThreePointer = { x: 0, y: 0 };
+  var heroThreeMotionFrame = null;
 
   var translations = {
     en: {
@@ -27,8 +28,8 @@
       ],
       "hero.promise": "Resolve Your Problem With The <strong>*Lazy*</strong> Way",
       "hero.ctaProject": "Hire for a project",
-      "hero.ctaSpeak": "Invite me to speak",
-      "hero.ctaProof": "View proof",
+      "hero.ctaSpeak": "Book Me for Event",
+      "hero.ctaProof": "Projects Demo",
       "sections.mobileTitle": "Mobile App Demo",
       "sections.mobileIntro": "Two mobile-first showcase apps proving scan flows, QR/NFC sharing, PWA thinking, responsive app shells, and API-ready product workflows.",
       "sections.gamesTitle": "Games Demo",
@@ -60,8 +61,8 @@
       ],
       "hero.promise": "用 <strong>*Lazy*</strong> 的聪明方式解决你的问题",
       "hero.ctaProject": "找我做项目",
-      "hero.ctaSpeak": "邀请我分享",
-      "hero.ctaProof": "查看证明",
+      "hero.ctaSpeak": "预约活动分享",
+      "hero.ctaProof": "项目 Demo",
       "sections.mobileTitle": "手机 App Demo",
       "sections.mobileIntro": "两个手机优先的展示应用，证明扫描流程、QR/NFC 分享、PWA 思维、响应式 App 外壳与 API-ready 产品流程。",
       "sections.gamesTitle": "游戏 Demo",
@@ -529,6 +530,10 @@
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
   function setupHeroKinetics() {
     var headline = document.querySelector(".hero-headline");
     var capability = document.querySelector(".hero-capability");
@@ -608,33 +613,9 @@
 
     var capabilityText = capability.textContent.replace(/\s+/g, " ").trim();
 
-    if (heroTypingTimer) {
-      window.clearInterval(heroTypingTimer);
-      heroTypingTimer = null;
-    }
-
-    if (isReducedMotion()) {
-      capability.classList.remove("is-typing");
-      capability.textContent = capabilityText;
-      return;
-    }
-
     capability.textContent = "";
-    capability.classList.add("is-typing");
-
-    var index = 0;
-    heroTypingTimer = window.setInterval(function () {
-      index += 1;
-      capability.textContent = capabilityText.slice(0, index);
-
-      if (index >= capabilityText.length) {
-        window.clearInterval(heroTypingTimer);
-        heroTypingTimer = null;
-        window.setTimeout(function () {
-          capability.classList.remove("is-typing");
-        }, 450);
-      }
-    }, 17);
+    capability.classList.remove("is-typing");
+    capability.textContent = capabilityText;
   }
 
   function setupFounderJourney() {
@@ -744,15 +725,6 @@
         section.style.setProperty("--section-progress", progress.toFixed(4));
         section.style.setProperty("--section-depth", depth.toFixed(4));
 
-        if (section.id === "contact") {
-          Array.prototype.slice.call(section.querySelectorAll(".contact-layer")).forEach(function (layer) {
-            var depthX = parseFloat(layer.getAttribute("data-depth-x") || "0");
-            var depthY = parseFloat(layer.getAttribute("data-depth-y") || "0");
-
-            layer.style.setProperty("--contact-layer-x", (depth * depthX).toFixed(2) + "px");
-            layer.style.setProperty("--contact-layer-y", (depth * depthY).toFixed(2) + "px");
-          });
-        }
       });
     }
 
@@ -1017,19 +989,164 @@
     husky.style.setProperty("--husky-y", Math.round(y) + "px");
   }
 
+  function updateHeroThreeMotion() {
+    var stage = document.querySelector(".hero-three-stage");
+    var viewport = Math.max(window.innerHeight, 1);
+
+    if (!stage || isReducedMotion()) {
+      return;
+    }
+
+    var bounds = stage.getBoundingClientRect();
+    var localDepth = clamp((viewport - bounds.top) / Math.max(viewport + bounds.height, 1), 0, 1.35);
+    var bgX = Math.round(heroThreePointer.x * -18 + localDepth * -12);
+    var bgY = Math.round(heroThreePointer.y * -11 + localDepth * -22);
+
+    stage.style.setProperty("--hero-three-bg-x", bgX + "px");
+    stage.style.setProperty("--hero-three-bg-y", bgY + "px");
+  }
+
+  function requestHeroThreeMotion() {
+    if (heroThreeMotionFrame || isReducedMotion()) {
+      return;
+    }
+
+    heroThreeMotionFrame = window.requestAnimationFrame(function () {
+      heroThreeMotionFrame = null;
+      updateHeroThreeMotion();
+    });
+  }
+
+  function updateHeroThreePointer(event) {
+    var width = Math.max(window.innerWidth, 1);
+    var height = Math.max(window.innerHeight, 1);
+
+    heroThreePointer.x = (event.clientX / width - 0.5) * 2;
+    heroThreePointer.y = (event.clientY / height - 0.5) * 2;
+    requestHeroThreeMotion();
+  }
+
+  async function initHeroThreeScene() {
+    var canvas = document.getElementById("hero-three-canvas");
+    var stage = document.querySelector(".hero-three-stage");
+
+    if (!canvas || !stage || isReducedMotion()) {
+      return;
+    }
+
+    try {
+      var THREE = await import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js");
+      var renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+        preserveDrawingBuffer: true
+      });
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+      var group = new THREE.Group();
+      var coreMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x67dff2,
+        metalness: 0.72,
+        roughness: 0.18,
+        transmission: 0.18,
+        emissive: 0x0c5666,
+        emissiveIntensity: 0.5
+      });
+      var goldMaterial = new THREE.MeshStandardMaterial({
+        color: 0xd8bd76,
+        metalness: 0.82,
+        roughness: 0.22,
+        emissive: 0x6b4f18,
+        emissiveIntensity: 0.42
+      });
+      var core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.05, 1), coreMaterial);
+      var inner = new THREE.Mesh(new THREE.OctahedronGeometry(0.58, 1), goldMaterial);
+      var orbitA = new THREE.Mesh(
+        new THREE.TorusGeometry(1.95, 0.014, 12, 110),
+        new THREE.MeshBasicMaterial({ color: 0x67dff2, transparent: true, opacity: 0.7 })
+      );
+      var orbitB = new THREE.Mesh(
+        new THREE.TorusGeometry(2.45, 0.012, 12, 124),
+        new THREE.MeshBasicMaterial({ color: 0xd8bd76, transparent: true, opacity: 0.56 })
+      );
+      var dots = new THREE.BufferGeometry();
+      var dotPositions = [];
+      var dotCount = 90;
+      var i;
+
+      for (i = 0; i < dotCount; i += 1) {
+        var radius = 2.4 + Math.random() * 2.8;
+        var angle = Math.random() * Math.PI * 2;
+        var height = (Math.random() - 0.5) * 3.8;
+
+        dotPositions.push(Math.cos(angle) * radius, height, Math.sin(angle) * radius);
+      }
+
+      dots.setAttribute("position", new THREE.Float32BufferAttribute(dotPositions, 3));
+
+      var points = new THREE.Points(
+        dots,
+        new THREE.PointsMaterial({
+          color: 0x67dff2,
+          size: 0.035,
+          transparent: true,
+          opacity: 0.82
+        })
+      );
+      var cyan = new THREE.PointLight(0x67dff2, 3.2, 18);
+      var gold = new THREE.PointLight(0xd8bd76, 2.3, 16);
+
+      orbitA.rotation.x = Math.PI * 0.62;
+      orbitB.rotation.x = Math.PI * 0.44;
+      orbitB.rotation.y = Math.PI * 0.2;
+      group.add(core, inner, orbitA, orbitB, points);
+      scene.add(group);
+      scene.add(new THREE.AmbientLight(0x9edff0, 0.9));
+      cyan.position.set(2.5, 2.4, 3.4);
+      gold.position.set(0.4, -1.6, 4.2);
+      scene.add(cyan, gold);
+      camera.position.set(0, 0, 7);
+
+      function resizeHeroScene() {
+        var rect = canvas.getBoundingClientRect();
+        var width = Math.max(Math.floor(rect.width), 1);
+        var height = Math.max(Math.floor(rect.height), 1);
+        var compact = width < 740;
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        group.position.set(compact ? 2.25 : 2.15, compact ? 0.03 : 0.08, 0);
+        group.scale.setScalar(compact ? 0.78 : 1);
+      }
+
+      function animateHeroScene() {
+        window.requestAnimationFrame(animateHeroScene);
+        group.rotation.y += 0.005 + heroThreePointer.x * 0.0008;
+        group.rotation.x = heroThreePointer.y * -0.08;
+        orbitA.rotation.z += 0.009;
+        orbitB.rotation.z -= 0.006;
+        points.rotation.y -= 0.0018;
+        renderer.render(scene, camera);
+      }
+
+      resizeHeroScene();
+      window.addEventListener("resize", resizeHeroScene, { passive: true });
+      animateHeroScene();
+    } catch (error) {
+      stage.classList.add("is-three-fallback");
+      canvas.setAttribute("data-three-error", "true");
+    }
+  }
+
   function setupMotionAndHelper() {
-    var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-card, .teaching-proof-card, .hackathon-grid article");
-    var heroLayers = Array.prototype.slice.call(document.querySelectorAll(".hero-parallax-stack .hero-layer"));
-    var heroLayerSpeeds = {
-      1: { x: -10, y: -28 },
-      2: { x: 14, y: -58 },
-      3: { x: 28, y: -104 },
-      4: { x: 6, y: -42 },
-      5: { x: -22, y: -136 }
-    };
+    var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-icon-link, .teaching-proof-card, .hackathon-grid article");
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
     var huskyMessage = document.getElementById("husky-message");
+    var contactSection = document.getElementById("contact");
     var celebrate = setupCelebration();
     var huskyHasAppeared = false;
     var huskyEmotionTimer = null;
@@ -1148,17 +1265,19 @@
       var doc = document.documentElement;
       var scrollable = Math.max(doc.scrollHeight - window.innerHeight, 1);
       var ratio = window.scrollY / scrollable;
-      var heroDepth = Math.min(Math.max(window.scrollY / Math.max(window.innerHeight, 1), 0), 1.15);
       doc.style.setProperty("--scroll-depth", ratio.toFixed(4));
-
-      heroLayers.forEach(function (layer, index) {
-        var depth = Number(layer.getAttribute("data-depth")) || index + 1;
-        var speed = heroLayerSpeeds[depth] || heroLayerSpeeds[1];
-        layer.style.setProperty("--layer-offset-x", Math.round(heroDepth * speed.x) + "px");
-        layer.style.setProperty("--layer-offset-y", Math.round(heroDepth * speed.y) + "px");
-      });
+      requestHeroThreeMotion();
 
       if (husky) {
+        var shouldSuppressHusky = false;
+
+        if (contactSection && window.innerWidth <= 600) {
+          var contactRect = contactSection.getBoundingClientRect();
+          shouldSuppressHusky = contactRect.top < window.innerHeight && contactRect.bottom > 0;
+        }
+
+        husky.classList.toggle("is-over-contact", shouldSuppressHusky);
+
         if (!huskyHasAppeared && window.scrollY + window.innerHeight > doc.scrollHeight - 900) {
           huskyHasAppeared = true;
           husky.classList.add("is-visible");
@@ -1211,6 +1330,7 @@
 
     window.addEventListener("scroll", updateScrollEffects, { passive: true });
     window.addEventListener("resize", updateScrollEffects);
+    window.addEventListener("pointermove", updateHeroThreePointer, { passive: true });
     updateScrollEffects();
   }
 
@@ -1229,6 +1349,138 @@
     window.addEventListener("scroll", updateNavbarState, { passive: true });
     window.addEventListener("resize", updateNavbarState);
     updateNavbarState();
+  }
+
+  function setupHeroHunterPopup() {
+    var popup = document.getElementById("hero-hunter-popup");
+    var hero = document.getElementById("header");
+    var message = popup ? popup.querySelector("[data-hero-hunter-message]") : null;
+    var bubble = popup ? popup.querySelector(".hero-hunter-bubble") : null;
+    var heroHunterDelay = 15000;
+    var showTimer = null;
+    var messageTimer = null;
+    var leaveTimer = null;
+    var isVisible = false;
+    var lastMessageIndex = -1;
+    var heroHunterMessages = {
+      en: [
+        "Still here? Tell me the problem and I will shape the build.",
+        "Need the fastest path? Start with one clear outcome.",
+        "I can turn the messy part into a shipped system.",
+        "Scroll for proof, or tap contact when you are ready.",
+        "The Lazy way means smarter systems, not slower work."
+      ],
+      zh: [
+        "还在这里？告诉我问题，我帮你整理成可开发方案。",
+        "想走最快路径？先锁定一个清楚结果。",
+        "我可以把混乱部分变成可上线系统。",
+        "往下看证明，准备好了就联系我。",
+        "Lazy 方式是更聪明的系统，不是更慢的工作。"
+      ]
+    };
+
+    if (!popup || !hero || !message) {
+      return;
+    }
+
+    function isHeroSectionActive() {
+      var rect = hero.getBoundingClientRect();
+      return rect.top < Math.min(120, window.innerHeight * 0.18) && rect.bottom > window.innerHeight * 0.38;
+    }
+
+    function setHeroHunterMessage() {
+      var pool = heroHunterMessages[currentLanguage] || heroHunterMessages.en;
+      var nextIndex = Math.floor(Math.random() * pool.length);
+
+      if (pool.length > 1 && nextIndex === lastMessageIndex) {
+        nextIndex = (nextIndex + 1) % pool.length;
+      }
+
+      lastMessageIndex = nextIndex;
+      message.textContent = pool[nextIndex];
+
+      if (bubble && !isReducedMotion()) {
+        bubble.classList.remove("is-swapping");
+        void bubble.offsetWidth;
+        bubble.classList.add("is-swapping");
+      }
+    }
+
+    function clearHeroHunterTimers() {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(messageTimer);
+      showTimer = null;
+      messageTimer = null;
+    }
+
+    function scheduleHeroHunterMessage() {
+      window.clearTimeout(messageTimer);
+
+      if (!isVisible) {
+        return;
+      }
+
+      messageTimer = window.setTimeout(function () {
+        if (!isVisible || !isHeroSectionActive()) {
+          return;
+        }
+
+        setHeroHunterMessage();
+        scheduleHeroHunterMessage();
+      }, 6500 + Math.random() * 5200);
+    }
+
+    function hideHeroHunterPopup() {
+      clearHeroHunterTimers();
+
+      if (!isVisible && !popup.classList.contains("is-visible")) {
+        return;
+      }
+
+      isVisible = false;
+      window.clearTimeout(leaveTimer);
+      popup.classList.remove("is-visible");
+      popup.classList.add("is-leaving");
+      popup.setAttribute("aria-hidden", "true");
+
+      leaveTimer = window.setTimeout(function () {
+        popup.classList.remove("is-leaving");
+      }, isReducedMotion() ? 0 : 440);
+    }
+
+    function showHeroHunterPopup() {
+      showTimer = null;
+
+      if (document.hidden || !isHeroSectionActive()) {
+        return;
+      }
+
+      isVisible = true;
+      window.clearTimeout(leaveTimer);
+      popup.classList.remove("is-leaving");
+      setHeroHunterMessage();
+      popup.classList.add("is-visible");
+      popup.setAttribute("aria-hidden", "false");
+      scheduleHeroHunterMessage();
+    }
+
+    function scheduleHeroHunterPopup() {
+      if (document.hidden || !isHeroSectionActive()) {
+        hideHeroHunterPopup();
+        return;
+      }
+
+      if (isVisible || showTimer) {
+        return;
+      }
+
+      showTimer = window.setTimeout(showHeroHunterPopup, heroHunterDelay);
+    }
+
+    window.addEventListener("scroll", scheduleHeroHunterPopup, { passive: true });
+    window.addEventListener("resize", scheduleHeroHunterPopup);
+    document.addEventListener("visibilitychange", scheduleHeroHunterPopup);
+    scheduleHeroHunterPopup();
   }
 
   function setupResponsiveNavbarToggle() {
@@ -1278,8 +1530,10 @@
       setupSingleHunterFocus();
       setupMagneticEffects();
       setupFounderJourney();
+      initHeroThreeScene();
       setupMotionAndHelper();
       setupSmartNavbar();
+      setupHeroHunterPopup();
       setupResponsiveNavbarToggle();
     });
   } else {
@@ -1291,11 +1545,183 @@
     setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
+    initHeroThreeScene();
     setupMotionAndHelper();
     setupSmartNavbar();
+    setupHeroHunterPopup();
     setupResponsiveNavbarToggle();
   }
 })();
+
+var portfolioScriptPromises = {};
+
+function loadScriptOnce(src) {
+  if (portfolioScriptPromises[src]) {
+    return portfolioScriptPromises[src];
+  }
+
+  portfolioScriptPromises[src] = new Promise(function (resolve, reject) {
+    var existing = document.querySelector('script[src="' + src + '"]');
+
+    if (existing) {
+      if (existing.dataset.loaded === "true") {
+        resolve();
+        return;
+      }
+
+      existing.addEventListener("load", resolve, { once: true });
+      existing.addEventListener("error", reject, { once: true });
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    script.dataset.lazyLibrary = "true";
+    script.addEventListener("load", function () {
+      script.dataset.loaded = "true";
+      resolve();
+    }, { once: true });
+    script.addEventListener("error", reject, { once: true });
+    document.body.appendChild(script);
+  });
+
+  return portfolioScriptPromises[src];
+}
+
+function runWhenElementIsNear($elements, callback) {
+  var nodes = $elements.toArray().filter(Boolean);
+  var didRun = false;
+
+  if (!nodes.length) {
+    return;
+  }
+
+  function run() {
+    if (didRun) {
+      return;
+    }
+
+    didRun = true;
+    callback();
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    run();
+    return;
+  }
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      if (entries.some(function (entry) { return entry.isIntersecting; })) {
+        observer.disconnect();
+        run();
+      }
+    },
+    { rootMargin: "720px 0px", threshold: 0 }
+  );
+
+  nodes.slice(0, 4).forEach(function (node) {
+    observer.observe(node);
+  });
+}
+
+function loadOptionalPortfolioPlugins($) {
+  var typed = $(".typed");
+  var servicesCarousel = $(".services-carousel");
+  var popupLinks = $(".popup-img");
+
+  if (typed.length) {
+    loadScriptOnce("lib/typed/typed.js")
+      .then(function () {
+        if ($.fn.typed) {
+          typed.typed({
+            strings: ["Hunter.", "Programmer.", "Developer.", "Hacker.", "Designer.", "Freelancer."],
+            typeSpeed: 100,
+            loop: true,
+          });
+        }
+      })
+      .catch(function () {});
+  }
+
+  if (servicesCarousel.length) {
+    runWhenElementIsNear(servicesCarousel, function () {
+      loadScriptOnce("lib/owlcarousel/owl.carousel.min.js")
+        .then(function () {
+          if ($.fn.owlCarousel) {
+            servicesCarousel.owlCarousel({
+              autoplay: true,
+              loop: true,
+              margin: 20,
+              dots: true,
+              nav: false,
+              responsiveClass: true,
+              responsive: { 0: { items: 1 }, 768: { items: 2 }, 900: { items: 4 } },
+            });
+          }
+        })
+        .catch(function () {});
+    });
+  }
+
+  if (popupLinks.length) {
+    runWhenElementIsNear(popupLinks, function () {
+      loadScriptOnce("lib/magnific-popup/magnific-popup.min.js")
+        .then(function () {
+          if ($.fn.magnificPopup) {
+            popupLinks.magnificPopup({
+              type: "image",
+              removalDelay: 300,
+              mainClass: "mfp-with-zoom",
+              gallery: {
+                enabled: true,
+              },
+              zoom: {
+                enabled: true,
+                duration: 300,
+                easing: "ease-in-out",
+                opener: function (openerElement) {
+                  return openerElement.is("img") ? openerElement : openerElement.find("img");
+                },
+              },
+            });
+          }
+        })
+        .catch(function () {});
+    });
+  }
+}
+
+function setupLazyHunterIsotope($) {
+  var container = $(".hunter-container");
+
+  if (!container.length) {
+    return;
+  }
+
+  runWhenElementIsNear(container, function () {
+    loadScriptOnce("lib/isotope/isotope.pkgd.min.js")
+      .then(function () {
+        if (!$.fn.isotope) {
+          return;
+        }
+
+        var hunterIsotope = container.isotope({
+          itemSelector: ".hunter-thumbnail",
+          layoutMode: "fitRows",
+        });
+
+        $("#hunter-flters li").on("click", function () {
+          $("#hunter-flters li").removeClass("filter-active");
+          $(this).addClass("filter-active");
+
+          hunterIsotope.isotope({ filter: $(this).data("filter") });
+        });
+      })
+      .catch(function () {});
+  });
+}
 
 $(document).ready(function () {
   "use strict";
@@ -1366,84 +1792,10 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
-  // ========================================================================= //
-  //  Typed Js
-  // ========================================================================= //
-
-  var typed = $(".typed");
-
-  $(function () {
-    if (typed.length) {
-      typed.typed({
-        strings: ["Hunter.", "Programmer.", "Developer.", "Hacker.", "Designer.", "Freelancer."],
-        typeSpeed: 100,
-        loop: true,
-      });
-    }
-  });
-
-  // ========================================================================= //
-  //  Owl Carousel Services
-  // ========================================================================= //
-
-  $(".services-carousel").owlCarousel({
-    autoplay: true,
-    loop: true,
-    margin: 20,
-    dots: true,
-    nav: false,
-    responsiveClass: true,
-    responsive: { 0: { items: 1 }, 768: { items: 2 }, 900: { items: 4 } },
-  });
-
-  // ========================================================================= //
-  //  magnificPopup
-  // ========================================================================= //
-
-  var magnifPopup = function () {
-    $(".popup-img").magnificPopup({
-      type: "image",
-      removalDelay: 300,
-      mainClass: "mfp-with-zoom",
-      gallery: {
-        enabled: true,
-      },
-      zoom: {
-        enabled: true, // By default it's false, so don't forget to enable it
-
-        duration: 300, // duration of the effect, in milliseconds
-        easing: "ease-in-out", // CSS transition easing function
-
-        // The "opener" function should return the element from which popup will be zoomed in
-        // and to which popup will be scaled down
-        // By defailt it looks for an image tag:
-        opener: function (openerElement) {
-          // openerElement is the element on which popup was initialized, in this case its <a> tag
-          // you don't need to add "opener" option if this code matches your needs, it's defailt one.
-          return openerElement.is("img") ? openerElement : openerElement.find("img");
-        },
-      },
-    });
-  };
-
-  // Call the functions
-  magnifPopup();
+  loadOptionalPortfolioPlugins($);
 
 });
 
-// ========================================================================= //
-//  hunter isotope and filter
-// ========================================================================= //
-$(window).load(function () {
-  var hunterIsotope = $(".hunter-container").isotope({
-    itemSelector: ".hunter-thumbnail",
-    layoutMode: "fitRows",
-  });
-
-  $("#hunter-flters li").on("click", function () {
-    $("#hunter-flters li").removeClass("filter-active");
-    $(this).addClass("filter-active");
-
-    hunterIsotope.isotope({ filter: $(this).data("filter") });
-  });
+$(window).on("load", function () {
+  setupLazyHunterIsotope(jQuery);
 });

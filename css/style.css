@@ -696,6 +696,12 @@ nav ul li a {
   animation: heroTypingCaret 0.72s steps(1) infinite;
 }
 
+.hero-headline.is-swapping {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
 .hero-headline .hero-word {
   display: inline-block;
   opacity: 0;

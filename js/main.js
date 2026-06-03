@@ -576,46 +576,29 @@
         renderIntroHeadline(headlinePhrases[0]);
       } else {
         var phraseIndex = 0;
-        var characterIndex = (headlinePhrases[0] || "").length;
-        var deleting = false;
         var headlineHoldDelay = 5000;
 
-        headline.classList.remove("is-typing");
+        headline.classList.remove("is-typing", "is-swapping");
         renderIntroHeadline(headlinePhrases[0] || "");
 
-        function typeHeadline() {
-          var phrase = headlinePhrases[phraseIndex] || "";
-          var delay = deleting ? 18 : 24;
-
-          if (!deleting && characterIndex < phrase.length) {
-            characterIndex += 1;
-            headline.textContent = phrase.slice(0, characterIndex);
-          } else if (!deleting) {
-            renderIntroHeadline(phrase);
-            delay = headlineHoldDelay;
-            if (headlinePhrases.length > 1) {
-              deleting = true;
-            }
-          } else if (deleting) {
-            characterIndex -= 1;
-            headline.textContent = phrase.slice(0, Math.max(characterIndex, 0));
-
-            if (characterIndex <= 0) {
-              deleting = false;
-              phraseIndex = (phraseIndex + 1) % headlinePhrases.length;
-              characterIndex = 0;
-              delay = 150;
-            }
+        function rotateHeadlinePhrase() {
+          if (headlinePhrases.length <= 1) {
+            return;
           }
 
-          heroHeadlineTypingTimer = window.setTimeout(typeHeadline, delay);
+          phraseIndex = (phraseIndex + 1) % headlinePhrases.length;
+          headline.classList.add("is-swapping");
+
+          heroHeadlineTypingTimer = window.setTimeout(function heroHeadlineSwap() {
+            renderIntroHeadline(headlinePhrases[phraseIndex] || "");
+            headline.classList.remove("is-swapping");
+            heroHeadlineTypingTimer = window.setTimeout(rotateHeadlinePhrase, headlineHoldDelay);
+          }, 260);
         }
 
         heroHeadlineTypingTimer = window.setTimeout(function () {
-          headline.classList.add("is-typing");
-          headline.textContent = headlinePhrases[0] || "";
-          typeHeadline();
-        }, 2800);
+          rotateHeadlinePhrase();
+        }, headlineHoldDelay);
       }
     }
 

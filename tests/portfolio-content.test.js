@@ -62,7 +62,7 @@ const requiredText = [
   "Founder Proof Theater",
   "One Hunter. Seven proof moments.",
   "Champion Stage",
-  "Portfolio v1.6.4",
+  "Portfolio v1.6.5",
 ];
 
 const requiredUrls = [
@@ -257,8 +257,8 @@ for (const token of [
   "hero-word-special",
   "heroSpecialWordShine",
   "heroSpecialWordUnderline",
-  "v1.6.4",
-  "typeHeadline",
+  "v1.6.5",
+  "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
   "lazyWordPulse",
@@ -327,6 +327,9 @@ assert.ok(!js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar 
 assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
 assert.ok(js.includes("headlineHoldDelay = 5000"), "Hero typed headline should hold each completed phrase for 5 seconds");
 assert.ok(js.includes("specialWords") && js.includes("hero-word-special"), "Hero typed headline should wrap important words with a special effect class");
+const heroKineticsBlock = js.slice(js.indexOf("function setupHeroKinetics()"), js.indexOf("if (!capability)"));
+assert.ok(heroKineticsBlock.includes("renderIntroHeadline(headlinePhrases[phraseIndex]") && heroKineticsBlock.includes("heroHeadlineSwap"), "Hero headline should rotate as whole phrases with a stable swap animation");
+assert.ok(!heroKineticsBlock.includes("characterIndex") && !heroKineticsBlock.includes("phrase.slice"), "Hero headline should not type/delete partial phrases because it looks unstable");
 assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");

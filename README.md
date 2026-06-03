@@ -1,7 +1,21 @@
-﻿# Portfolio of Hunter Ho
-Any existing Server service will be 50% when you transfer to my service. (Yes 50% from your current Price) But not the Hosting/Server fee, it's the Server "Service/Maintenance" fee.
+# Portfolio of Hunter Ho
 
-Of course, can make your dream Website or Mobile App below market price, or if you got any quotation from others and i might be able to give you a 50% - 80% discount price package.
+Public portfolio for Hunter Ho, deployed through GitHub Pages at `https://hunterho07.github.io/Portfolio_1/`.
+
+Current milestone: `Hunter v2.0.0`.
+
+## Release Focus
+
+- Option C hero with eager hero image, text-first rendering, and lazy lower-section media.
+- Startup Lab as the second section with video, seven compact startup icons, and founder context.
+- Founder proof theater, project demos, teaching proof cards, 3D model demos, development gallery, and contact footer.
+- Assets 3 links to `qstyle-3d-models-lab`, now a real GLB catalog with local model files and downloadable assets.
+
+## Service Note
+
+Any existing server service can receive a 50% service or maintenance discount when transferred to my service. This does not include hosting or server provider fees.
+
+Website and mobile app builds can also be priced below market where the scope is practical.
 
 Thank you,
-Hunter Ho be your service!
+Hunter Ho

@@ -7,15 +7,23 @@
 
     <title>Programmer Hunter</title>
     <meta content="" name="keywords" />
-    <meta content="" name="description" />
+    <meta content="Hunter Ho portfolio for fullstack development, AI automation, startup products, teaching, project demos, 3D model assets, and Malaysia/Singapore IT services." name="description" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,700,700i,900,900i&amp;display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,700,700i,900,900i&amp;display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Bootstrap CSS File -->
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -68,14 +76,13 @@
           <ul class="nav-menu list-unstyled">
             <li><a href="#header" class="smoothScroll" data-i18n="nav.home">Home</a></li>
             <li><a href="#trillionunicorn-lab" class="smoothScroll">Lab</a></li>
-            <li><a href="#founder-vision" class="smoothScroll" data-i18n="nav.vision">Vision</a></li>
             <li><a href="#founder-journey" class="smoothScroll">Proof</a></li>
-            <li><a href="#speaker-teaching" class="smoothScroll">Teaching</a></li>
             <li><a href="#hackathon-wins" class="smoothScroll">Wins</a></li>
             <li><a href="#about" class="smoothScroll" data-i18n="nav.about">About</a></li>
             <li><a href="#services" class="smoothScroll">Services</a></li>
             <li><a href="#mobile-app-demos" class="smoothScroll">Mobile</a></li>
             <li><a href="#project-assets-section" class="smoothScroll">3D Models</a></li>
+            <li><a href="#speaker-teaching" class="smoothScroll">Teaching</a></li>
             <li><a href="#hunter" class="smoothScroll" data-i18n="nav.development">Development</a></li>
             <li><a href="#journal" class="smoothScroll">Pricing</a></li>
             <li><a href="#contact" class="smoothScroll" data-i18n="nav.contact">Contact</a></li>
@@ -92,7 +99,7 @@
       CN
     </button>
     <a class="release-badge" href="https://github.com/HunterHo07" target="_blank" rel="noopener">
-      Hunter v1.6.6
+      Hunter v2.0.0
     </a>
     <div class="hero-hunter-popup" id="hero-hunter-popup" aria-hidden="true" aria-live="polite">
       <div class="hero-hunter-portrait-shell" aria-hidden="true">
@@ -198,55 +205,26 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- end section TrillionUnicorn -->
-
-    <!-- start section founder vision -->
-    <section id="founder-vision" class="founder-vision proof-motion-wall" data-nav-label="Vision" data-nav-label-zh="愿景">
-      <div class="container">
-        <div class="vision-shell">
-          <div class="vision-copy">
+        <div class="startup-founder-band" aria-label="Founder Vision summary">
+          <div class="startup-founder-copy">
             <span class="vision-label">Founder Vision</span>
             <h2>Build products. Automate futures. Ship real impact.</h2>
             <p>
               Fullstack developer, Ahfaiz founder, AI automation teacher, startup builder, and hackathon winner. I build usable products, teach practical IT, and help teams move from idea to working system.
             </p>
-            <div class="vision-roles" aria-label="Core roles">
-              <span>Fullstack Developer</span>
-              <span>Ahfaiz Founder</span>
-              <span>AI Automation Teacher</span>
-              <span>CTO / Startup Builder</span>
-              <span>Hackathon Winner</span>
-              <span>Builder Since 2007</span>
-            </div>
           </div>
-
-          <div class="vision-proof-grid">
-            <article class="vision-profile-card" data-motion-card data-hunter-zone="vision-profile">
-              <img loading="lazy" src="images/founder-portrait.jpeg" width="1254" height="1254" alt="Hunter Ho professional portrait" decoding="async" />
-              <div>
-                <h3>Hunter Ho</h3>
-                <p>Malaysia & Singapore builder for AI automation, web apps, mobile apps, dashboards, systems, and product demos.</p>
-              </div>
-            </article>
-
-            <article class="vision-score-card" data-motion-card>
-              <span class="vision-score">18+</span>
-              <p>Years hands-on IT, builder since 2007, with practical delivery across software, automation, integration, and Web3.</p>
-            </article>
-
-            <article class="vision-poster-card vision-journey-card" data-motion-card>
-              <span class="vision-label">7 Proof Scenes</span>
-              <h3>One Hunter. Seven proof moments.</h3>
-              <p>The full poster is now presented as a scroll theater, so each role appears one at a time instead of being buried in a small card.</p>
-              <a class="vision-journey-link smoothScroll" href="#founder-journey">Open the story</a>
-            </article>
+          <div class="startup-founder-roles" aria-label="Core roles">
+            <span>Fullstack Developer</span>
+            <span>Ahfaiz Founder</span>
+            <span>AI Automation Teacher</span>
+            <span>CTO / Startup Builder</span>
+            <span>Hackathon Winner</span>
+            <span>Builder Since 2007</span>
           </div>
         </div>
       </div>
     </section>
-    <!-- end section founder vision -->
+    <!-- end section TrillionUnicorn -->
 
     <!-- start section founder journey -->
     <section id="founder-journey" class="founder-journey proof-motion-wall" data-active-step="0" data-nav-label="Proof" data-nav-label-zh="证明">
@@ -266,13 +244,17 @@
               <span class="founder-poster-mask"></span>
               <span class="founder-poster-ring"></span>
             </div>
-            <div class="founder-journey-copy">
-              <span class="vision-label">Founder Proof Theater</span>
-              <h2>One Hunter. Seven proof moments.</h2>
-              <p>
-                The poster starts with the full world, then reveals one Hunter proof moment at a time before ending with the complete seven-Hunter vision poster.
-              </p>
-              <ol class="founder-journey-steps">
+            <div class="founder-dashboard-hud" aria-label="Founder proof dashboard">
+              <div class="founder-hud-panel founder-hud-panel-top">
+                <span class="vision-label">Founder Proof Theater</span>
+                <h2>One Hunter. Seven proof moments.</h2>
+              </div>
+              <div class="founder-hud-panel founder-hud-panel-side">
+                <p>
+                  The poster reveals one Hunter proof moment at a time before ending with the complete seven-Hunter vision poster.
+                </p>
+              </div>
+              <ol class="founder-journey-steps founder-hud-panel founder-hud-panel-bottom">
                 <li class="is-active"><strong>Fullstack Builder</strong><span>Web, mobile, system, database, automation, and deployment execution.</span></li>
                 <li><strong>Ahfaiz Founder</strong><span>AI life companion direction, product thinking, and startup ownership.</span></li>
                 <li><strong>CTO / Startup Builder</strong><span>Turning messy ideas into credible product, architecture, and demo direction.</span></li>
@@ -287,59 +269,6 @@
       </div>
     </section>
     <!-- end section founder journey -->
-
-    <!-- start section speaker teaching -->
-    <section id="speaker-teaching" class="proof-section speaker-teaching proof-motion-wall" data-nav-label="Teaching" data-nav-label-zh="教学">
-      <div class="container">
-        <div class="speaker-shell">
-          <div class="speaker-copy">
-            <span class="vision-label">Speaker & Teaching</span>
-            <h2>Free IT Speaker. Practical Mentor. Online / Offline / Onsite.</h2>
-            <p>
-              I teach practical IT, coding, AI automation, n8n workflow basics, non-IT vs real-IT thinking, tech readiness, and developer productivity through online community classes, live sessions, offline sharing, and onsite training invitations.
-            </p>
-            <p class="speaker-proof-note">
-              Real event materials are privacy-masked for public portfolio use; full proof can be shared directly with clients, organizers, or interviewers when needed.
-            </p>
-            <div class="speaker-tags">
-              <span>Free IT Speaker</span>
-              <span>Free Teach IT Class</span>
-              <span>AI Automation</span>
-              <span>n8n Workflow</span>
-              <span>Career Readiness</span>
-              <span>Developer Productivity</span>
-            </div>
-          </div>
-          <div class="speaker-hero" data-motion-card>
-            <img loading="lazy" src="images/teaching/teaching-safe-hero-v2.png" width="1672" height="941" alt="Privacy-safe realistic IT teaching classroom scene with back-view mentor and no public-facing sensitive event text" decoding="async" />
-          </div>
-        </div>
-
-        <div class="teaching-proof-grid privacy-safe-teaching">
-          <article class="teaching-proof-card" data-motion-card>
-            <img loading="lazy" src="images/teaching/teaching-safe-online.png" width="1408" height="1024" alt="Privacy-safe online automation class scene without public-facing sensitive event text" decoding="async" />
-            <h3>Intro to N8N Application & Basics</h3>
-            <p>Online community class introducing practical automation workflow foundations.</p>
-          </article>
-          <article class="teaching-proof-card" data-motion-card>
-            <img loading="lazy" src="images/teaching/teaching-safe-onsite.png" width="1408" height="1024" alt="Privacy-safe onsite practical IT class scene without public-facing sensitive event text" decoding="async" />
-            <h3>Non-IT vs Real-IT</h3>
-            <p>Free online session explaining what technical work really needs beyond surface-level buzzwords.</p>
-          </article>
-          <article class="teaching-proof-card" data-motion-card>
-            <img loading="lazy" src="images/teaching/teaching-safe-workflow.png" width="1408" height="1024" alt="Privacy-safe tech readiness workflow class scene without public-facing sensitive event text" decoding="async" />
-            <h3>Decoding Tech Readiness</h3>
-            <p>Mentoring session on what hiring managers and real project teams look for.</p>
-          </article>
-          <article class="teaching-proof-card" data-motion-card>
-            <img loading="lazy" src="images/teaching/teaching-safe-stage.png" width="1408" height="1024" alt="Privacy-safe developer productivity teaching stage without public-facing sensitive event text" decoding="async" />
-            <h3>Developer Productivity Workflow</h3>
-            <p>Workflow and workplace guidance for developers who want better execution habits.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-    <!-- end section speaker teaching -->
 
     <!-- start section hackathon wins -->
     <section id="hackathon-wins" class="proof-section hackathon-wins proof-motion-wall" data-nav-label="Wins" data-nav-label-zh="奖项">
@@ -616,12 +545,53 @@
     <div class="row">
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://rj-assets-hunter5.vercel.app/"><img loading="lazy" src="images/demo-thumb-rj-assets-1.png" data-alt-thumb="images/demo-thumb-rj-assets-1-alt.png" width="450" height="300" class="img-responsive" alt="3D Models Demo Assets 1 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://rj-assets-hunter5.vercel.app/">Assets 1 <br /> Browser 3D Asset Viewer</a></h4><button type="button" class="project-detail-btn" data-project-title="Assets 1 - Browser 3D Asset Viewer" data-project-tech="3D asset viewer, web deployment, Three.js-style presentation" data-project-skills="3D asset pipeline, visual review, browser-based asset demo" data-project-about="A deployed 3D assets demo for reviewing RunJian-style models and web asset presentation.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://rj-assets-2-hunter5.vercel.app/"><img loading="lazy" src="images/demo-thumb-rj-assets-2.png" data-alt-thumb="images/demo-thumb-rj-assets-2-alt.png" width="450" height="300" class="img-responsive" alt="3D Models Demo Assets 2 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://rj-assets-2-hunter5.vercel.app/">Assets 2 <br /> Deployable 3D Catalog</a></h4><button type="button" class="project-detail-btn" data-project-title="Assets 2 - Deployable 3D Catalog" data-project-tech="3D asset viewer, web deployment, Three.js-style presentation" data-project-skills="3D asset iteration, scene review, deployable visual catalog" data-project-about="A second deployed 3D assets demo for asset comparison, iteration, and browser-based showcase.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://qstyle-3d-models-lab.vercel.app"><img loading="lazy" src="images/demo-thumb-qstyle-3d-models-lab.png" width="450" height="300" class="img-responsive" alt="3D Models Demo Assets 3 Q style WebGL model catalog" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://qstyle-3d-models-lab.vercel.app">Assets 3 <br /> Q-Style 3D Models Lab</a></h4><button type="button" class="project-detail-btn" data-project-title="Assets 3 - Q-Style 3D Models Lab" data-project-tech="Three.js, WebGL, JavaScript ES modules, 200 procedural model groups, responsive catalog UI, public GitHub repo, Vercel production deployment" data-project-skills="Q-style 3D asset generation, procedural model grouping, category filters, browser 3D preview, game-ready catalog presentation" data-project-about="A real working WebGL catalog with 200 procedural Q-style assets across characters, dragons, weapons, land tiles, and props. It is different from Assets 1 and Assets 2 because it focuses on cute game-ready model families and interactive filtering. Source: https://github.com/HunterHo07/qstyle-3d-models-lab">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://qstyle-3d-models-lab.vercel.app"><img loading="lazy" src="images/demo-thumb-qstyle-3d-models-lab.png" width="450" height="300" class="img-responsive" alt="3D Models Demo Assets 3 real GLB cute animated model catalog" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://qstyle-3d-models-lab.vercel.app">Assets 3 <br /> Q-Style 3D Models Lab</a></h4><button type="button" class="project-detail-btn" data-project-title="Assets 3 - Q-Style 3D Models Lab" data-project-tech="Three.js, GLTFLoader, AnimationMixer, local GLB manifest, downloadable model files, responsive WebGL viewer, public GitHub repo, Vercel production deployment" data-project-skills="Real GLB model catalog, cute character assets, embedded animation clips, browser model inspection, downloadable 3D asset packaging" data-project-about="A real working GLB asset demo with local downloadable models for cute characters, mascots, vehicles, props, and animated browser 3D previews. It upgrades Assets 3 from procedural shapes into reusable model files that clients can inspect and download. Source: https://github.com/HunterHo07/qstyle-3d-models-lab">Details</button></div></div></div>
     </div>
   </div>
 </div>
 
 
+
+<!-- start section speaker teaching -->
+<section id="speaker-teaching" class="proof-section speaker-teaching proof-motion-wall" data-nav-label="Teaching" data-nav-label-zh="教学" aria-label="Speaker & Teaching">
+  <div class="container">
+    <div class="teaching-proof-grid real-teaching-grid">
+      <article class="teaching-proof-card" data-motion-card>
+        <img loading="lazy" src="images/teaching/teaching-n8n-event.jpeg" width="515" height="366" alt="Real invitation poster for Hunter Ho Intro to N8N Application and Basics class" decoding="async" />
+        <div class="teaching-card-copy">
+          <span>Invited Mentor Session</span>
+          <h3>Intro to N8N Application & Basics</h3>
+          <p>Automation class invitation proof for N8N application basics and workflow foundations.</p>
+        </div>
+      </article>
+      <article class="teaching-proof-card" data-motion-card>
+        <img loading="lazy" src="images/teaching/teaching-non-it-vs-real-it.jpeg" width="719" height="724" alt="Real Krenovator class poster for Non-IT vs Real-IT session by Hunter Ho" decoding="async" />
+        <div class="teaching-card-copy">
+          <span>Online Class</span>
+          <h3>Non-IT vs Real-IT</h3>
+          <p>Free online session explaining the practical difference between surface tech and real IT work.</p>
+        </div>
+      </article>
+      <article class="teaching-proof-card" data-motion-card>
+        <img loading="lazy" src="images/teaching/teaching-tech-readiness.jpeg" width="716" height="688" alt="Real Krenovator class poster for Decoding Tech Readiness by Hunter Ho" decoding="async" />
+        <div class="teaching-card-copy">
+          <span>Career Readiness</span>
+          <h3>Decoding Tech Readiness</h3>
+          <p>Mentoring session on what hiring managers and real project teams look for.</p>
+        </div>
+      </article>
+      <article class="teaching-proof-card" data-motion-card>
+        <img loading="lazy" src="images/teaching/teaching-productivity.jpeg" width="717" height="719" alt="Real Krenovator class poster for developer productivity workflow by Hunter Ho" decoding="async" />
+        <div class="teaching-card-copy">
+          <span>Workflow Class</span>
+          <h3>Developer Productivity Workflow</h3>
+          <p>Workflow and workplace guidance for developers who want better execution habits.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<!-- end section speaker teaching -->
 
 
 

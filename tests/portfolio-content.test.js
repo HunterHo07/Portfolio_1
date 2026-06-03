@@ -98,7 +98,6 @@ const requiredText = [
   "parallax-backdrop",
   "data-theme",
   "Founder Vision",
-  "founder-vision",
   "Build products. Automate futures. Ship real impact.",
   "Ahfaiz Founder",
   "AI Automation Teacher",
@@ -120,18 +119,17 @@ const requiredText = [
   "3Wallet",
   "AhFai",
   "Speaker & Teaching",
-  "Free IT Speaker",
-  "Online / Offline / Onsite",
   "Intro to N8N Application & Basics",
+  "Non-IT vs Real-IT",
   "Decoding Tech Readiness",
-  "Real event materials are privacy-masked",
+  "Developer Productivity Workflow",
   "Hackathon Wins",
   "Deriv AI Hackathon Winner 2025",
   "Builder Since 2007",
   "Founder Proof Theater",
   "One Hunter. Seven proof moments.",
   "Champion Stage",
-  "Hunter v1.6.6",
+  "Hunter v2.0.0",
 ];
 
 const requiredUrls = [
@@ -181,7 +179,6 @@ const requiredUrls = [
 ];
 
 const requiredAssets = [
-  "images/founder-portrait.jpeg",
   "images/logo.svg",
   "images/favicon.svg",
   "images/demo-thumb-bestzdeal-feature.png",
@@ -215,11 +212,10 @@ const requiredAssets = [
   "images/demo-thumb-mobile-warrantyscan-alt.png",
   "images/demo-thumb-mobile-namecard.png",
   "images/demo-thumb-mobile-namecard-alt.png",
-  "images/teaching/teaching-safe-online.png",
-  "images/teaching/teaching-safe-onsite.png",
-  "images/teaching/teaching-safe-hero-v2.png",
-  "images/teaching/teaching-safe-stage.png",
-  "images/teaching/teaching-safe-workflow.png",
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg",
   "images/ui/cinematic-product-overlay.jpg",
   "images/ui/hackathon-champion-stage-v2.png",
   "images/ui/husky-idle.png",
@@ -269,10 +265,6 @@ const themeSelectors = [
   "#about",
   "#services",
   "#journal",
-  "#founder-vision",
-  ".vision-shell",
-  ".vision-hero-media",
-  ".vision-proof-grid",
   ".journal-info",
   ".project-detail-dialog",
 ];
@@ -311,8 +303,8 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
-assert.ok(html.includes('<a class="release-badge" href="https://github.com/HunterHo07"') && html.includes("Hunter v1.6.6"), "Release badge should link to Hunter GitHub profile and use Hunter version label");
-assert.ok(!html.includes("Portfolio v1.6.6") && !html.includes("Portfolio_1/releases/tag/v1.6.6"), "Release badge should no longer use the Portfolio release label or release URL");
+assert.ok(html.includes('<a class="release-badge" href="https://github.com/HunterHo07"') && html.includes("Hunter v2.0.0"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
 assert.ok(!html.includes("Invite me to speak") && !js.includes("Invite me to speak") && !html.includes("View proof") && !js.includes('"hero.ctaProof": "View proof"'), "Hero CTAs should not keep the unclear old labels");
@@ -327,25 +319,31 @@ assert.ok(js.includes("isHeroSectionActive") && js.includes("hero-hunter-popup")
 const heroIndex = html.indexOf('id="header"');
 const labIndex = html.indexOf('id="trillionunicorn-lab"');
 const visionIndex = html.indexOf('id="founder-vision"');
-assert.ok(heroIndex !== -1 && labIndex !== -1 && visionIndex !== -1, "Hero, startup lab, and founder vision sections should exist");
-assert.ok(heroIndex < labIndex && labIndex < visionIndex, "Startup lab should be the second section immediately after the hero");
+const journeyIndex = html.indexOf('id="founder-journey"');
+assert.ok(heroIndex !== -1 && labIndex !== -1 && journeyIndex !== -1, "Hero, startup lab, and founder proof theater sections should exist");
+assert.equal(visionIndex, -1, "Founder Vision standalone section should be removed after moving its useful intro into the Startup Lab");
+assert.ok(heroIndex < labIndex && labIndex < journeyIndex, "Startup Lab should be the second section and lead directly into the proof theater");
+const startupLabSection = html.slice(labIndex, journeyIndex);
 assert.ok(html.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"), "Startup lab should embed the requested YouTube video");
 assert.ok(html.includes("allowfullscreen"), "Startup video should allow fullscreen playback");
 assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should include a direct YouTube link fallback");
 assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
 assert.ok(!html.includes("startup-metrics") && !html.includes("startup-grid") && !html.includes("Platform Foundation"), "Startup lab should not keep the old heavy metric/card grid");
 assert.ok(css.includes(".startup-video-frame") && css.includes(".startup-icon-row") && css.includes(".startup-sound-note"), "Startup lab should include focused video and compact icon styling");
+assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("Founder Vision") && startupLabSection.includes("Build products. Automate futures. Ship real impact."), "Founder Vision intro should be integrated at the bottom of the Startup Lab section");
+assert.ok(startupLabSection.indexOf("startup-founder-band") > startupLabSection.indexOf("startup-icon-row"), "Founder Vision intro should sit below the seven startup icons");
+assert.ok(!html.includes('href="#founder-vision"') && !html.includes('data-nav-label="Vision"'), "Removed Founder Vision section should not leave a navbar target behind");
+assert.ok(css.includes(".startup-founder-band") && css.includes(".startup-founder-roles"), "Startup Lab should include dedicated bottom Founder Vision styling");
 
 for (const token of [
   "hero-actions",
   "magnetic-cta",
   "proof-motion-wall",
-  "privacy-safe-teaching",
-  "teaching-safe-online.png",
-  "teaching-safe-onsite.png",
-  "teaching-safe-stage.png",
-  "teaching-safe-workflow.png",
-  "speaker-proof-note",
+  "real-teaching-grid",
+  "teaching-n8n-event.jpeg",
+  "teaching-non-it-vs-real-it.jpeg",
+  "teaching-tech-readiness.jpeg",
+  "teaching-productivity.jpeg",
   "hero-three-stage",
   "hero-three-source",
   "hero-three-canvas",
@@ -360,13 +358,17 @@ for (const token of [
   "hero-word-special",
   "heroSpecialWordShine",
   "heroSpecialWordUnderline",
-  "v1.6.6",
+  "v2.0.0",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
   "lazyWordPulse",
   "founder-journey",
   "founder-poster-stage",
+  "founder-dashboard-hud",
+  "founder-hud-panel-top",
+  "founder-hud-panel-side",
+  "founder-hud-panel-bottom",
   "startup-video-frame",
   "startup-icon-row",
   "startup-sound-note",
@@ -429,7 +431,7 @@ const scrolledNavBlock = (css.match(/body:not\(\.is-hero-top\) nav\s*{([\s\S]*?)
 assert.ok(/opacity:\s*1/.test(scrolledNavBlock) && /pointer-events:\s*auto/.test(scrolledNavBlock), "Navbar should become visible and clickable after scrolling");
 const navSectionLabels = html.match(/data-nav-label="/g) || [];
 const staticNavLinks = html.match(/<li><a href="#[^"]+" class="smoothScroll"/g) || [];
-assert.equal(navSectionLabels.length, 13, `Expected 13 marked navbar sections, found ${navSectionLabels.length}`);
+assert.equal(navSectionLabels.length, 12, `Expected 12 marked navbar sections after removing Founder Vision, found ${navSectionLabels.length}`);
 assert.equal(staticNavLinks.length, navSectionLabels.length, "Static navbar fallback should match marked section count");
 assert.ok(js.includes("setupDynamicNavbar") && js.includes("[data-nav-label][id]"), "Navbar should be generated from marked sections");
 assert.ok(js.includes("setupResponsiveNavbarToggle") && responsiveCss.includes(".nav-menu.is-open"), "Responsive navbar should use a native open state");
@@ -446,7 +448,7 @@ assert.ok(!heroKineticsBlock.includes("characterIndex") && !heroKineticsBlock.in
 const heroCapabilityBlock = js.slice(js.indexOf("if (!capability)"), js.indexOf("function setupFounderJourney()"));
 assert.ok(heroCapabilityBlock.includes("capability.textContent = capabilityText"), "Hero capability should render complete text immediately");
 assert.ok(!heroCapabilityBlock.includes("setInterval") && !heroCapabilityBlock.includes("slice(0, index)"), "Hero capability should not type partial text because it looks unfinished in the new 3D hero");
-assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
+assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 4, "Remaining Hunter-bearing visuals should be registered as single-focus zones");
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");
 
@@ -462,11 +464,15 @@ assert.ok(js.includes("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.mo
 assert.ok(fs.existsSync("images/hero-options/option-c-three-source.png"), "Missing selected Option C generated hero source image");
 assert.ok(fs.statSync("images/hero-options/option-c-three-source.png").size > 10000, "Selected Option C source image looks too small");
 
-const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf("[data-theme=\"dark\"] .vision-copy"));
-assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 156px)"), "Founder theater should use a large full-screen shell");
+const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf(".proof-section {"));
+assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 96px)"), "Founder theater should use a near full-viewport shell");
 assert.ok(founderJourneyCss.includes("position: absolute") && founderJourneyCss.includes("inset: 0"), "Founder poster should fill the full theater shell as a background layer");
-assert.ok(founderJourneyCss.includes("justify-self: end") && founderJourneyCss.includes("width: min(34vw, 430px)"), "Founder copy should be a compact floating side panel over the image");
-assert.ok(founderJourneyCss.includes("object-fit: contain") && founderJourneyCss.includes("founder-poster-layer-all.is-visible"), "Founder poster should show the full poster top-to-bottom and reveal the final all-Hunters layer");
+assert.ok(founderJourneyCss.includes("width: min(78vw, 920px)") && founderJourneyCss.includes("height: auto"), "Founder poster should render as a large full-size vertical image instead of a small contained card");
+assert.ok(founderJourneyCss.includes("--poster-scroll-y") && js.includes("--poster-scroll-y"), "Founder poster should scroll vertically through the tall poster image as the section progresses");
+assert.ok(founderJourneyCss.includes("founder-dashboard-hud") && founderJourneyCss.includes("pointer-events: none"), "Founder text should be presented as non-blocking dashboard HUD panels");
+assert.ok(founderJourneyCss.includes("@keyframes founderHudTopIn") && founderJourneyCss.includes("@keyframes founderHudSideIn") && founderJourneyCss.includes("@keyframes founderHudBottomIn"), "Founder dashboard HUD should animate in from the top, side, and bottom");
+assert.ok(founderJourneyCss.includes("founder-hud-panel-top") && founderJourneyCss.includes("founder-hud-panel-side") && founderJourneyCss.includes("founder-hud-panel-bottom"), "Founder proof copy should be split into edge dashboard panels");
+assert.ok(founderJourneyCss.includes("founder-poster-layer-all.is-visible"), "Founder poster should still reveal the final all-Hunters layer");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 
@@ -493,6 +499,37 @@ for (const asset of founderPosterAssets) {
   assert.ok(fs.existsSync(asset), `Missing founder poster layer asset file: ${asset}`);
 }
 
+const speakerIndex = html.indexOf('id="speaker-teaching"');
+const projectAssetsIndex = html.indexOf('id="project-assets-section"');
+const hunterIndex = html.indexOf('id="hunter"');
+const speakerEnd = html.indexOf("<!-- end section speaker teaching -->", speakerIndex);
+assert.ok(speakerIndex !== -1 && projectAssetsIndex !== -1 && hunterIndex !== -1, "Teaching, 3D Models, and Development sections should exist");
+assert.ok(projectAssetsIndex < speakerIndex && speakerIndex < hunterIndex, "Speaker & Teaching should move below the demo/project sections and before Development");
+assert.ok(speakerEnd > speakerIndex, "Teaching section should keep an explicit end marker for scoped checks");
+const speakerSection = html.slice(speakerIndex, speakerEnd);
+assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length, 4, "Speaker & Teaching should only keep four teaching cards");
+for (const realTeachingAsset of [
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg"
+]) {
+  assert.ok(speakerSection.includes(realTeachingAsset), `Teaching section should use real class/invitation image: ${realTeachingAsset}`);
+}
+for (const oldSafeTeachingAsset of [
+  "images/teaching/teaching-safe-online.png",
+  "images/teaching/teaching-safe-onsite.png",
+  "images/teaching/teaching-safe-hero-v2.png",
+  "images/teaching/teaching-safe-stage.png",
+  "images/teaching/teaching-safe-workflow.png"
+]) {
+  assert.ok(!speakerSection.includes(oldSafeTeachingAsset), `Teaching section should not use generated safe placeholder image: ${oldSafeTeachingAsset}`);
+}
+for (const removedTeachingShell of ["speaker-shell", "speaker-copy", "speaker-hero", "speaker-tags", "speaker-proof-note", "privacy-safe-teaching"]) {
+  assert.ok(!speakerSection.includes(removedTeachingShell), `Teaching section should remove the old large intro shell: ${removedTeachingShell}`);
+}
+assert.ok(css.includes(".real-teaching-grid"), "Teaching cards should use a dedicated real-image grid style");
+
 for (const oldHeroOverlay of [
   "hero-layer-vignette",
   "hero-layer-grid",
@@ -515,20 +552,7 @@ for (const altThumb of [...html.matchAll(/data-alt-thumb="([^"]+)"/g)].map((matc
   assert.ok(fs.existsSync(altThumb), `Missing alternate thumbnail asset: ${altThumb}`);
 }
 
-for (const sensitiveTeachingAsset of [
-  "images/teaching/speaker-teaching-banner.png",
-  "images/teaching/teaching-n8n-event.jpeg",
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg",
-  "images/teaching/teaching-proof-board.png",
-  "images/teaching/teaching-proof-n8n.png",
-  "images/teaching/teaching-proof-non-it.png",
-  "images/teaching/teaching-proof-readiness.png",
-  "images/teaching/teaching-proof-productivity.png"
-]) {
-  assert.ok(!html.includes(sensitiveTeachingAsset), `Sensitive teaching asset should not be public-facing: ${sensitiveTeachingAsset}`);
-}
+assert.ok(!html.includes("images/teaching/speaker-teaching-banner.png"), "Teaching section should not restore the old banner image");
 
 function parseThemeBlock(selector) {
   const pattern = new RegExp(`${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*{([\\s\\S]*?)}`);

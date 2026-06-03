@@ -648,15 +648,18 @@
       var focusPoint = focusPoints[activeState] || focusPoints[0];
       var activeStep = activeState > 0 && activeState <= steps.length ? activeState - 1 : -1;
       var depth = (progress - 0.5) * 2;
+      var posterScroll = -52 * progress;
 
       journey.setAttribute("data-active-step", String(activeStep));
       journey.setAttribute("data-founder-state", String(activeState));
       journey.classList.toggle("is-empty-poster", activeState === 0);
       journey.classList.toggle("is-final-poster", activeState === maxState);
+      journey.style.setProperty("--journey-progress", progress.toFixed(4));
       journey.style.setProperty("--journey-step", activeState);
       journey.style.setProperty("--journey-focus", focusPoint.focus);
       journey.style.setProperty("--journey-mask-x", focusPoint.x);
       journey.style.setProperty("--journey-mask-y", focusPoint.y);
+      journey.style.setProperty("--poster-scroll-y", posterScroll.toFixed(2) + "%");
 
       singleLayers.forEach(function (layer, index) {
         layer.classList.toggle("is-visible", index === activeStep);
@@ -1029,8 +1032,26 @@
   async function initHeroThreeScene() {
     var canvas = document.getElementById("hero-three-canvas");
     var stage = document.querySelector(".hero-three-stage");
+    var contextAttributes = {
+      alpha: true,
+      antialias: true,
+      preserveDrawingBuffer: true
+    };
+    var glContext;
 
     if (!canvas || !stage || isReducedMotion()) {
+      return;
+    }
+
+    try {
+      glContext = canvas.getContext("webgl2", contextAttributes) || canvas.getContext("webgl", contextAttributes);
+    } catch (error) {
+      glContext = null;
+    }
+
+    if (!glContext) {
+      stage.classList.add("is-three-fallback");
+      canvas.setAttribute("data-three-error", "webgl-unavailable");
       return;
     }
 
@@ -1038,6 +1059,7 @@
       var THREE = await import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js");
       var renderer = new THREE.WebGLRenderer({
         canvas: canvas,
+        context: glContext,
         alpha: true,
         antialias: true,
         preserveDrawingBuffer: true
@@ -1138,6 +1160,14 @@
     } catch (error) {
       stage.classList.add("is-three-fallback");
       canvas.setAttribute("data-three-error", "true");
+    }
+  }
+
+  function scheduleHeroThreeScene() {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(initHeroThreeScene, { timeout: 1400 });
+    } else {
+      window.setTimeout(initHeroThreeScene, 450);
     }
   }
 
@@ -1530,7 +1560,7 @@
       setupSingleHunterFocus();
       setupMagneticEffects();
       setupFounderJourney();
-      initHeroThreeScene();
+      scheduleHeroThreeScene();
       setupMotionAndHelper();
       setupSmartNavbar();
       setupHeroHunterPopup();
@@ -1545,7 +1575,7 @@
     setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
-    initHeroThreeScene();
+    scheduleHeroThreeScene();
     setupMotionAndHelper();
     setupSmartNavbar();
     setupHeroHunterPopup();

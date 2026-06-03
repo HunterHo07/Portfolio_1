@@ -1,6 +1,6 @@
 {
   "name": "portfolio-1",
-  "version": "1.6.6",
+  "version": "2.0.0",
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "scripts": {

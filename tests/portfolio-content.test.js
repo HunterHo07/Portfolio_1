@@ -296,8 +296,10 @@ assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js
 
 const navBlock = (css.match(/nav\s*{([\s\S]*?)}/) || [])[1] || "";
 assert.ok(/display:\s*block/.test(navBlock), "Top navbar should be visible from page load");
-assert.ok(!js.includes('$("#main-nav").slideUp(700)'), "Top navbar should not be hidden at the hero top");
-assert.ok(js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should be forced visible by JS fallback");
+assert.ok(/position:\s*fixed/.test(navBlock) && /top:\s*0/.test(navBlock), "Top navbar should stick to the top of the viewport");
+assert.ok(css.includes("body.is-hero-top nav") && css.includes("translate3d(0, -112%, 0)"), "Top navbar should hide only at the hero top");
+assert.ok(js.includes("setupSmartNavbar") && js.includes('body.classList.toggle("is-hero-top"'), "Top navbar should be controlled by scroll state");
+assert.ok(!js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should not be forced visible on the first hero frame");
 assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
 assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");

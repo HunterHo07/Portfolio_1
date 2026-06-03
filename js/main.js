@@ -1137,6 +1137,23 @@
     updateScrollEffects();
   }
 
+  function setupSmartNavbar() {
+    var body = document.body;
+    var mainNav = document.getElementById("main-nav");
+
+    if (!body || !mainNav) {
+      return;
+    }
+
+    function updateNavbarState() {
+      body.classList.toggle("is-hero-top", window.scrollY <= 24);
+    }
+
+    window.addEventListener("scroll", updateNavbarState, { passive: true });
+    window.addEventListener("resize", updateNavbarState);
+    updateNavbarState();
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       setupThemeToggle();
@@ -1148,6 +1165,7 @@
       setupMagneticEffects();
       setupFounderJourney();
       setupMotionAndHelper();
+      setupSmartNavbar();
     });
   } else {
     setupThemeToggle();
@@ -1159,6 +1177,7 @@
     setupMagneticEffects();
     setupFounderJourney();
     setupMotionAndHelper();
+    setupSmartNavbar();
   }
 })();
 
@@ -1221,8 +1240,6 @@ $(document).ready(function () {
     }
   }
 
-  // Keep the portfolio navigation visible from the first hero frame.
-  $("#main-nav, #main-nav-subpage").show();
   $("#main-nav-subpage").removeClass("subpage-nav");
 
   // ========================================================================= //

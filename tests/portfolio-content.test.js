@@ -61,6 +61,7 @@ const requiredText = [
   "Founder Proof Theater",
   "One Hunter. Seven proof moments.",
   "Champion Stage",
+  "Portfolio v1.6.3",
 ];
 
 const requiredUrls = [
@@ -194,6 +195,7 @@ const themeSelectors = [
   '[data-theme="dark"]',
   ".theme-toggle",
   ".language-toggle",
+  ".release-badge",
   ".husky-helper",
   ".parallax-backdrop",
   "body",
@@ -250,6 +252,11 @@ for (const token of [
   "--layer-offset-y",
   "hero.headlinePhrases",
   "heroHeadlineTypingTimer",
+  "headlineHoldDelay",
+  "hero-word-special",
+  "heroSpecialWordShine",
+  "heroSpecialWordUnderline",
+  "v1.6.3",
   "typeHeadline",
   "heroWordIn",
   "heroTypingCaret",
@@ -309,6 +316,8 @@ assert.ok(css.includes("body.is-hero-top nav") && css.includes("translate3d(0, -
 assert.ok(js.includes("setupSmartNavbar") && js.includes('body.classList.toggle("is-hero-top"'), "Top navbar should be controlled by scroll state");
 assert.ok(!js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should not be forced visible on the first hero frame");
 assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
+assert.ok(js.includes("headlineHoldDelay = 5000"), "Hero typed headline should hold each completed phrase for 5 seconds");
+assert.ok(js.includes("specialWords") && js.includes("hero-word-special"), "Hero typed headline should wrap important words with a special effect class");
 assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing visuals should be registered as single-focus zones");
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");

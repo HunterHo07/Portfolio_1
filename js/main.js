@@ -493,11 +493,23 @@
     }
 
     function renderIntroHeadline(text) {
+      var specialWords = {
+        ai: true,
+        automation: true,
+        systems: true,
+        products: true,
+        dashboards: true,
+        lazy: true
+      };
       var words = text.replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
       headline.textContent = "";
       words.forEach(function (word, index) {
+        var normalizedWord = word.toLowerCase().replace(/[^a-z]/g, "");
         var span = document.createElement("span");
         span.className = "hero-word";
+        if (specialWords[normalizedWord]) {
+          span.className += " hero-word-special";
+        }
         span.style.setProperty("--word-index", index);
         span.textContent = word;
         headline.appendChild(span);
@@ -518,7 +530,7 @@
         var phraseIndex = 0;
         var characterIndex = (headlinePhrases[0] || "").length;
         var deleting = false;
-        var holdCycles = 0;
+        var headlineHoldDelay = 5000;
 
         headline.classList.remove("is-typing");
         renderIntroHeadline(headlinePhrases[0] || "");
@@ -531,12 +543,10 @@
             characterIndex += 1;
             headline.textContent = phrase.slice(0, characterIndex);
           } else if (!deleting) {
-            headline.textContent = phrase;
-            holdCycles += 1;
-            delay = holdCycles > 8 ? 28 : 70;
-            if (holdCycles > 8 && headlinePhrases.length > 1) {
+            renderIntroHeadline(phrase);
+            delay = headlineHoldDelay;
+            if (headlinePhrases.length > 1) {
               deleting = true;
-              holdCycles = 0;
             }
           } else if (deleting) {
             characterIndex -= 1;

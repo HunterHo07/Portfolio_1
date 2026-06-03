@@ -78,7 +78,7 @@ body {
     radial-gradient(circle at 82% calc(70% - (var(--scroll-depth, 0) * 12%)), rgba(216, 185, 135, 0.13), transparent 30%);
 }
 
-body > *:not(.parallax-backdrop):not(.celebration-layer):not(.theme-toggle):not(.language-toggle):not(.husky-helper):not(.project-detail-modal) {
+body > *:not(.parallax-backdrop):not(.celebration-layer):not(.theme-toggle):not(.language-toggle):not(.release-badge):not(.husky-helper):not(.project-detail-modal) {
   position: relative;
   z-index: 1;
 }
@@ -411,6 +411,36 @@ nav ul li a {
   cursor: pointer;
 }
 
+.release-badge {
+  position: fixed;
+  left: 22px;
+  bottom: 20px;
+  z-index: 2300;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(216, 185, 135, 0.44);
+  border-radius: 999px;
+  background: rgba(8, 12, 18, 0.68);
+  color: #f7f3e8;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.release-badge:hover,
+.release-badge:focus {
+  border-color: rgba(116, 227, 255, 0.82);
+  color: #74e3ff;
+  outline: none;
+  text-decoration: none;
+}
+
 .theme-toggle {
   right: 24px;
 }
@@ -648,6 +678,35 @@ nav ul li a {
   transform: translate3d(0, 34px, 0) rotateX(18deg);
   animation: heroWordIn 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: calc(0.1s + (var(--word-index, 0) * 0.06s));
+}
+
+.hero-headline .hero-word-special {
+  position: relative;
+  color: transparent;
+  background: linear-gradient(92deg, #ffffff 0%, #74e3ff 32%, #ffd36a 68%, #ffffff 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: none;
+  animation:
+    heroWordIn 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    heroSpecialWordShine 3.4s ease-in-out infinite;
+  animation-delay: calc(0.1s + (var(--word-index, 0) * 0.06s)), 0.9s;
+}
+
+.hero-headline .hero-word-special::after {
+  content: "";
+  position: absolute;
+  left: 0.02em;
+  right: 0.02em;
+  bottom: 0.03em;
+  height: 0.08em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(116, 227, 255, 0), rgba(116, 227, 255, 0.9), rgba(255, 211, 106, 0.9), rgba(116, 227, 255, 0));
+  box-shadow: 0 0 26px rgba(116, 227, 255, 0.52);
+  transform: scaleX(0.78);
+  transform-origin: center;
+  animation: heroSpecialWordUnderline 3.4s ease-in-out infinite;
 }
 
 .header-content p {
@@ -3023,6 +3082,30 @@ nav ul li a {
   }
 }
 
+@keyframes heroSpecialWordShine {
+  0%,
+  100% {
+    background-position: 0% center;
+    filter: drop-shadow(0 0 0 rgba(116, 227, 255, 0));
+  }
+  50% {
+    background-position: 100% center;
+    filter: drop-shadow(0 0 18px rgba(116, 227, 255, 0.64));
+  }
+}
+
+@keyframes heroSpecialWordUnderline {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scaleX(0.68);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
 @keyframes hunterRevealIn {
   0% {
     opacity: 0.28;
@@ -3255,6 +3338,14 @@ nav ul li a {
 
   .language-toggle {
     right: 108px;
+  }
+
+  .release-badge {
+    left: 14px;
+    bottom: 14px;
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 9px;
   }
 
   .husky-helper {

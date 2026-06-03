@@ -410,104 +410,91 @@ nav ul li a {
   overflow: hidden;
   pointer-events: none;
   background: #06111f;
+  contain: paint;
+  transform: translateZ(0);
 }
 
 .hero-layer {
   position: absolute;
+  inset: -6vh -5vw;
   display: block;
+  z-index: var(--layer-z, 1);
   opacity: 0;
+  transform-origin: center center;
   animation: heroLayerAssemble 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: var(--delay, 0s);
   will-change: transform, opacity, filter;
 }
 
-.hero-image-layer {
-  inset: -5vh -5vw;
-  background-image: url("../images/hero-founder-banner-ai.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  transform-origin: center;
+.hero-layer img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  transform: translate3d(var(--layer-offset-x, 0px), var(--layer-offset-y, 0px), 0) scale(var(--layer-scale, 1));
+  transform-origin: center center;
+  filter: var(--layer-filter, none);
+  will-change: transform;
 }
 
-.hero-image-base {
-  --from-x: 0;
-  --from-y: 0;
-  --from-scale: 1.04;
-  --from-r: 0deg;
-  --scroll-speed: -34px;
-  --final-opacity: 0.72;
-  filter: saturate(0.86) contrast(1.06) brightness(0.8);
-}
-
-.hero-image-left-depth {
-  --from-x: -12vw;
-  --from-y: 6vh;
-  --from-scale: 1.1;
-  --from-r: -1deg;
-  --delay: 0.08s;
-  --scroll-speed: -76px;
-  --final-opacity: 0.3;
-  background-position: left center;
-  filter: saturate(0.92) contrast(1.08) brightness(0.72);
-  -webkit-mask-image: linear-gradient(90deg, #000 0 36%, rgba(0, 0, 0, 0.62) 52%, transparent 80%);
-  mask-image: linear-gradient(90deg, #000 0 36%, rgba(0, 0, 0, 0.62) 52%, transparent 80%);
-}
-
-.hero-image-workdesk {
-  --from-x: 0;
-  --from-y: 14vh;
-  --from-scale: 1.12;
-  --from-r: 0deg;
-  --delay: 0.16s;
-  --scroll-speed: -112px;
-  --final-opacity: 0.22;
-  background-position: center center;
-  filter: saturate(0.9) contrast(1.14) brightness(0.84) blur(0.2px);
-  -webkit-mask-image: radial-gradient(ellipse at 54% 60%, rgba(0, 0, 0, 0.8) 0 24%, rgba(0, 0, 0, 0.38) 46%, transparent 72%);
-  mask-image: radial-gradient(ellipse at 54% 60%, rgba(0, 0, 0, 0.8) 0 24%, rgba(0, 0, 0, 0.38) 46%, transparent 72%);
-}
-
-.hero-image-ui-depth {
-  --from-x: 18vw;
-  --from-y: -9vh;
-  --from-scale: 1.12;
-  --from-r: 1deg;
-  --delay: 0.24s;
-  --scroll-speed: -145px;
-  --final-opacity: 0.22;
-  background-position: center center;
-  filter: saturate(1.08) contrast(1.18) brightness(0.86);
-  -webkit-mask-image: radial-gradient(ellipse at 76% 22%, rgba(0, 0, 0, 0.72) 0 18%, rgba(0, 0, 0, 0.26) 36%, transparent 62%);
-  mask-image: radial-gradient(ellipse at 76% 22%, rgba(0, 0, 0, 0.72) 0 18%, rgba(0, 0, 0, 0.26) 36%, transparent 62%);
-}
-
-.hero-image-hunter-depth {
-  --from-x: 22vw;
-  --from-y: 7vh;
+.hero-layer-backdrop {
+  --layer-z: 1;
+  --from-x: -6vw;
+  --from-y: 3vh;
   --from-scale: 1.08;
-  --from-r: 0.5deg;
-  --delay: 0.34s;
-  --scroll-speed: -62px;
-  --final-opacity: 0.28;
-  background-position: center center;
-  filter: saturate(0.98) contrast(1.08) brightness(0.82);
-  -webkit-mask-image: radial-gradient(ellipse at 63% 42%, rgba(0, 0, 0, 0.74) 0 20%, rgba(0, 0, 0, 0.42) 40%, transparent 68%);
-  mask-image: radial-gradient(ellipse at 63% 42%, rgba(0, 0, 0, 0.74) 0 20%, rgba(0, 0, 0, 0.42) 40%, transparent 68%);
+  --from-r: -0.4deg;
+  --final-opacity: 1;
+  --layer-scale: 1.03;
+  --layer-filter: saturate(0.9) contrast(1.08) brightness(0.92);
 }
 
-.hero-image-foreground {
+.hero-layer-workdesk {
+  --layer-z: 2;
   --from-x: 0;
-  --from-y: 18vh;
-  --from-scale: 1.16;
+  --from-y: 15vh;
+  --from-scale: 1.12;
   --from-r: 0deg;
-  --delay: 0.44s;
-  --scroll-speed: -182px;
-  --final-opacity: 0.24;
-  background-position: center bottom;
-  filter: saturate(1) contrast(1.18) brightness(0.66);
-  -webkit-mask-image: linear-gradient(to top, #000 0 28%, rgba(0, 0, 0, 0.5) 54%, transparent 86%);
-  mask-image: linear-gradient(to top, #000 0 28%, rgba(0, 0, 0, 0.5) 54%, transparent 86%);
+  --delay: 0.1s;
+  --final-opacity: 1;
+  --layer-scale: 1.045;
+  --layer-filter: saturate(1.02) contrast(1.12) brightness(1.02);
+}
+
+.hero-layer-ui {
+  --layer-z: 3;
+  --from-x: 20vw;
+  --from-y: -10vh;
+  --from-scale: 1.1;
+  --from-r: 0.8deg;
+  --delay: 0.18s;
+  --final-opacity: 1;
+  --layer-scale: 1.06;
+  --layer-filter: saturate(1.14) contrast(1.18) brightness(1.05);
+}
+
+.hero-layer-hunter {
+  --layer-z: 5;
+  --from-x: 24vw;
+  --from-y: 6vh;
+  --from-scale: 1.05;
+  --from-r: 0.25deg;
+  --delay: 0.28s;
+  --final-opacity: 1;
+  --layer-scale: 1.015;
+  --layer-filter: saturate(1.02) contrast(1.08) brightness(0.98);
+}
+
+.hero-layer-foreground {
+  --layer-z: 6;
+  --from-x: -12vw;
+  --from-y: 18vh;
+  --from-scale: 1.12;
+  --from-r: -0.6deg;
+  --delay: 0.38s;
+  --final-opacity: 1;
+  --layer-scale: 1.075;
+  --layer-filter: saturate(1.2) contrast(1.22) brightness(0.9);
 }
 
 .hero-parallax-stack::after {
@@ -517,8 +504,8 @@ nav ul li a {
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(4, 8, 14, 0.86) 0%, rgba(4, 8, 14, 0.66) 44%, rgba(4, 8, 14, 0.34) 100%),
-    linear-gradient(180deg, rgba(4, 8, 14, 0.18) 0%, rgba(4, 8, 14, 0.04) 42%, rgba(4, 8, 14, 0.62) 100%);
+    linear-gradient(90deg, rgba(4, 8, 14, 0.84) 0%, rgba(4, 8, 14, 0.56) 45%, rgba(4, 8, 14, 0.18) 100%),
+    linear-gradient(180deg, rgba(4, 8, 14, 0.2) 0%, rgba(4, 8, 14, 0.02) 42%, rgba(4, 8, 14, 0.64) 100%);
 }
 
 #header::after {
@@ -543,7 +530,7 @@ nav ul li a {
   --hunter-reveal: 1;
 }
 
-#header[data-hunter-zone]:not(.is-hunter-active) .hero-image-hunter-depth {
+#header[data-hunter-zone]:not(.is-hunter-active) .hero-layer-hunter {
   --final-opacity: 0;
   opacity: 0 !important;
 }
@@ -2948,7 +2935,7 @@ nav ul li a {
   100% {
     opacity: var(--final-opacity, 1);
     filter: blur(0);
-    transform: translate3d(0, calc(var(--scroll-depth, 0) * var(--scroll-speed, 0px)), 0) scale(1) rotate(0deg);
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }
 }
 
@@ -3179,6 +3166,7 @@ nav ul li a {
   .parallax-orb,
   .parallax-grid,
   .hero-layer,
+  .hero-layer img,
   .proof-motion-wall::before,
   .has-thumb-loop img,
   .speaker-hero img,
@@ -3380,7 +3368,7 @@ nav ul li a {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(7, 11, 18, 0.88), rgba(7, 11, 18, 0.72), rgba(7, 11, 18, 0.28)),
-    url("../images/founder-banner.jpeg") center center / cover no-repeat,
+    url("../images/hero-founder-banner-ai.png") center center / cover no-repeat,
     var(--color-surface);
   background-position:
     center,

@@ -232,13 +232,14 @@ for (const token of [
   "speaker-proof-note",
   "hero-parallax-stack",
   "hero-layer",
-  "hero-image-layer",
-  "hero-image-base",
-  "hero-image-left-depth",
-  "hero-image-workdesk",
-  "hero-image-ui-depth",
-  "hero-image-hunter-depth",
-  "hero-image-foreground",
+  "hero-layer-backdrop",
+  "hero-layer-workdesk",
+  "hero-layer-ui",
+  "hero-layer-hunter",
+  "hero-layer-foreground",
+  "hero-layer-04-hunter.webp",
+  "heroLayerSpeeds",
+  "--layer-offset-y",
   "hero.headlinePhrases",
   "heroHeadlineTypingTimer",
   "typeHeadline",
@@ -302,12 +303,25 @@ assert.ok((html.match(/data-hunter-zone=/g) || []).length >= 5, "Hunter-bearing 
 assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zone]"), "Single-Hunter focus manager should control visible Hunter zones");
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");
 
-const heroImageLayers = html.match(/class="hero-layer hero-image-layer hero-image-[^"]+"/g) || [];
-assert.equal(heroImageLayers.length, 6, `Expected six image-derived hero parallax layers, found ${heroImageLayers.length}`);
-assert.ok((css.match(/background-image: url\("\.\.\/images\/hero-founder-banner-ai\.png"\)/g) || []).length >= 1, "Hero parallax must use the real hero background image");
-const heroImageCss = css.slice(css.indexOf(".hero-image-layer"), css.indexOf("#header::after"));
-assert.ok(heroImageCss.includes("-webkit-mask-image") && heroImageCss.includes("mask-image"), "Hero image layers should use soft masks for depth");
-assert.ok(!heroImageCss.includes("clip-path:"), "Hero image parallax should avoid hard clip-path overlay shapes");
+const heroImageLayers = html.match(/class="hero-layer hero-layer-[^"]+"/g) || [];
+assert.equal(heroImageLayers.length, 5, `Expected five transparent hero parallax image layers, found ${heroImageLayers.length}`);
+assert.ok(!html.includes("hero-image-layer") && !css.includes("hero-image-layer"), "Hero parallax should not use the old CSS background layer class");
+assert.ok(!css.includes('background-image: url("../images/hero-founder-banner-ai.png")'), "Hero parallax should use transparent image assets, not repeated CSS backgrounds");
+const heroLayerAssets = [
+  "images/hero-layers/hero-layer-01-backdrop.webp",
+  "images/hero-layers/hero-layer-02-workdesk.webp",
+  "images/hero-layers/hero-layer-03-ui-panels.webp",
+  "images/hero-layers/hero-layer-04-hunter.webp",
+  "images/hero-layers/hero-layer-05-foreground-wave.webp"
+];
+for (const asset of heroLayerAssets) {
+  assert.ok(html.includes(asset), `Missing hero layer asset in markup: ${asset}`);
+  assert.ok(fs.existsSync(asset), `Missing generated hero layer asset file: ${asset}`);
+  assert.ok(fs.statSync(asset).size > 10000, `Hero layer asset looks too small: ${asset}`);
+}
+const heroLayerCss = css.slice(css.indexOf(".hero-layer img"), css.indexOf("#header::after"));
+assert.ok(heroLayerCss.includes("object-fit: cover") && heroLayerCss.includes("translate3d(var(--layer-offset-x"), "Hero image layers should move via image transforms");
+assert.ok(js.includes("heroDepth") && js.includes("heroLayerSpeeds") && js.includes("--layer-offset-x"), "Hero parallax should compute visible per-layer scroll depth");
 
 const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf("[data-theme=\"dark\"] .vision-copy"));
 assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 156px)"), "Founder theater should use a large full-screen shell");

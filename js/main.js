@@ -942,6 +942,14 @@
 
   function setupMotionAndHelper() {
     var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-card, .teaching-proof-card, .hackathon-grid article");
+    var heroLayers = Array.prototype.slice.call(document.querySelectorAll(".hero-parallax-stack .hero-layer"));
+    var heroLayerSpeeds = {
+      1: { x: -10, y: -28 },
+      2: { x: 14, y: -58 },
+      3: { x: 28, y: -104 },
+      4: { x: 6, y: -42 },
+      5: { x: -22, y: -136 }
+    };
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
     var huskyMessage = document.getElementById("husky-message");
@@ -1063,7 +1071,15 @@
       var doc = document.documentElement;
       var scrollable = Math.max(doc.scrollHeight - window.innerHeight, 1);
       var ratio = window.scrollY / scrollable;
+      var heroDepth = Math.min(Math.max(window.scrollY / Math.max(window.innerHeight, 1), 0), 1.15);
       doc.style.setProperty("--scroll-depth", ratio.toFixed(4));
+
+      heroLayers.forEach(function (layer, index) {
+        var depth = Number(layer.getAttribute("data-depth")) || index + 1;
+        var speed = heroLayerSpeeds[depth] || heroLayerSpeeds[1];
+        layer.style.setProperty("--layer-offset-x", Math.round(heroDepth * speed.x) + "px");
+        layer.style.setProperty("--layer-offset-y", Math.round(heroDepth * speed.y) + "px");
+      });
 
       if (husky) {
         if (!huskyHasAppeared && window.scrollY + window.innerHeight > doc.scrollHeight - 900) {

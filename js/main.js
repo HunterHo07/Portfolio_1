@@ -676,6 +676,16 @@
 
         section.style.setProperty("--section-progress", progress.toFixed(4));
         section.style.setProperty("--section-depth", depth.toFixed(4));
+
+        if (section.id === "contact") {
+          Array.prototype.slice.call(section.querySelectorAll(".contact-layer")).forEach(function (layer) {
+            var depthX = parseFloat(layer.getAttribute("data-depth-x") || "0");
+            var depthY = parseFloat(layer.getAttribute("data-depth-y") || "0");
+
+            layer.style.setProperty("--contact-layer-x", (depth * depthX).toFixed(2) + "px");
+            layer.style.setProperty("--contact-layer-y", (depth * depthY).toFixed(2) + "px");
+          });
+        }
       });
     }
 

@@ -34,6 +34,7 @@
         document.documentElement.setAttribute("data-theme", savedTheme || (systemDark ? "dark" : "light"));
       })();
     </script>
+    <link rel="preload" as="image" href="images/contact-footer-bg-v2.webp" />
     <link href="css/style.css" rel="stylesheet" />
 
     <!-- Responsive css -->
@@ -840,6 +841,20 @@
 
     <!-- start sectoion contact -->
     <div id="contact" class="paddsection">
+      <div class="contact-parallax-bg" aria-hidden="true">
+        <span class="contact-layer contact-layer-backdrop" data-depth-x="-8" data-depth-y="-24">
+          <img src="images/contact-footer-layers/contact-footer-layer-01-backdrop.webp" alt="" loading="lazy" decoding="async">
+        </span>
+        <span class="contact-layer contact-layer-ui" data-depth-x="18" data-depth-y="-54">
+          <img src="images/contact-footer-layers/contact-footer-layer-02-ui.webp" alt="" loading="lazy" decoding="async">
+        </span>
+        <span class="contact-layer contact-layer-person" data-depth-x="34" data-depth-y="-86" data-hunter-zone="contact-footer">
+          <img src="images/contact-footer-layers/contact-footer-layer-03-person.webp" alt="" loading="lazy" decoding="async">
+        </span>
+        <span class="contact-layer contact-layer-wave" data-depth-x="-18" data-depth-y="-118">
+          <img src="images/contact-footer-layers/contact-footer-layer-04-wave.webp" alt="" loading="lazy" decoding="async">
+        </span>
+      </div>
       <div class="container">
         <div class="contact-block1">
           <div class="row">
@@ -917,7 +932,7 @@
     <!-- start sectoion contact -->
 
     <!-- start section footer -->
-    <div id="footer" class="text-center" data-hunter-zone="footer-banner">
+    <div id="footer" class="text-center">
       <div class="container">
         <!-- <div class="socials-media text-center">
 

@@ -113,8 +113,6 @@ const requiredAssets = [
   "images/founder-portrait.jpeg",
   "images/logo.svg",
   "images/favicon.svg",
-  "images/founder-banner.jpeg",
-  "images/hero-founder-banner-ai.png",
   "images/founder-vision-poster.jpeg",
   "images/demo-thumb-bestzdeal-feature.png",
   "images/demo-thumb-travel-feature.png",
@@ -158,6 +156,11 @@ const requiredAssets = [
   "images/ui/husky-happy.png",
   "images/ui/husky-excited.png",
   "images/ui/husky-contact.png",
+  "images/contact-footer-bg-v2.webp",
+  "images/contact-footer-layers/contact-footer-layer-01-backdrop.webp",
+  "images/contact-footer-layers/contact-footer-layer-02-ui.webp",
+  "images/contact-footer-layers/contact-footer-layer-03-person.webp",
+  "images/contact-footer-layers/contact-footer-layer-04-wave.webp",
 ];
 
 for (const text of requiredText) {
@@ -217,6 +220,11 @@ for (const token of ["--color-bg", "--color-surface", "--color-text", "--color-h
 for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggle", "portfolio-language", "project-detail-chip"]) {
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
+
+assert.ok(html.includes("contact-parallax-bg"), "Contact/footer section should use a layered parallax background");
+assert.ok(js.includes("--contact-layer-x"), "Contact parallax layers should receive scroll-based x offsets");
+assert.ok(js.includes("--contact-layer-y"), "Contact parallax layers should receive scroll-based y offsets");
+assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center center / cover no-repeat'), "Footer should not reuse the hero banner as a cover background");
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 

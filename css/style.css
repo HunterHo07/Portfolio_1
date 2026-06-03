@@ -964,8 +964,7 @@ nav ul li a {
 }
 
 .speaker-hero img,
-.hackathon-proof-media img,
-.founder-poster-stage img {
+.hackathon-proof-media img {
   transform: translate3d(0, calc(var(--section-depth, 0) * -18px), 0) scale(1.04);
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.55s ease;
 }
@@ -1205,7 +1204,7 @@ nav ul li a {
 
 .founder-journey {
   position: relative;
-  min-height: 720vh;
+  min-height: 900vh;
   overflow: clip;
   background:
     radial-gradient(circle at 18% 18%, rgba(116, 227, 255, 0.12), transparent 32%),
@@ -1252,18 +1251,60 @@ nav ul li a {
   isolation: isolate;
 }
 
-.founder-poster-stage img {
+.founder-poster-stage::after {
+  content: "";
   position: absolute;
-  inset: -9% -6%;
+  inset: -8%;
+  z-index: 0;
+  pointer-events: none;
+  background: url("../images/founder-poster-layers/founder-poster-08-all-hunters.webp") center / cover no-repeat;
+  filter: blur(20px) brightness(0.34) saturate(1.12);
+  transform: scale(1.06);
+  opacity: 0.88;
+}
+
+.founder-poster-layer {
+  position: absolute;
+  inset: 3.5% 4%;
   display: block;
-  width: 112%;
-  height: 118%;
-  object-fit: cover;
-  object-position: center var(--journey-focus, 0%);
-  transform: translate3d(calc((var(--journey-step, 0) - 3) * -1.1vw), calc((var(--journey-step, 0) - 3) * -0.65vh), 0) scale(1.08);
+  width: 92%;
+  height: 93%;
+  object-fit: contain;
+  object-position: center var(--journey-focus, 50%);
+  opacity: 0;
+  transform: translate3d(var(--founder-layer-offset-x, 0px), var(--founder-layer-offset-y, 0px), 0) scale(var(--founder-layer-scale, 1.06));
   transform-origin: center var(--journey-focus, 50%);
-  filter: saturate(1.08) contrast(1.08) brightness(0.86);
-  transition: object-position 0.55s ease, filter 0.55s ease, transform 0.55s ease;
+  filter: saturate(1.08) contrast(1.08) brightness(0.88);
+  transition: opacity 0.52s ease, object-position 0.55s ease, filter 0.55s ease, transform 0.55s ease;
+  will-change: opacity, transform, object-position;
+}
+
+.founder-poster-layer-base {
+  z-index: 1;
+  opacity: 1;
+  --founder-layer-scale: 1.04;
+  filter: saturate(1.02) contrast(1.05) brightness(0.76);
+}
+
+.founder-poster-layer[data-founder-step] {
+  z-index: 3;
+  mix-blend-mode: normal;
+  filter:
+    drop-shadow(0 0 32px rgba(116, 227, 255, 0.28))
+    saturate(1.1)
+    contrast(1.08)
+    brightness(1.02);
+}
+
+.founder-poster-layer[data-founder-step].is-visible,
+.founder-poster-layer-all.is-visible {
+  opacity: var(--hunter-reveal);
+}
+
+.founder-poster-layer-all {
+  z-index: 4;
+  --founder-layer-scale: 1.045;
+  filter: saturate(1.08) contrast(1.08) brightness(0.92);
 }
 
 .founder-poster-stage::before {
@@ -1273,44 +1314,17 @@ nav ul li a {
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5, 7, 12, 0.7), rgba(5, 7, 12, 0.94) 72%, rgba(5, 7, 12, 0.99)),
-    radial-gradient(circle at var(--journey-mask-x, 50%) var(--journey-mask-y, 45%), rgba(116, 227, 255, 0.18), transparent 28%),
-    rgba(5, 7, 12, 0.98);
-  -webkit-mask-image: radial-gradient(ellipse var(--journey-mask-rx, 20%) var(--journey-mask-ry, 16%) at var(--journey-mask-x, 39%) var(--journey-mask-y, 45%), transparent 0 35%, rgba(0, 0, 0, 0.78) 49%, #000 66%);
-  mask-image: radial-gradient(ellipse var(--journey-mask-rx, 20%) var(--journey-mask-ry, 16%) at var(--journey-mask-x, 39%) var(--journey-mask-y, 45%), transparent 0 35%, rgba(0, 0, 0, 0.78) 49%, #000 66%);
-  transition: -webkit-mask-image 0.55s ease, mask-image 0.55s ease, background 0.55s ease;
-}
-
-.founder-poster-stage::after {
-  content: "";
-  position: absolute;
-  left: clamp(28px, 5.5vw, 82px);
-  top: 10%;
-  bottom: 10%;
-  z-index: 5;
-  width: min(42vw, 430px);
-  border: 1px solid rgba(216, 185, 135, 0.36);
-  border-radius: 38px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(5, 7, 12, 0.18)),
-    url("../images/founder-portrait.jpeg") center 34% / cover no-repeat;
-  box-shadow:
-    0 40px 110px rgba(0, 0, 0, 0.58),
-    0 0 0 1px rgba(116, 227, 255, 0.12) inset,
-    0 0 46px rgba(116, 227, 255, 0.2);
-  opacity: var(--hunter-reveal);
-  transform: translate3d(calc((1 - var(--hunter-reveal)) * -42px), calc((1 - var(--hunter-reveal)) * 28px), 0) scale(calc(0.92 + (var(--hunter-reveal) * 0.08)));
-  transition: opacity 0.62s ease, transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
+    linear-gradient(90deg, rgba(5, 7, 12, 0.18), rgba(5, 7, 12, 0.64) 62%, rgba(5, 7, 12, 0.84)),
+    radial-gradient(circle at var(--journey-mask-x, 50%) var(--journey-mask-y, 45%), rgba(116, 227, 255, 0.2), transparent 28%),
+    linear-gradient(0deg, rgba(5, 7, 12, 0.16), transparent 38%);
+  transition: background 0.55s ease;
 }
 
 .founder-poster-stage[data-hunter-zone]:not(.is-hunter-active)::before {
   background: rgba(5, 7, 12, 0.92);
-  -webkit-mask-image: none;
-  mask-image: none;
 }
 
-.founder-poster-stage[data-hunter-zone]:not(.is-hunter-active) img {
+.founder-poster-stage[data-hunter-zone]:not(.is-hunter-active) .founder-poster-layer {
   filter: brightness(0.08) saturate(0) contrast(1.22);
 }
 
@@ -1343,36 +1357,43 @@ nav ul li a {
   z-index: 6;
   grid-column: 1;
   grid-row: 1;
-  align-self: center;
+  align-self: end;
   justify-self: end;
-  width: min(46vw, 520px);
-  margin: 34px;
-  padding: clamp(20px, 2.35vw, 30px);
+  width: min(34vw, 430px);
+  margin: 24px;
+  padding: clamp(17px, 1.8vw, 24px);
   border: 1px solid rgba(216, 185, 135, 0.3);
   border-radius: 34px;
-  background: rgba(8, 12, 18, 0.66);
+  background: rgba(8, 12, 18, 0.76);
   box-shadow: 0 34px 90px rgba(0, 0, 0, 0.42);
   backdrop-filter: blur(18px);
+  transition: opacity 0.5s ease, transform 0.55s ease, background 0.45s ease;
+}
+
+.founder-journey.is-final-poster .founder-journey-copy {
+  opacity: 0.2;
+  transform: translate3d(38%, 10%, 0) scale(0.92);
+  background: rgba(8, 12, 18, 0.42);
 }
 
 .founder-journey-copy h2 {
   color: #f8f2e6;
   font-family: "Playfair Display", serif;
-  font-size: clamp(28px, 2.95vw, 42px);
+  font-size: clamp(24px, 2.3vw, 34px);
   line-height: 1;
 }
 
 .founder-journey-copy p {
   max-width: 680px;
   margin: 16px 0 0;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.52;
   color: rgba(247, 243, 232, 0.84);
 }
 
 .founder-journey-steps {
   display: grid;
-  gap: 7px;
+  gap: 6px;
   margin: 16px 0 0;
   padding: 0;
   list-style: none;
@@ -1380,7 +1401,7 @@ nav ul li a {
 
 .founder-journey-steps li {
   position: relative;
-  padding: 9px 12px 9px 16px;
+  padding: 8px 11px 8px 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.045);
@@ -1409,7 +1430,7 @@ nav ul li a {
 
 .founder-journey-steps strong {
   color: inherit;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1418,7 +1439,7 @@ nav ul li a {
 .founder-journey-steps span {
   display: none;
   margin-top: 6px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.55;
 }
 
@@ -2054,7 +2075,7 @@ nav ul li a {
     margin: 24px;
   }
 
-  .founder-poster-stage img {
+  .founder-poster-layer {
     width: 120%;
     height: 120%;
     object-position: center center;
@@ -3210,7 +3231,7 @@ nav ul li a {
   .has-thumb-loop img,
   .speaker-hero img,
   .hackathon-proof-media img,
-  .founder-poster-stage img,
+  .founder-poster-layer,
   .champion-route,
   .champion-step,
   .champion-crown-pulse {

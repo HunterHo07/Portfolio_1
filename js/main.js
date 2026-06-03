@@ -604,29 +604,55 @@
     }
 
     var steps = Array.prototype.slice.call(journey.querySelectorAll(".founder-journey-steps li"));
+    var singleLayers = Array.prototype.slice.call(journey.querySelectorAll(".founder-poster-layer[data-founder-step]"));
+    var allLayer = journey.querySelector(".founder-poster-layer-all");
+    var posterLayers = Array.prototype.slice.call(journey.querySelectorAll(".founder-poster-layer"));
     var maxIndex = Math.max(steps.length - 1, 0);
+    var totalStates = steps.length + 2;
+    var maxState = Math.max(totalStates - 1, 0);
     var focusPoints = [
-      { x: "39%", y: "38%", rx: "25%", ry: "23%" },
-      { x: "27%", y: "50%", rx: "23%", ry: "20%" },
-      { x: "38%", y: "30%", rx: "23%", ry: "20%" },
-      { x: "40%", y: "38%", rx: "25%", ry: "23%" },
-      { x: "35%", y: "77%", rx: "23%", ry: "20%" },
-      { x: "28%", y: "25%", rx: "22%", ry: "18%" },
-      { x: "40%", y: "38%", rx: "25%", ry: "23%" }
+      { x: "50%", y: "50%", focus: "50%" },
+      { x: "27%", y: "18%", focus: "13%" },
+      { x: "73%", y: "18%", focus: "14%" },
+      { x: "50%", y: "38%", focus: "39%" },
+      { x: "27%", y: "52%", focus: "52%" },
+      { x: "76%", y: "53%", focus: "53%" },
+      { x: "28%", y: "80%", focus: "82%" },
+      { x: "74%", y: "80%", focus: "84%" },
+      { x: "50%", y: "50%", focus: "50%" }
     ];
 
-    function setActiveStep(activeIndex) {
-      var focusPoint = focusPoints[activeIndex] || focusPoints[0];
-      journey.setAttribute("data-active-step", String(activeIndex));
-      journey.style.setProperty("--journey-step", activeIndex);
-      journey.style.setProperty("--journey-focus", maxIndex > 0 ? (activeIndex / maxIndex) * 100 + "%" : "0%");
+    function setFounderPosterLayerState(activeState, progress) {
+      var focusPoint = focusPoints[activeState] || focusPoints[0];
+      var activeStep = activeState > 0 && activeState <= steps.length ? activeState - 1 : -1;
+      var depth = (progress - 0.5) * 2;
+
+      journey.setAttribute("data-active-step", String(activeStep));
+      journey.setAttribute("data-founder-state", String(activeState));
+      journey.classList.toggle("is-empty-poster", activeState === 0);
+      journey.classList.toggle("is-final-poster", activeState === maxState);
+      journey.style.setProperty("--journey-step", activeState);
+      journey.style.setProperty("--journey-focus", focusPoint.focus);
       journey.style.setProperty("--journey-mask-x", focusPoint.x);
       journey.style.setProperty("--journey-mask-y", focusPoint.y);
-      journey.style.setProperty("--journey-mask-rx", focusPoint.rx);
-      journey.style.setProperty("--journey-mask-ry", focusPoint.ry);
+
+      singleLayers.forEach(function (layer, index) {
+        layer.classList.toggle("is-visible", index === activeStep);
+      });
+
+      if (allLayer) {
+        allLayer.classList.toggle("is-visible", activeState === maxState);
+      }
+
+      posterLayers.forEach(function (layer, index) {
+        var speedX = index === 0 ? -10 : 7 + index * 2.3;
+        var speedY = index === 0 ? -18 : -24 - index * 6.5;
+        layer.style.setProperty("--founder-layer-offset-x", (depth * speedX).toFixed(2) + "px");
+        layer.style.setProperty("--founder-layer-offset-y", (depth * speedY).toFixed(2) + "px");
+      });
 
       steps.forEach(function (step, index) {
-        step.classList.toggle("is-active", index === activeIndex);
+        step.classList.toggle("is-active", index === activeStep || (activeState === maxState && index === maxIndex));
       });
     }
 
@@ -634,8 +660,8 @@
       var rect = journey.getBoundingClientRect();
       var denominator = Math.max(rect.height - window.innerHeight, 1);
       var progress = Math.min(Math.max((0 - rect.top) / denominator, 0), 1);
-      var activeIndex = Math.min(maxIndex, Math.max(0, Math.round(progress * maxIndex)));
-      setActiveStep(activeIndex);
+      var activeState = Math.min(maxState, Math.max(0, Math.round(progress * maxState)));
+      setFounderPosterLayerState(activeState, progress);
     }
 
     window.addEventListener("scroll", updateJourney, { passive: true });

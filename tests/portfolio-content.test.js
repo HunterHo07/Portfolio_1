@@ -336,9 +336,33 @@ assert.ok(js.includes("heroDepth") && js.includes("heroLayerSpeeds") && js.inclu
 const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf("[data-theme=\"dark\"] .vision-copy"));
 assert.ok(founderJourneyCss.includes("min-height: calc(100vh - 156px)"), "Founder theater should use a large full-screen shell");
 assert.ok(founderJourneyCss.includes("position: absolute") && founderJourneyCss.includes("inset: 0"), "Founder poster should fill the full theater shell as a background layer");
-assert.ok(founderJourneyCss.includes("justify-self: end") && founderJourneyCss.includes("width: min(46vw, 520px)"), "Founder copy should be a floating side panel over the image");
+assert.ok(founderJourneyCss.includes("justify-self: end") && founderJourneyCss.includes("width: min(34vw, 430px)"), "Founder copy should be a compact floating side panel over the image");
+assert.ok(founderJourneyCss.includes("object-fit: contain") && founderJourneyCss.includes("founder-poster-layer-all.is-visible"), "Founder poster should show the full poster top-to-bottom and reveal the final all-Hunters layer");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
+
+const founderPosterLayers = html.match(/class="founder-poster-layer founder-poster-layer-[^"]+"/g) || [];
+assert.equal(founderPosterLayers.length, 9, `Expected no-Hunter base, seven single-Hunter layers, and all-Hunters finale, found ${founderPosterLayers.length}`);
+assert.ok(html.includes("founder-poster-layer-base") && html.includes("founder-poster-layer-all"), "Founder theater should start with no Hunter and end with all Hunters");
+assert.equal((html.match(/data-founder-step="/g) || []).length, 7, "Founder theater should expose exactly seven single-Hunter steps");
+assert.ok(js.includes("setFounderPosterLayerState") && js.includes("--founder-layer-offset-y"), "Founder theater should drive per-step layer visibility and parallax offsets");
+
+const founderPosterAssets = [
+  "images/founder-poster-layers/founder-poster-00-no-hunter.webp",
+  "images/founder-poster-layers/founder-poster-01-miami.webp",
+  "images/founder-poster-layers/founder-poster-02-cto.webp",
+  "images/founder-poster-layers/founder-poster-03-center.webp",
+  "images/founder-poster-layers/founder-poster-04-ahfaiz.webp",
+  "images/founder-poster-layers/founder-poster-05-worldcup.webp",
+  "images/founder-poster-layers/founder-poster-06-hackathon.webp",
+  "images/founder-poster-layers/founder-poster-07-teaching.webp",
+  "images/founder-poster-layers/founder-poster-08-all-hunters.webp"
+];
+
+for (const asset of founderPosterAssets) {
+  assert.ok(html.includes(asset), `Missing founder poster layer asset in markup: ${asset}`);
+  assert.ok(fs.existsSync(asset), `Missing founder poster layer asset file: ${asset}`);
+}
 
 for (const oldHeroOverlay of [
   "hero-layer-vignette",

@@ -69,9 +69,16 @@
           <ul class="nav-menu list-unstyled">
             <li><a href="#header" class="smoothScroll" data-i18n="nav.home">Home</a></li>
             <li><a href="#founder-vision" class="smoothScroll" data-i18n="nav.vision">Vision</a></li>
+            <li><a href="#founder-journey" class="smoothScroll">Proof</a></li>
+            <li><a href="#trillionunicorn-lab" class="smoothScroll">Lab</a></li>
+            <li><a href="#speaker-teaching" class="smoothScroll">Teaching</a></li>
+            <li><a href="#hackathon-wins" class="smoothScroll">Wins</a></li>
             <li><a href="#about" class="smoothScroll" data-i18n="nav.about">About</a></li>
+            <li><a href="#services" class="smoothScroll">Services</a></li>
+            <li><a href="#mobile-app-demos" class="smoothScroll">Mobile</a></li>
+            <li><a href="#project-assets-section" class="smoothScroll">3D Models</a></li>
             <li><a href="#hunter" class="smoothScroll" data-i18n="nav.development">Development</a></li>
-            <li><a href="#journal" class="smoothScroll" data-i18n="nav.service">Service & Price</a></li>
+            <li><a href="#journal" class="smoothScroll">Pricing</a></li>
             <li><a href="#contact" class="smoothScroll" data-i18n="nav.contact">Contact</a></li>
           </ul>
         </div>
@@ -85,12 +92,12 @@
     <button type="button" class="language-toggle" id="language-toggle" aria-label="Switch language" aria-pressed="false">
       CN
     </button>
-    <a class="release-badge" href="https://github.com/HunterHo07/Portfolio_1/releases/tag/v1.6.3" target="_blank" rel="noopener">
-      Portfolio v1.6.3
+    <a class="release-badge" href="https://github.com/HunterHo07/Portfolio_1/releases/tag/v1.6.4" target="_blank" rel="noopener">
+      Portfolio v1.6.4
     </a>
 
     <!-- start section header -->
-    <div id="header" class="home is-hunter-active" data-hunter-zone="hero">
+    <div id="header" class="home is-hunter-active" data-hunter-zone="hero" data-nav-label="Home" data-nav-label-zh="首页">
       <div class="hero-parallax-stack" aria-hidden="true">
         <span class="hero-layer hero-layer-backdrop" data-depth="1">
           <img src="images/hero-layers/hero-layer-01-backdrop.webp" width="1896" height="830" alt="" fetchpriority="high">
@@ -134,7 +141,7 @@
     <!-- End section header -->
 
     <!-- start section founder vision -->
-    <section id="founder-vision" class="founder-vision proof-motion-wall">
+    <section id="founder-vision" class="founder-vision proof-motion-wall" data-nav-label="Vision" data-nav-label-zh="愿景">
       <div class="container">
         <div class="vision-shell">
           <div class="vision-copy">
@@ -180,7 +187,7 @@
     <!-- end section founder vision -->
 
     <!-- start section founder journey -->
-    <section id="founder-journey" class="founder-journey proof-motion-wall" data-active-step="0">
+    <section id="founder-journey" class="founder-journey proof-motion-wall" data-active-step="0" data-nav-label="Proof" data-nav-label-zh="证明">
       <div class="founder-journey-sticky">
         <div class="container">
           <div class="founder-journey-shell">
@@ -220,7 +227,7 @@
     <!-- end section founder journey -->
 
     <!-- start section TrillionUnicorn -->
-    <section id="trillionunicorn-lab" class="proof-section startup-lab proof-motion-wall">
+    <section id="trillionunicorn-lab" class="proof-section startup-lab proof-motion-wall" data-nav-label="Lab" data-nav-label-zh="实验室">
       <div class="container">
         <div class="proof-section-heading">
           <span class="vision-label">OSS & Startup Lab</span>
@@ -292,7 +299,7 @@
     <!-- end section TrillionUnicorn -->
 
     <!-- start section speaker teaching -->
-    <section id="speaker-teaching" class="proof-section speaker-teaching proof-motion-wall">
+    <section id="speaker-teaching" class="proof-section speaker-teaching proof-motion-wall" data-nav-label="Teaching" data-nav-label-zh="教学">
       <div class="container">
         <div class="speaker-shell">
           <div class="speaker-copy">
@@ -345,7 +352,7 @@
     <!-- end section speaker teaching -->
 
     <!-- start section hackathon wins -->
-    <section id="hackathon-wins" class="proof-section hackathon-wins proof-motion-wall">
+    <section id="hackathon-wins" class="proof-section hackathon-wins proof-motion-wall" data-nav-label="Wins" data-nav-label-zh="奖项">
       <div class="container">
         <div class="proof-section-heading">
           <span class="vision-label">Hackathon Wins</span>
@@ -382,7 +389,7 @@
     <!-- end section hackathon wins -->
 
     <!-- start section about us -->
-    <div id="about" class="paddsection">
+    <div id="about" class="paddsection" data-nav-label="About" data-nav-label-zh="关于">
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-4">
@@ -435,7 +442,7 @@
     <!-- end section about us -->
 
     <!-- start section services -->
-    <div id="services">
+    <div id="services" data-nav-label="Services" data-nav-label-zh="服务">
       <div class="container">
         <div class="services-carousel owl-theme">
           <div class="services-block">
@@ -490,7 +497,7 @@
 
 
 <!-- mobile app demo -->
-<section id="mobile-app-demos" class="container mobile-app-demo-section">
+<section id="mobile-app-demos" class="container mobile-app-demo-section" data-nav-label="Mobile" data-nav-label-zh="手机">
   <div class="section-title text-center">
     <div class="glitch-wrapper">
       <div class="glitch" data-text="Mobile App Demo" data-i18n="sections.mobileTitle">Mobile App Demo</div>
@@ -609,7 +616,7 @@
 
 
 <!-- 3D Models Demo -->
-<div id="project-assets-section" class="container project-assets-section">
+<div id="project-assets-section" class="container project-assets-section" data-nav-label="3D Models" data-nav-label-zh="3D模型">
   <div class="section-title text-center">
     <div class="glitch-wrapper">
       <div class="glitch" data-text="3D Models Demo" data-i18n="sections.modelsTitle">3D Models Demo</div>
@@ -633,7 +640,7 @@
 
 
     <!-- start section hunter -->
-    <div id="hunter" class="text-center paddsection">
+    <div id="hunter" class="text-center paddsection" data-nav-label="Development" data-nav-label-zh="开发">
       <div class="container">
         <div class="section-title text-center">
           <h2>More Example Development</h2>
@@ -788,7 +795,7 @@
     <!-- End section hunter -->
 
     <!-- start section journal -->
-    <div id="journal" class="text-left paddsection">
+    <div id="journal" class="text-left paddsection" data-nav-label="Pricing" data-nav-label-zh="价格">
       <div class="container">
         <div class="section-title text-center">
           <!-- <h2>My Service</h2> -->
@@ -850,7 +857,7 @@
     <!-- End section journal -->
 
     <!-- start sectoion contact -->
-    <div id="contact" class="paddsection">
+    <div id="contact" class="paddsection" data-nav-label="Contact" data-nav-label-zh="联系">
       <div class="contact-parallax-bg" aria-hidden="true">
         <span class="contact-layer contact-layer-backdrop" data-depth-x="-8" data-depth-y="-24">
           <img src="images/contact-footer-layers/contact-footer-layer-01-backdrop.webp" alt="" loading="lazy" decoding="async">

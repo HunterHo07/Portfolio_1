@@ -21,11 +21,26 @@
   nav {
     padding: 10px 15px;
   }
+  #main-nav .container {
+    display: flex;
+    min-height: 50px;
+    justify-content: space-between;
+    padding: 0 210px 0 18px;
+  }
   .nav-menu {
-    margin-top: 40px;
+    position: absolute;
+    top: 58px;
+    left: 18px;
+    right: 210px;
+    margin-top: 0;
+    padding: 8px 0;
     display: none;
     float: none;
-    width: 100%;
+    width: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    box-shadow: var(--shadow-soft);
   }
   .nav-menu li {
     float: none;
@@ -37,11 +52,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-menu.is-open {
+    display: block;
+  }
   .responsive {
     float: none;
-    position: absolute;
-    top: 42px;
-    right: 220px;
+    position: static;
     padding-top: 0;
     display: block;
   }
@@ -96,11 +112,28 @@
   nav {
     padding: 20px 15px;
   }
+  #main-nav .container {
+    display: flex;
+    min-height: 48px;
+    justify-content: space-between;
+    padding: 0 230px 0 14px;
+  }
   .nav-menu {
-    margin-top: 40px;
+    position: absolute;
+    top: 64px;
+    left: 14px;
+    right: 14px;
+    margin-top: 0;
+    padding: 8px 0;
     display: none;
     float: none;
-    width: 100%;
+    width: auto;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    box-shadow: var(--shadow-soft);
   }
   .nav-menu li {
     float: none;
@@ -112,11 +145,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-menu.is-open {
+    display: block;
+  }
   .responsive {
     float: none;
-    position: absolute;
-    top: 42px;
-    right: 212px;
+    position: static;
     padding-top: 0;
     display: block;
   }
@@ -183,11 +217,25 @@
   nav {
     padding: 20px 15px;
   }
+  #main-nav .container {
+    padding: 0 230px 0 12px;
+  }
   .nav-menu {
-    margin-top: 40px;
+    position: absolute;
+    top: 64px;
+    left: 12px;
+    right: 12px;
+    margin-top: 0;
+    padding: 8px 0;
     display: none;
     float: none;
-    width: 100%;
+    width: auto;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    box-shadow: var(--shadow-soft);
   }
   .nav-menu li {
     float: none;
@@ -199,11 +247,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-menu.is-open {
+    display: block;
+  }
   .responsive {
     float: none;
-    position: absolute;
-    top: 42px;
-    right: 212px;
+    position: static;
     padding-top: 0;
     display: block;
   }
@@ -264,11 +313,25 @@
   nav {
     padding: 20px 15px;
   }
+  #main-nav .container {
+    padding: 0 210px 0 10px;
+  }
   .nav-menu {
-    margin-top: 40px;
+    position: absolute;
+    top: 64px;
+    left: 10px;
+    right: 10px;
+    margin-top: 0;
+    padding: 8px 0;
     display: none;
     float: none;
-    width: 100%;
+    width: auto;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    box-shadow: var(--shadow-soft);
   }
   .nav-menu li {
     float: none;
@@ -280,11 +343,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-menu.is-open {
+    display: block;
+  }
   .responsive {
     float: none;
-    position: absolute;
-    top: 42px;
-    right: 212px;
+    position: static;
     padding-top: 0;
     display: block;
   }
@@ -347,11 +411,25 @@
   nav {
     padding: 20px 15px;
   }
+  #main-nav .container {
+    padding: 0 198px 0 8px;
+  }
   .nav-menu {
-    margin-top: 40px;
+    position: absolute;
+    top: 64px;
+    left: 8px;
+    right: 8px;
+    margin-top: 0;
+    padding: 8px 0;
     display: none;
     float: none;
-    width: 100%;
+    width: auto;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    box-shadow: var(--shadow-soft);
   }
   .nav-menu li {
     float: none;
@@ -363,11 +441,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-menu.is-open {
+    display: block;
+  }
   .responsive {
     float: none;
-    position: absolute;
-    top: 42px;
-    right: 182px;
+    position: static;
     padding-top: 0;
     display: block;
   }

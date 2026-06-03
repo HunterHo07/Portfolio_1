@@ -7,6 +7,7 @@
   var currentLanguage = localStorage.getItem(languageStorageKey) === "zh" ? "zh" : "en";
   var heroTypingTimer = null;
   var heroHeadlineTypingTimer = null;
+  var navScrollHandler = null;
 
   var translations = {
     en: {
@@ -76,6 +77,52 @@
       "theme.light": "亮色"
     }
   };
+
+  function setupDynamicNavbar() {
+    var navMenu = document.querySelector(".nav-menu");
+    var navSections = Array.prototype.slice.call(document.querySelectorAll("[data-nav-label][id]"));
+
+    if (!navMenu || !navSections.length) {
+      return;
+    }
+
+    navMenu.innerHTML = "";
+    navSections.forEach(function (section) {
+      var label = currentLanguage === "zh" ? section.getAttribute("data-nav-label-zh") : section.getAttribute("data-nav-label");
+      var listItem = document.createElement("li");
+      var link = document.createElement("a");
+
+      link.href = "#" + section.id;
+      link.className = "smoothScroll";
+      link.textContent = label || section.id;
+      listItem.appendChild(link);
+      navMenu.appendChild(listItem);
+    });
+
+    if (navScrollHandler) {
+      window.removeEventListener("scroll", navScrollHandler);
+      window.removeEventListener("resize", navScrollHandler);
+    }
+
+    navScrollHandler = function () {
+      var activeSection = navSections[0];
+      var scrollAnchor = window.scrollY + 120;
+
+      navSections.forEach(function (section) {
+        if (section.offsetTop <= scrollAnchor) {
+          activeSection = section;
+        }
+      });
+
+      navMenu.querySelectorAll("a").forEach(function (link) {
+        link.classList.toggle("active", link.getAttribute("href") === "#" + activeSection.id);
+      });
+    };
+
+    window.addEventListener("scroll", navScrollHandler, { passive: true });
+    window.addEventListener("resize", navScrollHandler);
+    navScrollHandler();
+  }
 
   var skillDemos = [
     {
@@ -317,6 +364,7 @@
     }
 
     applyTheme(document.documentElement.getAttribute("data-theme") || getPreferredTheme());
+    setupDynamicNavbar();
     setupHeroKinetics();
   }
 
@@ -1200,6 +1248,43 @@
     updateNavbarState();
   }
 
+  function setupResponsiveNavbarToggle() {
+    var toggle = document.querySelector(".responsive");
+    var navMenu = document.querySelector(".nav-menu");
+
+    if (!toggle || !navMenu) {
+      return;
+    }
+
+    toggle.setAttribute("role", "button");
+    toggle.setAttribute("tabindex", "0");
+    toggle.setAttribute("aria-label", "Open navigation menu");
+    toggle.setAttribute("aria-expanded", String(navMenu.classList.contains("is-open")));
+
+    function setMenuOpen(isOpen) {
+      navMenu.classList.toggle("is-open", isOpen);
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    toggle.addEventListener("click", function (event) {
+      event.preventDefault();
+      setMenuOpen(!navMenu.classList.contains("is-open"));
+    });
+
+    toggle.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setMenuOpen(!navMenu.classList.contains("is-open"));
+      }
+    });
+
+    navMenu.addEventListener("click", function (event) {
+      if (event.target && event.target.matches("a")) {
+        setMenuOpen(false);
+      }
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       setupThemeToggle();
@@ -1212,6 +1297,7 @@
       setupFounderJourney();
       setupMotionAndHelper();
       setupSmartNavbar();
+      setupResponsiveNavbarToggle();
     });
   } else {
     setupThemeToggle();
@@ -1224,6 +1310,7 @@
     setupFounderJourney();
     setupMotionAndHelper();
     setupSmartNavbar();
+    setupResponsiveNavbarToggle();
   }
 })();
 
@@ -1293,7 +1380,7 @@ $(document).ready(function () {
   // ========================================================================= //
 
   $(".responsive").on("click", function (e) {
-    $(".nav-menu").slideToggle();
+    e.preventDefault();
   });
 
   // ========================================================================= //

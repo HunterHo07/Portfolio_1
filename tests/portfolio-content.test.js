@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 const html = fs.readFileSync("index.html", "utf8");
 const css = fs.readFileSync("css/style.css", "utf8");
+const responsiveCss = fs.readFileSync("css/responsive.css", "utf8");
 const js = fs.readFileSync("js/main.js", "utf8");
 
 const requiredText = [
@@ -61,7 +62,7 @@ const requiredText = [
   "Founder Proof Theater",
   "One Hunter. Seven proof moments.",
   "Champion Stage",
-  "Portfolio v1.6.3",
+  "Portfolio v1.6.4",
 ];
 
 const requiredUrls = [
@@ -256,7 +257,7 @@ for (const token of [
   "hero-word-special",
   "heroSpecialWordShine",
   "heroSpecialWordUnderline",
-  "v1.6.3",
+  "v1.6.4",
   "typeHeadline",
   "heroWordIn",
   "heroTypingCaret",
@@ -312,9 +313,17 @@ assert.ok(!html.includes("motion-radar") && !css.includes("motion-radar") && !js
 const navBlock = (css.match(/nav\s*{([\s\S]*?)}/) || [])[1] || "";
 assert.ok(/display:\s*block/.test(navBlock), "Top navbar should be visible from page load");
 assert.ok(/position:\s*fixed/.test(navBlock) && /top:\s*0/.test(navBlock), "Top navbar should stick to the top of the viewport");
-assert.ok(css.includes("body.is-hero-top nav") && css.includes("translate3d(0, -112%, 0)"), "Top navbar should hide only at the hero top");
+assert.ok(css.includes("body.is-hero-top nav") && css.includes("pointer-events: auto"), "Top navbar should stay visible and clickable at the hero top");
+const navSectionLabels = html.match(/data-nav-label="/g) || [];
+const staticNavLinks = html.match(/<li><a href="#[^"]+" class="smoothScroll"/g) || [];
+assert.equal(navSectionLabels.length, 13, `Expected 13 marked navbar sections, found ${navSectionLabels.length}`);
+assert.equal(staticNavLinks.length, navSectionLabels.length, "Static navbar fallback should match marked section count");
+assert.ok(js.includes("setupDynamicNavbar") && js.includes("[data-nav-label][id]"), "Navbar should be generated from marked sections");
+assert.ok(js.includes("setupResponsiveNavbarToggle") && responsiveCss.includes(".nav-menu.is-open"), "Responsive navbar should use a native open state");
+assert.ok(css.includes("grid-template-columns: 220px minmax(0, 1fr) 220px"), "Desktop navbar should reserve equal left and right columns while centering the menu");
+assert.ok(!css.includes("padding-right: 250px"), "Navbar should not use the old hardcoded right padding");
 assert.ok(js.includes("setupSmartNavbar") && js.includes('body.classList.toggle("is-hero-top"'), "Top navbar should be controlled by scroll state");
-assert.ok(!js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar should not be forced visible on the first hero frame");
+assert.ok(!js.includes('$("#main-nav, #main-nav-subpage").show()'), "Top navbar visibility should be handled by CSS state, not jQuery show calls");
 assert.ok((js.match(/"hero\.headlinePhrases"/g) || []).length >= 2, "Hero headline should rotate typed phrases in both languages");
 assert.ok(js.includes("headlineHoldDelay = 5000"), "Hero typed headline should hold each completed phrase for 5 seconds");
 assert.ok(js.includes("specialWords") && js.includes("hero-word-special"), "Hero typed headline should wrap important words with a special effect class");

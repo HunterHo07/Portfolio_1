@@ -36,7 +36,7 @@ This repo is the public Hunter Ho portfolio static site. Be direct, verify curre
 ## Current Known Context
 
 - Local dev server commonly runs at `http://127.0.0.1:4173`.
-- Current public badge is `Hunter v2.0.0`, linked to `https://github.com/HunterHo07`.
+- Current public badge is `Hunter v2.0.1`, linked to `https://github.com/HunterHo07`.
 - Current second section is `#trillionunicorn-lab`.
 - Recent accepted hero popup behavior: show the small Hunter popup only after 15 seconds of hero dwell, rotate messages, and hide on scroll-away.
 - Assets 3 lives in `/Users/exchange/projects/portfolio-demos/qstyle-3d-models-lab` and must remain a real local GLB catalog, not a procedural-only placeholder.

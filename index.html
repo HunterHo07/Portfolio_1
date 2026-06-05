@@ -30,9 +30,14 @@
 
     <!-- Libraries CSS Files -->
     <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet" />
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
-    <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet" />
-    <link href="lib/hover/hover.min.css" rel="stylesheet" />
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" media="print" onload="this.media='all'" data-async-css="lib/owlcarousel/assets/owl.carousel.min.css" />
+    <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet" media="print" onload="this.media='all'" data-async-css="lib/magnific-popup/magnific-popup.css" />
+    <link href="lib/hover/hover.min.css" rel="stylesheet" media="print" onload="this.media='all'" data-async-css="lib/hover/hover.min.css" />
+    <noscript>
+      <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+      <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet" />
+      <link href="lib/hover/hover.min.css" rel="stylesheet" />
+    </noscript>
 
     <!-- Main Stylesheet File -->
     <script>
@@ -42,21 +47,24 @@
         document.documentElement.setAttribute("data-theme", savedTheme || (systemDark ? "dark" : "light"));
       })();
     </script>
-    <link rel="preload" as="image" href="images/hero-options/option-c-three-source.png" />
-    <link href="css/style.css" rel="stylesheet" />
+    <link rel="preload" as="image" href="images/hero-options/option-c-three-source.jpg" />
+    <link href="css/style.css?v=2.0.7" rel="stylesheet" />
 
     <!-- Responsive css -->
-    <link href="css/responsive.css" rel="stylesheet" />
+    <link href="css/responsive.css?v=2.0.7" rel="stylesheet" />
 
     <!-- Cool Animation css -->
-    <link href="css/animate.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet" media="print" onload="this.media='all'" data-async-css="css/animate.css" />
+    <noscript>
+      <link href="css/animate.css" rel="stylesheet" />
+    </noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
     <link rel="alternate icon" href="images/favicon.webp" />
   </head>
 
-  <body class="is-hero-top">
+  <body class="is-hero-top is-hero-loading">
     <div class="parallax-backdrop" aria-hidden="true">
       <span class="parallax-orb parallax-orb-one"></span>
       <span class="parallax-orb parallax-orb-two"></span>
@@ -77,14 +85,14 @@
             <li><a href="#header" class="smoothScroll" data-i18n="nav.home">Home</a></li>
             <li><a href="#trillionunicorn-lab" class="smoothScroll">Lab</a></li>
             <li><a href="#founder-journey" class="smoothScroll">Proof</a></li>
-            <li><a href="#hackathon-wins" class="smoothScroll">Wins</a></li>
-            <li><a href="#about" class="smoothScroll" data-i18n="nav.about">About</a></li>
-            <li><a href="#services" class="smoothScroll">Services</a></li>
             <li><a href="#mobile-app-demos" class="smoothScroll">Mobile</a></li>
             <li><a href="#project-assets-section" class="smoothScroll">3D Models</a></li>
             <li><a href="#speaker-teaching" class="smoothScroll">Teaching</a></li>
+            <li><a href="#hackathon-wins" class="smoothScroll">Wins</a></li>
             <li><a href="#hunter" class="smoothScroll" data-i18n="nav.development">Development</a></li>
             <li><a href="#journal" class="smoothScroll">Pricing</a></li>
+            <li><a href="#about" class="smoothScroll" data-i18n="nav.about">About</a></li>
+            <li><a href="#services" class="smoothScroll">Services</a></li>
             <li><a href="#contact" class="smoothScroll" data-i18n="nav.contact">Contact</a></li>
           </ul>
         </div>
@@ -99,11 +107,11 @@
       CN
     </button>
     <a class="release-badge" href="https://github.com/HunterHo07" target="_blank" rel="noopener">
-      Hunter v2.0.0
+      Hunter v2.0.1
     </a>
     <div class="hero-hunter-popup" id="hero-hunter-popup" aria-hidden="true" aria-live="polite">
       <div class="hero-hunter-portrait-shell" aria-hidden="true">
-        <img class="hero-hunter-portrait" src="images/hero-layers/hero-layer-04-hunter.webp" width="1915" height="821" alt="" loading="lazy" decoding="async">
+        <img class="hero-hunter-portrait" src="images/hero-layers/hero-hunter-cutout.webp" width="691" height="660" alt="" loading="lazy" decoding="async">
       </div>
       <div class="hero-hunter-bubble">
         <p id="hero-hunter-message" data-hero-hunter-message>Still here? Tell me the problem and I will shape the build.</p>
@@ -113,13 +121,17 @@
     <!-- start section header -->
     <div id="header" class="home is-hunter-active" data-hunter-zone="hero" data-nav-label="Home" data-nav-label-zh="首页">
       <div class="hero-three-stage" aria-hidden="true">
-        <img class="hero-three-source" src="images/hero-options/option-c-three-source.png" width="1792" height="1024" alt="" loading="eager" decoding="async" fetchpriority="high">
+        <img class="hero-three-source" src="images/hero-options/option-c-three-source.jpg" width="1672" height="941" alt="" loading="eager" decoding="async" fetchpriority="high">
         <canvas class="hero-three-canvas" id="hero-three-canvas"></canvas>
         <div class="hero-three-orbit-field">
           <span></span>
           <span></span>
           <span></span>
         </div>
+      </div>
+      <div class="hero-image-loader" data-hero-loader role="status" aria-live="polite">
+        <span class="hero-loader-ring" aria-hidden="true"></span>
+        <span>Loading hero visual</span>
       </div>
       <div class="container">
 
@@ -157,7 +169,7 @@
                 title="TrillionUnicorn startup video"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="accelerometer; autoplay; clipboard-write; compute-pressure; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
             </div>
             <p class="startup-sound-note">
@@ -221,6 +233,126 @@
             <span>Hackathon Winner</span>
             <span>Builder Since 2007</span>
           </div>
+          <div class="startup-tech-stack-flow" aria-label="Technology stacks, brands, software, and AI tools used by Hunter">
+            <div class="tech-stack-row tech-stack-row-left" data-tech-stack-row>
+              <div class="tech-stack-track">
+                <span class="tech-orbit-pill">PHP</span>
+                <span class="tech-orbit-pill">JavaScript</span>
+                <span class="tech-orbit-pill">TypeScript</span>
+                <span class="tech-orbit-pill">Python</span>
+                <span class="tech-orbit-pill">Java</span>
+                <span class="tech-orbit-pill">C++</span>
+                <span class="tech-orbit-pill">C#</span>
+                <span class="tech-orbit-pill">ASP.NET Core</span>
+                <span class="tech-orbit-pill">Laravel</span>
+                <span class="tech-orbit-pill">React</span>
+                <span class="tech-orbit-pill">Svelte</span>
+                <span class="tech-orbit-pill">Django</span>
+                <span class="tech-orbit-pill">Vue</span>
+                <span class="tech-orbit-pill">Next.js</span>
+                <span class="tech-orbit-pill">Tailwind</span>
+                <span class="tech-orbit-pill">Bootstrap</span>
+                <span class="tech-orbit-pill">Flutter</span>
+                <span class="tech-orbit-pill">React Native</span>
+                <span class="tech-orbit-pill" aria-hidden="true">PHP</span>
+                <span class="tech-orbit-pill" aria-hidden="true">JavaScript</span>
+                <span class="tech-orbit-pill" aria-hidden="true">TypeScript</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Python</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Java</span>
+                <span class="tech-orbit-pill" aria-hidden="true">C++</span>
+                <span class="tech-orbit-pill" aria-hidden="true">C#</span>
+                <span class="tech-orbit-pill" aria-hidden="true">ASP.NET Core</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Laravel</span>
+                <span class="tech-orbit-pill" aria-hidden="true">React</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Svelte</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Django</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Vue</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Next.js</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Tailwind</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Bootstrap</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Flutter</span>
+                <span class="tech-orbit-pill" aria-hidden="true">React Native</span>
+              </div>
+            </div>
+            <div class="tech-stack-row tech-stack-row-right" data-tech-stack-row>
+              <div class="tech-stack-track">
+                <span class="tech-orbit-pill">Node.js</span>
+                <span class="tech-orbit-pill">PostgreSQL</span>
+                <span class="tech-orbit-pill">MySQL</span>
+                <span class="tech-orbit-pill">MongoDB</span>
+                <span class="tech-orbit-pill">SQLite</span>
+                <span class="tech-orbit-pill">Firebase</span>
+                <span class="tech-orbit-pill">Linux</span>
+                <span class="tech-orbit-pill">Nginx</span>
+                <span class="tech-orbit-pill">Apache</span>
+                <span class="tech-orbit-pill">Docker</span>
+                <span class="tech-orbit-pill">GitHub</span>
+                <span class="tech-orbit-pill">Bitbucket</span>
+                <span class="tech-orbit-pill">Vercel</span>
+                <span class="tech-orbit-pill">cPanel</span>
+                <span class="tech-orbit-pill">Figma</span>
+                <span class="tech-orbit-pill">Adobe XD</span>
+                <span class="tech-orbit-pill">Draw.io</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Node.js</span>
+                <span class="tech-orbit-pill" aria-hidden="true">PostgreSQL</span>
+                <span class="tech-orbit-pill" aria-hidden="true">MySQL</span>
+                <span class="tech-orbit-pill" aria-hidden="true">MongoDB</span>
+                <span class="tech-orbit-pill" aria-hidden="true">SQLite</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Firebase</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Linux</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Nginx</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Apache</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Docker</span>
+                <span class="tech-orbit-pill" aria-hidden="true">GitHub</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Bitbucket</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Vercel</span>
+                <span class="tech-orbit-pill" aria-hidden="true">cPanel</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Figma</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Adobe XD</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Draw.io</span>
+              </div>
+            </div>
+            <div class="tech-stack-row tech-stack-row-left tech-stack-row-slow" data-tech-stack-row>
+              <div class="tech-stack-track">
+                <span class="tech-orbit-pill">ChatGPT</span>
+                <span class="tech-orbit-pill">OpenAI API</span>
+                <span class="tech-orbit-pill">Machine Learning</span>
+                <span class="tech-orbit-pill">TensorFlow</span>
+                <span class="tech-orbit-pill">OpenCV</span>
+                <span class="tech-orbit-pill">YOLO</span>
+                <span class="tech-orbit-pill">n8n</span>
+                <span class="tech-orbit-pill">Automation</span>
+                <span class="tech-orbit-pill">Web3</span>
+                <span class="tech-orbit-pill">Solidity</span>
+                <span class="tech-orbit-pill">Smart Contract</span>
+                <span class="tech-orbit-pill">Stripe</span>
+                <span class="tech-orbit-pill">PayPal</span>
+                <span class="tech-orbit-pill">IOTA</span>
+                <span class="tech-orbit-pill">TrillionUnicorn</span>
+                <span class="tech-orbit-pill">Ahfaiz</span>
+                <span class="tech-orbit-pill">RunJian</span>
+                <span class="tech-orbit-pill">SimWork</span>
+                <span class="tech-orbit-pill" aria-hidden="true">ChatGPT</span>
+                <span class="tech-orbit-pill" aria-hidden="true">OpenAI API</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Machine Learning</span>
+                <span class="tech-orbit-pill" aria-hidden="true">TensorFlow</span>
+                <span class="tech-orbit-pill" aria-hidden="true">OpenCV</span>
+                <span class="tech-orbit-pill" aria-hidden="true">YOLO</span>
+                <span class="tech-orbit-pill" aria-hidden="true">n8n</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Automation</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Web3</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Solidity</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Smart Contract</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Stripe</span>
+                <span class="tech-orbit-pill" aria-hidden="true">PayPal</span>
+                <span class="tech-orbit-pill" aria-hidden="true">IOTA</span>
+                <span class="tech-orbit-pill" aria-hidden="true">TrillionUnicorn</span>
+                <span class="tech-orbit-pill" aria-hidden="true">Ahfaiz</span>
+                <span class="tech-orbit-pill" aria-hidden="true">RunJian</span>
+                <span class="tech-orbit-pill" aria-hidden="true">SimWork</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -243,214 +375,39 @@
               <img class="founder-poster-layer founder-poster-layer-all" loading="lazy" src="images/founder-poster-layers/founder-poster-08-all-hunters.webp" width="607" height="1280" alt="Full Hunter Ho vision poster with all seven proof moments visible" decoding="async" />
               <span class="founder-poster-mask"></span>
               <span class="founder-poster-ring"></span>
+              <span class="founder-poster-spotlight-safe" aria-hidden="true"></span>
             </div>
             <div class="founder-dashboard-hud" aria-label="Founder proof dashboard">
-              <div class="founder-hud-panel founder-hud-panel-top">
-                <span class="vision-label">Founder Proof Theater</span>
-                <h2>One Hunter. Seven proof moments.</h2>
-              </div>
-              <div class="founder-hud-panel founder-hud-panel-side">
-                <p>
-                  The poster reveals one Hunter proof moment at a time before ending with the complete seven-Hunter vision poster.
-                </p>
+              <div class="founder-hud-panel founder-hud-panel-top" aria-live="polite">
+                <span class="vision-label" data-founder-copy-label>Proof Theater</span>
+                <h2 data-founder-copy-title>Choose a proof moment.</h2>
+                <p data-founder-copy-message>Use the proof controls to reveal how each role supports real product delivery.</p>
               </div>
               <ol class="founder-journey-steps founder-hud-panel founder-hud-panel-bottom">
-                <li class="is-active"><strong>Fullstack Builder</strong><span>Web, mobile, system, database, automation, and deployment execution.</span></li>
-                <li><strong>Ahfaiz Founder</strong><span>AI life companion direction, product thinking, and startup ownership.</span></li>
-                <li><strong>CTO / Startup Builder</strong><span>Turning messy ideas into credible product, architecture, and demo direction.</span></li>
-                <li><strong>AI Automation Teacher</strong><span>Teaching practical automation, workflow tools, and real developer readiness.</span></li>
-                <li><strong>Hackathon Winner</strong><span>Pressure-tested execution across AI, Web3, and innovation events.</span></li>
-                <li><strong>Product Vision</strong><span>Direct goals, public proof, and high-agency product direction.</span></li>
-                <li><strong>Client-Ready Operator</strong><span>Design, code, proof, storytelling, and delivery connected into one portfolio path.</span></li>
+                <li class="is-active"><button type="button" class="founder-step-btn" data-founder-target="1"><strong>Fullstack Builder</strong><span>Web, mobile, system, database, automation, and deployment execution.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="2"><strong>Ahfaiz Founder</strong><span>AI life companion direction, product thinking, and startup ownership.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="3"><strong>CTO / Startup Builder</strong><span>Turning messy ideas into credible product, architecture, and demo direction.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="4"><strong>AI Automation Teacher</strong><span>Teaching practical automation, workflow tools, and real developer readiness.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="5"><strong>Hackathon Winner</strong><span>Pressure-tested execution across AI, Web3, and innovation events.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="6"><strong>Product Vision</strong><span>Direct goals, public proof, and high-agency product direction.</span></button></li>
+                <li><button type="button" class="founder-step-btn" data-founder-target="7"><strong>Client-Ready Operator</strong><span>Design, code, proof, storytelling, and delivery connected into one portfolio path.</span></button></li>
               </ol>
+              <div class="founder-final-note" aria-hidden="true">
+                <span>Ending Frame</span>
+                <strong>CTO / Startup Builder</strong>
+                <p>Messy ideas become product direction, architecture, demo, and delivery proof when the full poster lands.</p>
+              </div>
+              <div class="founder-theater-controls" aria-label="Founder proof navigation">
+                <button type="button" data-founder-action="prev">Prev</button>
+                <button type="button" data-founder-action="next">Next</button>
+                <button type="button" data-founder-action="skip">Skip</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- end section founder journey -->
-
-    <!-- start section hackathon wins -->
-    <section id="hackathon-wins" class="proof-section hackathon-wins proof-motion-wall" data-nav-label="Wins" data-nav-label-zh="奖项">
-      <div class="container">
-        <div class="proof-section-heading">
-          <span class="vision-label">Hackathon Wins</span>
-          <h2>Built under pressure. Shipped with impact.</h2>
-          <p>
-            Competitive proof across AI, Web3, and innovation events. These wins show fast problem framing, practical build execution, and presentation-ready delivery.
-          </p>
-        </div>
-        <div class="hackathon-proof-wall" data-motion-card>
-          <div class="hackathon-proof-media">
-            <img loading="lazy" src="images/ui/hackathon-champion-stage-v2.png" width="1672" height="941" alt="Privacy-safe cinematic hackathon champion stage with back-view winner walking toward trophy and crown" decoding="async" />
-            <span class="champion-route" aria-hidden="true"></span>
-            <span class="champion-step champion-step-1" aria-hidden="true"></span>
-            <span class="champion-step champion-step-2" aria-hidden="true"></span>
-            <span class="champion-step champion-step-3" aria-hidden="true"></span>
-            <span class="champion-crown-pulse" aria-hidden="true"></span>
-          </div>
-          <div class="hackathon-proof-copy">
-            <span class="vision-label">Champion Stage</span>
-            <h3>Walking up to collect the crown and champion cup.</h3>
-            <p>
-              The public view shows the winning moment as a cinematic stage instead of leaking private event screenshots. Full proof can still be shared directly with clients, organizers, or interviewers when needed.
-            </p>
-          </div>
-        </div>
-        <div class="hackathon-grid">
-          <article data-motion-card><strong>2025</strong><span>Deriv AI Hackathon Winner 2025</span></article>
-          <article data-motion-card><strong>2025</strong><span>SUI Hackathon Winner 2025</span></article>
-          <article data-motion-card><strong>2025</strong><span>IOTA Hackathon Malaysia Winner 2025</span></article>
-          <article data-motion-card><strong>2023</strong><span>ETH Hackathon Winner 2023</span></article>
-        </div>
-      </div>
-    </section>
-    <!-- end section hackathon wins -->
-
-    <!-- start section about us -->
-    <div id="about" class="paddsection" data-nav-label="About" data-nav-label-zh="关于">
-      <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-4">
-            <div class="div-img-bg card">
-              <div class="about-img" data-hunter-zone="about-portrait">
-                <img loading="lazy" src="images/HunterHo.webp" width="928" height="944" class="img-responsive" alt="me" decoding="async" />
-                <span class="span_effect top"></span>
-                <span class="span_effect right"></span>
-                <span class="span_effect bottom"></span>
-                <span class="span_effect left"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="award">
-
-          </div>
-
-          <div class="col-lg-7">
-            <div class="about-descr">
-              <p class="p-heading">Experienced Programmer<br />Develop Your Idea > Reality</p>
-              <p class="separator">
-                <div class="pro_text">Programming Languages | 编程语言:</div>
-                PHP, JavaScript / TypeScript, Python, Java, C++, C#, HTML5 (CSS3), Dart, ASP.NET Core 10.
-                <div class="pro_text">Frameworks | 构架:</div>
-                Laravel, React, Svelte, Django, Vue, Nuxtjs, Nextjs, AngularJS, JQuery, Bootstrap, Tailwind, Flowbite.
-                <div class="pro_text">Web Tech | 网站: </div>
-                Json, Ajax, ActionScript, CMS, MVC, Web & Mobile Responsive.
-                <div class="pro_text">Mobile App | 手机应用: </div>
-                React-Native, Flutter, Svelte Native, Ionic, Cordova, PWA.
-                <div class="pro_text">Server & Databases | 服务器和数据库: </div>
-                 API(RESTful / CRUD), MySQL, PostgreSQL, SQL, NoSQL, MongoDB, Nodejs, Express, Linux Server, SQlite, XML, Firebase, Apache, Nginx
-                Cpanel, FTP, Cloud Server.
-                <div class="pro_text">Web3 BlockChain | 区块链: </div>
-                Solidity, Web3js, Smart Contract.
-                <div class="pro_text">AI & ML | 人工智能: </div>
-                 ChatGPT, Machine Learning, Deep Learning, TensorFlow, OpenCV, Yolo.
-                 <div class="pro_text">Payment Gateway | 支付网: </div>
-                API, Paypal, Stripe, Maybank2UPay, Billplz, iPay88, Etc.
-                <div class="pro_text">UI/UX Designer | 计师: </div>
-                Figma, Draw.io, Adobe XD, Wireframe, Prototype, MVP Design(Able to click inside the design), Mockups.
-                <div class="pro_text">Other | 其他: </div>
-                 Github, Bitbucket, Gitee, Jupyter , Google Colab, Clean Code, #Comments, Docker, Discord, Zoom, Slack, ChatGPT, YouChatAi, BingAi, BardAi.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end section about us -->
-
-    <!-- start section services -->
-    <div id="services" data-nav-label="Services" data-nav-label-zh="服务">
-      <div class="container">
-        <div class="services-carousel owl-theme">
-          <div class="services-block">
-            <i class="ion-ios-browsers-outline"></i>
-            <span>Website | 网站</span>
-            <p class="separator">Develop & Build a perfect website for you: Website, Mobile Responsive, eCommerce, Business, Media, Blog, forum.</p>
-          </div>
-
-          <div class="services-block">
-            <i class="ion-ios-lightbulb-outline"></i>
-            <span>Server & Database | 服务器</span>
-            <p class="separator">Setup & Maintenance : Server & Database, Setup Shared Hosting, VPS, Security Enhanced, Custom API, Migration.</p>
-          </div>
-
-          <div class="services-block">
-            <i class="ion-ios-color-wand-outline"></i>
-            <span>Software | 编程</span>
-            <p class="separator">
-              Custom For Your Business Need: (CMS)Content Management System, (CMMS)Computerized Maintenance Management System, Web Content Management for
-              Financial, (EAM)Enterprise Asset Management, Custom Software.
-            </p>
-          </div>
-
-          <div class="services-block">
-            <i class="ion-social-android-outline"></i>
-            <span>MOBILE APP | 手机应用</span>
-            <p class="separator">
-              iOS & Android : Flutter, React-Native, Ionic, Cordova, WebApp, PWA, PhoneGap, FlutterFlow (Apple Store | Google Play Store and other App Store).
-            </p>
-          </div>
-
-          <div class="services-block">
-            <i class="ion-ios-analytics-outline"></i>
-            <span>Machine Learning (Ai) | 人工智能</span>
-            <p class="separator">
-              Automation, Task Automation, Data-Training & Analysis, Predictor, Sentiment Analyzer, Object Detection, Recognition, Forecasting, Recommendation
-              System, ChatBot, ChatGPT API.
-            </p>
-          </div>
-
-          <div class="services-block">
-            <i class="ion-ios-camera-outline"></i>
-            <span>UX & UI Designer | 计师</span>
-            <p class="separator">
-              Front-End designer, Fast load times, Lag free interaction, Responsive, Dynamic, intuitive UX/UI, image & photo protection and size reduce
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end section services -->
-
-
-<!-- mobile app demo -->
-<section id="mobile-app-demos" class="container mobile-app-demo-section" data-nav-label="Mobile" data-nav-label-zh="手机">
-  <div class="section-title text-center">
-    <div class="glitch-wrapper">
-      <div class="glitch" data-text="Mobile App Demo" data-i18n="sections.mobileTitle">Mobile App Demo</div>
-   </div>
-    <p class="section-intro" data-i18n="sections.mobileIntro">Two mobile-first showcase apps proving scan flows, QR/NFC sharing, PWA thinking, responsive app shells, and API-ready product workflows.</p>
-  </div>
-  <div class="journal-block">
-    <div class="row">
-      <div class="col-lg-6 col-md-6">
-        <div class="journal-info portfolio-project mobile-app-card">
-          <a target="_blank" href="https://hunterho07.github.io/mobile-warrantyscan-demo/"><img loading="lazy" src="images/demo-thumb-mobile-warrantyscan.png" data-alt-thumb="images/demo-thumb-mobile-warrantyscan-alt.png" width="450" height="300" class="img-responsive" alt="WarrantyScan Mobile app demo homepage" decoding="async" /></a>
-          <div class="journal-txt">
-            <h4><a target="_blank" href="https://hunterho07.github.io/mobile-warrantyscan-demo/">Mobile App 1 <br /> WarrantyScan Mobile</a></h4>
-            <div class="project-links"><a target="_blank" href="https://github.com/HunterHo07/mobile-warrantyscan-demo">GitHub</a><a target="_blank" href="https://hunterho07.github.io/mobile-warrantyscan-demo/">Live Demo</a></div>
-            <button type="button" class="project-detail-btn" data-project-title="Mobile App 1 - WarrantyScan Mobile" data-project-tech="PWA mobile shell, JavaScript, responsive app UI, camera scan flow mock, offline-friendly state, reminder UX" data-project-skills="Mobile product UX, receipt scanning workflow, warranty timeline, local state, notification design, API-ready architecture" data-project-about="A mobile-first app demo for turning receipts, item photos, and service dates into a useful ownership timeline. It shows how I can design and build practical mobile workflows for retailers, service providers, warranty platforms, and any client who needs a photo-first app experience.">Details</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 col-md-6">
-        <div class="journal-info portfolio-project mobile-app-card">
-          <a target="_blank" href="https://hunterho07.github.io/mobile-namecard-demo/"><img loading="lazy" src="images/demo-thumb-mobile-namecard.png" data-alt-thumb="images/demo-thumb-mobile-namecard-alt.png" width="450" height="300" class="img-responsive" alt="NameCard Mobile app demo homepage" decoding="async" /></a>
-          <div class="journal-txt">
-            <h4><a target="_blank" href="https://hunterho07.github.io/mobile-namecard-demo/">Mobile App 2 <br /> NameCard Mobile</a></h4>
-            <div class="project-links"><a target="_blank" href="https://github.com/HunterHo07/mobile-namecard-demo">GitHub</a><a target="_blank" href="https://hunterho07.github.io/mobile-namecard-demo/">Live Demo</a></div>
-            <button type="button" class="project-detail-btn" data-project-title="Mobile App 2 - NameCard Mobile" data-project-tech="PWA mobile shell, JavaScript, QR sharing UX, NFC exchange concept, responsive app UI, profile data model" data-project-skills="Mobile identity UX, event networking flow, contact exchange, onboarding design, conversion-focused app presentation" data-project-about="A mobile-first networking app demo for QR profile sharing, NFC contact exchange, event follow-up, and digital business card presentation. It shows how clients can replace static name cards with a faster, trackable mobile contact experience.">Details</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- end mobile app demo -->
-
 
 <!-- demo -->
 <div class="container">
@@ -471,26 +428,84 @@
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://hunterho07.github.io/STAR_APOCALYPSE/"><img loading="lazy" src="images/p8.webp" data-alt-thumb="images/p8-alt.png" width="450" height="300" class="img-responsive" alt="Fintech Innovation Platform" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterho07.github.io/STAR_APOCALYPSE/">Project 8 <br /> Fintech Innovation Platform</a></h4><button type="button" class="project-detail-btn" data-project-title="Fintech Innovation Platform" data-project-tech="HTML5, CSS3, JavaScript, fintech dashboard concept" data-project-skills="Finance UX, dashboard storytelling, platform demo design" data-project-about="A fintech-themed demo for presenting digital finance product ideas and innovation platform structure.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://hunterhobbq.github.io/BlockChain_API_DashBoard/"><img loading="lazy" src="images/p9.webp" data-alt-thumb="images/p9-alt.png" width="450" height="300" class="img-responsive" alt="BlockChain Dashboard" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterhobbq.github.io/BlockChain_API_DashBoard/">Project 9 <br /> BlockChain Dashboard</a></h4><button type="button" class="project-detail-btn" data-project-title="BlockChain Dashboard" data-project-tech="HTML5, CSS3, JavaScript, Web3 dashboard concept" data-project-skills="Dashboard UI, blockchain data presentation, API concept design" data-project-about="A blockchain dashboard demo for showing Web3 data, API-oriented layouts, and dashboard interaction ideas.">Details</button></div></div></div>
 
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://hunterho07.github.io/d21-i3-BestzDeal"><img loading="lazy" src="images/demo-thumb-bestzdeal-feature.png" data-alt-thumb="images/demo-thumb-bestzdeal-feature-alt.png" width="450" height="300" class="img-responsive" alt="Project 10 BestzDeal feature homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterho07.github.io/d21-i3-BestzDeal">Project 10 <br /> BestzDeal Feature Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 10 - BestzDeal Feature Marketplace" data-project-tech="Svelte-style product UI, JavaScript, responsive feature pages" data-project-skills="Marketplace UX, feature writing, conversion-focused layout" data-project-about="A polished feature demo for the BestzDeal marketplace concept with buyer/seller flow presentation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://hunterho07.github.io/d21-i3-BestzDeal"><img loading="lazy" src="images/demo-thumb-bestzdeal-feature.png" data-alt-thumb="images/demo-thumb-bestzdeal-feature-alt.png" data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.png,images/demo-thumb-bestzdeal-feature-demo-match.png" width="450" height="300" class="img-responsive" alt="Project 10 BestzDeal feature homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterho07.github.io/d21-i3-BestzDeal">Project 10 <br /> BestzDeal Feature Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 10 - BestzDeal Feature Marketplace" data-project-tech="Svelte-style product UI, JavaScript, responsive feature pages" data-project-skills="Marketplace UX, feature writing, conversion-focused layout" data-project-about="A polished feature demo for the BestzDeal marketplace concept with buyer/seller flow presentation.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://hunterho07.github.io/d4-fe-Travel"><img loading="lazy" src="images/demo-thumb-travel-feature.png" data-alt-thumb="images/demo-thumb-travel-feature-alt.png" width="450" height="300" class="img-responsive" alt="Project 11 Travel homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterho07.github.io/d4-fe-Travel">Project 11 <br /> Travel Booking Feature UI</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 11 - Travel Booking Feature UI" data-project-tech="HTML5, CSS3, JavaScript, travel product UI" data-project-skills="Travel UX, landing page design, responsive content sections" data-project-about="A travel front-end demo with feature sections, destination-style layout, and user-friendly responsive design.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d27-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d27.png" data-alt-thumb="images/demo-thumb-sim-work-d27-alt.png" width="450" height="300" class="img-responsive" alt="Project 12 Sim Work D27 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d27-i7-sim-work.vercel.app/">Project 12 <br /> Sim Work Operations Demo</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 12 - Sim Work Operations Demo" data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard" data-project-skills="3D interface, operations dashboard, interactive demo flow" data-project-about="A simulation work demo focused on visual operations, interactive UI, and deployed product presentation.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d34-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d34.png" data-alt-thumb="images/demo-thumb-sim-work-d34-alt.png" width="450" height="300" class="img-responsive" alt="Project 13 Sim Work D34 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d34-i7-sim-work.vercel.app/">Project 13 <br /> Sim Work Visual Upgrade</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 13 - Sim Work Visual Upgrade" data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard" data-project-skills="Scenario UI, visual systems design, deployment iteration" data-project-about="A second simulation demo iteration with stronger visual treatment and operational storytelling.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d27-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d27.png" data-alt-thumb="images/demo-thumb-sim-work-d27-alt.png" data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.png" width="450" height="300" class="img-responsive" alt="Project 12 Sim Work D27 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d27-i7-sim-work.vercel.app/">Project 12 <br /> Sim Work Operations Demo</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 12 - Sim Work Operations Demo" data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard" data-project-skills="3D interface, operations dashboard, interactive demo flow" data-project-about="A simulation work demo focused on visual operations, interactive UI, and deployed product presentation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d34-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d34.png" data-alt-thumb="images/demo-thumb-sim-work-d34-alt.png" data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.png,images/demo-thumb-sim-work-d34-project-manager.png" width="450" height="300" class="img-responsive" alt="Project 13 Sim Work D34 homepage and Project Manager demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d34-i7-sim-work.vercel.app/">Project 13 <br /> Sim Work Visual Upgrade</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 13 - Sim Work Visual Upgrade" data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard" data-project-skills="Scenario UI, visual systems design, deployment iteration" data-project-about="A second simulation demo iteration with stronger visual treatment and operational storytelling.">Details</button></div></div></div>
 
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i1-d1-report-u.vercel.app/"><img loading="lazy" src="images/demo-thumb-reportu-d1.png" data-alt-thumb="images/demo-thumb-reportu-d1-alt.png" width="450" height="300" class="img-responsive" alt="Project 14 ReportU civic reporting homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i1-d1-report-u.vercel.app/">Project 14 <br /> Cross-Border Report Platform</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 14 - Cross-Border Report Platform" data-project-tech="Svelte/SvelteKit-style UI, TypeScript, civic workflow design" data-project-skills="Cross-border reporting UX, form flows, department routing concept" data-project-about="A Malaysia and Singapore offense-reporting platform concept that redirects reports to the correct official department.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i1-d2-reportu.vercel.app/"><img loading="lazy" src="images/demo-thumb-reportu-d2.png" data-alt-thumb="images/demo-thumb-reportu-d2-alt.png" width="450" height="300" class="img-responsive" alt="Project 15 ReportU alternate homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i1-d2-reportu.vercel.app/">Project 15 <br /> Civic Report Routing UI</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 15 - Civic Report Routing UI" data-project-tech="Svelte/SvelteKit-style UI, TypeScript, Vercel deployment" data-project-skills="Civic UX, report triage, public-service product design" data-project-about="An alternate ReportU demo iteration refining the cross-border report submission and routing experience.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i2-d1-namecardai.vercel.app/"><img loading="lazy" src="images/demo-thumb-namecardai-d1.png" data-alt-thumb="images/demo-thumb-namecardai-d1-alt.png" width="450" height="300" class="img-responsive" alt="Project 16 NameCardAi homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i2-d1-namecardai.vercel.app/">Project 16 <br /> AR Digital Name Card</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 16 - AR Digital Name Card" data-project-tech="AR concept UI, QR/NFC sharing, TypeScript, responsive web" data-project-skills="Digital identity UX, profile sharing, no-app onboarding" data-project-about="An AR-enhanced digital business card platform for interactive profiles shared by QR, NFC, face recognition, or camera scan.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i2-d2-namecardai.vercel.app/"><img loading="lazy" src="images/demo-thumb-namecardai-d2.png" data-alt-thumb="images/demo-thumb-namecardai-d2-alt.png" width="450" height="300" class="img-responsive" alt="Project 17 NameCardAi alternate homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i2-d2-namecardai.vercel.app/">Project 17 <br /> Scan-First Profile Sharing</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 17 - Scan-First Profile Sharing" data-project-tech="AR concept UI, QR/NFC sharing, TypeScript, responsive web" data-project-skills="Interactive profile design, scan-first UX, contact exchange flow" data-project-about="A second NameCardAi demo variant for app-free interactive profile sharing and digital networking.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d1-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d1.png" data-alt-thumb="images/demo-thumb-bestzdealai-d1-alt.png" width="450" height="300" class="img-responsive" alt="Project 18 BestzDealAi homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d1-bestzdealai.vercel.app/">Project 18 <br /> AI Reverse Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 18 - AI Reverse Marketplace" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Reverse marketplace UX, seller offer flow, buyer request design" data-project-about="An AI-ready reverse marketplace where buyers post what they want and sellers compete with the best offer.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d2-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d2.png" data-alt-thumb="images/demo-thumb-bestzdealai-d2-alt.png" width="450" height="300" class="img-responsive" alt="Project 19 BestzDealAi alternate homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d2-bestzdealai.vercel.app/">Project 19 <br /> Buyer Request Deal Flow</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 19 - Buyer Request Deal Flow" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Deal matching, competitive offer UX, marketplace iteration" data-project-about="A BestzDealAi iteration exploring the one-post-many-offers marketplace model.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d3-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d3.png" data-alt-thumb="images/demo-thumb-bestzdealai-d3-alt.png" width="450" height="300" class="img-responsive" alt="Project 20 BestzDealAi comparison homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d3-bestzdealai.vercel.app/">Project 20 <br /> Offer Comparison Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 20 - Offer Comparison Marketplace" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Buyer intent capture, seller competition, marketplace polish" data-project-about="A third BestzDealAi demo variant focused on stronger buyer intent and offer comparison.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i4-d1-messageyouai.vercel.app/"><img loading="lazy" src="images/demo-thumb-messageyou-d1.png" data-alt-thumb="images/demo-thumb-messageyou-d1-alt.png" width="450" height="300" class="img-responsive" alt="Project 21 MessageYou homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i4-d1-messageyouai.vercel.app/">Project 21 <br /> Visual Entity Discussion</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 21 - Visual Entity Discussion" data-project-tech="AI-ready visual search concept, TypeScript, image-first UX" data-project-skills="Entity discussion UX, civic reporting, visual-first product design" data-project-about="A platform where users snap a photo of a person, car, place, item, or shop to start or join a real-world topic.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i4-d2-messageyouai.vercel.app/"><img loading="lazy" src="images/demo-thumb-messageyou-d2.png" data-alt-thumb="images/demo-thumb-messageyou-d2-alt.png" width="450" height="300" class="img-responsive" alt="Project 22 MessageYou alternate homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i4-d2-messageyouai.vercel.app/">Project 22 <br /> Community History by Photo</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 22 - Community History by Photo" data-project-tech="AI-ready visual search concept, TypeScript, image-first UX" data-project-skills="Topic mapping, public discussion flow, community-history UX" data-project-about="A MessageYou iteration for linking photos to real-world entities, public discussion, scam alerts, reports, and civic history.">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i5-d2-warrantyai.vercel.app/"><img loading="lazy" src="images/demo-thumb-warrantyai-d2.png" data-alt-thumb="images/demo-thumb-warrantyai-d2-alt.png" width="450" height="300" class="img-responsive" alt="Project 23 WarrantyAi homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i5-d2-warrantyai.vercel.app/">Project 23 <br /> Warranty Tracking Assistant</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 23 - Warranty Tracking Assistant" data-project-tech="AI assistant concept, receipt scanning UX, TypeScript, inventory UI" data-project-skills="Warranty tracking, reminder flows, item-photo intake, AR inventory concept" data-project-about="A smart AI assistant to track warranties, services, coverage, and freshness by scanning receipts, emails, or item photos.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i1-d1-report-u.vercel.app/"><img loading="lazy" src="images/demo-thumb-reportu-d1.png" data-alt-thumb="images/demo-thumb-reportu-d1-alt.png" data-extra-thumbs="images/demo-thumb-reportu-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 14 ReportU civic reporting homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i1-d1-report-u.vercel.app/">Project 14 <br /> Cross-Border Report Platform</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 14 - Cross-Border Report Platform" data-project-tech="Svelte/SvelteKit-style UI, TypeScript, civic workflow design" data-project-skills="Cross-border reporting UX, form flows, department routing concept" data-project-about="A Malaysia and Singapore offense-reporting platform concept that redirects reports to the correct official department.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i1-d2-reportu.vercel.app/"><img loading="lazy" src="images/demo-thumb-reportu-d2.png" data-alt-thumb="images/demo-thumb-reportu-d2-alt.png" data-extra-thumbs="images/demo-thumb-reportu-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 15 ReportU alternate homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i1-d2-reportu.vercel.app/">Project 15 <br /> Civic Report Routing UI</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 15 - Civic Report Routing UI" data-project-tech="Svelte/SvelteKit-style UI, TypeScript, Vercel deployment" data-project-skills="Civic UX, report triage, public-service product design" data-project-about="An alternate ReportU demo iteration refining the cross-border report submission and routing experience.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i2-d1-namecardai.vercel.app/"><img loading="lazy" src="images/demo-thumb-namecardai-d1.png" data-alt-thumb="images/demo-thumb-namecardai-d1-alt.png" data-extra-thumbs="images/demo-thumb-namecardai-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 16 NameCardAi homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i2-d1-namecardai.vercel.app/">Project 16 <br /> AR Digital Name Card</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 16 - AR Digital Name Card" data-project-tech="AR concept UI, QR/NFC sharing, TypeScript, responsive web" data-project-skills="Digital identity UX, profile sharing, no-app onboarding" data-project-about="An AR-enhanced digital business card platform for interactive profiles shared by QR, NFC, face recognition, or camera scan.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i2-d2-namecardai.vercel.app/"><img loading="lazy" src="images/demo-thumb-namecardai-d2.png" data-alt-thumb="images/demo-thumb-namecardai-d2-alt.png" data-extra-thumbs="images/demo-thumb-namecardai-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 17 NameCardAi alternate homepage and interactive AR demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i2-d2-namecardai.vercel.app/">Project 17 <br /> Scan-First Profile Sharing</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 17 - Scan-First Profile Sharing" data-project-tech="AR concept UI, QR/NFC sharing, TypeScript, responsive web" data-project-skills="Interactive profile design, scan-first UX, contact exchange flow" data-project-about="A second NameCardAi demo variant for app-free interactive profile sharing and digital networking.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d1-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d1.png" data-alt-thumb="images/demo-thumb-bestzdealai-d1-alt.png" data-extra-thumbs="images/demo-thumb-bestzdealai-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 18 BestzDealAi homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d1-bestzdealai.vercel.app/">Project 18 <br /> AI Reverse Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 18 - AI Reverse Marketplace" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Reverse marketplace UX, seller offer flow, buyer request design" data-project-about="An AI-ready reverse marketplace where buyers post what they want and sellers compete with the best offer.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d2-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d2.png" data-alt-thumb="images/demo-thumb-bestzdealai-d2-alt.png" data-extra-thumbs="images/demo-thumb-bestzdealai-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 19 BestzDealAi alternate homepage and live demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d2-bestzdealai.vercel.app/">Project 19 <br /> Buyer Request Deal Flow</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 19 - Buyer Request Deal Flow" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Deal matching, competitive offer UX, marketplace iteration" data-project-about="A BestzDealAi iteration exploring the one-post-many-offers marketplace model.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i3-d3-bestzdealai.vercel.app/"><img loading="lazy" src="images/demo-thumb-bestzdealai-d3.png" data-alt-thumb="images/demo-thumb-bestzdealai-d3-alt.png" data-extra-thumbs="images/demo-thumb-bestzdealai-d3-demo.png" width="450" height="300" class="img-responsive" alt="Project 20 BestzDealAi comparison homepage and live request demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i3-d3-bestzdealai.vercel.app/">Project 20 <br /> Offer Comparison Marketplace</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 20 - Offer Comparison Marketplace" data-project-tech="Marketplace UI, AI-ready product flow, TypeScript, Vercel" data-project-skills="Buyer intent capture, seller competition, marketplace polish" data-project-about="A third BestzDealAi demo variant focused on stronger buyer intent and offer comparison.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i4-d1-messageyouai.vercel.app/"><img loading="lazy" src="images/demo-thumb-messageyou-d1.png" data-alt-thumb="images/demo-thumb-messageyou-d1-alt.png" data-extra-thumbs="images/demo-thumb-messageyou-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 21 MessageYou homepage and live demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i4-d1-messageyouai.vercel.app/">Project 21 <br /> Visual Entity Discussion</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 21 - Visual Entity Discussion" data-project-tech="AI-ready visual search concept, TypeScript, image-first UX" data-project-skills="Entity discussion UX, civic reporting, visual-first product design" data-project-about="A platform where users snap a photo of a person, car, place, item, or shop to start or join a real-world topic.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i4-d2-messageyouai.vercel.app/"><img loading="lazy" src="images/demo-thumb-messageyou-d2.png" data-alt-thumb="images/demo-thumb-messageyou-d2-alt.png" data-extra-thumbs="images/demo-thumb-messageyou-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 22 MessageYou alternate homepage and interactive demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i4-d2-messageyouai.vercel.app/">Project 22 <br /> Community History by Photo</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 22 - Community History by Photo" data-project-tech="AI-ready visual search concept, TypeScript, image-first UX" data-project-skills="Topic mapping, public discussion flow, community-history UX" data-project-about="A MessageYou iteration for linking photos to real-world entities, public discussion, scam alerts, reports, and civic history.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i5-d2-warrantyai.vercel.app/"><img loading="lazy" src="images/demo-thumb-warrantyai-d2.png" data-alt-thumb="images/demo-thumb-warrantyai-d2-alt.png" data-extra-thumbs="images/demo-thumb-warrantyai-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 23 WarrantyAi homepage and interactive demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i5-d2-warrantyai.vercel.app/">Project 23 <br /> Warranty Tracking Assistant</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 23 - Warranty Tracking Assistant" data-project-tech="AI assistant concept, receipt scanning UX, TypeScript, inventory UI" data-project-skills="Warranty tracking, reminder flows, item-photo intake, AR inventory concept" data-project-about="A smart AI assistant to track warranties, services, coverage, and freshness by scanning receipts, emails, or item photos.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://runjian-irun-simworld.vercel.app"><img loading="lazy" src="images/demo-thumb-rj-1.png" data-alt-thumb="images/demo-thumb-rj-1-alt.png" width="450" height="300" class="img-responsive" alt="Project 24 RunJian iRun SimWorld homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://runjian-irun-simworld.vercel.app">Project 24 <br /> RunJian iRun SimWorld</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 24 - RunJian iRun SimWorld" data-project-tech="3D web simulation, TypeScript, Vercel, dashboard UI" data-project-skills="Energy command world, simulation storytelling, operational dashboard" data-project-about="A RunJian iRun SimWorld demo showing command-style 3D operations and dashboard presentation.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://rj-2.vercel.app"><img loading="lazy" src="images/demo-thumb-rj-2.png" data-alt-thumb="images/demo-thumb-rj-2-alt.png" width="450" height="300" class="img-responsive" alt="Project 25 RJ-2 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://rj-2.vercel.app">Project 25 <br /> RunJian SimWorld Iteration</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 25 - RunJian SimWorld Iteration" data-project-tech="3D web simulation, TypeScript, Vercel, dashboard UI" data-project-skills="Scenario iteration, 3D presentation, command dashboard UX" data-project-about="A second RunJian simWorld deployment for comparing simulation presentation and dashboard direction.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i7-d5-simwork.vercel.app/"><img loading="lazy" src="images/demo-thumb-simwork-d5.png" data-alt-thumb="images/demo-thumb-simwork-d5-demo.png" width="450" height="300" class="img-responsive" alt="Project 26 SimWork Demo 3 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i7-d5-simwork.vercel.app/">Project 26 <br /> SimWork Demo 3</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 26 - SimWork Demo 3" data-project-tech="2.5D work simulation, web game UI, Vercel deployment" data-project-skills="Simulation UX, office-world scenario, interactive product demo" data-project-about="A SimWork 2.5D office-world demo for work challenges, freelancer discovery, and skill progression.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i7-d1-simwork.vercel.app/"><img loading="lazy" src="images/demo-thumb-simwork-d1.png" data-alt-thumb="images/demo-thumb-simwork-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 27 SimWork Normal Demo 1 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i7-d1-simwork.vercel.app/">Project 27 <br /> SimWork Normal Demo 1</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 27 - SimWork Normal Demo 1" data-project-tech="Work simulation UI, JavaScript, responsive product demo" data-project-skills="Scenario flow, simulated work tasks, product iteration" data-project-about="An early SimWork normal demo showing the work-simulation product direction and core challenge flow.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i7-d2-simwork-lb6q.vercel.app/"><img loading="lazy" src="images/demo-thumb-simwork-d2.png" data-alt-thumb="images/demo-thumb-simwork-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 28 SimWork Normal Demo 2 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i7-d2-simwork-lb6q.vercel.app/">Project 28 <br /> SimWork Normal Demo 2</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 28 - SimWork Normal Demo 2" data-project-tech="Work simulation UI, JavaScript, responsive product demo" data-project-skills="Work-role modeling, interactive screens, product comparison" data-project-about="A second SimWork normal demo variant for comparing user flow, scenario structure, and product presentation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d25-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d25.png" data-alt-thumb="images/demo-thumb-sim-work-d25-demo.png" width="450" height="300" class="img-responsive" alt="Project 29 SimWork Normal Demo 3 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d25-i7-sim-work.vercel.app/">Project 29 <br /> SimWork Normal Demo 3</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 29 - SimWork Normal Demo 3" data-project-tech="Work simulation UI, Vercel deployment, scenario dashboard" data-project-skills="Prototype iteration, simulation storytelling, web deployment" data-project-about="A SimWork iteration exploring another visual and product-flow direction for the future-of-work concept.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d26-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d26.png" data-alt-thumb="images/demo-thumb-sim-work-d26-demo.png" width="450" height="300" class="img-responsive" alt="Project 30 SimWork Normal Demo 4 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d26-i7-sim-work.vercel.app/">Project 30 <br /> SimWork Normal Demo 4</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 30 - SimWork Normal Demo 4" data-project-tech="Work simulation UI, Vercel deployment, interactive demo" data-project-skills="Interface iteration, product storytelling, simulated operations" data-project-about="A fourth SimWork normal demo for reviewing product narrative, visual direction, and simulation-ready UI.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d33-i7-sim-work.vercel.app/"><img loading="lazy" src="images/demo-thumb-sim-work-d33.png" data-alt-thumb="images/demo-thumb-sim-work-d33-demo.png" width="450" height="300" class="img-responsive" alt="Project 31 SimWork Normal Demo 5 homepage and demo scene" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d33-i7-sim-work.vercel.app/">Project 31 <br /> SimWork Normal Demo 5</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 31 - SimWork Normal Demo 5" data-project-tech="Work simulation UI, Vercel deployment, product demo" data-project-skills="Demo packaging, future-of-work UX, scenario visualization" data-project-about="A fifth SimWork normal demo showing another direction for work assessment, skill proof, and simulated workplace flow.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://d30-i42-instant-website-ai.vercel.app/"><img loading="lazy" src="images/demo-thumb-instant-website-ai-d30.png" data-alt-thumb="images/demo-thumb-instant-website-ai-d30-demo.png" width="450" height="300" class="img-responsive" alt="Project 32 Instant Website AI homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://d30-i42-instant-website-ai.vercel.app/">Project 32 <br /> Instant Website AI</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 32 - Instant Website AI" data-project-tech="AI website builder concept, web UI, Vercel deployment" data-project-skills="AI generation UX, onboarding flow, website product demo" data-project-about="An instant website AI demo for generating website direction, sections, and product-ready landing pages from user intent.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://h1-iota-recyclling.vercel.app/"><img loading="lazy" src="images/demo-thumb-grab-recycling-iota.png" width="450" height="300" class="img-responsive" alt="Project 33 Grab Recycling IOTA homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://h1-iota-recyclling.vercel.app/">Project 33 <br /> Grab Recycling IOTA</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 33 - Grab Recycling IOTA" data-project-tech="IOTA token concept, marketplace workflow, responsive web UI" data-project-skills="Circular-economy UX, pickup marketplace, wallet-ready product concept" data-project-about="A recycling pickup marketplace concept where users post recyclables, collectors pick them up, and rewards are tracked with IOTA tokens.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i5-d3-warrantyai.vercel.app/"><img loading="lazy" src="images/demo-thumb-warrantyai-d3.png" data-alt-thumb="images/demo-thumb-warrantyai-d3-demo.png" width="450" height="300" class="img-responsive" alt="Project 34 Warranty AI Demo 2 homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i5-d3-warrantyai.vercel.app/">Project 34 <br /> Warranty AI Demo 2</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 34 - Warranty AI Demo 2" data-project-tech="Warranty assistant concept, scan workflow, TypeScript-style web UI" data-project-skills="Receipt intake, warranty reminders, inventory assistant UX" data-project-about="A second Warranty AI demo variant for tracking service dates, item coverage, receipt scans, and smart warranty reminders.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i6-d1-coredeskaicms.vercel.app/"><img loading="lazy" src="images/demo-thumb-coredesk-d1.png" data-alt-thumb="images/demo-thumb-coredesk-d1-demo.png" width="450" height="300" class="img-responsive" alt="Project 35 CoreDesk AI CMS demo 1 homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i6-d1-coredeskaicms.vercel.app/">Project 35 <br /> CoreDesk AI CMS Demo 1</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 35 - CoreDesk AI CMS Demo 1" data-project-tech="AI CMS concept, admin dashboard, responsive web UI" data-project-skills="CMS workflows, content operations, admin-product UX" data-project-about="A CoreDesk AI CMS demo for content management, AI-assisted operations, and internal admin dashboard direction.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://i6-d2-coredeskaicms.vercel.app/"><img loading="lazy" src="images/demo-thumb-coredesk-d2.png" data-alt-thumb="images/demo-thumb-coredesk-d2-demo.png" width="450" height="300" class="img-responsive" alt="Project 36 CoreDesk AI CMS demo 2 homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://i6-d2-coredeskaicms.vercel.app/">Project 36 <br /> CoreDesk AI CMS Demo 2</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 36 - CoreDesk AI CMS Demo 2" data-project-tech="AI CMS concept, dashboard UI, Vercel deployment" data-project-skills="Admin iteration, CMS product flow, AI-assisted interface design" data-project-about="A second CoreDesk AI CMS demo variant for comparing admin flows, content tools, and AI-ready product direction.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://job1-six.vercel.app/"><img loading="lazy" src="images/demo-thumb-job1.png" width="450" height="300" class="img-responsive" alt="Project 37 Job Portal demo 1 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://job1-six.vercel.app/">Project 37 <br /> Job Portal Demo 1</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 37 - Job Portal Demo 1" data-project-tech="Job portal UI, search workflow, responsive web app" data-project-skills="Job search UX, listing cards, hiring-product flow" data-project-about="A job portal demo with search, category filtering, featured listings, and hiring marketplace presentation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://job2-pearl.vercel.app/"><img loading="lazy" src="images/demo-thumb-job2.png" width="450" height="300" class="img-responsive" alt="Project 38 Job Portal demo 2 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://job2-pearl.vercel.app/">Project 38 <br /> Job Portal Demo 2</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 38 - Job Portal Demo 2" data-project-tech="Job portal UI, hiring workflow, responsive web app" data-project-skills="Candidate discovery, portal iteration, product-page UX" data-project-about="A second job portal demo iteration for comparing hiring flows, listing presentation, and job-search interface direction.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://job3-sigma.vercel.app/"><img loading="lazy" src="images/demo-thumb-job3.png" width="450" height="300" class="img-responsive" alt="Project 39 Job Portal demo 3 homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://job3-sigma.vercel.app/">Project 39 <br /> Job Portal Demo 3</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 39 - Job Portal Demo 3" data-project-tech="Job portal UI, responsive dashboard, Vercel deployment" data-project-skills="Recruiting UX, search/filter flow, marketplace iteration" data-project-about="A third job portal demo variant for testing recruitment marketplace UI and responsive job listing presentation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://lifeflowai.vercel.app/"><img loading="lazy" src="images/demo-thumb-lifeflowai.png" data-alt-thumb="images/demo-thumb-lifeflowai-demo.png" width="450" height="300" class="img-responsive" alt="Project 40 LifeFlow AI homepage and demo flow" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://lifeflowai.vercel.app/">Project 40 <br /> LifeFlow AI</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 40 - LifeFlow AI" data-project-tech="Personal AI assistant concept, productivity UI, responsive web" data-project-skills="Life planning UX, assistant workflow, productivity product design" data-project-about="A LifeFlow AI demo for personal planning, assistant-style workflows, reminders, and daily-life automation direction.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://sicbo-ui-tool.vercel.app/"><img loading="lazy" src="images/demo-thumb-sicbo-tool.png" width="450" height="300" class="img-responsive" alt="Project 41 Sicbo Tool dashboard" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://sicbo-ui-tool.vercel.app/">Project 41 <br /> Sicbo Tool</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 41 - Sicbo Tool" data-project-tech="Dashboard tool UI, statistics panel, responsive web utility" data-project-skills="Data-entry workflow, result analysis UI, compact tool design" data-project-about="A Sicbo analysis tool demo with roll input, bankroll tracking, pattern cards, and compact dark-mode utility UI.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://v0-launch-gami-sport.vercel.app/"><img loading="lazy" src="images/demo-thumb-gami-sport.png" width="450" height="300" class="img-responsive" alt="Project 42 Gami Sport homepage" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://v0-launch-gami-sport.vercel.app/">Project 42 <br /> Gami Sport</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 42 - Gami Sport" data-project-tech="Sports social platform UI, gamified profile flow, responsive web" data-project-skills="Sports marketplace UX, gamification, local community platform design" data-project-about="A social sports platform demo for finding teammates, challenging opponents, discovering courts, and building reputation.">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="https://p2-run-jian-sim-world.vercel.app/"><img loading="lazy" src="images/demo-thumb-runjian-simworld-p2.png" width="450" height="300" class="img-responsive" alt="Project 43 RunJian SimWork 2.5D control center" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://p2-run-jian-sim-world.vercel.app/">Project 43 <br /> RunJian SimWork 2.5D</a></h4><button type="button" class="project-detail-btn" data-project-title="Project 43 - RunJian SimWork 2.5D" data-project-tech="2.5D command world, dashboard UI, Vercel deployment" data-project-skills="AI control center, simulation UI, command dashboard presentation" data-project-about="A RunJian SimWork 2.5D command-center demo with generated station assets, map layers, action triggers, and control panels.">Details</button></div></div></div>
     </div>
   </div>
 </div>
+
+<!-- mobile app demo -->
+<section id="mobile-app-demos" class="container mobile-app-demo-section" data-nav-label="Mobile" data-nav-label-zh="手机">
+  <div class="section-title text-center">
+    <div class="glitch-wrapper">
+      <div class="glitch" data-text="Native Mobile App Projects" data-i18n="sections.mobileTitle">Native Mobile App Projects</div>
+   </div>
+    <p class="section-intro" data-i18n="sections.mobileIntro">Two real React Native / Expo app projects with Android package metadata, camera or contact permissions, and install-build profiles.</p>
+  </div>
+  <div class="journal-block">
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="journal-info portfolio-project mobile-app-card">
+          <a target="_blank" href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app"><img loading="lazy" src="images/demo-thumb-mobile-warrantyscan.jpg" width="450" height="300" class="img-responsive" alt="WarrantyScan native mobile app project screens" decoding="async" /></a>
+          <div class="journal-txt">
+            <h4><a target="_blank" href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app">Mobile App 1 <br /> WarrantyScan Mobile</a></h4>
+            <div class="project-links mobile-app-links"><a target="_blank" href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app">App Source</a><a target="_blank" href="https://github.com/HunterHo07/mobile-warrantyscan-demo/blob/main/native-app/app.json">Android Project</a></div>
+            <div class="mobile-app-platforms"><span>React Native</span><span>Expo</span><span>Android-ready</span></div>
+            <p class="app-build-status">Native app source includes Android package <strong>com.hunterho.warrantyscan</strong>, camera permission, notification permission, and EAS APK profile.</p>
+            <button type="button" class="project-detail-btn" data-project-title="Mobile App 1 - WarrantyScan Mobile" data-project-tech="React Native, Expo, TypeScript, Expo Camera, Expo Notifications, Expo SQLite, Android package config, EAS APK profile" data-project-skills="Native mobile product UX, receipt capture workflow, warranty timeline, local device state, reminder design, Android app build configuration" data-project-about="A native mobile app project for turning receipts, item photos, and service dates into a practical ownership timeline. It has real app source, package metadata, permission config, and build profiles for Android delivery.">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <div class="journal-info portfolio-project mobile-app-card">
+          <a target="_blank" href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app"><img loading="lazy" src="images/demo-thumb-mobile-namecard.jpg" width="450" height="300" class="img-responsive" alt="NameCard native mobile app project screens" decoding="async" /></a>
+          <div class="journal-txt">
+            <h4><a target="_blank" href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app">Mobile App 2 <br /> NameCard Mobile</a></h4>
+            <div class="project-links mobile-app-links"><a target="_blank" href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app">App Source</a><a target="_blank" href="https://github.com/HunterHo07/mobile-namecard-demo/blob/main/native-app/app.json">Android Project</a></div>
+            <div class="mobile-app-platforms"><span>React Native</span><span>Expo</span><span>Android-ready</span></div>
+            <p class="app-build-status">Native app source includes Android package <strong>com.hunterho.namecardmobile</strong>, contacts permission, notification permission, and EAS APK profile.</p>
+            <button type="button" class="project-detail-btn" data-project-title="Mobile App 2 - NameCard Mobile" data-project-tech="React Native, Expo, TypeScript, Expo Contacts, Expo Linking, Expo Notifications, Android package config, EAS APK profile" data-project-skills="Native identity app UX, QR profile sharing, NFC exchange flow, event follow-up, contact saving, Android app build configuration" data-project-about="A native mobile app project for QR profile sharing, NFC contact exchange, event follow-up, and digital business card replacement. It has real app source, package metadata, permission config, and build profiles for Android delivery.">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end mobile app demo -->
 
 <div id="project-detail-modal" class="project-detail-modal" aria-hidden="true">
   <div class="project-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="project-detail-title">
@@ -520,12 +535,12 @@
   </div>
   <div class="journal-block">
     <div class="row">
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-04-neon-grid-racer.vercel.app"><img loading="lazy" src="images/demo-thumb-game-neon-grid-racer.png" width="450" height="300" class="img-responsive" alt="Neon Grid Racer playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-04-neon-grid-racer.vercel.app">Neon Grid Racer</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Neon Grid Racer" data-project-tech="HTML5 Canvas, JavaScript game loop, responsive controls, local score state, public GitHub repo, Vercel production deployment" data-project-skills="Reflex racing mechanics, collision detection, escalating difficulty, HUD feedback, homepage thumbnail capture" data-project-about="A real playable browser game where players dodge traffic and collect energy gates. It proves campaign-game, booth-game, and branded engagement work can be shipped as a fast static web experience. Source: https://github.com/HunterHo07/game-demo-04-neon-grid-racer">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-05-orbit-defense.vercel.app"><img loading="lazy" src="images/demo-thumb-game-orbit-defense.png" width="450" height="300" class="img-responsive" alt="Orbit Defense playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-05-orbit-defense.vercel.app">Orbit Defense</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Orbit Defense" data-project-tech="HTML5 Canvas, JavaScript wave system, pointer controls, projectile logic, public GitHub repo, Vercel production deployment" data-project-skills="Wave balancing, core-defense gameplay, enemy pathing, projectile collision, touch-friendly interaction" data-project-about="A real reactor-defense game where users rotate and fire pulses to stop incoming bugs. It demonstrates tactical gameplay loops, timing feedback, and polished canvas presentation for client prototypes. Source: https://github.com/HunterHo07/game-demo-05-orbit-defense">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-06-husky-rescue-run.vercel.app"><img loading="lazy" src="images/demo-thumb-game-husky-rescue.png" width="450" height="300" class="img-responsive" alt="Husky Rescue Run playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-06-husky-rescue-run.vercel.app">Husky Rescue Run</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Husky Rescue Run" data-project-tech="HTML5 Canvas, JavaScript runner physics, jump state, responsive game UI, public GitHub repo, Vercel production deployment" data-project-skills="Mascot game design, runner controls, double-jump behavior, obstacle spawning, collectible scoring" data-project-about="A real gray-husky runner game where players collect tools and avoid production bugs. It is a useful pattern for brand mascot games, onboarding mini-games, and cute customer engagement. Source: https://github.com/HunterHo07/game-demo-06-husky-rescue-run">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-07-dragon-forge-arena.vercel.app"><img loading="lazy" src="images/demo-thumb-game-dragon-forge.png" width="450" height="300" class="img-responsive" alt="Dragon Forge Arena playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-07-dragon-forge-arena.vercel.app">Dragon Forge Arena</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Dragon Forge Arena" data-project-tech="HTML5 Canvas, JavaScript top-down arena loop, keyboard controls, attack state, public GitHub repo, Vercel production deployment" data-project-skills="Arena movement, enemy chasing, rune pickups, burst attack timing, responsive HUD design" data-project-about="A real action arena game where players collect runes, charge the forge, and dodge dragons. It shows combat-loop thinking and arcade mechanics beyond a static landing page. Source: https://github.com/HunterHo07/game-demo-07-dragon-forge-arena">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-08-quantum-card-lab.vercel.app"><img loading="lazy" src="images/demo-thumb-game-quantum-card.png" width="450" height="300" class="img-responsive" alt="Quantum Card Lab playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-08-quantum-card-lab.vercel.app">Quantum Card Lab</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Quantum Card Lab" data-project-tech="HTML5 Canvas, JavaScript card-state engine, pointer interaction, strategy resource meters, public GitHub repo, Vercel production deployment" data-project-skills="Turn-based strategy UI, resource balancing, card effects, stateful scoring, premium game interface" data-project-about="A real strategy card puzzle where players balance signal, risk, and compute. It demonstrates UI-heavy game thinking, decision loops, and playable product polish for strategy or education clients. Source: https://github.com/HunterHo07/game-demo-08-quantum-card-lab">Details</button></div></div></div>
-      <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://game-demo-09-sky-island-tycoon.vercel.app"><img loading="lazy" src="images/demo-thumb-game-sky-tycoon.png" width="450" height="300" class="img-responsive" alt="Sky Island Tycoon playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-09-sky-island-tycoon.vercel.app">Sky Island Tycoon</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Sky Island Tycoon" data-project-tech="HTML5 Canvas, JavaScript tycoon economy loop, upgrade state, click/tap interaction, public GitHub repo, Vercel production deployment" data-project-skills="Idle economy design, upgrade balancing, resource harvesting, timed events, management-game UI" data-project-about="A real tycoon-style browser game where users harvest cloud energy, upgrade floating islands, and survive economy storms. It shows productized management-game mechanics for client demos. Source: https://github.com/HunterHo07/game-demo-09-sky-island-tycoon">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-racer"><a target="_blank" href="https://game-demo-04-neon-grid-racer.vercel.app"><img loading="lazy" src="images/demo-thumb-game-neon-grid-racer.png" width="450" height="300" class="img-responsive" alt="Neon Grid Racer playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-04-neon-grid-racer.vercel.app">Neon Grid Racer</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Neon Grid Racer" data-project-tech="HTML5 Canvas, JavaScript game loop, responsive controls, local score state, public GitHub repo, Vercel production deployment" data-project-skills="Reflex racing mechanics, collision detection, escalating difficulty, HUD feedback, homepage thumbnail capture" data-project-about="A real playable browser game where players dodge traffic and collect energy gates. It proves campaign-game, booth-game, and branded engagement work can be shipped as a fast static web experience. Source: https://github.com/HunterHo07/game-demo-04-neon-grid-racer">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-orbit"><a target="_blank" href="https://game-demo-05-orbit-defense.vercel.app"><img loading="lazy" src="images/demo-thumb-game-orbit-defense.png" width="450" height="300" class="img-responsive" alt="Orbit Defense playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-05-orbit-defense.vercel.app">Orbit Defense</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Orbit Defense" data-project-tech="HTML5 Canvas, JavaScript wave system, pointer controls, projectile logic, public GitHub repo, Vercel production deployment" data-project-skills="Wave balancing, core-defense gameplay, enemy pathing, projectile collision, touch-friendly interaction" data-project-about="A real reactor-defense game where users rotate and fire pulses to stop incoming bugs. It demonstrates tactical gameplay loops, timing feedback, and polished canvas presentation for client prototypes. Source: https://github.com/HunterHo07/game-demo-05-orbit-defense">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-runner"><a target="_blank" href="https://game-demo-06-husky-rescue-run.vercel.app"><img loading="lazy" src="images/demo-thumb-game-husky-rescue.png" width="450" height="300" class="img-responsive" alt="Husky Rescue Run playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-06-husky-rescue-run.vercel.app">Husky Rescue Run</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Husky Rescue Run" data-project-tech="HTML5 Canvas, JavaScript runner physics, jump state, responsive game UI, public GitHub repo, Vercel production deployment" data-project-skills="Mascot game design, runner controls, double-jump behavior, obstacle spawning, collectible scoring" data-project-about="A real gray-husky runner game where players collect tools and avoid production bugs. It is a useful pattern for brand mascot games, onboarding mini-games, and cute customer engagement. Source: https://github.com/HunterHo07/game-demo-06-husky-rescue-run">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-arena"><a target="_blank" href="https://game-demo-07-dragon-forge-arena.vercel.app"><img loading="lazy" src="images/demo-thumb-game-dragon-forge.png" width="450" height="300" class="img-responsive" alt="Dragon Forge Arena playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-07-dragon-forge-arena.vercel.app">Dragon Forge Arena</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Dragon Forge Arena" data-project-tech="HTML5 Canvas, JavaScript top-down arena loop, keyboard controls, attack state, public GitHub repo, Vercel production deployment" data-project-skills="Arena movement, enemy chasing, rune pickups, burst attack timing, responsive HUD design" data-project-about="A real action arena game where players collect runes, charge the forge, and dodge dragons. It shows combat-loop thinking and arcade mechanics beyond a static landing page. Source: https://github.com/HunterHo07/game-demo-07-dragon-forge-arena">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-cardlab"><a target="_blank" href="https://game-demo-08-quantum-card-lab.vercel.app"><img loading="lazy" src="images/demo-thumb-game-quantum-card.png" width="450" height="300" class="img-responsive" alt="Quantum Card Lab playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-08-quantum-card-lab.vercel.app">Quantum Card Lab</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Quantum Card Lab" data-project-tech="HTML5 Canvas, JavaScript card-state engine, pointer interaction, strategy resource meters, public GitHub repo, Vercel production deployment" data-project-skills="Turn-based strategy UI, resource balancing, card effects, stateful scoring, premium game interface" data-project-about="A real strategy card puzzle where players balance signal, risk, and compute. It demonstrates UI-heavy game thinking, decision loops, and playable product polish for strategy or education clients. Source: https://github.com/HunterHo07/game-demo-08-quantum-card-lab">Details</button></div></div></div>
+      <div class="col-lg-4 col-md-6"><div class="journal-info game-demo-card game-tycoon"><a target="_blank" href="https://game-demo-09-sky-island-tycoon.vercel.app"><img loading="lazy" src="images/demo-thumb-game-sky-tycoon.png" width="450" height="300" class="img-responsive" alt="Sky Island Tycoon playable browser game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://game-demo-09-sky-island-tycoon.vercel.app">Sky Island Tycoon</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Sky Island Tycoon" data-project-tech="HTML5 Canvas, JavaScript tycoon economy loop, upgrade state, click/tap interaction, public GitHub repo, Vercel production deployment" data-project-skills="Idle economy design, upgrade balancing, resource harvesting, timed events, management-game UI" data-project-about="A real tycoon-style browser game where users harvest cloud energy, upgrade floating islands, and survive economy storms. It shows productized management-game mechanics for client demos. Source: https://github.com/HunterHo07/game-demo-09-sky-island-tycoon">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://hunterhobbq.github.io/Click_The_Dot/"><img loading="lazy" src="images/Click_The_Dot.webp" data-alt-thumb="images/Click_The_Dot-alt.png" width="450" height="300" class="img-responsive" alt="Click the Dot game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterhobbq.github.io/Click_The_Dot/">Click The Dot</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Click The Dot" data-project-tech="HTML5 canvas-style game UI, CSS3, JavaScript, browser game loop, responsive play surface" data-project-skills="Reaction-game mechanics, score feedback, touch-friendly controls, lightweight game deployment" data-project-about="A focused browser game where players react quickly to targets. It proves simple mechanics can be packaged cleanly for web events, training games, and mini engagement campaigns.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://hunterhobbq.github.io/Pick_Apple/"><img loading="lazy" src="images/Hunt_The_Dot.webp" data-alt-thumb="images/Hunt_The_Dot-alt.png" width="450" height="300" class="img-responsive" alt="Hunt the Dot game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterhobbq.github.io/Pick_Apple/">Hunt The Dot</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Hunt The Dot" data-project-tech="HTML5, CSS3, JavaScript, game interaction logic, responsive web game UI" data-project-skills="Target hunting flow, game-state feedback, mobile-friendly play, fast static deployment" data-project-about="A small but complete game interaction demo for quick visual scanning, target selection, score behavior, and responsive browser play.">Details</button></div></div></div>
       <div class="col-lg-4 col-md-6"><div class="journal-info"><a target="_blank" href="https://hunterhobbq.github.io/Pick_Drop_Play"><img loading="lazy" src="images/Pick_The_Apple.webp" data-alt-thumb="images/Pick_The_Apple-alt.png" width="450" height="300" class="img-responsive" alt="Pick Drop Play game demo" decoding="async" /></a><div class="journal-txt"><h4><a target="_blank" href="https://hunterhobbq.github.io/Pick_Drop_Play">Pick Drop Play</a></h4><h4><a target="_blank" href="https://drive.google.com/file/d/19f9WDVrPDZXcANSrVk5t3q1sZdV-3HQw/view?usp=drive_link">APK Download</a></h4><button type="button" class="project-detail-btn" data-project-title="Games Demo - Pick Drop Play" data-project-tech="HTML5, CSS3, JavaScript, drag/drop-style interaction, APK showcase link, responsive game UI" data-project-skills="Pick-and-drop mechanic, mobile gameplay presentation, interaction feedback, app/game packaging" data-project-about="A browser/mobile game demo with pick-and-drop interaction and APK presentation, useful for showing how a casual game can move from web prototype to mobile package direction.">Details</button></div></div></div>
@@ -555,9 +570,16 @@
 <!-- start section speaker teaching -->
 <section id="speaker-teaching" class="proof-section speaker-teaching proof-motion-wall" data-nav-label="Teaching" data-nav-label-zh="教学" aria-label="Speaker & Teaching">
   <div class="container">
+    <div class="proof-section-heading teaching-section-heading">
+      <span class="vision-label">Speaker & Teaching</span>
+      <h2>Real IT Teaching & Invited Sessions</h2>
+      <p>Actual class and invitation materials for automation, career readiness, non-IT to real-IT thinking, and developer workflow training.</p>
+    </div>
     <div class="teaching-proof-grid real-teaching-grid">
       <article class="teaching-proof-card" data-motion-card>
-        <img loading="lazy" src="images/teaching/teaching-n8n-event.jpeg" width="515" height="366" alt="Real invitation poster for Hunter Ho Intro to N8N Application and Basics class" decoding="async" />
+        <div class="teaching-card-media">
+          <img loading="lazy" src="images/teaching/teaching-n8n-event.jpeg" width="515" height="366" alt="Real invitation poster for Hunter Ho Intro to N8N Application and Basics class" decoding="async" />
+        </div>
         <div class="teaching-card-copy">
           <span>Invited Mentor Session</span>
           <h3>Intro to N8N Application & Basics</h3>
@@ -565,7 +587,9 @@
         </div>
       </article>
       <article class="teaching-proof-card" data-motion-card>
-        <img loading="lazy" src="images/teaching/teaching-non-it-vs-real-it.jpeg" width="719" height="724" alt="Real Krenovator class poster for Non-IT vs Real-IT session by Hunter Ho" decoding="async" />
+        <div class="teaching-card-media">
+          <img loading="lazy" src="images/teaching/teaching-non-it-vs-real-it.jpeg" width="719" height="724" alt="Real Krenovator class poster for Non-IT vs Real-IT session by Hunter Ho" decoding="async" />
+        </div>
         <div class="teaching-card-copy">
           <span>Online Class</span>
           <h3>Non-IT vs Real-IT</h3>
@@ -573,7 +597,9 @@
         </div>
       </article>
       <article class="teaching-proof-card" data-motion-card>
-        <img loading="lazy" src="images/teaching/teaching-tech-readiness.jpeg" width="716" height="688" alt="Real Krenovator class poster for Decoding Tech Readiness by Hunter Ho" decoding="async" />
+        <div class="teaching-card-media">
+          <img loading="lazy" src="images/teaching/teaching-tech-readiness.jpeg" width="716" height="688" alt="Real Krenovator class poster for Decoding Tech Readiness by Hunter Ho" decoding="async" />
+        </div>
         <div class="teaching-card-copy">
           <span>Career Readiness</span>
           <h3>Decoding Tech Readiness</h3>
@@ -581,7 +607,9 @@
         </div>
       </article>
       <article class="teaching-proof-card" data-motion-card>
-        <img loading="lazy" src="images/teaching/teaching-productivity.jpeg" width="717" height="719" alt="Real Krenovator class poster for developer productivity workflow by Hunter Ho" decoding="async" />
+        <div class="teaching-card-media">
+          <img loading="lazy" src="images/teaching/teaching-productivity.jpeg" width="717" height="719" alt="Real Krenovator class poster for developer productivity workflow by Hunter Ho" decoding="async" />
+        </div>
         <div class="teaching-card-copy">
           <span>Workflow Class</span>
           <h3>Developer Productivity Workflow</h3>
@@ -592,6 +620,24 @@
   </div>
 </section>
 <!-- end section speaker teaching -->
+
+<!-- start section hackathon wins -->
+<section id="hackathon-wins" class="proof-section hackathon-wins compact-hackathon-wins proof-motion-wall" data-nav-label="Wins" data-nav-label-zh="奖项">
+  <div class="container">
+    <div class="proof-section-heading compact-wins-heading">
+      <span class="vision-label">Hackathon Wins</span>
+      <h2>Real Hackathon Wins</h2>
+      <p>Short proof list from AI, Web3, and innovation events.</p>
+    </div>
+    <div class="hackathon-grid compact-hackathon-grid">
+      <article class="hackathon-win-card" data-motion-card><strong>2025</strong><span>Deriv AI Hackathon Winner 2025</span></article>
+      <article class="hackathon-win-card" data-motion-card><strong>2025</strong><span>SUI Hackathon Winner 2025</span></article>
+      <article class="hackathon-win-card" data-motion-card><strong>2025</strong><span>IOTA Hackathon Malaysia Winner 2025</span></article>
+      <article class="hackathon-win-card" data-motion-card><strong>2023</strong><span>ETH Hackathon Winner 2023</span></article>
+    </div>
+  </div>
+</section>
+<!-- end section hackathon wins -->
 
 
 
@@ -816,6 +862,110 @@
     </div>
     <!-- End section journal -->
 
+    <!-- start section about services stack -->
+    <section id="about" class="about-services-stack paddsection" data-nav-label="About" data-nav-label-zh="关于">
+      <span class="about-parallax-layer about-parallax-layer-one" aria-hidden="true"></span>
+      <span class="about-parallax-layer about-parallax-layer-two" aria-hidden="true"></span>
+      <div class="container">
+        <div class="row align-items-center justify-content-between about-services-intro">
+          <div class="col-lg-5">
+            <div class="div-img-bg about-portrait-stage" data-parallax-depth="-0.16">
+              <div class="about-img about-portrait-parallax" data-hunter-zone="about-portrait" data-parallax-depth="-0.24">
+                <span class="about-portrait-glow" aria-hidden="true"></span>
+                <img loading="lazy" src="images/about-hunter-parallax-v2.png" width="1024" height="1536" class="img-responsive" alt="Hunter Ho fullstack developer portrait" decoding="async" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="about-descr">
+              <p class="section-kicker">About Hunter</p>
+              <p class="p-heading">Experienced Programmer<br />Develop Your Idea > Reality</p>
+              <div class="separator about-skill-copy">
+                <div class="pro_text">Programming Languages | 编程语言:</div>
+                PHP, JavaScript / TypeScript, Python, Java, C++, C#, HTML5 (CSS3), Dart, ASP.NET Core 10.
+                <div class="pro_text">Frameworks | 构架:</div>
+                Laravel, React, Svelte, Django, Vue, Nuxtjs, Nextjs, AngularJS, JQuery, Bootstrap, Tailwind, Flowbite.
+                <div class="pro_text">Web Tech | 网站: </div>
+                Json, Ajax, ActionScript, CMS, MVC, Web & Mobile Responsive.
+                <div class="pro_text">Mobile App | 手机应用: </div>
+                React-Native, Flutter, Svelte Native, Ionic, Cordova, PWA.
+                <div class="pro_text">Server & Databases | 服务器和数据库: </div>
+                API(RESTful / CRUD), MySQL, PostgreSQL, SQL, NoSQL, MongoDB, Nodejs, Express, Linux Server, SQlite, XML, Firebase, Apache, Nginx Cpanel, FTP, Cloud Server.
+                <div class="pro_text">Web3 BlockChain | 区块链: </div>
+                Solidity, Web3js, Smart Contract.
+                <div class="pro_text">AI & ML | 人工智能: </div>
+                ChatGPT, Machine Learning, Deep Learning, TensorFlow, OpenCV, Yolo.
+                <div class="pro_text">Payment Gateway | 支付网: </div>
+                API, Paypal, Stripe, Maybank2UPay, Billplz, iPay88, Etc.
+                <div class="pro_text">UI/UX Designer | 计师: </div>
+                Figma, Draw.io, Adobe XD, Wireframe, Prototype, MVP Design(Able to click inside the design), Mockups.
+                <div class="pro_text">Other | 其他: </div>
+                Github, Bitbucket, Gitee, Jupyter, Google Colab, Clean Code, #Comments, Docker, Discord, Zoom, Slack, ChatGPT, YouChatAi, BingAi, BardAi.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="services" class="about-services-list" data-nav-label="Services" data-nav-label-zh="服务">
+        <div class="container">
+          <div class="section-title text-center">
+            <p class="section-kicker">Services</p>
+            <h2>What I Build</h2>
+          </div>
+          <div class="services-carousel owl-theme">
+            <div class="services-block">
+              <i class="ion-ios-browsers-outline"></i>
+              <span>Website | 网站</span>
+              <p class="separator">Develop & Build a perfect website for you: Website, Mobile Responsive, eCommerce, Business, Media, Blog, forum.</p>
+            </div>
+
+            <div class="services-block">
+              <i class="ion-ios-lightbulb-outline"></i>
+              <span>Server & Database | 服务器</span>
+              <p class="separator">Setup & Maintenance : Server & Database, Setup Shared Hosting, VPS, Security Enhanced, Custom API, Migration.</p>
+            </div>
+
+            <div class="services-block">
+              <i class="ion-ios-color-wand-outline"></i>
+              <span>Software | 编程</span>
+              <p class="separator">
+                Custom For Your Business Need: (CMS)Content Management System, (CMMS)Computerized Maintenance Management System, Web Content Management for
+                Financial, (EAM)Enterprise Asset Management, Custom Software.
+              </p>
+            </div>
+
+            <div class="services-block">
+              <i class="ion-social-android-outline"></i>
+              <span>MOBILE APP | 手机应用</span>
+              <p class="separator">
+                iOS & Android : Flutter, React-Native, Ionic, Cordova, WebApp, PWA, PhoneGap, FlutterFlow (Apple Store | Google Play Store and other App Store).
+              </p>
+            </div>
+
+            <div class="services-block">
+              <i class="ion-ios-analytics-outline"></i>
+              <span>Machine Learning (Ai) | 人工智能</span>
+              <p class="separator">
+                Automation, Task Automation, Data-Training & Analysis, Predictor, Sentiment Analyzer, Object Detection, Recognition, Forecasting, Recommendation
+                System, ChatBot, ChatGPT API.
+              </p>
+            </div>
+
+            <div class="services-block">
+              <i class="ion-ios-camera-outline"></i>
+              <span>UX & UI Designer | 计师</span>
+              <p class="separator">
+                Front-End designer, Fast load times, Lag free interaction, Responsive, Dynamic, intuitive UX/UI, image & photo protection and size reduce
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end section about services stack -->
+
     <!-- start sectoion contact -->
     <div id="contact" class="paddsection" data-nav-label="Contact" data-nav-label-zh="联系">
       <div class="contact-footer-bg is-hunter-active" data-hunter-zone="contact-footer" aria-hidden="true">
@@ -892,37 +1042,19 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- start sectoion contact -->
-
-    <!-- start section footer -->
-    <div id="footer" class="text-center">
-      <div class="container">
-        <!-- <div class="socials-media text-center">
-
-                <ul class="list-unstyled">
-                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
-                    <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                    <li><a href="#"><i class="ion-social-tumblr"></i></a></li>
-                    <li><a href="#"><i class="ion-social-dribbble"></i></a></li>
-                </ul>
-
-            </div> -->
-
-        <p>&copy; Copyrights Hunter Ho. All rights reserved.</p>
+      <div class="contact-copyright-dock" aria-live="polite">
+        <span>&copy; Copyrights Hunter Ho. All rights reserved.</span>
       </div>
     </div>
-    <!-- End section footer -->
+    <!-- start sectoion contact -->
 
     <div class="husky-helper" id="husky-helper" aria-live="polite">
       <button type="button" class="husky-body" id="husky-button" aria-label="Open WhatsApp helper">
         <span class="husky-sprite-stage" aria-hidden="true">
-          <img class="husky-sprite husky-sprite-idle" src="images/ui/husky-idle.png" width="640" height="640" alt="" loading="lazy" decoding="async">
-          <img class="husky-sprite husky-sprite-happy" src="images/ui/husky-happy.png" width="640" height="640" alt="" loading="lazy" decoding="async">
-          <img class="husky-sprite husky-sprite-excited" src="images/ui/husky-excited.png" width="640" height="640" alt="" loading="lazy" decoding="async">
-          <img class="husky-sprite husky-sprite-contact" src="images/ui/husky-contact.png" width="640" height="640" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-idle" src="images/ui/husky-idle.png" width="256" height="256" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-happy" src="images/ui/husky-happy.png" width="256" height="256" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-excited" src="images/ui/husky-excited.png" width="256" height="256" alt="" loading="lazy" decoding="async">
+          <img class="husky-sprite husky-sprite-contact" src="images/ui/husky-contact.png" width="256" height="256" alt="" loading="lazy" decoding="async">
         </span>
         <span class="husky-fallback" aria-hidden="true">
           <span class="husky-ear husky-ear-left"></span>
@@ -946,7 +1078,7 @@
 
     <!-- JavaScript Libraries -->
     <script src="lib/jquery/jquery.min.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js?v=2.0.7" defer></script>
   </body>
 </html>
 

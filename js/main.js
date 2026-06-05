@@ -30,8 +30,8 @@
       "hero.ctaProject": "Hire for a project",
       "hero.ctaSpeak": "Book Me for Event",
       "hero.ctaProof": "Projects Demo",
-      "sections.mobileTitle": "Mobile App Demo",
-      "sections.mobileIntro": "Two mobile-first showcase apps proving scan flows, QR/NFC sharing, PWA thinking, responsive app shells, and API-ready product workflows.",
+      "sections.mobileTitle": "Native Mobile App Projects",
+      "sections.mobileIntro": "Two real React Native / Expo app projects with Android package metadata, camera or contact permissions, and install-build profiles.",
       "sections.gamesTitle": "Games Demo",
       "sections.modelsTitle": "3D Models Demo",
       "modal.tech": "Tech Stacks",
@@ -63,8 +63,8 @@
       "hero.ctaProject": "找我做项目",
       "hero.ctaSpeak": "预约活动分享",
       "hero.ctaProof": "项目 Demo",
-      "sections.mobileTitle": "手机 App Demo",
-      "sections.mobileIntro": "两个手机优先的展示应用，证明扫描流程、QR/NFC 分享、PWA 思维、响应式 App 外壳与 API-ready 产品流程。",
+      "sections.mobileTitle": "真实手机 App 项目",
+      "sections.mobileIntro": "两个 React Native / Expo 手机 App 项目，包含 Android 包名、相机或联系人权限，以及可打包安装的构建配置。",
       "sections.gamesTitle": "游戏 Demo",
       "sections.modelsTitle": "3D 模型 Demo",
       "modal.tech": "技术栈",
@@ -105,12 +105,16 @@
       window.removeEventListener("resize", navScrollHandler);
     }
 
+    function getSectionDocumentTop(section) {
+      return section.getBoundingClientRect().top + window.scrollY;
+    }
+
     navScrollHandler = function () {
       var activeSection = navSections[0];
       var scrollAnchor = window.scrollY + 120;
 
       navSections.forEach(function (section) {
-        if (section.offsetTop <= scrollAnchor) {
+        if (getSectionDocumentTop(section) <= scrollAnchor) {
           activeSection = section;
         }
       });
@@ -582,6 +586,7 @@
       } else {
         var phraseIndex = 0;
         var headlineHoldDelay = 5000;
+        var headlineInitialDelay = 60000;
 
         headline.classList.remove("is-typing", "is-swapping");
         renderIntroHeadline(headlinePhrases[0] || "");
@@ -603,7 +608,7 @@
 
         heroHeadlineTypingTimer = window.setTimeout(function () {
           rotateHeadlinePhrase();
-        }, headlineHoldDelay);
+        }, headlineInitialDelay);
       }
     }
 
@@ -629,9 +634,18 @@
     var singleLayers = Array.prototype.slice.call(journey.querySelectorAll(".founder-poster-layer[data-founder-step]"));
     var allLayer = journey.querySelector(".founder-poster-layer-all");
     var posterLayers = Array.prototype.slice.call(journey.querySelectorAll(".founder-poster-layer"));
+    var posterStage = journey.querySelector(".founder-poster-stage");
+    var topPanel = journey.querySelector(".founder-hud-panel-top");
+    var copyLabel = topPanel ? topPanel.querySelector("[data-founder-copy-label]") : null;
+    var copyTitle = topPanel ? topPanel.querySelector("[data-founder-copy-title]") : null;
+    var copyMessage = topPanel ? topPanel.querySelector("[data-founder-copy-message]") : null;
+    var targetButtons = Array.prototype.slice.call(journey.querySelectorAll("[data-founder-target]"));
+    var actionButtons = Array.prototype.slice.call(journey.querySelectorAll("[data-founder-action]"));
     var maxIndex = Math.max(steps.length - 1, 0);
     var totalStates = steps.length + 2;
     var maxState = Math.max(totalStates - 1, 0);
+    var currentFounderState = 0;
+    var currentFounderCopyState = -1;
     var focusPoints = [
       { x: "50%", y: "50%", focus: "50%" },
       { x: "27%", y: "18%", focus: "13%" },
@@ -643,6 +657,79 @@
       { x: "74%", y: "80%", focus: "84%" },
       { x: "50%", y: "50%", focus: "50%" }
     ];
+    var founderCopyStates = [
+      {
+        label: "Proof Theater",
+        title: "Choose a proof moment.",
+        message: "Use the proof controls to reveal how each role supports real product delivery."
+      },
+      {
+        label: "Fullstack Builder",
+        title: "Ship the working system.",
+        message: "Web, mobile, database, automation, and deployment execution stay connected in one build path."
+      },
+      {
+        label: "Ahfaiz Founder",
+        title: "Own the product direction.",
+        message: "Founder work means shaping the assistant, user flow, and daily-life value beyond the code."
+      },
+      {
+        label: "CTO / Startup Builder",
+        title: "Turn vision into architecture.",
+        message: "MVP scope, product risk, and demo direction get clarified before the build spreads."
+      },
+      {
+        label: "AI Automation Teacher",
+        title: "Teach teams to use automation.",
+        message: "Practical sessions turn AI, workflows, and tools into habits people can actually repeat."
+      },
+      {
+        label: "Hackathon Winner",
+        title: "Deliver under pressure.",
+        message: "Fast framing, prototype shipping, and pitching prove execution when time is limited."
+      },
+      {
+        label: "Product Vision",
+        title: "Make the next goal visible.",
+        message: "Public proof, user outcomes, and milestones stay clear instead of buried in vague ideas."
+      },
+      {
+        label: "Client-Ready Operator",
+        title: "Connect proof to delivery.",
+        message: "Design, code, storytelling, and support move together so clients can trust the path."
+      },
+      {
+        label: "Complete Vision Poster",
+        title: "One Hunter. Seven useful roles.",
+        message: "The full poster shows how builder, founder, teacher, and operator work together."
+      }
+    ];
+
+    if (posterStage) {
+      posterStage.classList.add("is-hunter-active");
+    }
+
+    function updateFounderCopy(activeState) {
+      var copy = founderCopyStates[activeState] || founderCopyStates[0];
+
+      if (!copyLabel || !copyTitle || !copyMessage || currentFounderCopyState === activeState) {
+        return;
+      }
+
+      currentFounderCopyState = activeState;
+      copyLabel.textContent = copy.label;
+      copyTitle.textContent = copy.title;
+      copyMessage.textContent = copy.message;
+
+      if (topPanel && !isReducedMotion()) {
+        topPanel.classList.remove("is-copy-swapping");
+        void topPanel.offsetWidth;
+        topPanel.classList.add("is-copy-swapping");
+        window.setTimeout(function () {
+          topPanel.classList.remove("is-copy-swapping");
+        }, 460);
+      }
+    }
 
     function setFounderPosterLayerState(activeState, progress) {
       var focusPoint = focusPoints[activeState] || focusPoints[0];
@@ -650,16 +737,19 @@
       var depth = (progress - 0.5) * 2;
       var posterScroll = -52 * progress;
 
+      currentFounderState = activeState;
       journey.setAttribute("data-active-step", String(activeStep));
       journey.setAttribute("data-founder-state", String(activeState));
       journey.classList.toggle("is-empty-poster", activeState === 0);
       journey.classList.toggle("is-final-poster", activeState === maxState);
+      journey.classList.toggle("is-face-safe-hud-top", activeState === 1 || activeState === 3);
       journey.style.setProperty("--journey-progress", progress.toFixed(4));
       journey.style.setProperty("--journey-step", activeState);
       journey.style.setProperty("--journey-focus", focusPoint.focus);
       journey.style.setProperty("--journey-mask-x", focusPoint.x);
       journey.style.setProperty("--journey-mask-y", focusPoint.y);
       journey.style.setProperty("--poster-scroll-y", posterScroll.toFixed(2) + "%");
+      updateFounderCopy(activeState);
 
       singleLayers.forEach(function (layer, index) {
         layer.classList.toggle("is-visible", index === activeStep);
@@ -667,6 +757,12 @@
 
       if (allLayer) {
         allLayer.classList.toggle("is-visible", activeState === maxState);
+      }
+
+      if (topPanel) {
+        var fadeTopPanel = activeState === 1 || activeState === 3;
+        topPanel.style.opacity = fadeTopPanel ? "0.88" : "";
+        topPanel.style.transform = fadeTopPanel ? "translate3d(0, -10px, 0)" : "";
       }
 
       posterLayers.forEach(function (layer, index) {
@@ -679,6 +775,13 @@
       steps.forEach(function (step, index) {
         step.classList.toggle("is-active", index === activeStep || (activeState === maxState && index === maxIndex));
       });
+
+      targetButtons.forEach(function (button) {
+        var targetState = Number(button.getAttribute("data-founder-target"));
+        var isActive = targetState === activeState || (activeState === maxState && targetState === steps.length);
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-current", isActive ? "step" : "false");
+      });
     }
 
     function updateJourney() {
@@ -688,6 +791,47 @@
       var activeState = Math.min(maxState, Math.max(0, Math.round(progress * maxState)));
       setFounderPosterLayerState(activeState, progress);
     }
+
+    function scrollToFounderState(targetState, forceAuto) {
+      var state = Math.min(maxState, Math.max(0, targetState));
+      var rect = journey.getBoundingClientRect();
+      var pageTop = window.pageYOffset + rect.top;
+      var denominator = Math.max(journey.offsetHeight - window.innerHeight, 1);
+      var targetTop = pageTop + denominator * (state / maxState);
+
+      window.scrollTo({
+        top: targetTop,
+        behavior: forceAuto || isReducedMotion() ? "auto" : "smooth"
+      });
+
+      setFounderPosterLayerState(state, state / maxState);
+    }
+
+    targetButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        scrollToFounderState(Number(button.getAttribute("data-founder-target")));
+      });
+    });
+
+    actionButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var action = button.getAttribute("data-founder-action");
+
+        if (action === "prev") {
+          scrollToFounderState(currentFounderState - 1);
+          return;
+        }
+
+        if (action === "next") {
+          scrollToFounderState(currentFounderState + 1);
+          return;
+        }
+
+        if (action === "skip") {
+          scrollToFounderState(maxState, true);
+        }
+      });
+    });
 
     window.addEventListener("scroll", updateJourney, { passive: true });
     window.addEventListener("resize", updateJourney);
@@ -701,7 +845,7 @@
 
     var sections = Array.prototype.slice.call(
       document.querySelectorAll(
-        "#header, .proof-motion-wall, #about, #services, #mobile-app-demos, .journal-block, .games-demo-section, #project-assets-section, #hunter, #contact, #footer"
+        "#header, .proof-motion-wall, #about, #services, #mobile-app-demos, .journal-block, .games-demo-section, #project-assets-section, #hunter, #contact"
       )
     );
 
@@ -743,6 +887,95 @@
     window.addEventListener("scroll", requestSectionDepth, { passive: true });
     window.addEventListener("resize", requestSectionDepth);
     updateSectionDepth();
+  }
+
+  function setupContactCopyrightDock() {
+    var contact = document.getElementById("contact");
+    var dock = document.querySelector(".contact-copyright-dock");
+
+    if (!contact || !dock) {
+      return;
+    }
+
+    var isVisible = false;
+
+    function setDockVisible(nextVisible) {
+      if (isVisible === nextVisible) {
+        return;
+      }
+
+      isVisible = nextVisible;
+      dock.classList.toggle("is-visible", nextVisible);
+      dock.classList.toggle("is-leaving", !nextVisible);
+    }
+
+    function updateDockState() {
+      var rect = contact.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || 1;
+      var shouldShow = rect.top < viewportHeight * 0.78 && rect.bottom > viewportHeight * 0.22;
+      setDockVisible(shouldShow);
+    }
+
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.target === contact) {
+              setDockVisible(entry.isIntersecting && entry.intersectionRatio > 0.16);
+            }
+          });
+        },
+        { threshold: [0, 0.16, 0.3], rootMargin: "-8% 0px -8% 0px" }
+      );
+
+      observer.observe(contact);
+    }
+
+    window.addEventListener("scroll", updateDockState, { passive: true });
+    window.addEventListener("resize", updateDockState);
+    updateDockState();
+  }
+
+  function setupAboutServicesParallax() {
+    if (isReducedMotion()) {
+      return;
+    }
+
+    var stack = document.querySelector(".about-services-stack");
+    if (!stack) {
+      return;
+    }
+
+    var ticking = false;
+
+    function updateAboutServicesParallax() {
+      ticking = false;
+
+      var rect = stack.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || 1;
+      var travelRange = viewportHeight + Math.max(rect.height, 1);
+      var rawProgress = (viewportHeight - rect.top) / travelRange;
+      var progress = Math.min(Math.max(rawProgress, 0), 1);
+      var depth = (progress - 0.5) * 2;
+
+      stack.style.setProperty("--about-parallax-y", (depth * -54).toFixed(2) + "px");
+      stack.style.setProperty("--about-layer-shift", (depth * 42).toFixed(2) + "px");
+      stack.style.setProperty("--about-portrait-x", (depth * -18).toFixed(2) + "px");
+      stack.style.setProperty("--about-portrait-y", (depth * 30).toFixed(2) + "px");
+    }
+
+    function requestAboutServicesParallax() {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(updateAboutServicesParallax);
+    }
+
+    window.addEventListener("scroll", requestAboutServicesParallax, { passive: true });
+    window.addEventListener("resize", requestAboutServicesParallax);
+    updateAboutServicesParallax();
   }
 
   function setupSingleHunterFocus() {
@@ -814,13 +1047,22 @@
     thumbnails.forEach(function (thumbnail, index) {
       var primary = thumbnail.getAttribute("src");
       var alternate = thumbnail.getAttribute("data-alt-thumb");
+      var extraThumbs = (thumbnail.getAttribute("data-extra-thumbs") || "")
+        .split(",")
+        .map(function (src) {
+          return src.trim();
+        })
+        .filter(Boolean);
+      var alternates = alternate ? [alternate].concat(extraThumbs) : extraThumbs;
+      var thumbSources = primary ? [primary].concat(alternates) : [];
       var link = thumbnail.closest("a");
       var intervalId = null;
+      var currentThumbIndex = 0;
       var visible = false;
       var waitingForPreload = false;
-      var preloaded = preload(alternate);
+      var preloaded = alternates.map(preload);
 
-      if (!primary || !alternate) {
+      if (thumbSources.length < 2) {
         return;
       }
 
@@ -846,9 +1088,15 @@
         }, 180);
       }
 
+      function allPreloaded() {
+        return preloaded.every(function (image) {
+          return image.complete;
+        });
+      }
+
       function loop() {
-        var showingAlt = thumbnail.classList.contains("is-thumb-alt");
-        swapThumbnail(showingAlt ? primary : alternate, !showingAlt);
+        currentThumbIndex = (currentThumbIndex + 1) % thumbSources.length;
+        swapThumbnail(thumbSources[currentThumbIndex], currentThumbIndex > 0);
       }
 
       function start() {
@@ -858,22 +1106,38 @@
           return;
         }
 
-        if (!preloaded.complete) {
+        if (!allPreloaded()) {
           if (!waitingForPreload) {
             waitingForPreload = true;
-            preloaded.addEventListener(
-              "load",
-              function () {
-                waitingForPreload = false;
-                if (visible) {
-                  start();
-                }
-              },
-              { once: true }
-            );
+            preloaded.forEach(function (image) {
+              if (image.complete) {
+                return;
+              }
+
+              image.addEventListener(
+                "load",
+                function () {
+                  waitingForPreload = false;
+                  if (visible) {
+                    start();
+                  }
+                },
+                { once: true }
+              );
+              image.addEventListener(
+                "error",
+                function () {
+                  waitingForPreload = false;
+                  if (visible) {
+                    start();
+                  }
+                },
+                { once: true }
+              );
+            });
           }
-          return;
-        }
+	        return;
+	      }
 
         intervalId = window.setInterval(loop, 4200 + (index % 5) * 360);
         window.setTimeout(loop, 900 + (index % 7) * 180);
@@ -1027,6 +1291,63 @@
     heroThreePointer.x = (event.clientX / width - 0.5) * 2;
     heroThreePointer.y = (event.clientY / height - 0.5) * 2;
     requestHeroThreeMotion();
+  }
+
+  function setupHeroImageLoading() {
+    var body = document.body;
+    var stage = document.querySelector(".hero-three-stage");
+    var image = document.querySelector(".hero-three-source");
+    var loader = document.querySelector("[data-hero-loader]");
+    var finished = false;
+
+    function markHeroReady() {
+      if (finished) {
+        return;
+      }
+
+      finished = true;
+      if (stage) {
+        stage.classList.add("is-image-ready");
+      }
+      if (body) {
+        body.classList.remove("is-hero-loading");
+        body.classList.add("is-hero-ready");
+      }
+      if (loader) {
+        loader.classList.add("is-hidden");
+        loader.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    if (!body || !stage || !image) {
+      markHeroReady();
+      return;
+    }
+
+    body.classList.add("is-hero-loading");
+
+    if (image.complete && image.naturalWidth > 0) {
+      window.setTimeout(markHeroReady, 90);
+      return;
+    }
+
+    if (typeof image.decode === "function") {
+      image.decode().then(markHeroReady).catch(function () {
+        if (image.complete) {
+          markHeroReady();
+        }
+      });
+    }
+
+    image.addEventListener("load", markHeroReady, { once: true });
+    image.addEventListener("error", function () {
+      if (stage) {
+        stage.classList.add("is-three-fallback");
+      }
+      markHeroReady();
+    }, { once: true });
+
+    window.setTimeout(markHeroReady, 8500);
   }
 
   async function initHeroThreeScene() {
@@ -1513,6 +1834,94 @@
     scheduleHeroHunterPopup();
   }
 
+  function setupStartupTechStackLights() {
+    var flow = document.querySelector(".startup-tech-stack-flow");
+
+    if (!flow || isReducedMotion()) {
+      return;
+    }
+
+    var pills = Array.prototype.slice.call(flow.querySelectorAll(".tech-orbit-pill"));
+    var activeTimer = null;
+    var isActive = false;
+
+    if (!pills.length) {
+      return;
+    }
+
+    function clearActiveLights() {
+      pills.forEach(function (pill) {
+        pill.classList.remove("is-lit");
+      });
+    }
+
+    function scheduleNextLight(delay) {
+      window.clearTimeout(activeTimer);
+
+      if (!isActive || document.hidden) {
+        return;
+      }
+
+      activeTimer = window.setTimeout(function () {
+        var lightCount = Math.random() > 0.78 ? 2 : 1;
+
+        for (var index = 0; index < lightCount; index += 1) {
+          var pill = pills[Math.floor(Math.random() * pills.length)];
+          var glowDuration = 760 + Math.random() * 520;
+
+          pill.classList.add("is-lit");
+          window.setTimeout(function (litPill) {
+            litPill.classList.remove("is-lit");
+          }, glowDuration, pill);
+        }
+
+        scheduleNextLight(260 + Math.random() * 620);
+      }, delay);
+    }
+
+    function setActive(nextActive) {
+      if (isActive === nextActive) {
+        return;
+      }
+
+      isActive = nextActive;
+
+      if (isActive) {
+        scheduleNextLight(160);
+      } else {
+        window.clearTimeout(activeTimer);
+        clearActiveLights();
+      }
+    }
+
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.target === flow) {
+              setActive(entry.isIntersecting && entry.intersectionRatio > 0.12);
+            }
+          });
+        },
+        { threshold: [0, 0.12, 0.32], rootMargin: "80px 0px" }
+      );
+
+      observer.observe(flow);
+    } else {
+      setActive(true);
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        setActive(false);
+        return;
+      }
+
+      var rect = flow.getBoundingClientRect();
+      setActive(rect.top < window.innerHeight && rect.bottom > 0);
+    });
+  }
+
   function setupResponsiveNavbarToggle() {
     var toggle = document.querySelector(".responsive");
     var navMenu = document.querySelector(".nav-menu");
@@ -1557,13 +1966,17 @@
       setupProjectDetails();
       setupProjectThumbnailLoops();
       setupSectionParallax();
+      setupContactCopyrightDock();
+      setupAboutServicesParallax();
       setupSingleHunterFocus();
       setupMagneticEffects();
       setupFounderJourney();
+      setupHeroImageLoading();
       scheduleHeroThreeScene();
       setupMotionAndHelper();
       setupSmartNavbar();
       setupHeroHunterPopup();
+      setupStartupTechStackLights();
       setupResponsiveNavbarToggle();
     });
   } else {
@@ -1572,13 +1985,17 @@
     setupProjectDetails();
     setupProjectThumbnailLoops();
     setupSectionParallax();
+    setupContactCopyrightDock();
+    setupAboutServicesParallax();
     setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
+    setupHeroImageLoading();
     scheduleHeroThreeScene();
     setupMotionAndHelper();
     setupSmartNavbar();
     setupHeroHunterPopup();
+    setupStartupTechStackLights();
     setupResponsiveNavbarToggle();
   }
 })();

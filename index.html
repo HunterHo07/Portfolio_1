@@ -72,14 +72,7 @@
         <!-- Main Stylesheet File -->
         <script>
             (function () {
-                var savedTheme = localStorage.getItem("portfolio-theme");
-                var systemDark =
-                    window.matchMedia &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches;
-                document.documentElement.setAttribute(
-                    "data-theme",
-                    savedTheme || (systemDark ? "dark" : "light"),
-                );
+                document.documentElement.setAttribute("data-theme", "dark");
             })();
         </script>
         <link
@@ -87,7 +80,7 @@
             as="image"
             href="images/hero-options/option-c-three-source.jpg"
         />
-        <link href="css/style.css?v=2.0.10" rel="stylesheet" />
+        <link href="css/style.css?v=2.1.0" rel="stylesheet" />
 
         <!-- Responsive css -->
         <link href="css/responsive.css?v=2.0.8" rel="stylesheet" />
@@ -181,14 +174,6 @@
                         </li>
                         <li>
                             <a
-                                href="#hunter"
-                                class="smoothScroll"
-                                data-i18n="nav.development"
-                                >Development</a
-                            >
-                        </li>
-                        <li>
-                            <a
                                 href="#about"
                                 class="smoothScroll"
                                 data-i18n="nav.about"
@@ -219,15 +204,6 @@
 
         <button
             type="button"
-            class="theme-toggle"
-            id="theme-toggle"
-            aria-label="Switch to dark theme"
-            aria-pressed="false"
-        >
-            Dark
-        </button>
-        <button
-            type="button"
             class="language-toggle"
             id="language-toggle"
             aria-label="Switch language"
@@ -241,7 +217,7 @@
             target="_blank"
             rel="noopener"
         >
-            Hunter v2.0.5
+            Hunter v2.1.0
         </a>
         <div
             class="hero-hunter-popup"
@@ -362,156 +338,6 @@
             data-nav-label-zh="实验室"
         >
             <div class="container">
-                <div class="startup-lab-shell">
-                    <div class="startup-video-panel">
-                        <div class="startup-video-frame">
-                            <iframe
-                                src="https://www.youtube.com/embed/KRxQ8JuqMyE?rel=0&amp;modestbranding=1&amp;playsinline=1"
-                                title="TrillionUnicorn startup video"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allow="
-                                    accelerometer;
-                                    autoplay;
-                                    clipboard-write;
-                                    compute-pressure;
-                                    encrypted-media;
-                                    gyroscope;
-                                    picture-in-picture;
-                                    web-share;
-                                "
-                                allowfullscreen
-                            ></iframe>
-                        </div>
-                        <p class="startup-sound-note">
-                            Turn on sound for the full startup story.
-                            <a
-                                href="https://www.youtube.com/watch?v=KRxQ8JuqMyE"
-                                target="_blank"
-                                rel="noopener"
-                                >Open on YouTube</a
-                            >
-                        </p>
-                    </div>
-
-                    <div class="startup-lab-copy">
-                        <span class="vision-label">Startup Lab</span>
-                        <h2>TrillionUnicorn Startup Lab</h2>
-                        <p>
-                            Seven public startup and OSS concepts from the
-                            TrillionUnicorn ecosystem. This is portfolio proof
-                            of product thinking, not the full startup website.
-                        </p>
-
-                        <div
-                            class="startup-icon-row"
-                            aria-label="Seven TrillionUnicorn startup concepts"
-                        >
-                            <a
-                                class="startup-icon-link startup-icon-openchance"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/OpenChance"
-                                aria-label="OpenChance on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >OC</span
-                                >
-                                <span class="startup-icon-name"
-                                    >OpenChance</span
-                                >
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-workfree"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/WorkFree"
-                                aria-label="WorkFree on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >WF</span
-                                >
-                                <span class="startup-icon-name">WorkFree</span>
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-cto"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/CTOrendang"
-                                aria-label="CTOrendang on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >CTO</span
-                                >
-                                <span class="startup-icon-name"
-                                    >CTOrendang</span
-                                >
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-game"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/GameMind"
-                                aria-label="GameMind on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >GM</span
-                                >
-                                <span class="startup-icon-name">GameMind</span>
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-check"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/CheckMe"
-                                aria-label="CheckMe on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >CM</span
-                                >
-                                <span class="startup-icon-name">CheckMe</span>
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-wallet"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/3Wallet"
-                                aria-label="3Wallet on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >3W</span
-                                >
-                                <span class="startup-icon-name">3Wallet</span>
-                            </a>
-                            <a
-                                class="startup-icon-link startup-icon-ahfai"
-                                target="_blank"
-                                rel="noopener"
-                                href="https://github.com/TrillionUnicorn/AhFai"
-                                aria-label="AhFai on GitHub"
-                            >
-                                <span
-                                    class="startup-icon-mark"
-                                    aria-hidden="true"
-                                    >AI</span
-                                >
-                                <span class="startup-icon-name">AhFai</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 <div
                     class="startup-founder-band"
                     aria-label="Founder Vision summary"
@@ -532,6 +358,36 @@
                         class="startup-founder-proof-preview"
                         aria-label="Hunter Ho complete proof poster preview"
                     >
+                        <div class="startup-founder-video-slot">
+                            <div class="startup-video-frame">
+                                <iframe
+                                    src="https://www.youtube.com/embed/KRxQ8JuqMyE?rel=0&amp;modestbranding=1&amp;playsinline=1"
+                                    title="TrillionUnicorn startup video"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allow="
+                                        accelerometer;
+                                        autoplay;
+                                        clipboard-write;
+                                        compute-pressure;
+                                        encrypted-media;
+                                        gyroscope;
+                                        picture-in-picture;
+                                        web-share;
+                                    "
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                            <p class="startup-sound-note">
+                                Turn on sound for the full startup story.
+                                <a
+                                    href="https://www.youtube.com/watch?v=KRxQ8JuqMyE"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >Open on YouTube</a
+                                >
+                            </p>
+                        </div>
                         <img
                             loading="lazy"
                             src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
@@ -551,6 +407,104 @@
                         <span>CTO / Startup Builder</span>
                         <span>Hackathon Winner</span>
                         <span>Builder Since 2007</span>
+                    </div>
+                    <div
+                        class="startup-icon-row"
+                        aria-label="Seven TrillionUnicorn startup concepts"
+                    >
+                        <a
+                            class="startup-icon-link startup-icon-openchance"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/OpenChance"
+                            aria-label="OpenChance on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >OC</span
+                            >
+                            <span class="startup-icon-name">OpenChance</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-workfree"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/WorkFree"
+                            aria-label="WorkFree on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >WF</span
+                            >
+                            <span class="startup-icon-name">WorkFree</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-cto"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/CTOrendang"
+                            aria-label="CTOrendang on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >CTO</span
+                            >
+                            <span class="startup-icon-name">CTOrendang</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-game"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/GameMind"
+                            aria-label="GameMind on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >GM</span
+                            >
+                            <span class="startup-icon-name">GameMind</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-check"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/CheckMe"
+                            aria-label="CheckMe on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >CM</span
+                            >
+                            <span class="startup-icon-name">CheckMe</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-wallet"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/3Wallet"
+                            aria-label="3Wallet on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >3W</span
+                            >
+                            <span class="startup-icon-name">3Wallet</span>
+                        </a>
+                        <a
+                            class="startup-icon-link startup-icon-ahfai"
+                            target="_blank"
+                            rel="noopener"
+                            href="https://github.com/TrillionUnicorn/AhFai"
+                            aria-label="AhFai on GitHub"
+                        >
+                            <span class="startup-icon-mark" aria-hidden="true"
+                                >AI</span
+                            >
+                            <span class="startup-icon-name">AhFai</span>
+                        </a>
+                    </div>
+                    <div class="startup-lab-copy">
+                        <span class="vision-label">Startup Lab</span>
+                        <h2>TrillionUnicorn Startup Lab</h2>
+                        <p>
+                            Seven public startup and OSS concepts from the
+                            TrillionUnicorn ecosystem. This is portfolio proof
+                            of product thinking, not the full startup website.
+                        </p>
                     </div>
                     <div
                         class="startup-tech-stack-flow"
@@ -1017,35 +971,117 @@
                                 class="founder-final-callouts"
                                 aria-label="Complete proof poster details"
                             >
-                                <div class="founder-final-callout" data-proof-tone="sport">
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="sport"
+                                    data-final-proof="sport"
+                                    data-final-proof-title="Challenge Accepted"
+                                    data-final-proof-body="Sportsmanship, challenge breaking, and challenge accepting keep the standard moving upward."
+                                >
                                     <span>01</span>
                                     <strong>Challenge Accepted</strong>
                                     <p>Sportsmanship and self-breakthrough keep the standard moving.</p>
-                                </div>
-                                <div class="founder-final-callout" data-proof-tone="cto">
+                                </button>
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="cto"
+                                    data-final-proof="cto"
+                                    data-final-proof-title="Trillion Unicorn CTO"
+                                    data-final-proof-body="Startup architecture, CTO thinking, and product framing turn big vision into an executable product path."
+                                >
                                     <span>02</span>
                                     <strong>Trillion Unicorn CTO</strong>
                                     <p>Startup architecture turns big vision into a product path.</p>
-                                </div>
-                                <div class="founder-final-callout" data-proof-tone="ai">
+                                </button>
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="ai"
+                                    data-final-proof="ai"
+                                    data-final-proof-title="Ahfaiz AI Startup"
+                                    data-final-proof-body="AI companion ideas become product direction, assistant UX, user value, and startup ownership."
+                                >
                                     <span>03</span>
                                     <strong>Ahfaiz AI Startup</strong>
                                     <p>AI companion ideas become real app direction and user value.</p>
-                                </div>
-                                <div class="founder-final-callout" data-proof-tone="world">
+                                </button>
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="world"
+                                    data-final-proof="world"
+                                    data-final-proof-title="WorldCup Remote Work"
+                                    data-final-proof-body="Work-anywhere proof shows remote delivery, global readiness, and client work that is not limited by location."
+                                >
                                     <span>04</span>
                                     <strong>WorldCup Remote Work</strong>
                                     <p>Work-anywhere proof, remote delivery, and global readiness.</p>
-                                </div>
-                                <div class="founder-final-callout" data-proof-tone="win">
+                                </button>
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="win"
+                                    data-final-proof="win"
+                                    data-final-proof-title="Hackathon Winner"
+                                    data-final-proof-body="Proven pressure delivery across AI, Web3, and innovation events with public winner records."
+                                >
                                     <span>05</span>
                                     <strong>Hackathon Winner</strong>
                                     <p>Proven pressure delivery across AI, Web3, and innovation.</p>
-                                </div>
-                                <div class="founder-final-callout" data-proof-tone="teach">
+                                </button>
+                                <button
+                                    type="button"
+                                    class="founder-final-callout"
+                                    data-proof-tone="teach"
+                                    data-final-proof="teach"
+                                    data-final-proof-title="Community IT Teacher"
+                                    data-final-proof-body="Invited classes, talks, and mentoring share practical IT knowledge back to the community."
+                                >
                                     <span>06</span>
                                     <strong>Community IT Teacher</strong>
                                     <p>Invited classes and talks share practical IT back to the community.</p>
+                                </button>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-sport"
+                                    data-final-proof-line="sport"
+                                    aria-hidden="true"
+                                ></span>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-cto"
+                                    data-final-proof-line="cto"
+                                    aria-hidden="true"
+                                ></span>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-ai"
+                                    data-final-proof-line="ai"
+                                    aria-hidden="true"
+                                ></span>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-world"
+                                    data-final-proof-line="world"
+                                    aria-hidden="true"
+                                ></span>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-win"
+                                    data-final-proof-line="win"
+                                    aria-hidden="true"
+                                ></span>
+                                <span
+                                    class="founder-proof-connector founder-proof-connector-teach"
+                                    data-final-proof-line="teach"
+                                    aria-hidden="true"
+                                ></span>
+                                <div
+                                    class="founder-proof-detail-drawer"
+                                    aria-live="polite"
+                                >
+                                    <span data-final-proof-detail-index>01</span>
+                                    <strong data-final-proof-detail-title>Challenge Accepted</strong>
+                                    <p data-final-proof-detail-body>
+                                        Sportsmanship, challenge breaking, and challenge accepting keep the standard moving upward.
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -1512,7 +1548,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 12 Sim Work D27 homepage and demo scene"
+                                    alt="Project 12 OpsPilot Work Simulation homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -1521,13 +1557,13 @@
                                         target="_blank"
                                         href="https://d27-i7-sim-work.vercel.app/"
                                         >Project 12 <br />
-                                        Sim Work Operations Demo</a
+                                        OpsPilot Work Simulation</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 12 - Sim Work Operations Demo"
+                                    data-project-title="Project 12 - OpsPilot Work Simulation"
                                     data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard"
                                     data-project-skills="3D interface, operations dashboard, interactive demo flow"
                                     data-project-about="A simulation work demo focused on visual operations, interactive UI, and deployed product presentation."
@@ -1550,7 +1586,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 13 Sim Work D34 homepage and Project Manager demo flow"
+                                    alt="Project 13 TeamForge Manager Simulator homepage and Project Manager demo flow"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -1559,13 +1595,13 @@
                                         target="_blank"
                                         href="https://d34-i7-sim-work.vercel.app/"
                                         >Project 13 <br />
-                                        Sim Work Visual Upgrade</a
+                                        TeamForge Manager Simulator</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 13 - Sim Work Visual Upgrade"
+                                    data-project-title="Project 13 - TeamForge Manager Simulator"
                                     data-project-tech="3D web UI, TypeScript, Vercel deployment, simulation dashboard"
                                     data-project-skills="Scenario UI, visual systems design, deployment iteration"
                                     data-project-about="A second simulation demo iteration with stronger visual treatment and operational storytelling."
@@ -2040,7 +2076,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 26 SimWork Demo 3 homepage and demo scene"
+                                    alt="Project 26 WorkQuest Career Simulator homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2049,13 +2085,13 @@
                                         target="_blank"
                                         href="https://i7-d5-simwork.vercel.app/"
                                         >Project 26 <br />
-                                        SimWork Demo 3</a
+                                        WorkQuest Career Simulator</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 26 - SimWork Demo 3"
+                                    data-project-title="Project 26 - WorkQuest Career Simulator"
                                     data-project-tech="2.5D work simulation, web game UI, Vercel deployment"
                                     data-project-skills="Simulation UX, office-world scenario, interactive product demo"
                                     data-project-about="A SimWork 2.5D office-world demo for work challenges, freelancer discovery, and skill progression."
@@ -2077,7 +2113,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 27 SimWork Normal Demo 1 homepage and demo scene"
+                                    alt="Project 27 SkillSprint Office Challenge homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2086,13 +2122,13 @@
                                         target="_blank"
                                         href="https://i7-d1-simwork.vercel.app/"
                                         >Project 27 <br />
-                                        SimWork Normal Demo 1</a
+                                        SkillSprint Office Challenge</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 27 - SimWork Normal Demo 1"
+                                    data-project-title="Project 27 - SkillSprint Office Challenge"
                                     data-project-tech="Work simulation UI, JavaScript, responsive product demo"
                                     data-project-skills="Scenario flow, simulated work tasks, product iteration"
                                     data-project-about="An early SimWork normal demo showing the work-simulation product direction and core challenge flow."
@@ -2114,7 +2150,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 28 SimWork Normal Demo 2 homepage and demo scene"
+                                    alt="Project 28 CareerCraft Scenario Lab homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2123,13 +2159,13 @@
                                         target="_blank"
                                         href="https://i7-d2-simwork-lb6q.vercel.app/"
                                         >Project 28 <br />
-                                        SimWork Normal Demo 2</a
+                                        CareerCraft Scenario Lab</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 28 - SimWork Normal Demo 2"
+                                    data-project-title="Project 28 - CareerCraft Scenario Lab"
                                     data-project-tech="Work simulation UI, JavaScript, responsive product demo"
                                     data-project-skills="Work-role modeling, interactive screens, product comparison"
                                     data-project-about="A second SimWork normal demo variant for comparing user flow, scenario structure, and product presentation."
@@ -2151,7 +2187,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 29 SimWork Normal Demo 3 homepage and demo scene"
+                                    alt="Project 29 WorkPath Simulation Studio homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2160,13 +2196,13 @@
                                         target="_blank"
                                         href="https://d25-i7-sim-work.vercel.app/"
                                         >Project 29 <br />
-                                        SimWork Normal Demo 3</a
+                                        WorkPath Simulation Studio</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 29 - SimWork Normal Demo 3"
+                                    data-project-title="Project 29 - WorkPath Simulation Studio"
                                     data-project-tech="Work simulation UI, Vercel deployment, scenario dashboard"
                                     data-project-skills="Prototype iteration, simulation storytelling, web deployment"
                                     data-project-about="A SimWork iteration exploring another visual and product-flow direction for the future-of-work concept."
@@ -2188,7 +2224,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 30 SimWork Normal Demo 4 homepage and demo scene"
+                                    alt="Project 30 OpsForge Assessment Arena homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2197,13 +2233,13 @@
                                         target="_blank"
                                         href="https://d26-i7-sim-work.vercel.app/"
                                         >Project 30 <br />
-                                        SimWork Normal Demo 4</a
+                                        OpsForge Assessment Arena</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 30 - SimWork Normal Demo 4"
+                                    data-project-title="Project 30 - OpsForge Assessment Arena"
                                     data-project-tech="Work simulation UI, Vercel deployment, interactive demo"
                                     data-project-skills="Interface iteration, product storytelling, simulated operations"
                                     data-project-about="A fourth SimWork normal demo for reviewing product narrative, visual direction, and simulation-ready UI."
@@ -2225,7 +2261,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 31 SimWork Normal Demo 5 homepage and demo scene"
+                                    alt="Project 31 TalentRise Progress Simulator homepage and demo scene"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2234,13 +2270,13 @@
                                         target="_blank"
                                         href="https://d33-i7-sim-work.vercel.app/"
                                         >Project 31 <br />
-                                        SimWork Normal Demo 5</a
+                                        TalentRise Progress Simulator</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 31 - SimWork Normal Demo 5"
+                                    data-project-title="Project 31 - TalentRise Progress Simulator"
                                     data-project-tech="Work simulation UI, Vercel deployment, product demo"
                                     data-project-skills="Demo packaging, future-of-work UX, scenario visualization"
                                     data-project-about="A fifth SimWork normal demo showing another direction for work assessment, skill proof, and simulated workplace flow."
@@ -2335,7 +2371,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 34 Warranty AI Demo 2 homepage and demo flow"
+                                    alt="Project 34 WarrantyVault Service Assistant homepage and demo flow"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2344,13 +2380,13 @@
                                         target="_blank"
                                         href="https://i5-d3-warrantyai.vercel.app/"
                                         >Project 34 <br />
-                                        Warranty AI Demo 2</a
+                                        WarrantyVault Service Assistant</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 34 - Warranty AI Demo 2"
+                                    data-project-title="Project 34 - WarrantyVault Service Assistant"
                                     data-project-tech="Warranty assistant concept, scan workflow, TypeScript-style web UI"
                                     data-project-skills="Receipt intake, warranty reminders, inventory assistant UX"
                                     data-project-about="A second Warranty AI demo variant for tracking service dates, item coverage, receipt scans, and smart warranty reminders."
@@ -2372,7 +2408,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 35 CoreDesk AI CMS demo 1 homepage and demo flow"
+                                    alt="Project 35 ContentOps AI Command Desk homepage and demo flow"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2381,13 +2417,13 @@
                                         target="_blank"
                                         href="https://i6-d1-coredeskaicms.vercel.app/"
                                         >Project 35 <br />
-                                        CoreDesk AI CMS Demo 1</a
+                                        ContentOps AI Command Desk</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 35 - CoreDesk AI CMS Demo 1"
+                                    data-project-title="Project 35 - ContentOps AI Command Desk"
                                     data-project-tech="AI CMS concept, admin dashboard, responsive web UI"
                                     data-project-skills="CMS workflows, content operations, admin-product UX"
                                     data-project-about="A CoreDesk AI CMS demo for content management, AI-assisted operations, and internal admin dashboard direction."
@@ -2409,7 +2445,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 36 CoreDesk AI CMS demo 2 homepage and demo flow"
+                                    alt="Project 36 AdminFlow CMS Workspace homepage and demo flow"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2418,13 +2454,13 @@
                                         target="_blank"
                                         href="https://i6-d2-coredeskaicms.vercel.app/"
                                         >Project 36 <br />
-                                        CoreDesk AI CMS Demo 2</a
+                                        AdminFlow CMS Workspace</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 36 - CoreDesk AI CMS Demo 2"
+                                    data-project-title="Project 36 - AdminFlow CMS Workspace"
                                     data-project-tech="AI CMS concept, dashboard UI, Vercel deployment"
                                     data-project-skills="Admin iteration, CMS product flow, AI-assisted interface design"
                                     data-project-about="A second CoreDesk AI CMS demo variant for comparing admin flows, content tools, and AI-ready product direction."
@@ -2445,7 +2481,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 37 Job Portal demo 1 homepage"
+                                    alt="Project 37 HirePath Talent Portal homepage"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2454,13 +2490,13 @@
                                         target="_blank"
                                         href="https://job1-six.vercel.app/"
                                         >Project 37 <br />
-                                        Job Portal Demo 1</a
+                                        HirePath Talent Portal</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 37 - Job Portal Demo 1"
+                                    data-project-title="Project 37 - HirePath Talent Portal"
                                     data-project-tech="Job portal UI, search workflow, responsive web app"
                                     data-project-skills="Job search UX, listing cards, hiring-product flow"
                                     data-project-about="A job portal demo with search, category filtering, featured listings, and hiring marketplace presentation."
@@ -2481,7 +2517,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 38 Job Portal demo 2 homepage"
+                                    alt="Project 38 RecruitFlow Hiring Hub homepage"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2490,13 +2526,13 @@
                                         target="_blank"
                                         href="https://job2-pearl.vercel.app/"
                                         >Project 38 <br />
-                                        Job Portal Demo 2</a
+                                        RecruitFlow Hiring Hub</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 38 - Job Portal Demo 2"
+                                    data-project-title="Project 38 - RecruitFlow Hiring Hub"
                                     data-project-tech="Job portal UI, hiring workflow, responsive web app"
                                     data-project-skills="Candidate discovery, portal iteration, product-page UX"
                                     data-project-about="A second job portal demo iteration for comparing hiring flows, listing presentation, and job-search interface direction."
@@ -2517,7 +2553,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 39 Job Portal demo 3 homepage"
+                                    alt="Project 39 TalentBoard Job Marketplace homepage"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2526,13 +2562,13 @@
                                         target="_blank"
                                         href="https://job3-sigma.vercel.app/"
                                         >Project 39 <br />
-                                        Job Portal Demo 3</a
+                                        TalentBoard Job Marketplace</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 39 - Job Portal Demo 3"
+                                    data-project-title="Project 39 - TalentBoard Job Marketplace"
                                     data-project-tech="Job portal UI, responsive dashboard, Vercel deployment"
                                     data-project-skills="Recruiting UX, search/filter flow, marketplace iteration"
                                     data-project-about="A third job portal demo variant for testing recruitment marketplace UI and responsive job listing presentation."
@@ -2590,7 +2626,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 41 Sicbo Tool dashboard"
+                                    alt="Project 41 DicePattern Analytics Console dashboard"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2599,13 +2635,13 @@
                                         target="_blank"
                                         href="https://sicbo-ui-tool.vercel.app/"
                                         >Project 41 <br />
-                                        Sicbo Tool</a
+                                        DicePattern Analytics Console</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 41 - Sicbo Tool"
+                                    data-project-title="Project 41 - DicePattern Analytics Console"
                                     data-project-tech="Dashboard tool UI, statistics panel, responsive web utility"
                                     data-project-skills="Data-entry workflow, result analysis UI, compact tool design"
                                     data-project-about="A Sicbo analysis tool demo with roll input, bankroll tracking, pattern cards, and compact dark-mode utility UI."
@@ -2662,7 +2698,7 @@
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Project 43 RunJian SimWork 2.5D control center"
+                                    alt="Project 43 RunJian Command World control center"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -2671,16 +2707,16 @@
                                         target="_blank"
                                         href="https://p2-run-jian-sim-world.vercel.app/"
                                         >Project 43 <br />
-                                        RunJian SimWork 2.5D</a
+                                        RunJian Command World</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Project 43 - RunJian SimWork 2.5D"
+                                    data-project-title="Project 43 - RunJian Command World"
                                     data-project-tech="2.5D command world, dashboard UI, Vercel deployment"
                                     data-project-skills="AI control center, simulation UI, command dashboard presentation"
-                                    data-project-about="A RunJian SimWork 2.5D command-center demo with generated station assets, map layers, action triggers, and control panels."
+                                    data-project-about="A RunJian Command World demo with generated station assets, map layers, action triggers, and control panels."
                                 >
                                     Details
                                 </button>
@@ -2722,7 +2758,7 @@
                         >
                             <a
                                 target="_blank"
-                                href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app"
+                                href="https://mobile-warrantyscan-demo.vercel.app"
                                 ><img
                                     loading="lazy"
                                     src="images/demo-thumb-mobile-warrantyscan.jpg"
@@ -2736,7 +2772,7 @@
                                 <h4>
                                     <a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app"
+                                        href="https://mobile-warrantyscan-demo.vercel.app"
                                         >Mobile App 1 <br />
                                         WarrantyScan Mobile</a
                                     >
@@ -2744,11 +2780,11 @@
                                 <div class="project-links mobile-app-links">
                                     <a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app"
-                                        >App Source</a
+                                        href="https://mobile-warrantyscan-demo.vercel.app"
+                                        >Live Demo</a
                                     ><a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-warrantyscan-demo/blob/main/native-app/app.json"
+                                        href="https://mobile-warrantyscan-demo.vercel.app/#native-build"
                                         >Android Project</a
                                     >
                                 </div>
@@ -2768,7 +2804,7 @@
                                     data-project-title="Mobile App 1 - WarrantyScan Mobile"
                                     data-project-tech="React Native, Expo, TypeScript, Expo Camera, Expo Notifications, Expo SQLite, Android package config, EAS APK profile"
                                     data-project-skills="Native mobile product UX, receipt capture workflow, warranty timeline, local device state, reminder design, Android app build configuration"
-                                    data-project-about="A native mobile app project for turning receipts, item photos, and service dates into a practical ownership timeline. It has real app source, package metadata, permission config, and build profiles for Android delivery."
+                                    data-project-about="A native mobile app project for turning receipts, item photos, and service dates into a practical ownership timeline. Open demo: https://mobile-warrantyscan-demo.vercel.app. It has real Expo source, package metadata, permission config, and build profiles for Android delivery."
                                 >
                                     Details
                                 </button>
@@ -2782,7 +2818,7 @@
                         >
                             <a
                                 target="_blank"
-                                href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app"
+                                href="https://mobile-namecard-demo.vercel.app"
                                 ><img
                                     loading="lazy"
                                     src="images/demo-thumb-mobile-namecard.jpg"
@@ -2796,7 +2832,7 @@
                                 <h4>
                                     <a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app"
+                                        href="https://mobile-namecard-demo.vercel.app"
                                         >Mobile App 2 <br />
                                         NameCard Mobile</a
                                     >
@@ -2804,11 +2840,11 @@
                                 <div class="project-links mobile-app-links">
                                     <a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app"
-                                        >App Source</a
+                                        href="https://mobile-namecard-demo.vercel.app"
+                                        >Live Demo</a
                                     ><a
                                         target="_blank"
-                                        href="https://github.com/HunterHo07/mobile-namecard-demo/blob/main/native-app/app.json"
+                                        href="https://mobile-namecard-demo.vercel.app/#native-build"
                                         >Android Project</a
                                     >
                                 </div>
@@ -2828,7 +2864,7 @@
                                     data-project-title="Mobile App 2 - NameCard Mobile"
                                     data-project-tech="React Native, Expo, TypeScript, Expo Contacts, Expo Linking, Expo Notifications, Android package config, EAS APK profile"
                                     data-project-skills="Native identity app UX, QR profile sharing, NFC exchange flow, event follow-up, contact saving, Android app build configuration"
-                                    data-project-about="A native mobile app project for QR profile sharing, NFC contact exchange, event follow-up, and digital business card replacement. It has real app source, package metadata, permission config, and build profiles for Android delivery."
+                                    data-project-about="A native mobile app project for QR profile sharing, NFC contact exchange, event follow-up, and digital business card replacement. Open demo: https://mobile-namecard-demo.vercel.app. It has real Expo source, package metadata, permission config, and build profiles for Android delivery."
                                 >
                                     Details
                                 </button>
@@ -3244,6 +3280,28 @@
             data-nav-label="3D Models"
             data-nav-label-zh="3D模型"
         >
+            <div
+                class="models-hunter-bg-stage"
+                aria-hidden="true"
+                data-models-hunter-bg
+            >
+                <canvas
+                    class="models-matrix-canvas"
+                    width="900"
+                    height="520"
+                    data-models-matrix
+                ></canvas>
+                <img
+                    class="models-hunter-bg-ghost"
+                    src="images/hero-layers/hero-hunter-cutout.webp"
+                    width="600"
+                    height="900"
+                    alt=""
+                    decoding="async"
+                    loading="lazy"
+                    data-models-hunter-ghost
+                />
+            </div>
             <div class="section-title text-center">
                 <div class="glitch-wrapper">
                     <div
@@ -3253,6 +3311,14 @@
                     >
                         3D Models Demo
                     </div>
+                </div>
+                <div class="models-hunter-bg-effect-list" aria-label="Background effects">
+                    <span>neon rim</span>
+                    <span>matrix rain</span>
+                    <span>hologram scan</span>
+                    <span>glitch echo</span>
+                    <span>prism bloom</span>
+                    <span>soft blur</span>
                 </div>
             </div>
             <div class="journal-block">
@@ -3513,469 +3579,6 @@
         </section>
         <!-- end section hackathon wins -->
 
-        <!-- start section hunter -->
-        <div
-            id="hunter"
-            class="text-center paddsection"
-            data-nav-label="Development"
-            data-nav-label-zh="开发"
-        >
-            <div class="container">
-                <div class="section-title text-center">
-                    <h2>More Example Development</h2>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="hunter-list">
-                            <ul class="nav list-unstyled" id="hunter-flters">
-                                <li
-                                    class="filter filter-active"
-                                    data-filter=".all"
-                                >
-                                    all
-                                </li>
-                                <li class="filter" data-filter=".branding">
-                                    Website
-                                </li>
-                                <li class="filter" data-filter=".mockups">
-                                    Mobile App
-                                </li>
-                                <li class="filter" data-filter=".uikits">
-                                    Server & Database
-                                </li>
-                                <li class="filter" data-filter=".webdesign">
-                                    UX & UI Design
-                                </li>
-                                <li class="filter" data-filter=".photography">
-                                    Custom Software
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="hunter-container">
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all branding"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/w1.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/w1.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all branding"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/w2.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/w2.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all branding"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/w3.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/w3.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all branding"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/w4.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/w4.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a1.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a1.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a2.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a2.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a3.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a3.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a4.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a4.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a5.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a5.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all mockups"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/a6.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/a6.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all uikits"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/d1.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/d1.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all uikits"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/d2.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/d2.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u1.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u1.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u2.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u2.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u3.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u3.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u4.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u4.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u5.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u5.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u6.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u6.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all webdesign"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/u7.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/u7.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all photography"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/s1.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/s1.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all photography"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/s2.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/s2.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all photography"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/s3.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/s3.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all photography"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/s4.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/s4.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-6 hunter-thumbnail all photography"
-                            >
-                                <a
-                                    class="popup-img"
-                                    href="images/hunter/s6.webp"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        src="images/hunter/s6.webp"
-                                        width="300"
-                                        height="200"
-                                        alt="img"
-                                        decoding="async"
-                                    />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End section hunter -->
-
         <!-- start section about services stack -->
         <section
             id="about"
@@ -3991,7 +3594,16 @@
                 class="about-parallax-layer about-parallax-layer-two"
                 aria-hidden="true"
             ></span>
-            <div class="container">
+            <div class="container about-service-command-center">
+                <div class="service-section-header">
+                    <p class="section-kicker">About Hunter + Services</p>
+                    <h2>Build the product, automate the work, keep it fast.</h2>
+                    <p>
+                        One merged service section for clients who need a real
+                        builder: strategy, UI/UX, fullstack systems, AI
+                        automation, mobile apps, deployment, and maintenance.
+                    </p>
+                </div>
                 <div
                     class="row align-items-center justify-content-between about-services-intro"
                 >
@@ -4024,11 +3636,18 @@
 
                     <div class="col-lg-7">
                         <div class="about-descr">
-                            <p class="section-kicker">About Hunter</p>
                             <p class="p-heading">
-                                Experienced Programmer<br />Develop Your Idea >
-                                Reality
+                                Experienced programmer turning ideas into
+                                production-ready systems.
                             </p>
+                            <div class="service-proof-strip">
+                                <span>Fullstack</span>
+                                <span>AI Automation</span>
+                                <span>Mobile</span>
+                                <span>UI/UX</span>
+                                <span>Web3</span>
+                                <span>DevOps</span>
+                            </div>
                             <div class="separator about-skill-copy">
                                 <div class="pro_text">
                                     Programming Languages | 编程语言:
@@ -4089,11 +3708,11 @@
                 data-nav-label-zh="服务"
             >
                 <div class="container">
-                    <div class="section-title text-center">
-                        <p class="section-kicker">Services</p>
-                        <h2>What I Build</h2>
+                    <div class="service-subhead">
+                        <p class="section-kicker">Client Build Menu</p>
+                        <h3>Choose the outcome. Hunter ships the stack.</h3>
                     </div>
-                    <div class="services-carousel owl-theme">
+                    <div class="service-capability-grid">
                         <div class="services-block">
                             <i class="ion-ios-browsers-outline"></i>
                             <span>Website | 网站</span>
@@ -4167,30 +3786,16 @@
                 data-nav-label-zh="价格"
             >
                 <div class="container">
-                    <div class="section-title text-center">
-                        <p class="section-kicker">Service Offer</p>
-                        <div class="glitch-wrapper">
-                            <div class="glitch" data-text="My Service">
-                                My Service
-                            </div>
-                        </div>
+                    <div class="service-subhead service-offer-head">
+                        <p class="section-kicker">My Service Offers</p>
+                        <h3>Clear commercial reasons to start now.</h3>
                     </div>
                     <div class="journal-block">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6">
+                        <div class="service-offer-grid">
+                            <div>
                                 <div class="journal-info">
-                                    <a
-                                        ><img
-                                            loading="lazy"
-                                            src="images/blog-post-1.webp"
-                                            width="450"
-                                            height="300"
-                                            class="img-responsive"
-                                            alt="Custom website and pricing service"
-                                            decoding="async"
-                                    /></a>
-
                                     <div class="journal-txt">
+                                        <span class="offer-marker">01</span>
                                         <h4>
                                             <a
                                                 >THE MOST BEAUTIFUL CUSTOM
@@ -4207,20 +3812,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6">
+                            <div>
                                 <div class="journal-info">
-                                    <a
-                                        ><img
-                                            loading="lazy"
-                                            src="images/blog-post-2.webp"
-                                            width="450"
-                                            height="300"
-                                            class="img-responsive"
-                                            alt="One development cost for iOS and Android service"
-                                            decoding="async"
-                                    /></a>
-
                                     <div class="journal-txt">
+                                        <span class="offer-marker">02</span>
                                         <h4>
                                             <a
                                                 >1 DEVELOPMENT COST FOR BOTH IOS
@@ -4238,20 +3833,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6">
+                            <div>
                                 <div class="journal-info">
-                                    <a
-                                        ><img
-                                            loading="lazy"
-                                            src="images/blog-post-3.webp"
-                                            width="450"
-                                            height="300"
-                                            class="img-responsive"
-                                            alt="Discount maintenance service"
-                                            decoding="async"
-                                    /></a>
-
                                     <div class="journal-txt">
+                                        <span class="offer-marker">03</span>
                                         <h4>
                                             <a
                                                 >50% DISCOUNT MAINTENANCE
@@ -4506,7 +4091,7 @@
 
         <!-- JavaScript Libraries -->
         <script src="lib/jquery/jquery.min.js" defer></script>
-        <script src="js/main.js?v=2.0.10" defer></script>
+        <script src="js/main.js?v=2.1.0" defer></script>
     </body>
 </html>
 

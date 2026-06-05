@@ -153,7 +153,6 @@ const requiredText = [
   "NameCard Mobile",
   "data-project-title",
   "project-detail-modal",
-  "theme-toggle",
   "language-toggle",
   "data-i18n",
   "husky-helper",
@@ -191,7 +190,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.0.5",
+  "Hunter v2.1.0",
 ];
 
 const requestedDemoUrls = [
@@ -261,8 +260,8 @@ const requiredUrls = [
   "https://github.com/HunterHo07/game-demo-08-quantum-card-lab",
   "https://github.com/HunterHo07/game-demo-09-sky-island-tycoon",
   "https://github.com/HunterHo07/qstyle-3d-models-lab",
-  "https://github.com/HunterHo07/mobile-warrantyscan-demo/tree/main/native-app",
-  "https://github.com/HunterHo07/mobile-namecard-demo/tree/main/native-app",
+  "https://mobile-warrantyscan-demo.vercel.app",
+  "https://mobile-namecard-demo.vercel.app",
   "https://github.com/TrillionUnicorn/OpenChance",
   "https://github.com/TrillionUnicorn/WorkFree",
   "https://github.com/TrillionUnicorn/CTOrendang",
@@ -398,6 +397,49 @@ assert.ok(
   html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.png,images/demo-thumb-sim-work-d34-project-manager.png"'),
   "Project 13 should include both Sim Work D34 /demo thumbnails in the thumbnail loop"
 );
+const demoProjectsStart = html.indexOf('data-text="Demo Projects"');
+const demoProjectsEndForNames = html.indexOf("<!-- mobile app demo -->", demoProjectsStart);
+const demoProjectsForNames = html.slice(demoProjectsStart, demoProjectsEndForNames);
+for (const oldCodeName of [
+  "Sim Work Operations Demo",
+  "Sim Work Visual Upgrade",
+  "SimWork Demo 3",
+  "SimWork Normal Demo 1",
+  "SimWork Normal Demo 2",
+  "SimWork Normal Demo 3",
+  "SimWork Normal Demo 4",
+  "SimWork Normal Demo 5",
+  "Warranty AI Demo 2",
+  "CoreDesk AI CMS Demo 1",
+  "CoreDesk AI CMS Demo 2",
+  "Job Portal Demo 1",
+  "Job Portal Demo 2",
+  "Job Portal Demo 3",
+  "Sicbo Tool",
+  "RunJian SimWork 2.5D"
+]) {
+  assert.ok(!demoProjectsForNames.includes(oldCodeName), `Demo Projects should replace code-name title: ${oldCodeName}`);
+}
+for (const professionalName of [
+  "OpsPilot Work Simulation",
+  "TeamForge Manager Simulator",
+  "WorkQuest Career Simulator",
+  "SkillSprint Office Challenge",
+  "CareerCraft Scenario Lab",
+  "WorkPath Simulation Studio",
+  "OpsForge Assessment Arena",
+  "TalentRise Progress Simulator",
+  "WarrantyVault Service Assistant",
+  "ContentOps AI Command Desk",
+  "AdminFlow CMS Workspace",
+  "HirePath Talent Portal",
+  "RecruitFlow Hiring Hub",
+  "TalentBoard Job Marketplace",
+  "DicePattern Analytics Console",
+  "RunJian Command World"
+]) {
+  assert.ok(demoProjectsForNames.includes(professionalName), `Demo Projects should include professional project name: ${professionalName}`);
+}
 for (const [projectNumber, demoThumb] of [
   [16, "images/demo-thumb-namecardai-d1-demo.png"],
   [17, "images/demo-thumb-namecardai-d2-demo.png"],
@@ -426,7 +468,6 @@ assert.ok(css.includes(".game-demo-card.game-racer") && css.includes(".game-demo
 const themeSelectors = [
   ":root",
   '[data-theme="dark"]',
-  ".theme-toggle",
   ".language-toggle",
   ".release-badge",
   ".husky-helper",
@@ -448,15 +489,19 @@ for (const token of ["--color-bg", "--color-surface", "--color-text", "--color-h
   assert.ok(css.includes(token), `Missing theme token: ${token}`);
 }
 
-for (const behavior of ["localStorage", "matchMedia", "data-theme", "theme-toggle", "portfolio-language", "project-detail-chip"]) {
+assert.ok(!html.includes('id="theme-toggle"') && !html.includes("theme-toggle"), "Theme toggle button should be removed while the site is dark-theme only");
+assert.ok(!js.includes("setupThemeToggle") && !js.includes("portfolio-theme") && !js.includes("theme-toggle"), "Theme switching behavior should be removed while the site is dark-theme only");
+assert.ok(!css.includes(".theme-toggle"), "Theme toggle styling should be removed while the site is dark-theme only");
+for (const behavior of ["localStorage", "data-theme", "portfolio-language", "project-detail-chip"]) {
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
 
 assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner.jpeg"), "Contact/footer section should use founder-banner.jpeg as its background");
+assert.ok(html.includes('css/style.css?v=2.1.0'), "Main stylesheet cache key should be bumped for the v2.1.0 release");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg img") && css.includes("object-position: center top"), "Founder footer background should anchor from the top so the banner text stays visible");
-assert.ok(css.includes("min-height: clamp(980px, 74vw, 1160px)"), "Contact footer should be taller so the contact copy has room below the banner role text");
+assert.ok(css.includes("min-height: clamp(840px, 57vw, 940px)"), "Contact footer should stay close to the background image height so the copyright does not sit inside a tall empty band");
 assert.ok(html.includes("contact-section-title") && css.includes(".contact-section-title") && css.includes("top: clamp(22px, 3.8vw, 52px)"), "Contact title should be its own top overlay above the Hunter name in the banner");
 assert.ok(html.includes("contact-info-dock") && html.includes("contact-region") && html.includes("contact-links"), "Location and direct contact details should be split into two lower-left zones");
 assert.ok(html.includes("contact-offer") && css.includes(".contact-offer") && css.includes("right: clamp(30px, 7vw, 126px)"), "Discount offer should be positioned as its own lower-right contact zone");
@@ -466,6 +511,8 @@ assert.ok(css.includes(".contact-info-dock") && css.includes("grid-template-colu
 assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&copy; Copyrights Hunter Ho. All rights reserved."), "Copyright should move into the contact section as an animated dock");
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
 assert.ok(css.includes(".contact-copyright-dock") && css.includes("translate3d(-50%, calc(100% + 34px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should animate in and out from the bottom");
+assert.ok(css.includes("bottom: clamp(12px, 1.5vw, 22px)"), "Copyright dock should stay close to the footer background instead of leaving a large black gap");
+assert.ok(html.includes("js/main.js?v=2.1.0"), "Main script cache key should be bumped for the v2.1.0 release");
 assert.ok(js.includes("setupContactCopyrightDock") && js.includes("contact-copyright-dock") && js.includes("is-visible"), "Copyright dock should be controlled by scroll/intersection state");
 assert.ok(!css.includes(".contact-parallax-bg") && !css.includes(".contact-layer-person"), "Contact/footer CSS should not keep the old layered parallax selectors");
 const visibleHtmlText = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
@@ -486,7 +533,7 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.5"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.0"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -528,7 +575,19 @@ assert.ok(aboutServicesStack.includes('id="journal"') && aboutServicesStack.incl
 assert.ok(aboutServicesStack.includes("about-hunter-parallax-v2.png"), "About section should use the new generated Hunter cutout");
 assert.ok(!aboutServicesStack.includes("images/HunterHo.webp"), "About section should not keep the old framed Hunter portrait");
 assert.ok(aboutServicesStack.includes("about-portrait-parallax") && aboutServicesStack.includes("data-parallax-depth"), "About portrait should include parallax hooks");
+assert.ok(aboutServicesStack.includes("about-service-command-center"), "Merged About/Services section should use one command-center layout");
+assert.ok(aboutServicesStack.includes("service-capability-grid") && aboutServicesStack.includes("service-offer-grid"), "Merged section should show capabilities and offers in one unified flow");
+for (const oldSplitHeading of [
+  '<p class="section-kicker">About Hunter</p>',
+  '<p class="section-kicker">Services</p>',
+  "<h2>What I Build</h2>",
+  '<p class="section-kicker">Service Offer</p>',
+  'data-text="My Service"'
+]) {
+  assert.ok(!aboutServicesStack.includes(oldSplitHeading), `Merged service section should not keep old split heading: ${oldSplitHeading}`);
+}
 assert.ok(css.includes(".about-services-stack") && css.includes(".about-portrait-parallax"), "About/Services stack should include dedicated parallax styling");
+assert.ok(css.includes(".about-service-command-center") && css.includes(".service-capability-grid") && css.includes(".service-offer-grid"), "Merged service section should include command-center styling");
 assert.ok(js.includes("setupAboutServicesParallax") && js.includes("--about-parallax-y"), "About/Services stack should include scroll-driven parallax behavior");
 assert.ok(js.includes("getSectionDocumentTop") && js.includes("getBoundingClientRect().top + window.scrollY"), "Navbar scrollspy should use document coordinates so nested Services does not become active too early");
 assert.ok(!js.includes("section.offsetTop <= scrollAnchor"), "Navbar scrollspy should not use offsetTop for nested section anchors");
@@ -548,16 +607,23 @@ assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should 
 assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
 assert.ok(!html.includes("startup-metrics") && !html.includes("startup-grid") && !html.includes("Platform Foundation"), "Startup lab should not keep the old heavy metric/card grid");
 assert.ok(css.includes(".startup-video-frame") && css.includes(".startup-icon-row") && css.includes(".startup-sound-note"), "Startup lab should include focused video and compact icon styling");
-assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("Founder Vision") && startupLabSection.includes("Build products. Automate futures. Ship real impact."), "Founder Vision intro should be integrated at the bottom of the Startup Lab section");
-assert.ok(startupLabSection.indexOf("startup-founder-band") > startupLabSection.indexOf("startup-icon-row"), "Founder Vision intro should sit below the seven startup icons");
+assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("Founder Vision") && startupLabSection.includes("Build products. Automate futures. Ship real impact."), "Founder Vision intro should be the merged Startup Lab section lead");
+assert.ok(!startupLabSection.includes("startup-lab-shell"), "Startup Lab should no longer keep a separate video/copy shell above Founder Vision");
 assert.ok(!html.includes('href="#founder-vision"') && !html.includes('data-nav-label="Vision"'), "Removed Founder Vision section should not leave a navbar target behind");
 assert.ok(css.includes(".startup-founder-band") && css.includes(".startup-founder-roles"), "Startup Lab should include dedicated bottom Founder Vision styling");
 assert.ok(startupLabSection.includes("startup-founder-proof-preview") && startupLabSection.includes("founder-poster-08-all-hunters.webp"), "Founder Vision band should replace the old side roles area with a proof poster preview image");
+const founderPreviewStart = startupLabSection.indexOf("startup-founder-proof-preview");
+const founderPreviewEnd = startupLabSection.indexOf("startup-founder-roles");
+const founderPreviewMarkup = startupLabSection.slice(founderPreviewStart, founderPreviewEnd);
+assert.ok(founderPreviewMarkup.includes("startup-video-frame") && founderPreviewMarkup.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"), "Startup video should move into the Founder Vision proof preview media slot");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("teams move from idea to working system."), "Founder role chips should sit below the Founder Vision copy");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("startup-founder-proof-preview"), "Founder role chips should move below the proof poster preview so long labels do not clip in the copy column");
-assert.ok(startupLabSection.indexOf("startup-founder-roles") < startupLabSection.indexOf("startup-tech-stack-flow"), "Founder role chips should sit above the looping tech stack rows");
+assert.ok(startupLabSection.indexOf("startup-founder-roles") < startupLabSection.indexOf("startup-icon-row"), "Founder role chips should sit above the seven startup icons");
+assert.ok(startupLabSection.indexOf("startup-icon-row") < startupLabSection.indexOf("TrillionUnicorn Startup Lab"), "Seven startup icons should sit above the Startup Lab description copy");
+assert.ok(startupLabSection.indexOf("TrillionUnicorn Startup Lab") < startupLabSection.indexOf("startup-tech-stack-flow"), "Startup Lab description should sit above the looping tech stack rows");
 assert.ok(css.includes(".startup-founder-roles") && css.includes("grid-column: 1 / -1") && css.includes("grid-template-columns: repeat(6, minmax(0, 1fr))"), "Founder role chips should use a full-width six-column row below the image on desktop");
-assert.ok(css.includes(".startup-founder-proof-preview") && css.includes("min-height: clamp(560px, 48vw, 760px)") && css.includes("object-fit: contain"), "Founder proof poster preview should be tall enough and use contain sizing so the top and bottom are not cropped");
+assert.ok(css.includes(".startup-founder-copy") && css.includes("align-self: center"), "Founder Vision text should sit vertically centered on the left");
+assert.ok(css.includes(".startup-founder-proof-preview") && css.includes("grid-template-columns: minmax(230px, 1fr) minmax(180px, 0.72fr)") && css.includes("min-height: clamp(620px, 52vw, 820px)") && css.includes("object-fit: contain"), "Founder proof poster preview should fit the poster height and reserve a video slot in the empty media area");
 assert.ok(css.includes("@media (max-width: 767px)") && css.includes(".startup-founder-roles") && css.includes("display: none"), "Founder role chips should be hidden on mobile instead of becoming clipped horizontal controls");
 assert.ok(startupLabSection.includes("startup-tech-stack-flow"), "Startup founder band should include a three-layer tech stack flow in the empty strip before Proof Theater");
 assert.equal((startupLabSection.match(/class="tech-stack-row/g) || []).length, 3, "Startup tech stack flow should have exactly three animated rows");
@@ -579,7 +645,17 @@ for (const techToken of [
 }
 assert.ok(css.includes(".startup-tech-stack-flow") && css.includes("@keyframes techStackMarqueeLeft") && css.includes("@keyframes techStackMarqueeRight"), "Startup tech stack flow should include left/right marquee animation styling");
 assert.ok(css.includes(".tech-orbit-pill.is-lit") && css.includes("techPillGlow") && css.includes(".tech-orbit-pill.is-dim"), "Startup tech stack pills should include highlight-on/off lighting styles");
+assert.ok(css.includes("animation: techStackMarqueeLeft 62s linear infinite"), "Startup tech stack default marquee should move slowly enough to read");
+assert.ok(css.includes("animation-duration: 70s") && css.includes("animation-duration: 82s"), "Startup tech stack alternate rows should also use slower loop speeds");
+assert.ok(css.includes(".tech-orbit-pill:hover") && css.includes("rgba(63, 255, 151, 0.76)") && css.includes("techPillHoverGlow 1.8s"), "Hovered tech pills should stay highlighted with a distinct green glow");
+assert.ok(css.includes("transition: opacity 0.5s ease, transform 1.05s ease"), "Tech pill sheen fade should be slow enough to read");
+assert.ok(js.includes("var startupTechGlowMinDuration = 1400") && js.includes("var startupTechGlowDurationRange = 900") && js.includes("var startupTechNextDelayMin = 760") && js.includes("var startupTechNextDelayRange = 900"), "Startup tech stack lighting should use slower glow and loop timing constants");
 assert.ok(js.includes("setupStartupTechStackLights") && js.includes("data-tech-stack-row") && js.includes("is-lit") && js.includes("is-dim") && js.includes("Math.random"), "Startup tech stack flow should rotate and randomly light individual pills with JavaScript");
+
+const modelsSectionStart = html.indexOf('id="project-assets-section"');
+const modelsSectionEnd = html.indexOf("<!-- start section speaker teaching -->");
+const modelsSection = html.slice(modelsSectionStart, modelsSectionEnd);
+assert.ok(modelsSection.includes("Q-Style 3D Models Lab") && modelsSection.includes("demo-thumb-qstyle-3d-models-lab.png"), "3D Models section should keep the real Q-Style GLB catalog proof card");
 
 for (const token of [
   "hero-actions",
@@ -602,7 +678,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.0.5",
+  "v2.1.0",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -649,7 +725,7 @@ for (const token of [
   "cinematic-media-frame",
   "cinematic-product-overlay.jpg",
   "mix-blend-mode",
-  ".hunter-thumbnail .popup-img",
+  "popup-img",
   ".journal-info > a:first-child"
 ]) {
   assert.ok(html.includes(token) || css.includes(token) || js.includes(token), `Missing upgraded portfolio token: ${token}`);
@@ -664,17 +740,19 @@ const heroTopNavBlock = (css.match(/body\.is-hero-top nav\s*{([\s\S]*?)}/) || []
 assert.ok(/opacity:\s*0/.test(heroTopNavBlock), "Top navbar should be invisible at the very top of the hero");
 assert.ok(/pointer-events:\s*none/.test(heroTopNavBlock), "Top navbar should not be clickable at the very top of the hero");
 assert.ok(/translate3d\(0,\s*-100%,\s*0\)/.test(heroTopNavBlock), "Top navbar should slide fully out above the viewport at the hero top");
-assert.ok(css.includes("body.is-hero-top .theme-toggle") && css.includes("body.is-hero-top .language-toggle"), "Theme and language controls should share the hidden hero-top navbar state");
-const heroTopControlBlock = (css.match(/body\.is-hero-top \.theme-toggle,\s*body\.is-hero-top \.language-toggle\s*{([\s\S]*?)}/) || [])[1] || "";
-assert.ok(/opacity:\s*0/.test(heroTopControlBlock), "Theme and language controls should be invisible at the very top of the hero");
-assert.ok(/pointer-events:\s*none/.test(heroTopControlBlock), "Theme and language controls should not be clickable at the very top of the hero");
+assert.ok(!css.includes("body.is-hero-top .language-toggle"), "Language toggle should stay visible at the hero top");
+const languageToggleBlock = (css.match(/\.language-toggle\s*{([\s\S]*?)}/) || [])[1] || "";
+assert.ok(/position:\s*fixed/.test(languageToggleBlock) && /right:\s*24px/.test(languageToggleBlock), "Language toggle should stay fixed at the top-right corner");
 const scrolledNavBlock = (css.match(/body:not\(\.is-hero-top\) nav\s*{([\s\S]*?)}/) || [])[1] || "";
 assert.ok(/opacity:\s*1/.test(scrolledNavBlock) && /pointer-events:\s*auto/.test(scrolledNavBlock), "Navbar should become visible and clickable after scrolling");
 const navSectionLabels = html.match(/data-nav-label="/g) || [];
 const navMenuBlock = (html.match(/<ul class="nav-menu list-unstyled">([\s\S]*?)<\/ul>/) || [])[1] || "";
 const staticNavLinks = navMenuBlock.match(/<a\b[^>]*href="#[^"]+"[^>]*class="smoothScroll"/g) || [];
-assert.equal(navSectionLabels.length, 12, `Expected 12 marked navbar sections after removing Founder Vision, found ${navSectionLabels.length}`);
+assert.equal(navSectionLabels.length, 11, `Expected 11 marked navbar sections after merging About, Services, and Pricing, found ${navSectionLabels.length}`);
 assert.equal(staticNavLinks.length, navSectionLabels.length, "Static navbar fallback should match marked section count");
+const markedSectionIds = [...html.matchAll(/<(section|div)\b[^>]*\bid="([^"]+)"[^>]*\bdata-nav-label="([^"]+)"/g)].map((match) => match[2]);
+const staticNavIds = [...navMenuBlock.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+assert.deepEqual(staticNavIds, markedSectionIds, "Static navbar fallback should exactly match marked section anchors in page order");
 assert.ok(js.includes("setupDynamicNavbar") && js.includes("[data-nav-label][id]"), "Navbar should be generated from marked sections");
 assert.ok(js.includes("setupResponsiveNavbarToggle") && responsiveCss.includes(".nav-menu.is-open"), "Responsive navbar should use a native open state");
 assert.ok(css.includes("grid-template-columns: 220px minmax(0, 1fr) 220px"), "Desktop navbar should reserve equal left and right columns while centering the menu");
@@ -725,6 +803,7 @@ assert.ok(html.includes('aria-live="polite"') && !html.includes("One Hunter. Sev
 assert.ok(!html.includes("The poster reveals one Hunter proof moment at a time"), "Founder theater should remove the redundant explanatory side note");
 assert.ok(!html.includes("founder-hud-panel-side"), "Founder theater should not keep the meaningless side dashboard panel");
 assert.ok(founderJourneyCss.includes("data-founder-state=\"1\"") && founderJourneyCss.includes("data-founder-state=\"6\"") && founderJourneyCss.includes("--founder-hud-left"), "Founder HUD title panel should move away from each active proof image zone");
+assert.ok(founderJourneyCss.includes('data-founder-state="0"') && founderJourneyCss.includes("visibility: hidden"), "Founder empty poster state should hide the intro HUD so it cannot block the Hunter title");
 assert.ok(founderJourneyCss.includes("@keyframes founderHudTopIn") && founderJourneyCss.includes("@keyframes founderHudSideIn") && founderJourneyCss.includes("@keyframes founderHudBottomIn"), "Founder dashboard HUD should animate in from the top, side, and bottom");
 assert.ok(founderJourneyCss.includes(".founder-hud-panel-top.is-copy-swapping") && founderJourneyCss.includes("@keyframes founderCopySwap"), "Founder title HUD should animate copy intro/outro when proof state changes");
 assert.ok(founderJourneyCss.includes("founder-hud-panel-top") && founderJourneyCss.includes("founder-hud-panel-bottom"), "Founder proof copy should stay in meaningful top and bottom dashboard panels");
@@ -734,6 +813,13 @@ assert.ok(founderJourneyCss.includes(".founder-final-callouts") && founderJourne
 assert.ok(founderJourneyCss.includes(".founder-journey-steps span") && founderJourneyCss.includes("display: none"), "Founder bottom proof buttons should stay compact and avoid blocking the poster");
 assert.ok(founderJourneyCss.includes(".founder-theater-controls") && founderJourneyCss.includes(".founder-step-btn"), "Founder theater should expose clickable bottom navigation controls");
 assert.ok(css.includes(".founder-final-callout") && css.includes("proofCalloutGlow"), "Founder final callouts should use animated digital highlights");
+assert.equal((html.match(/data-final-proof="/g) || []).length, 6, "Founder final callouts should be interactive targets for the six proof moments");
+assert.equal((html.match(/class="[^"]*founder-proof-connector/g) || []).length, 6, "Founder final poster should include six connector highlight lines to the correct image zones");
+assert.ok(html.includes("founder-proof-detail-drawer") && html.includes("data-final-proof-detail-title") && html.includes("data-final-proof-detail-body"), "Founder final poster should include a bottom detail drawer for hover/click proof details");
+assert.ok(founderJourneyCss.includes("@keyframes founderCalloutIntro") && founderJourneyCss.includes("@keyframes founderCalloutOutro"), "Founder final callouts should animate from the poster center outward and fade out");
+assert.ok(founderJourneyCss.includes(".founder-journey.has-final-proof-focus .founder-poster-layer-all") && founderJourneyCss.includes("filter: grayscale"), "Hovering/clicking a final proof should gray out other poster content");
+assert.ok(founderJourneyCss.includes(".founder-final-callout.is-focused") && founderJourneyCss.includes(".founder-proof-connector.is-focused"), "Focused final proof should highlight its card and connector line");
+assert.ok(js.includes("setupFounderFinalProofFocus") && js.includes("data-final-proof") && js.includes("setFinalProofFocus") && js.includes("founder-proof-detail-drawer"), "Founder theater should support hover/click focus details for final proof callouts");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 assert.ok(!founderJourneyCss.includes("width: min(78vw, 920px)"), "Founder poster should not keep the old narrow width");
@@ -794,21 +880,41 @@ const mobileSection = html.slice(mobileDemoIndex, mobileSectionEnd);
 assert.ok(mobileSection.includes("Native Mobile App Projects") && mobileSection.includes("Android-ready"), "Mobile section should present native app projects, not web demos");
 assert.equal((mobileSection.match(/class="app-build-status"/g) || []).length, 2, "Each mobile card should expose app build status metadata");
 assert.equal((mobileSection.match(/class="mobile-app-platforms"/g) || []).length, 2, "Each mobile card should expose native platform tags");
-assert.ok(mobileSection.includes("App Source") && mobileSection.includes("Android Project") && mobileSection.includes("React Native") && mobileSection.includes("Expo"), "Mobile cards should link and describe real native app source");
-assert.ok(!mobileSection.includes("PWA") && !mobileSection.includes("responsive app shells") && !mobileSection.includes("Live Demo"), "Mobile section should not describe the apps as PWA/web live demos");
+assert.ok(mobileSection.includes("Live Demo") && mobileSection.includes("Android Project") && mobileSection.includes("React Native") && mobileSection.includes("Expo"), "Mobile cards should link demo-first and describe real native app source");
+assert.ok(!mobileSection.includes("github.com"), "Mobile section should not send users to GitHub source links");
+for (const demoUrl of [
+  "https://mobile-warrantyscan-demo.vercel.app",
+  "https://mobile-namecard-demo.vercel.app"
+]) {
+  assert.ok(mobileSection.includes(demoUrl), `Mobile card should use the hosted demo URL: ${demoUrl}`);
+}
+assert.ok(!mobileSection.includes("PWA") && !mobileSection.includes("responsive app shells") && !mobileSection.includes("App Source"), "Mobile section should not describe the apps as PWA/web demos or source-first cards");
 assert.ok(!mobileSection.includes("github.io/mobile-warrantyscan-demo") && !mobileSection.includes("github.io/mobile-namecard-demo"), "Mobile cards should not link to the old web demo pages");
 for (const nativeAppPath of [
   "mobile-warrantyscan-demo/native-app/package.json",
   "mobile-warrantyscan-demo/native-app/App.tsx",
   "mobile-warrantyscan-demo/native-app/app.json",
+  "mobile-warrantyscan-demo/native-app/eas.json",
   "mobile-namecard-demo/native-app/package.json",
   "mobile-namecard-demo/native-app/App.tsx",
-  "mobile-namecard-demo/native-app/app.json"
+  "mobile-namecard-demo/native-app/app.json",
+  "mobile-namecard-demo/native-app/eas.json"
 ]) {
   assert.ok(fs.existsSync(path.join(siblingRoot, nativeAppPath)), `Missing native mobile app source file: ${nativeAppPath}`);
 }
-assert.ok(speakerIndex !== -1 && hackathonWinsIndex !== -1 && projectAssetsIndex !== -1 && hunterIndex !== -1, "Teaching, Wins, 3D Models, and Development sections should exist");
-assert.ok(projectAssetsIndex < speakerIndex && speakerIndex < hackathonWinsIndex && hackathonWinsIndex < hunterIndex, "Speaker & Teaching should be followed by compact Hackathon Wins before Development");
+const warrantyAppJson = JSON.parse(fs.readFileSync(path.join(siblingRoot, "mobile-warrantyscan-demo/native-app/app.json"), "utf8"));
+const namecardAppJson = JSON.parse(fs.readFileSync(path.join(siblingRoot, "mobile-namecard-demo/native-app/app.json"), "utf8"));
+const warrantyEasJson = JSON.parse(fs.readFileSync(path.join(siblingRoot, "mobile-warrantyscan-demo/native-app/eas.json"), "utf8"));
+const namecardEasJson = JSON.parse(fs.readFileSync(path.join(siblingRoot, "mobile-namecard-demo/native-app/eas.json"), "utf8"));
+assert.equal(warrantyAppJson.expo.android.package, "com.hunterho.warrantyscan", "WarrantyScan should expose Android package metadata");
+assert.ok(warrantyAppJson.expo.android.permissions.includes("CAMERA"), "WarrantyScan should declare camera permission");
+assert.equal(namecardAppJson.expo.android.package, "com.hunterho.namecardmobile", "NameCard should expose Android package metadata");
+assert.ok(namecardAppJson.expo.android.permissions.includes("READ_CONTACTS") && namecardAppJson.expo.android.permissions.includes("WRITE_CONTACTS"), "NameCard should declare contact permissions");
+assert.equal(warrantyEasJson.build.preview.android.buildType, "apk", "WarrantyScan should keep an installable preview APK profile");
+assert.equal(namecardEasJson.build.preview.android.buildType, "apk", "NameCard should keep an installable preview APK profile");
+assert.ok(speakerIndex !== -1 && hackathonWinsIndex !== -1 && projectAssetsIndex !== -1, "Teaching, Wins, and 3D Models sections should exist");
+assert.equal(hunterIndex, -1, "Old standalone Development section should stay removed after the merged service stack");
+assert.ok(projectAssetsIndex < speakerIndex && speakerIndex < hackathonWinsIndex, "Speaker & Teaching should be followed by compact Hackathon Wins");
 assert.ok(speakerEnd > speakerIndex, "Teaching section should keep an explicit end marker for scoped checks");
 assert.ok(hackathonWinsEnd > hackathonWinsIndex, "Hackathon Wins section should keep an explicit end marker for scoped checks");
 const speakerSection = html.slice(speakerIndex, speakerEnd);

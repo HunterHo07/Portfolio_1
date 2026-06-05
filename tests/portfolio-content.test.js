@@ -191,7 +191,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.0.3",
+  "Hunter v2.0.4",
 ];
 
 const requestedDemoUrls = [
@@ -486,7 +486,7 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.3"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.4"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -554,8 +554,11 @@ assert.ok(!html.includes('href="#founder-vision"') && !html.includes('data-nav-l
 assert.ok(css.includes(".startup-founder-band") && css.includes(".startup-founder-roles"), "Startup Lab should include dedicated bottom Founder Vision styling");
 assert.ok(startupLabSection.includes("startup-founder-proof-preview") && startupLabSection.includes("founder-poster-08-all-hunters.webp"), "Founder Vision band should replace the old side roles area with a proof poster preview image");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("teams move from idea to working system."), "Founder role chips should sit below the Founder Vision copy");
+assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("startup-founder-proof-preview"), "Founder role chips should move below the proof poster preview so long labels do not clip in the copy column");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") < startupLabSection.indexOf("startup-tech-stack-flow"), "Founder role chips should sit above the looping tech stack rows");
-assert.ok(css.includes(".startup-founder-roles") && css.includes("flex-wrap: nowrap") && css.includes(".startup-founder-proof-preview"), "Founder role chips should align in one row on desktop with a dedicated proof image preview");
+assert.ok(css.includes(".startup-founder-roles") && css.includes("grid-column: 1 / -1") && css.includes("grid-template-columns: repeat(6, minmax(0, 1fr))"), "Founder role chips should use a full-width six-column row below the image on desktop");
+assert.ok(css.includes(".startup-founder-proof-preview") && css.includes("min-height: clamp(560px, 48vw, 760px)") && css.includes("object-fit: contain"), "Founder proof poster preview should be tall enough and use contain sizing so the top and bottom are not cropped");
+assert.ok(css.includes("@media (max-width: 767px)") && css.includes(".startup-founder-roles") && css.includes("display: none"), "Founder role chips should be hidden on mobile instead of becoming clipped horizontal controls");
 assert.ok(startupLabSection.includes("startup-tech-stack-flow"), "Startup founder band should include a three-layer tech stack flow in the empty strip before Proof Theater");
 assert.equal((startupLabSection.match(/class="tech-stack-row/g) || []).length, 3, "Startup tech stack flow should have exactly three animated rows");
 for (const techToken of [
@@ -599,7 +602,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.0.3",
+  "v2.0.4",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",

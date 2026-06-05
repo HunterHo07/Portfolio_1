@@ -2107,7 +2107,7 @@ body.is-hero-ready .hero-image-loader,
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.36fr);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.36fr);
   gap: clamp(20px, 4vw, 48px);
   align-items: stretch;
   margin-top: clamp(34px, 6vw, 76px);
@@ -2137,14 +2137,14 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .startup-founder-roles {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: 8px;
-  max-width: 100%;
-  margin-top: clamp(18px, 2.4vw, 28px);
-  overflow-x: auto;
-  scrollbar-width: none;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(10px, 1.15vw, 16px);
+  width: 100%;
+  max-width: none;
+  margin-top: 0;
+  overflow: visible;
 }
 
 .startup-founder-roles::-webkit-scrollbar {
@@ -2152,20 +2152,26 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .startup-founder-roles span {
-  flex: 0 0 auto;
-  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 12px 10px;
   border: 1px solid rgba(216, 185, 135, 0.32);
   background: rgba(255, 255, 255, 0.055);
   color: #f8f2e6;
-  font-size: clamp(9px, 0.68vw, 11px);
+  font-size: clamp(9px, 0.62vw, 11px);
   font-weight: 800;
   letter-spacing: 0.08em;
+  line-height: 1.28;
+  text-align: center;
   text-transform: uppercase;
+  white-space: normal;
 }
 
 .startup-founder-proof-preview {
   position: relative;
-  min-height: 300px;
+  min-height: clamp(560px, 48vw, 760px);
   overflow: hidden;
   border: 1px solid rgba(116, 227, 255, 0.2);
   border-radius: 16px;
@@ -2204,9 +2210,11 @@ body.is-hero-ready .hero-image-loader,
   left: 50%;
   top: 50%;
   width: auto;
-  height: min(430px, 52vw);
-  max-height: calc(100% + 140px);
-  transform: translate3d(-50%, -48%, 0);
+  height: calc(100% - clamp(22px, 3vw, 44px));
+  max-width: calc(100% - clamp(18px, 3vw, 42px));
+  max-height: none;
+  object-fit: contain;
+  transform: translate3d(-50%, -50%, 0);
   filter: saturate(1.08) contrast(1.08) brightness(0.96);
 }
 
@@ -2697,11 +2705,11 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .startup-founder-proof-preview {
-    min-height: 260px;
+    min-height: clamp(520px, 88vw, 680px);
   }
 
   .startup-founder-proof-preview img {
-    height: 390px;
+    height: calc(100% - 24px);
   }
 
   .real-teaching-grid {
@@ -2819,10 +2827,6 @@ body.is-hero-ready .hero-image-loader,
     font-size: clamp(34px, 12vw, 46px);
   }
 
-  .startup-founder-roles span {
-    width: auto;
-  }
-
   .startup-tech-stack-flow {
     margin-right: -14px;
     margin-left: -14px;
@@ -2841,6 +2845,12 @@ body.is-hero-ready .hero-image-loader,
     min-height: 30px;
     padding: 7px 10px;
     font-size: 9px;
+  }
+}
+
+@media (max-width: 767px) {
+  .startup-founder-roles {
+    display: none;
   }
 }
 

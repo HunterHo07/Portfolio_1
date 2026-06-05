@@ -191,7 +191,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.0.4",
+  "Hunter v2.0.5",
 ];
 
 const requestedDemoUrls = [
@@ -486,7 +486,7 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.4"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.5"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -602,7 +602,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.0.4",
+  "v2.0.5",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -813,7 +813,8 @@ assert.ok(speakerEnd > speakerIndex, "Teaching section should keep an explicit e
 assert.ok(hackathonWinsEnd > hackathonWinsIndex, "Hackathon Wins section should keep an explicit end marker for scoped checks");
 const speakerSection = html.slice(speakerIndex, speakerEnd);
 const hackathonWinsSection = html.slice(hackathonWinsIndex, hackathonWinsEnd);
-assert.ok(speakerSection.includes("teaching-section-heading") && speakerSection.includes("Real IT Teaching & Invited Sessions"), "Teaching section should have a compact section title above the cards");
+assert.ok(speakerSection.includes("teaching-section-heading") && speakerSection.includes("IT Teaching & Community Sharing"), "Teaching section should have a compact community-sharing title above the cards");
+assert.ok(speakerSection.includes("boot camp teaching") && speakerSection.includes("back to the community"), "Teaching section intro should frame invited sessions as giving practical IT back to the community");
 assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length, 4, "Speaker & Teaching should only keep four teaching cards");
 assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 4, "Teaching cards should wrap real images in a stable media frame");
 assert.ok(hackathonWinsSection.includes("compact-hackathon-wins") && hackathonWinsSection.includes("Real Hackathon Wins"), "Hackathon wins should be a compact titled block below Teaching");

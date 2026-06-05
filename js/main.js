@@ -648,71 +648,64 @@
     var currentFounderCopyState = -1;
     var founderPosterScrollAnchors = [
       { scroll: "0%" },
-      { scroll: "-5%" },
-      { scroll: "-13%" },
-      { scroll: "-25%" },
+      { scroll: "-2%" },
+      { scroll: "-6%" },
+      { scroll: "-37%" },
       { scroll: "-42%" },
-      { scroll: "-63%" },
-      { scroll: "-66%" },
-      { scroll: "-83%" },
+      { scroll: "-64%" },
+      { scroll: "-67%" },
       { scroll: "0%" }
     ];
     var focusPoints = [
       { x: "50%", y: "50%", focus: "50%" },
-      { x: "27%", y: "18%", focus: "13%" },
-      { x: "73%", y: "18%", focus: "14%" },
-      { x: "50%", y: "38%", focus: "39%" },
-      { x: "27%", y: "52%", focus: "52%" },
-      { x: "76%", y: "53%", focus: "53%" },
-      { x: "28%", y: "80%", focus: "82%" },
-      { x: "74%", y: "80%", focus: "84%" },
+      { x: "27%", y: "20%", focus: "14%" },
+      { x: "73%", y: "20%", focus: "14%" },
+      { x: "27%", y: "49%", focus: "49%" },
+      { x: "74%", y: "49%", focus: "50%" },
+      { x: "28%", y: "80%", focus: "80%" },
+      { x: "74%", y: "80%", focus: "82%" },
       { x: "50%", y: "50%", focus: "50%" }
     ];
     var founderCopyStates = [
       {
         label: "Proof Theater",
         title: "Choose a proof moment.",
-        message: "Use the proof controls to reveal how each role supports real product delivery."
+        message: "Use the proof controls to reveal six public moments without blocking the poster."
       },
       {
-        label: "Fullstack Builder",
-        title: "Ship the working system.",
-        message: "Web, mobile, database, automation, and deployment execution stay connected in one build path."
+        label: "Challenge Accepted",
+        title: "Break the next limit.",
+        message: "Sportsmanship, challenge breaking, and challenge accepting show the habit of outgrowing the last version."
       },
       {
-        label: "Ahfaiz Founder",
-        title: "Own the product direction.",
-        message: "Founder work means shaping the assistant, user flow, and daily-life value beyond the code."
-      },
-      {
-        label: "CTO / Startup Builder",
+        label: "Trillion Unicorn CTO",
         title: "Turn vision into architecture.",
-        message: "MVP scope, product risk, and demo direction get clarified before the build spreads."
+        message: "Startup direction, CTO thinking, and product architecture make the Trillion Unicorn idea executable."
       },
       {
-        label: "AI Automation Teacher",
-        title: "Teach teams to use automation.",
-        message: "Practical sessions turn AI, workflows, and tools into habits people can actually repeat."
+        label: "Ahfaiz AI Startup",
+        title: "Build the AI companion.",
+        message: "Ahfaiz turns personal AI, life planning, and assistant workflows into a real startup product direction."
+      },
+      {
+        label: "WorldCup 2026",
+        title: "Work anywhere in the world.",
+        message: "The WorldCup invitation frame points to remote-ready execution and global work from any location."
       },
       {
         label: "Hackathon Winner",
-        title: "Deliver under pressure.",
-        message: "Fast framing, prototype shipping, and pitching prove execution when time is limited."
+        title: "Win with proof, not talk.",
+        message: "Hackathon records prove fast framing, prototype shipping, pitching, and delivery under pressure."
       },
       {
-        label: "Product Vision",
-        title: "Make the next goal visible.",
-        message: "Public proof, user outcomes, and milestones stay clear instead of buried in vague ideas."
-      },
-      {
-        label: "Client-Ready Operator",
-        title: "Connect proof to delivery.",
-        message: "Design, code, storytelling, and support move together so clients can trust the path."
+        label: "Community IT Teacher",
+        title: "Share practical IT back.",
+        message: "Invited classes and speaking sessions turn coding, AI automation, and workflow practice into community value."
       },
       {
         label: "Complete Vision Poster",
-        title: "One Hunter. Seven useful roles.",
-        message: "The full poster shows how builder, founder, teacher, and operator work together."
+        title: "One Hunter. Six proof moments.",
+        message: "The full poster connects challenge, CTO work, AI startup building, remote work, wins, and teaching."
       }
     ];
 
@@ -768,6 +761,8 @@
       journey.style.setProperty("--journey-mask-x", focusPoint.x);
       journey.style.setProperty("--journey-mask-y", focusPoint.y);
       journey.style.setProperty("--poster-scroll-y", posterScroll.toFixed(2) + "%");
+      journey.style.setProperty("--founder-hud-left", "");
+      journey.style.setProperty("--founder-hud-top", "");
       updateFounderCopy(activeState);
 
       singleLayers.forEach(function (layer, index) {
@@ -776,12 +771,6 @@
 
       if (allLayer) {
         allLayer.classList.toggle("is-visible", activeState === maxState);
-      }
-
-      if (topPanel) {
-        var fadeTopPanel = activeState === 1 || activeState === 3;
-        topPanel.style.opacity = fadeTopPanel ? "0.88" : "";
-        topPanel.style.transform = fadeTopPanel ? "translate3d(0, -10px, 0)" : "";
       }
 
       posterLayers.forEach(function (layer, index) {
@@ -1861,9 +1850,11 @@
       return;
     }
 
+    var rows = Array.prototype.slice.call(flow.querySelectorAll("[data-tech-stack-row]"));
     var pills = Array.prototype.slice.call(flow.querySelectorAll(".tech-orbit-pill"));
     var activeTimer = null;
     var isActive = false;
+    var cycleIndex = 0;
 
     if (!pills.length) {
       return;
@@ -1872,6 +1863,7 @@
     function clearActiveLights() {
       pills.forEach(function (pill) {
         pill.classList.remove("is-lit");
+        pill.classList.remove("is-dim");
       });
     }
 
@@ -1883,19 +1875,29 @@
       }
 
       activeTimer = window.setTimeout(function () {
-        var lightCount = Math.random() > 0.78 ? 2 : 1;
+        var row = rows.length ? rows[cycleIndex % rows.length] : flow;
+        var rowPills = Array.prototype.slice.call(row.querySelectorAll(".tech-orbit-pill:not([aria-hidden=\"true\"])"));
+        var lightPool = rowPills.length ? rowPills : pills;
+        var lightCount = Math.random() > 0.72 ? 3 : 2;
+
+        pills.forEach(function (pill) {
+          pill.classList.toggle("is-dim", rowPills.indexOf(pill) === -1 && Math.random() > 0.46);
+        });
 
         for (var index = 0; index < lightCount; index += 1) {
-          var pill = pills[Math.floor(Math.random() * pills.length)];
+          var pill = lightPool[(cycleIndex + index * 3 + Math.floor(Math.random() * lightPool.length)) % lightPool.length];
           var glowDuration = 760 + Math.random() * 520;
 
           pill.classList.add("is-lit");
+          pill.classList.remove("is-dim");
           window.setTimeout(function (litPill) {
             litPill.classList.remove("is-lit");
+            litPill.classList.remove("is-dim");
           }, glowDuration, pill);
         }
 
-        scheduleNextLight(260 + Math.random() * 620);
+        cycleIndex += 1;
+        scheduleNextLight(360 + Math.random() * 540);
       }, delay);
     }
 

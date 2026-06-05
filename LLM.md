@@ -18,7 +18,7 @@ Read CX before non-trivial Portfolio_1 edits, then verify current files. Keep pe
 
 - Hero: selected Option C interactive 3D hero. Homepage uses optimized `images/hero-options/option-c-three-source.jpg`; `hero-options.html` keeps the original PNG source for comparison.
 - Hero CTAs: `Hire for a project`, `Book Me for Event`, `Projects Demo`.
-- Release badge: `Hunter v2.0.1`, linked to the HunterHo07 GitHub profile.
+- Release badge: `Hunter v2.0.2`, linked to the HunterHo07 GitHub profile.
 - Hero popup: uses `images/hero-layers/hero-hunter-cutout.webp`, appears after 15 seconds at the hero, rotates short messages, and exits when scrolling away.
 - Startup Lab: second section after hero, embedded YouTube video `KRxQ8JuqMyE`, seven compact icons only.
 - Assets 3: `qstyle-3d-models-lab` must stay a real GLB catalog with local `models/*.glb`, `models/manifest.json`, downloadable links, and embedded animations where claimed. Do not revert it to only procedural runtime shapes.

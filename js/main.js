@@ -646,6 +646,17 @@
     var maxState = Math.max(totalStates - 1, 0);
     var currentFounderState = 0;
     var currentFounderCopyState = -1;
+    var founderPosterScrollAnchors = [
+      { scroll: "0%" },
+      { scroll: "-5%" },
+      { scroll: "-13%" },
+      { scroll: "-25%" },
+      { scroll: "-42%" },
+      { scroll: "-63%" },
+      { scroll: "-66%" },
+      { scroll: "-83%" },
+      { scroll: "0%" }
+    ];
     var focusPoints = [
       { x: "50%", y: "50%", focus: "50%" },
       { x: "27%", y: "18%", focus: "13%" },
@@ -735,7 +746,15 @@
       var focusPoint = focusPoints[activeState] || focusPoints[0];
       var activeStep = activeState > 0 && activeState <= steps.length ? activeState - 1 : -1;
       var depth = (progress - 0.5) * 2;
-      var posterScroll = -52 * progress;
+      var exactState = progress * maxState;
+      var lowerState = Math.max(0, Math.min(maxState, Math.floor(exactState)));
+      var upperState = Math.max(0, Math.min(maxState, Math.ceil(exactState)));
+      var stateMix = exactState - lowerState;
+      var lowerAnchor = founderPosterScrollAnchors[lowerState] || founderPosterScrollAnchors[0];
+      var upperAnchor = founderPosterScrollAnchors[upperState] || lowerAnchor;
+      var lowerScroll = parseFloat(lowerAnchor.scroll) || 0;
+      var upperScroll = parseFloat(upperAnchor.scroll) || lowerScroll;
+      var posterScroll = lowerScroll + (upperScroll - lowerScroll) * stateMix;
 
       currentFounderState = activeState;
       journey.setAttribute("data-active-step", String(activeStep));
@@ -1622,7 +1641,7 @@
       if (husky) {
         var shouldSuppressHusky = false;
 
-        if (contactSection && window.innerWidth <= 600) {
+        if (contactSection) {
           var contactRect = contactSection.getBoundingClientRect();
           shouldSuppressHusky = contactRect.top < window.innerHeight && contactRect.bottom > 0;
         }
@@ -1683,6 +1702,7 @@
     window.addEventListener("resize", updateScrollEffects);
     window.addEventListener("pointermove", updateHeroThreePointer, { passive: true });
     updateScrollEffects();
+    window.setTimeout(updateScrollEffects, 250);
   }
 
   function setupSmartNavbar() {

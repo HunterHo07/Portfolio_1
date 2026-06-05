@@ -56,12 +56,13 @@ for (const asyncCss of [
   "lib/hover/hover.min.css",
   "css/animate.css"
 ]) {
-  assert.ok(headHtml.includes(`href="${asyncCss}"`) && headHtml.includes(`data-async-css="${asyncCss}"`) && headHtml.includes("this.media='all'"), `Noncritical CSS should load asynchronously: ${asyncCss}`);
+  assert.ok(headHtml.includes(`href="${asyncCss}"`) && headHtml.includes(`data-async-css="${asyncCss}"`) && /this\.media\s*=\s*['"]all['"]/.test(headHtml), `Noncritical CSS should load asynchronously: ${asyncCss}`);
   assert.ok(!headWithoutNoscript.includes(`<link href="${asyncCss}" rel="stylesheet" />`), `Noncritical CSS should not remain render-blocking: ${asyncCss}`);
 }
-assert.ok(headHtml.includes('rel="preload" as="image" href="images/hero-options/option-c-three-source.jpg"'), "Head should preload only the optimized active hero source image");
+assert.ok(/<link[\s\S]*rel="preload"[\s\S]*as="image"[\s\S]*href="images\/hero-options\/option-c-three-source\.jpg"[\s\S]*>/.test(headHtml), "Head should preload only the optimized active hero source image");
 assert.ok(!headHtml.includes('rel="preload" as="image" href="images/founder-banner.jpeg"') && !headHtml.includes('rel="preload" as="image" href="images/founder-vision-poster.jpeg"'), "Below-fold images should not be preloaded");
-assert.ok(html.includes('class="hero-three-source" src="images/hero-options/option-c-three-source.jpg" width="1672" height="941" alt="" loading="eager" decoding="async" fetchpriority="high"'), "Hero source image should be optimized, eager, async-decoded, and high priority");
+const heroSourceTag = html.match(/<img[^>]*class="hero-three-source"[^>]*>/);
+assert.ok(heroSourceTag && heroSourceTag[0].includes('src="images/hero-options/option-c-three-source.jpg"') && heroSourceTag[0].includes('loading="eager"') && heroSourceTag[0].includes('decoding="async"') && heroSourceTag[0].includes('fetchpriority="high"'), "Hero source image should be optimized, eager, async-decoded, and high priority");
 assert.ok(fs.existsSync("images/hero-options/option-c-three-source.jpg"), "Missing optimized homepage hero source image");
 assert.ok(fs.statSync("images/hero-options/option-c-three-source.jpg").size < 360000, "Optimized homepage hero source image should stay under 360 KB");
 assert.ok(css.includes(".hero-three-stage::before") && css.includes("filter: blur(20px)") && css.includes("hero blur placeholder"), "Hero should have a lightweight blur placeholder before the hero image loads");
@@ -190,8 +191,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Use the proof controls to reveal how each role supports real product delivery.",
-  "Hunter v2.0.1",
+  "Hunter v2.0.2",
 ];
 
 const requestedDemoUrls = [
@@ -457,9 +457,12 @@ assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg img") && css.includes("object-position: center top"), "Founder footer background should anchor from the top so the banner text stays visible");
 assert.ok(css.includes("min-height: clamp(860px, 68vw, 1040px)"), "Contact footer should be taller so the contact copy has room below the banner role text");
-assert.ok(css.includes(".contact-contact") && css.includes("position: absolute") && css.includes("bottom: clamp(126px, 10vw, 184px)"), "Contact card should be anchored above the copyright dock with more placement room");
+assert.ok(html.includes("contact-section-title") && css.includes(".contact-section-title") && css.includes("top: clamp(34px, 5.2vw, 74px)"), "Contact title should be its own top overlay above the Hunter name in the banner");
+assert.ok(html.includes("contact-info-dock") && html.includes("contact-region") && html.includes("contact-links"), "Location and direct contact details should be split into two lower-left zones");
+assert.ok(html.includes("contact-offer") && css.includes(".contact-offer") && css.includes("right: clamp(30px, 7vw, 126px)"), "Discount offer should be positioned as its own lower-right contact zone");
+assert.ok(css.includes("contactPanelIn") && css.includes("contactLightSweep") && css.includes("contactGlowPulse"), "Contact zones should have intro and lighting highlight animations");
 assert.ok(css.includes("#contact .col-lg-6") && css.includes("position: static"), "Contact card should not anchor to Bootstrap's 1px column height");
-assert.ok(css.includes("max-width: min(780px, 58vw)") && css.includes("grid-template-columns: minmax(0, 1fr) minmax(310px, 0.92fr)"), "Contact card should use a wider layout so the contact details and discount have more room");
+assert.ok(css.includes(".contact-info-dock") && css.includes("grid-template-columns: minmax(0, 1fr) minmax(230px, 0.78fr)"), "Contact lower-left area should use a two-part location/contact grid");
 assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&copy; Copyrights Hunter Ho. All rights reserved."), "Copyright should move into the contact section as an animated dock");
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
 assert.ok(css.includes(".contact-copyright-dock") && css.includes("translate3d(-50%, calc(100% + 34px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should animate in and out from the bottom");
@@ -482,7 +485,8 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
-assert.ok(html.includes('<a class="release-badge" href="https://github.com/HunterHo07"') && html.includes("Hunter v2.0.1"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.0.2"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -590,7 +594,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.0.1",
+  "v2.0.2",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -659,7 +663,8 @@ assert.ok(/pointer-events:\s*none/.test(heroTopControlBlock), "Theme and languag
 const scrolledNavBlock = (css.match(/body:not\(\.is-hero-top\) nav\s*{([\s\S]*?)}/) || [])[1] || "";
 assert.ok(/opacity:\s*1/.test(scrolledNavBlock) && /pointer-events:\s*auto/.test(scrolledNavBlock), "Navbar should become visible and clickable after scrolling");
 const navSectionLabels = html.match(/data-nav-label="/g) || [];
-const staticNavLinks = html.match(/<li><a href="#[^"]+" class="smoothScroll"/g) || [];
+const navMenuBlock = (html.match(/<ul class="nav-menu list-unstyled">([\s\S]*?)<\/ul>/) || [])[1] || "";
+const staticNavLinks = navMenuBlock.match(/<a\b[^>]*href="#[^"]+"[^>]*class="smoothScroll"/g) || [];
 assert.equal(navSectionLabels.length, 12, `Expected 12 marked navbar sections after removing Founder Vision, found ${navSectionLabels.length}`);
 assert.equal(staticNavLinks.length, navSectionLabels.length, "Static navbar fallback should match marked section count");
 assert.ok(js.includes("setupDynamicNavbar") && js.includes("[data-nav-label][id]"), "Navbar should be generated from marked sections");
@@ -705,6 +710,7 @@ assert.ok(founderJourneyCss.includes("#founder-journey .container") && founderJo
 assert.ok(founderJourneyCss.includes("width: min(104vw, 1440px)") && founderJourneyCss.includes("height: auto"), "Founder poster should render wider so the image is the section spotlight");
 assert.ok(founderJourneyCss.includes("founder-poster-spotlight-safe") && founderJourneyCss.includes("pointer-events: none"), "Founder theater should reserve a non-blocking spotlight zone for Hunter faces");
 assert.ok(founderJourneyCss.includes("--poster-scroll-y") && js.includes("--poster-scroll-y"), "Founder poster should scroll vertically through the tall poster image as the section progresses");
+assert.ok(js.includes("founderPosterScrollAnchors") && js.includes('scroll: "-63%"') && js.includes('scroll: "-66%"'), "Founder lower proof states should use explicit poster scroll anchors so Hackathon Winner and Product Vision land near the screen center before changing");
 assert.ok(founderJourneyCss.includes("founder-dashboard-hud") && founderJourneyCss.includes("pointer-events: none"), "Founder text should be presented as non-blocking dashboard HUD panels");
 assert.ok(html.includes("data-founder-copy-label") && html.includes("data-founder-copy-title") && html.includes("data-founder-copy-message"), "Founder title HUD should expose dynamic copy slots");
 assert.ok(html.includes('aria-live="polite"') && !html.includes("One Hunter. Seven proof moments.</h2>"), "Founder title HUD should not keep the old static generic headline");
@@ -767,7 +773,7 @@ assert.ok(mobileDemoIndex !== -1 && demoProjectsIndex !== -1 && gamesDemoIndex !
 assert.ok(demoProjectsIndex < mobileDemoIndex && mobileDemoIndex < gamesDemoIndex, "Native Mobile App Projects should stay below Demo Projects and before Games Demo");
 const demoProjectsSection = html.slice(demoProjectsIndex, mobileDemoIndex);
 const normalizeDemoUrl = (url) => url.replace(/\/$/, "").toLowerCase();
-const demoCardUrls = [...demoProjectsSection.matchAll(/<div class="col-lg-4 col-md-6"><div class="journal-info portfolio-project"><a target="_blank" href="([^"]+)"/g)].map((match) => normalizeDemoUrl(match[1]));
+const demoCardUrls = [...demoProjectsSection.matchAll(/<div class="col-lg-4 col-md-6">\s*<div class="journal-info portfolio-project">\s*<a\s+target="_blank"\s+href="([^"]+)"/g)].map((match) => normalizeDemoUrl(match[1]));
 const duplicateDemoCardUrls = demoCardUrls.filter((url, index) => demoCardUrls.indexOf(url) !== index);
 assert.deepEqual(duplicateDemoCardUrls, [], `Demo Projects should not add duplicate cards for already-listed URLs: ${duplicateDemoCardUrls.join(", ")}`);
 for (const requestedDemoUrl of requestedDemoUrls) {

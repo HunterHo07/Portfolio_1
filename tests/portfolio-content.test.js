@@ -914,6 +914,10 @@ assert.equal(warrantyEasJson.build.preview.android.buildType, "apk", "WarrantySc
 assert.equal(namecardEasJson.build.preview.android.buildType, "apk", "NameCard should keep an installable preview APK profile");
 assert.ok(speakerIndex !== -1 && hackathonWinsIndex !== -1 && projectAssetsIndex !== -1, "Teaching, Wins, and 3D Models sections should exist");
 assert.equal(hunterIndex, -1, "Old standalone Development section should stay removed after the merged service stack");
+assert.ok(!html.includes("More Example Development") && !html.includes('href="#hunter"'), "Outdated More Example Development heading and nav target should be removed");
+assert.ok(!html.includes("hunter-flters") && !html.includes("hunter-container"), "Removed Development gallery should not leave filter/container markup");
+assert.ok(!css.includes("#hunter") && !css.includes("hunter-thumbnail"), "Removed Development gallery should not leave Hunter-specific CSS selectors");
+assert.ok(!js.includes("setupLazyHunterIsotope") && !js.includes("hunter-flters") && !js.includes("hunter-thumbnail"), "Removed Development gallery should not leave lazy Isotope JavaScript");
 assert.ok(projectAssetsIndex < speakerIndex && speakerIndex < hackathonWinsIndex, "Speaker & Teaching should be followed by compact Hackathon Wins");
 assert.ok(speakerEnd > speakerIndex, "Teaching section should keep an explicit end marker for scoped checks");
 assert.ok(hackathonWinsEnd > hackathonWinsIndex, "Hackathon Wins section should keep an explicit end marker for scoped checks");

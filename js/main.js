@@ -598,6 +598,7 @@
     var actionButtons = Array.prototype.slice.call(journey.querySelectorAll("[data-founder-action]"));
     var finalProofButtons = Array.prototype.slice.call(journey.querySelectorAll("[data-final-proof]"));
     var finalProofLines = Array.prototype.slice.call(journey.querySelectorAll("[data-final-proof-line]"));
+    var finalProofSpotlight = journey.querySelector(".founder-proof-color-spotlight");
     var finalProofDrawer = journey.querySelector(".founder-proof-detail-drawer");
     var finalProofDetailIndex = finalProofDrawer ? finalProofDrawer.querySelector("[data-final-proof-detail-index]") : null;
     var finalProofDetailTitle = finalProofDrawer ? finalProofDrawer.querySelector("[data-final-proof-detail-title]") : null;
@@ -608,6 +609,16 @@
     var currentFounderState = 0;
     var currentFounderCopyState = -1;
     var lockedFinalProof = "";
+    var finalCalloutsVisible = false;
+    var finalCalloutStateTimer = 0;
+    var founderFinalProofPoints = {
+      sport: { x: 0.28, y: 0.2, tone: "#ff7a5c", radius: "ellipse(18% 16% at 28% 20%)" },
+      cto: { x: 0.71, y: 0.21, tone: "#74e3ff", radius: "ellipse(20% 16% at 71% 21%)" },
+      ai: { x: 0.25, y: 0.54, tone: "#b481ff", radius: "ellipse(16% 15% at 25% 54%)" },
+      world: { x: 0.8, y: 0.54, tone: "#6ef0a1", radius: "ellipse(18% 15% at 80% 54%)" },
+      win: { x: 0.25, y: 0.8, tone: "#d8b987", radius: "ellipse(19% 15% at 25% 80%)" },
+      teach: { x: 0.73, y: 0.77, tone: "#ff9ed1", radius: "ellipse(21% 15% at 73% 77%)" }
+    };
     var founderPosterScrollAnchors = [
       { scroll: "0%" },
       { scroll: "-2%" },
@@ -697,6 +708,99 @@
       }
     }
 
+    function positionFounderFinalConnectors() {
+      var calloutShell = journey.querySelector(".founder-final-callouts");
+
+      if (!calloutShell || !allLayer || !finalProofButtons.length || !finalProofLines.length) {
+        return;
+      }
+
+      var shellRect = calloutShell.getBoundingClientRect();
+      var posterRect = allLayer.getBoundingClientRect();
+
+      if (!shellRect.width || !shellRect.height || !posterRect.width || !posterRect.height) {
+        return;
+      }
+
+      finalProofLines.forEach(function (line) {
+        var proofId = line.getAttribute("data-final-proof-line") || "";
+        var button = finalProofButtons.find(function (item) {
+          return item.getAttribute("data-final-proof") === proofId;
+        });
+        var point = founderFinalProofPoints[proofId];
+
+        if (!button || !point) {
+          return;
+        }
+
+        var buttonRect = button.getBoundingClientRect();
+        var buttonCenterY = buttonRect.top + buttonRect.height / 2 - shellRect.top;
+        var buttonCenterX = buttonRect.left + buttonRect.width / 2 - shellRect.left;
+        var targetX = posterRect.left + posterRect.width * point.x - shellRect.left;
+        var targetY = posterRect.top + posterRect.height * point.y - shellRect.top;
+        var startX = targetX > buttonCenterX
+          ? buttonRect.right - shellRect.left - 3
+          : buttonRect.left - shellRect.left + 3;
+        var startY = buttonCenterY;
+        var deltaX = targetX - startX;
+        var deltaY = targetY - startY;
+        var connectorLength = Math.max(Math.sqrt(deltaX * deltaX + deltaY * deltaY), 1);
+        var connectorAngle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+
+        line.style.setProperty("--connector-x", startX.toFixed(2) + "px");
+        line.style.setProperty("--connector-y", startY.toFixed(2) + "px");
+        line.style.setProperty("--connector-length", connectorLength.toFixed(2) + "px");
+        line.style.setProperty("--connector-angle", connectorAngle.toFixed(2) + "deg");
+      });
+    }
+
+    function scheduleFounderFinalConnectorPosition() {
+      window.requestAnimationFrame(function () {
+        positionFounderFinalConnectors();
+        window.requestAnimationFrame(positionFounderFinalConnectors);
+      });
+      window.setTimeout(positionFounderFinalConnectors, 140);
+      window.setTimeout(positionFounderFinalConnectors, 820);
+    }
+
+    function setFounderFinalCalloutPresence(isFinal) {
+      if (isFinal && !finalCalloutsVisible) {
+        finalCalloutsVisible = true;
+        window.clearTimeout(finalCalloutStateTimer);
+        journey.classList.remove("is-final-callout-leaving", "has-final-callout-settled");
+        journey.classList.add("is-final-callout-entering");
+        finalCalloutStateTimer = window.setTimeout(function () {
+          journey.classList.remove("is-final-callout-entering");
+          journey.classList.add("has-final-callout-settled");
+        }, 820);
+        return;
+      }
+
+      if (!isFinal && finalCalloutsVisible) {
+        finalCalloutsVisible = false;
+        window.clearTimeout(finalCalloutStateTimer);
+        journey.classList.remove("is-final-callout-entering", "has-final-callout-settled");
+        journey.classList.add("is-final-callout-leaving");
+        finalCalloutStateTimer = window.setTimeout(function () {
+          journey.classList.remove("is-final-callout-leaving");
+        }, 520);
+      }
+    }
+
+    function setFounderProofSpotlight(proofId) {
+      var point = founderFinalProofPoints[proofId || ""];
+
+      if (!finalProofSpotlight || !point) {
+        if (finalProofSpotlight) {
+          finalProofSpotlight.style.setProperty("--proof-spotlight-clip", "ellipse(0% 0% at 50% 50%)");
+        }
+        return;
+      }
+
+      finalProofSpotlight.style.setProperty("--proof-spotlight-clip", point.radius);
+      finalProofSpotlight.style.setProperty("--proof-tone", point.tone);
+    }
+
     function setFinalProofFocus(proofId, shouldLock) {
       var target = proofId || "";
       var activeButton = null;
@@ -711,6 +815,7 @@
 
       journey.classList.toggle("has-final-proof-focus", Boolean(target));
       journey.setAttribute("data-final-proof-focus", target || "none");
+      setFounderProofSpotlight(target);
 
       finalProofButtons.forEach(function (button) {
         var isActive = button.getAttribute("data-final-proof") === target;
@@ -801,6 +906,10 @@
       journey.setAttribute("data-founder-state", String(activeState));
       journey.classList.toggle("is-empty-poster", activeState === 0);
       journey.classList.toggle("is-final-poster", activeState === maxState);
+      setFounderFinalCalloutPresence(activeState === maxState);
+      if (activeState === maxState) {
+        scheduleFounderFinalConnectorPosition();
+      }
       if (activeState !== maxState && journey.classList.contains("has-final-proof-focus")) {
         clearFinalProofFocus(true);
       }
@@ -863,6 +972,9 @@
       });
 
       setFounderPosterLayerState(state, state / maxState);
+      if (state === maxState) {
+        scheduleFounderFinalConnectorPosition();
+      }
     }
 
     targetButtons.forEach(function (button) {
@@ -892,9 +1004,13 @@
     });
 
     window.addEventListener("scroll", updateJourney, { passive: true });
-    window.addEventListener("resize", updateJourney);
+    window.addEventListener("resize", function () {
+      updateJourney();
+      scheduleFounderFinalConnectorPosition();
+    });
     setupFounderFinalProofFocus();
     updateJourney();
+    positionFounderFinalConnectors();
   }
 
   function setupSectionParallax() {
@@ -1035,6 +1151,155 @@
     window.addEventListener("scroll", requestAboutServicesParallax, { passive: true });
     window.addEventListener("resize", requestAboutServicesParallax);
     updateAboutServicesParallax();
+  }
+
+  function setupServiceMarketPricingModal() {
+    var modal = document.getElementById("service-pricing-modal");
+    var cards = Array.prototype.slice.call(document.querySelectorAll("[data-pricing-service]"));
+
+    if (!modal || !cards.length) {
+      return;
+    }
+
+    var title = modal.querySelector("#service-pricing-title");
+    var summary = modal.querySelector("[data-service-pricing-summary]");
+    var ranges = modal.querySelector("[data-service-pricing-ranges]");
+    var hunter = modal.querySelector("[data-service-pricing-hunter]");
+    var proof = modal.querySelector("[data-service-pricing-proof]");
+    var closeButtons = Array.prototype.slice.call(modal.querySelectorAll("[data-service-pricing-close]"));
+    var lastFocusedCard = null;
+    var servicePricingData = {
+      website: {
+        title: "Website | 网站",
+        summary: "Typical market ranges for a custom business website, landing site, CMS, responsive build, or eCommerce starter. Final pricing depends on pages, content, integrations, and deadline.",
+        rows: [
+          ["MY / SEA", "USD 800-3.5k", "Lean company site or campaign build"],
+          ["Singapore", "USD 2.5k-9k", "Agency or senior freelance range"],
+          ["US / UK / AU", "USD 5k-25k+", "Higher local labor and agency overhead"],
+          ["Europe / GCC", "USD 4k-18k+", "Varies by compliance and scope"]
+        ],
+        hunter: "Ask Hunter when you want the same practical outcome with up to 50% better offer through direct build, fewer handoffs, and fullstack delivery.",
+        proof: "Track record: shipped portfolio site, live demos, game demos, mobile demo apps, and 3D WebGL proof instead of only mockups."
+      },
+      server: {
+        title: "Server & Database | 服务器",
+        summary: "Typical setup and maintenance ranges for VPS, hosting, migration, database, security hardening, API setup, and ongoing support.",
+        rows: [
+          ["MY / SEA", "USD 300-2.5k", "Setup, migration, and monthly care"],
+          ["Singapore", "USD 1k-6k", "Business hosting and managed support"],
+          ["US / UK / AU", "USD 2k-12k+", "DevOps or agency-managed work"],
+          ["Europe / GCC", "USD 1.5k-10k+", "Infra support varies by SLA"]
+        ],
+        hunter: "Ask Hunter when you need practical setup plus maintenance discount, not separate vendor billing for every small server/database task.",
+        proof: "Track record: deployed and verified production sites, Vercel apps, local GLB catalogs, API-backed demos, and maintenance-oriented portfolio flows."
+      },
+      software: {
+        title: "Software | 编程",
+        summary: "Typical market ranges for custom CMS, CMMS, EAM, internal tools, workflow systems, dashboards, and business software.",
+        rows: [
+          ["MY / SEA", "USD 3k-18k", "Small to mid custom software"],
+          ["Singapore", "USD 8k-45k", "Agency or senior team delivery"],
+          ["US / UK / AU", "USD 15k-100k+", "Higher-cost custom product teams"],
+          ["Europe / GCC", "USD 12k-80k+", "Depends on compliance and integrations"]
+        ],
+        hunter: "Ask Hunter when you want one builder to understand the workflow, prototype fast, ship the stack, and keep the cost closer to business value.",
+        proof: "Track record: CRM-style command centers, automation flows, reporting tools, payment-related systems, and production-grade demo projects."
+      },
+      mobile: {
+        title: "Mobile App | 手机应用",
+        summary: "Typical market ranges for iOS/Android, Expo/React Native, Flutter, QR/contact flows, camera permissions, and publish-ready build profiles.",
+        rows: [
+          ["MY / SEA", "USD 5k-25k", "MVP or focused native app"],
+          ["Singapore", "USD 15k-70k", "Commercial app with agency QA"],
+          ["US / UK / AU", "USD 40k-150k+", "Mid-level app team range"],
+          ["Europe / GCC", "USD 25k-120k+", "Varies by platform and compliance"]
+        ],
+        hunter: "Ask Hunter when you need a mobile MVP that still connects to real web, backend, QR, contact, notification, and deployment proof.",
+        proof: "Track record: React Native / Expo demo apps with Android metadata, permissions, build profiles, and hosted proof pages."
+      },
+      ai: {
+        title: "Machine Learning (AI) | 人工智能",
+        summary: "Typical market ranges for automation, AI assistant flows, data training, prediction, object detection, recommendation, and ChatGPT API builds.",
+        rows: [
+          ["MY / SEA", "USD 2k-15k", "Automation or AI workflow build"],
+          ["Singapore", "USD 8k-45k", "Business AI integration"],
+          ["US / UK / AU", "USD 15k-120k+", "Specialist AI/product teams"],
+          ["Europe / GCC", "USD 12k-90k+", "Depends on data and risk"]
+        ],
+        hunter: "Ask Hunter when you need useful automation connected to the actual website, app, database, and operations instead of a disconnected AI demo.",
+        proof: "Track record: Ahfaiz founder work, AI automation concepts, data/reporting demos, assistant-style flows, and productized portfolio proof."
+      },
+      ux: {
+        title: "UX & UI Designer | 计师",
+        summary: "Typical market ranges for UI design, clickable prototypes, responsive frontend, conversion polish, image optimization, and interaction quality.",
+        rows: [
+          ["MY / SEA", "USD 600-5k", "Prototype or frontend polish"],
+          ["Singapore", "USD 2k-15k", "Senior UI/UX delivery"],
+          ["US / UK / AU", "USD 5k-35k+", "Product design and frontend teams"],
+          ["Europe / GCC", "USD 4k-28k+", "Depends on research and fidelity"]
+        ],
+        hunter: "Ask Hunter when you want UI/UX that can be coded, tested, deployed, optimized, and maintained by the same delivery owner.",
+        proof: "Track record: accepted Option C hero, animated proof theater, responsive contact footer, startup lab, WebGL demos, and real HTML/CSS text."
+      }
+    };
+
+    function renderPricing(serviceId) {
+      var item = servicePricingData[serviceId] || servicePricingData.website;
+      title.textContent = item.title;
+      summary.textContent = item.summary;
+      hunter.textContent = item.hunter;
+      proof.textContent = item.proof;
+      ranges.innerHTML = item.rows
+        .map(function (row) {
+          return '<div class="service-pricing-range"><span>' + row[0] + '</span><strong>' + row[1] + '</strong><p>' + row[2] + '</p></div>';
+        })
+        .join("");
+    }
+
+    function openPricing(card) {
+      lastFocusedCard = card;
+      renderPricing(card.getAttribute("data-pricing-service") || "website");
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.documentElement.classList.add("is-service-pricing-open");
+      window.setTimeout(function () {
+        var closeButton = modal.querySelector(".service-pricing-close");
+        if (closeButton) {
+          closeButton.focus();
+        }
+      }, 60);
+    }
+
+    function closePricing() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("is-service-pricing-open");
+      if (lastFocusedCard) {
+        lastFocusedCard.focus();
+      }
+    }
+
+    cards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        openPricing(card);
+      });
+      card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openPricing(card);
+        }
+      });
+    });
+
+    closeButtons.forEach(function (button) {
+      button.addEventListener("click", closePricing);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closePricing();
+      }
+    });
   }
 
   function setupSingleHunterFocus() {
@@ -1552,7 +1817,7 @@
   }
 
   function setupMotionAndHelper() {
-    var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-icon-link, .teaching-proof-card, .hackathon-grid article");
+    var revealTargets = document.querySelectorAll("section, #about, #services, .journal-info, .startup-icon-link, .teaching-proof-card, .hackathon-carousel-card");
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
     var huskyMessage = document.getElementById("husky-message");
@@ -1896,6 +2161,8 @@
 
   function setupModelsHunterBackground() {
     var stage = document.querySelector("[data-models-hunter-bg]");
+    var demoHunterStart = document.querySelector("[data-demo-hunter-start]");
+    var demoHunterEnd = document.getElementById("project-assets-section");
     var ghost = stage ? stage.querySelector("[data-models-hunter-ghost]") : null;
     var canvas = stage ? stage.querySelector("[data-models-matrix]") : null;
     var context = canvas ? canvas.getContext("2d") : null;
@@ -1908,19 +2175,21 @@
       "soft-blur"
     ];
     var modelsHunterRoutes = [
-      { name: "left-to-right", from: ["-34vw", "14vh"], to: ["112vw", "42vh"], rotate: "-5deg" },
-      { name: "right-to-left", from: ["112vw", "24vh"], to: ["-34vw", "58vh"], rotate: "5deg" },
-      { name: "top-to-bottom", from: ["18vw", "-38vh"], to: ["62vw", "116vh"], rotate: "3deg" },
-      { name: "bottom-to-top", from: ["66vw", "112vh"], to: ["22vw", "-42vh"], rotate: "-4deg" },
-      { name: "top-left-to-bottom-right", from: ["-30vw", "-32vh"], to: ["112vw", "108vh"], rotate: "-7deg" },
-      { name: "bottom-left-to-top-right", from: ["-32vw", "104vh"], to: ["108vw", "-38vh"], rotate: "7deg" }
+      { name: "left-to-right", from: ["-28vw", "16vh"], to: ["96vw", "46vh"], rotate: "-5deg" },
+      { name: "right-to-left", from: ["96vw", "20vh"], to: ["-30vw", "54vh"], rotate: "5deg" },
+      { name: "top-to-bottom", from: ["36vw", "-42vh"], to: ["54vw", "92vh"], rotate: "3deg" },
+      { name: "bottom-to-top", from: ["54vw", "92vh"], to: ["34vw", "-44vh"], rotate: "-4deg" },
+      { name: "top-left-to-bottom-right", from: ["-26vw", "-34vh"], to: ["92vw", "92vh"], rotate: "-7deg" },
+      { name: "bottom-left-to-top-right", from: ["-26vw", "88vh"], to: ["92vw", "-38vh"], rotate: "7deg" },
+      { name: "mid-left-to-mid-right", from: ["-30vw", "42vh"], to: ["96vw", "38vh"], rotate: "-2deg" },
+      { name: "mid-right-to-mid-left", from: ["96vw", "44vh"], to: ["-30vw", "34vh"], rotate: "2deg" }
     ];
     var matrixColumns = [];
     var matrixFrame = 0;
     var nextTimer = null;
     var fallbackTimer = null;
 
-    if (!stage || !ghost || isReducedMotion()) {
+    if (!stage || !demoHunterStart || !demoHunterEnd || !ghost || isReducedMotion()) {
       return;
     }
 
@@ -1935,6 +2204,7 @@
     function clearEffectClasses() {
       modelsHunterEffects.forEach(function (effect) {
         ghost.classList.remove("effect-" + effect);
+        stage.classList.remove("stage-effect-" + effect);
       });
     }
 
@@ -1957,15 +2227,18 @@
     function runHunterPass() {
       var route = pickRandom(modelsHunterRoutes);
       var effect = pickRandom(modelsHunterEffects);
-      var duration = randomBetween(11500, 18500);
+      var duration = randomBetween(7600, 11800);
 
       clearEffectClasses();
       ghost.classList.add("effect-" + effect);
+      stage.classList.add("stage-effect-" + effect);
       ghost.setAttribute("data-models-route", route.name);
-      stage.style.setProperty("--models-hunter-opacity", randomBetween(0.3, 0.7).toFixed(2));
-      stage.style.setProperty("--models-hunter-blur", randomBetween(8, 22).toFixed(1) + "px");
-      stage.style.setProperty("--models-hunter-scale", randomBetween(0.86, 1.18).toFixed(2));
+      stage.style.setProperty("--models-hunter-opacity", randomBetween(0.46, 0.7).toFixed(2));
+      stage.style.setProperty("--models-hunter-blur", randomBetween(5, 14).toFixed(1) + "px");
+      stage.style.setProperty("--models-hunter-scale", randomBetween(0.92, 1.26).toFixed(2));
       stage.style.setProperty("--models-hunter-hue", Math.round(randomBetween(-34, 48)) + "deg");
+      stage.style.setProperty("--models-hunter-light-x", Math.round(randomBetween(18, 82)) + "%");
+      stage.style.setProperty("--models-hunter-light-y", Math.round(randomBetween(22, 72)) + "%");
       ghost.style.setProperty("--models-hunter-duration", duration.toFixed(0) + "ms");
       ghost.style.setProperty("--models-hunter-rotate", route.rotate);
       ghost.classList.remove("is-active");
@@ -1983,6 +2256,19 @@
       fallbackTimer = window.setTimeout(function () {
         scheduleNextHunter();
       }, duration + 1400);
+    }
+
+    function updateDemoHunterRange() {
+      var startRect = demoHunterStart.getBoundingClientRect();
+      var endRect = demoHunterEnd.getBoundingClientRect();
+      var startTop = startRect.top + window.scrollY;
+      var endBottom = endRect.bottom + window.scrollY;
+      var viewportMiddle = window.scrollY + (window.innerHeight || 1) * 0.52;
+      var rangeHeight = Math.max(endBottom - startTop, window.innerHeight || 1);
+      var isInDemoRange = viewportMiddle >= startTop && viewportMiddle <= endBottom;
+
+      stage.style.setProperty("--models-hunter-range-height", Math.round(rangeHeight) + "px");
+      stage.classList.toggle("is-demo-range-active", isInDemoRange);
     }
 
     ghost.addEventListener("transitionend", function (event) {
@@ -2048,7 +2334,12 @@
     }
 
     resizeMatrix();
-    window.addEventListener("resize", resizeMatrix);
+    updateDemoHunterRange();
+    window.addEventListener("scroll", updateDemoHunterRange, { passive: true });
+    window.addEventListener("resize", function () {
+      updateDemoHunterRange();
+      resizeMatrix();
+    });
     window.setTimeout(runHunterPass, 650);
 
     if (canvas && context) {
@@ -2072,15 +2363,23 @@
     var startupTechGlowDurationRange = 900;
     var startupTechNextDelayMin = 760;
     var startupTechNextDelayRange = 900;
+    var startupTechLightToneClasses = ["is-lit-cyan", "is-lit-amber", "is-lit-violet"];
 
     if (!pills.length) {
       return;
+    }
+
+    function clearTechLightTone(pill) {
+      startupTechLightToneClasses.forEach(function (toneClass) {
+        pill.classList.remove(toneClass);
+      });
     }
 
     function clearActiveLights() {
       pills.forEach(function (pill) {
         pill.classList.remove("is-lit");
         pill.classList.remove("is-dim");
+        clearTechLightTone(pill);
       });
     }
 
@@ -2104,12 +2403,16 @@
         for (var index = 0; index < lightCount; index += 1) {
           var pill = lightPool[(cycleIndex + index * 3 + Math.floor(Math.random() * lightPool.length)) % lightPool.length];
           var glowDuration = startupTechGlowMinDuration + Math.random() * startupTechGlowDurationRange;
+          var toneClass = startupTechLightToneClasses[(cycleIndex + index + Math.floor(Math.random() * startupTechLightToneClasses.length)) % startupTechLightToneClasses.length];
 
+          clearTechLightTone(pill);
           pill.classList.add("is-lit");
+          pill.classList.add(toneClass);
           pill.classList.remove("is-dim");
           window.setTimeout(function (litPill) {
             litPill.classList.remove("is-lit");
             litPill.classList.remove("is-dim");
+            clearTechLightTone(litPill);
           }, glowDuration, pill);
         }
 
@@ -2161,6 +2464,277 @@
     });
   }
 
+  function setupHackathonGlassCarousel() {
+    var carousel = document.querySelector("[data-hackathon-carousel]");
+    if (!carousel) {
+      return;
+    }
+
+    var track = carousel.querySelector(".hackathon-carousel-track");
+    var stage = carousel.querySelector(".hackathon-carousel-stage");
+    var cards = Array.prototype.slice.call(carousel.querySelectorAll("[data-carousel-card]:not([data-carousel-clone])"));
+    var prevButton = carousel.querySelector("[data-carousel-prev]");
+    var nextButton = carousel.querySelector("[data-carousel-next]");
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var activeStep = 0;
+    var autoTimer = null;
+    var isAnimating = false;
+    var isJumping = false;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var dragDeltaX = 0;
+    var isDragging = false;
+    var dragThreshold = 38;
+    var animationDelay = reduceMotion ? 200 : 720;
+    var slides = [];
+    var currentIndex = 1;
+    var slideWidth = 0;
+    var slideGap = 0;
+
+    function setControlsDisabled(isDisabled) {
+      [prevButton, nextButton].forEach(function (button) {
+        if (button) {
+          button.disabled = isDisabled;
+          button.setAttribute("aria-disabled", String(isDisabled));
+        }
+      });
+    }
+
+    function setCarouselShift() {
+      carousel.style.setProperty("--track-shift", String(-currentIndex * (slideWidth + slideGap)) + "px");
+    }
+
+    function refreshCardStates() {
+      var activeIndex = ((currentIndex - 1) % cards.length + cards.length) % cards.length;
+      carousel.style.setProperty("--carousel-active", activeStep);
+      carousel.style.setProperty("--carousel-count", cards.length);
+
+      slides.forEach(function (card, index) {
+        var offset = index - currentIndex;
+        card.classList.remove("is-active", "is-prev", "is-next", "is-far-left", "is-far-right");
+
+        if (offset === 0) {
+          card.classList.add("is-active");
+          card.setAttribute("aria-hidden", "false");
+        } else if (offset === -1) {
+          card.classList.add("is-prev");
+          card.setAttribute("aria-hidden", "true");
+        } else if (offset === 1) {
+          card.classList.add("is-next");
+          card.setAttribute("aria-hidden", "true");
+        } else if (offset < 0) {
+          card.classList.add("is-far-left");
+          card.setAttribute("aria-hidden", "true");
+        } else {
+          card.classList.add("is-far-right");
+          card.setAttribute("aria-hidden", "true");
+        }
+      });
+
+      cards.forEach(function (card, index) {
+        card.classList.toggle("is-active", index === activeIndex);
+      });
+    }
+
+    function updateMetrics() {
+      if (!slides.length) {
+        return;
+      }
+
+      var referenceSlide = slides[0];
+      if (!referenceSlide) {
+        return;
+      }
+
+      slideWidth = referenceSlide.getBoundingClientRect().width;
+      slideGap = parseFloat(window.getComputedStyle(track).gap) || 0;
+      setCarouselShift();
+      refreshCardStates();
+    }
+
+    function jumpToIndex(nextIndex) {
+      isJumping = true;
+      track.style.transition = "none";
+      currentIndex = nextIndex;
+      setCarouselShift();
+      refreshCardStates();
+
+      window.requestAnimationFrame(function () {
+        track.style.transition = "";
+        isJumping = false;
+      });
+    }
+
+    function setActiveCard(nextActiveStep, shouldLockControls) {
+      activeStep = nextActiveStep;
+      setCarouselShift();
+      refreshCardStates();
+
+      if (!shouldLockControls) {
+        return;
+      }
+
+      isAnimating = true;
+      carousel.classList.add("is-animating");
+      setControlsDisabled(true);
+      window.setTimeout(function () {
+        if (currentIndex === 0) {
+          jumpToIndex(cards.length);
+        } else if (currentIndex === slides.length - 1) {
+          jumpToIndex(1);
+        }
+
+        isAnimating = false;
+        carousel.classList.remove("is-animating");
+        setControlsDisabled(false);
+      }, animationDelay);
+    }
+
+    function rotateBy(direction) {
+      if (isAnimating || isJumping) {
+        return;
+      }
+
+      activeStep += direction;
+      currentIndex += direction;
+      setActiveCard(activeStep, true);
+    }
+
+    function stopAutoRotate() {
+      if (autoTimer) {
+        window.clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    function startAutoRotate() {
+      if (reduceMotion || autoTimer) {
+        return;
+      }
+      autoTimer = window.setInterval(function () {
+        rotateBy(1);
+      }, 4200);
+    }
+
+    if (!cards.length) {
+      return;
+    }
+
+    if (!track || !stage || cards.length < 2) {
+      return;
+    }
+
+    if (!carousel.hasAttribute("data-carousel-initialized")) {
+      var firstClone = cards[0].cloneNode(true);
+      var lastClone = cards[cards.length - 1].cloneNode(true);
+      firstClone.setAttribute("data-carousel-clone", "true");
+      lastClone.setAttribute("data-carousel-clone", "true");
+      firstClone.setAttribute("aria-hidden", "true");
+      lastClone.setAttribute("aria-hidden", "true");
+      track.insertBefore(lastClone, cards[0]);
+      track.appendChild(firstClone);
+      carousel.setAttribute("data-carousel-initialized", "true");
+    }
+
+    slides = Array.prototype.slice.call(track.querySelectorAll("[data-carousel-card]"));
+    carousel.style.setProperty("--carousel-count", cards.length);
+    currentIndex = 1;
+    updateMetrics();
+
+    if (carousel.hasAttribute("data-carousel-bound")) {
+      setCarouselShift();
+      refreshCardStates();
+      return;
+    }
+
+    carousel.setAttribute("data-carousel-bound", "true");
+
+    if (prevButton) {
+      prevButton.addEventListener("click", function () {
+        if (prevButton.disabled) {
+          return;
+        }
+        stopAutoRotate();
+        rotateBy(-1);
+        startAutoRotate();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener("click", function () {
+        if (nextButton.disabled) {
+          return;
+        }
+        stopAutoRotate();
+        rotateBy(1);
+        startAutoRotate();
+      });
+    }
+
+    carousel.addEventListener("pointerdown", function (event) {
+      if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+      }
+      if (isAnimating || isJumping) {
+        return;
+      }
+
+      stopAutoRotate();
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragDeltaX = 0;
+      carousel.classList.add("is-dragging");
+      carousel.setPointerCapture(event.pointerId);
+    });
+
+    carousel.addEventListener("pointermove", function (event) {
+      if (!isDragging) {
+        return;
+      }
+
+      dragDeltaX = event.clientX - dragStartX;
+      carousel.style.setProperty("--track-shift", String((-currentIndex * (slideWidth + slideGap)) + dragDeltaX) + "px");
+    });
+
+    carousel.addEventListener("pointerup", function (event) {
+      if (!isDragging) {
+        return;
+      }
+
+      var dragDeltaY = event.clientY - dragStartY;
+      isDragging = false;
+      carousel.classList.remove("is-dragging");
+      if (carousel.hasPointerCapture(event.pointerId)) {
+        carousel.releasePointerCapture(event.pointerId);
+      }
+      setCarouselShift();
+
+      if (Math.abs(dragDeltaX) > dragThreshold && Math.abs(dragDeltaX) > Math.abs(dragDeltaY)) {
+        rotateBy(dragDeltaX < 0 ? 1 : -1);
+      }
+
+      startAutoRotate();
+    });
+
+    carousel.addEventListener("pointercancel", function () {
+      isDragging = false;
+      carousel.classList.remove("is-dragging");
+      setCarouselShift();
+      startAutoRotate();
+    });
+
+    carousel.addEventListener("mouseenter", stopAutoRotate);
+    carousel.addEventListener("mouseleave", startAutoRotate);
+    carousel.addEventListener("focusin", stopAutoRotate);
+    carousel.addEventListener("focusout", startAutoRotate);
+    window.addEventListener("resize", updateMetrics);
+
+    setCarouselShift();
+    refreshCardStates();
+    startAutoRotate();
+  }
+
   function setupResponsiveNavbarToggle() {
     var toggle = document.querySelector(".responsive");
     var navMenu = document.querySelector(".nav-menu");
@@ -2206,6 +2780,7 @@
       setupSectionParallax();
       setupContactCopyrightDock();
       setupAboutServicesParallax();
+      setupServiceMarketPricingModal();
       setupSingleHunterFocus();
       setupMagneticEffects();
       setupFounderJourney();
@@ -2216,6 +2791,7 @@
       setupHeroHunterPopup();
       setupModelsHunterBackground();
       setupStartupTechStackLights();
+      setupHackathonGlassCarousel();
       setupResponsiveNavbarToggle();
     });
   } else {
@@ -2225,6 +2801,7 @@
     setupSectionParallax();
     setupContactCopyrightDock();
     setupAboutServicesParallax();
+    setupServiceMarketPricingModal();
     setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
@@ -2235,6 +2812,7 @@
     setupHeroHunterPopup();
     setupModelsHunterBackground();
     setupStartupTechStackLights();
+    setupHackathonGlassCarousel();
     setupResponsiveNavbarToggle();
   }
 })();

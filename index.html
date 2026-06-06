@@ -80,7 +80,7 @@
             as="image"
             href="images/hero-options/option-c-three-source.jpg"
         />
-        <link href="css/style.css?v=2.1.0" rel="stylesheet" />
+        <link href="css/style.css?v=2.1.9" rel="stylesheet" />
 
         <!-- Responsive css -->
         <link href="css/responsive.css?v=2.0.8" rel="stylesheet" />
@@ -184,9 +184,6 @@
                             <a href="#services" class="smoothScroll"
                                 >Services</a
                             >
-                        </li>
-                        <li>
-                            <a href="#journal" class="smoothScroll">Pricing</a>
                         </li>
                         <li>
                             <a
@@ -344,69 +341,51 @@
                 >
                     <div class="startup-founder-copy">
                         <span class="vision-label">Founder Vision</span>
-                        <h2>
-                            Build products. Automate futures. Ship real impact.
-                        </h2>
+                        <h2>Hunter promo video</h2>
                         <p>
-                            Fullstack developer, Ahfaiz founder, AI automation
-                            teacher, startup builder, and hackathon winner. I
-                            build usable products, teach practical IT, and help
-                            teams move from idea to working system.
+                            Founder, builder, teacher, and shipped-system operator.
                         </p>
                     </div>
                     <div
-                        class="startup-founder-proof-preview"
-                        aria-label="Hunter Ho complete proof poster preview"
+                        class="startup-founder-video-slot startup-founder-video-hero"
                     >
-                        <div class="startup-founder-video-slot">
-                            <div class="startup-video-frame">
-                                <iframe
-                                    src="https://www.youtube.com/embed/KRxQ8JuqMyE?rel=0&amp;modestbranding=1&amp;playsinline=1"
-                                    title="TrillionUnicorn startup video"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allow="
-                                        accelerometer;
-                                        autoplay;
-                                        clipboard-write;
-                                        compute-pressure;
-                                        encrypted-media;
-                                        gyroscope;
-                                        picture-in-picture;
-                                        web-share;
-                                    "
-                                    allowfullscreen
-                                ></iframe>
-                            </div>
-                            <p class="startup-sound-note">
-                                Turn on sound for the full startup story.
-                                <a
-                                    href="https://www.youtube.com/watch?v=KRxQ8JuqMyE"
-                                    target="_blank"
-                                    rel="noopener"
-                                    >Open on YouTube</a
-                                >
-                            </p>
+                        <div class="startup-video-frame">
+                            <iframe
+                                src="https://www.youtube.com/embed/KRxQ8JuqMyE?rel=0&amp;modestbranding=1&amp;playsinline=1"
+                                title="TrillionUnicorn startup video"
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="
+                                    accelerometer;
+                                    autoplay;
+                                    clipboard-write;
+                                    compute-pressure;
+                                    encrypted-media;
+                                    gyroscope;
+                                    picture-in-picture;
+                                    web-share;
+                                "
+                                allowfullscreen
+                            ></iframe>
                         </div>
-                        <img
-                            loading="lazy"
-                            src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
-                            width="607"
-                            height="1280"
-                            alt="Hunter Ho complete vision proof poster"
-                            decoding="async"
-                        />
+                        <p class="startup-sound-note">
+                            Turn on sound for the full startup story.
+                            <a
+                                href="https://www.youtube.com/watch?v=KRxQ8JuqMyE"
+                                target="_blank"
+                                rel="noopener"
+                                >Open on YouTube</a
+                            >
+                        </p>
                     </div>
-                    <div
-                        class="startup-founder-roles"
-                        aria-label="Core roles"
-                    >
-                        <span>Fullstack Developer</span>
-                        <span>Ahfaiz Founder</span>
-                        <span>AI Automation Teacher</span>
-                        <span>CTO / Startup Builder</span>
-                        <span>Hackathon Winner</span>
-                        <span>Builder Since 2007</span>
+                    <div class="startup-lab-copy">
+                        <span class="vision-label">Startup Lab</span>
+                        <h2>TrillionUnicorn Startup Lab</h2>
+                        <p>
+                            Seven public startup and OSS concepts from the
+                            TrillionUnicorn ecosystem. This is portfolio proof
+                            of product thinking, not the full startup website.
+                        </p>
                     </div>
                     <div
                         class="startup-icon-row"
@@ -497,14 +476,16 @@
                             <span class="startup-icon-name">AhFai</span>
                         </a>
                     </div>
-                    <div class="startup-lab-copy">
-                        <span class="vision-label">Startup Lab</span>
-                        <h2>TrillionUnicorn Startup Lab</h2>
-                        <p>
-                            Seven public startup and OSS concepts from the
-                            TrillionUnicorn ecosystem. This is portfolio proof
-                            of product thinking, not the full startup website.
-                        </p>
+                    <div
+                        class="startup-founder-roles"
+                        aria-label="Core roles"
+                    >
+                        <span>Fullstack Developer</span>
+                        <span>Ahfaiz Founder</span>
+                        <span>AI Automation Teacher</span>
+                        <span>CTO / Startup Builder</span>
+                        <span>Hackathon Winner</span>
+                        <span>Builder Since 2007</span>
                     </div>
                     <div
                         class="startup-tech-stack-flow"
@@ -853,6 +834,16 @@
                                 alt="Full Hunter Ho vision poster with six proof moments visible"
                                 decoding="async"
                             />
+                            <img
+                                class="founder-proof-color-spotlight"
+                                loading="lazy"
+                                src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
+                                width="607"
+                                height="1280"
+                                alt=""
+                                aria-hidden="true"
+                                decoding="async"
+                            />
                             <span class="founder-poster-mask"></span>
                             <span class="founder-poster-ring"></span>
                             <span
@@ -1115,7 +1106,34 @@
         <!-- end section founder journey -->
 
         <!-- demo -->
-        <div class="container">
+        <div
+            id="demo-projects-section"
+            class="container demo-projects-section"
+            data-demo-hunter-start
+        >
+            <div
+                class="models-hunter-bg-stage"
+                aria-hidden="true"
+                data-demo-hunter-bg
+                data-models-hunter-bg
+            >
+                <canvas
+                    class="models-matrix-canvas"
+                    width="1200"
+                    height="900"
+                    data-models-matrix
+                ></canvas>
+                <img
+                    class="models-hunter-bg-ghost"
+                    src="images/hunter-demo-bg-neon-matrix.png"
+                    width="941"
+                    height="1672"
+                    alt=""
+                    decoding="async"
+                    loading="lazy"
+                    data-models-hunter-ghost
+                />
+            </div>
             <div class="section-title text-center">
                 <div class="glitch-wrapper">
                     <div class="glitch" data-text="Demo Projects">
@@ -3126,11 +3144,11 @@
                                 href="https://game-demo-09-sky-island-tycoon.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-sky-tycoon.png"
+                                    src="images/demo-thumb-game-neon-signal-run.png"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
-                                    alt="Sky Island Tycoon playable browser game demo"
+                                    alt="Neon Signal Run playable browser game demo"
                                     decoding="async"
                             /></a>
                             <div class="journal-txt">
@@ -3138,16 +3156,16 @@
                                     <a
                                         target="_blank"
                                         href="https://game-demo-09-sky-island-tycoon.vercel.app"
-                                        >Sky Island Tycoon</a
+                                        >Neon Signal Run</a
                                     >
                                 </h4>
                                 <button
                                     type="button"
                                     class="project-detail-btn"
-                                    data-project-title="Games Demo - Sky Island Tycoon"
-                                    data-project-tech="HTML5 Canvas, JavaScript tycoon economy loop, upgrade state, click/tap interaction, public GitHub repo, Vercel production deployment"
-                                    data-project-skills="Idle economy design, upgrade balancing, resource harvesting, timed events, management-game UI"
-                                    data-project-about="A real tycoon-style browser game where users harvest cloud energy, upgrade floating islands, and survive economy storms. It shows productized management-game mechanics for client demos. Source: https://github.com/HunterHo07/game-demo-09-sky-island-tycoon"
+                                    data-project-title="Games Demo - Neon Signal Run"
+                                    data-project-tech="HTML5 Canvas, JavaScript arcade loop, keyboard control, charge and combo HUD, hazard timing, public GitHub repo, Vercel production deployment"
+                                    data-project-skills="Arcade movement design, neon visual direction, combo scoring, checkpoint pressure, responsive canvas controls"
+                                    data-project-about="A real cyberpunk hover-bike game where users collect data shards, dodge firewall drones, hit checkpoint gates, and keep charge alive. It shows game-first campaign and portfolio mechanics for client demos. Source: https://github.com/HunterHo07/game-demo-09-sky-island-tycoon"
                                 >
                                     Details
                                 </button>
@@ -3280,28 +3298,6 @@
             data-nav-label="3D Models"
             data-nav-label-zh="3D模型"
         >
-            <div
-                class="models-hunter-bg-stage"
-                aria-hidden="true"
-                data-models-hunter-bg
-            >
-                <canvas
-                    class="models-matrix-canvas"
-                    width="900"
-                    height="520"
-                    data-models-matrix
-                ></canvas>
-                <img
-                    class="models-hunter-bg-ghost"
-                    src="images/hero-layers/hero-hunter-cutout.webp"
-                    width="600"
-                    height="900"
-                    alt=""
-                    decoding="async"
-                    loading="lazy"
-                    data-models-hunter-ghost
-                />
-            </div>
             <div class="section-title text-center">
                 <div class="glitch-wrapper">
                     <div
@@ -3405,6 +3401,8 @@
                                 ><img
                                     loading="lazy"
                                     src="images/demo-thumb-qstyle-3d-models-lab.png"
+                                    data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.png"
+                                    data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.png,images/demo-thumb-qstyle-3d-models-lab-mobile.png"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3554,26 +3552,79 @@
                     <span class="vision-label">Hackathon Wins</span>
                     <h2>Real Hackathon Wins</h2>
                     <p>
-                        Short proof list from AI, Web3, and innovation events.
+                        Liquid Glass Event Gallery with real event images from
+                        AI, Web3, and innovation competitions.
                     </p>
                 </div>
-                <div class="hackathon-grid compact-hackathon-grid">
-                    <article class="hackathon-win-card" data-motion-card>
-                        <strong>2025</strong
-                        ><span>Deriv AI Hackathon Winner 2025</span>
-                    </article>
-                    <article class="hackathon-win-card" data-motion-card>
-                        <strong>2025</strong
-                        ><span>SUI Hackathon Winner 2025</span>
-                    </article>
-                    <article class="hackathon-win-card" data-motion-card>
-                        <strong>2025</strong
-                        ><span>IOTA Hackathon Malaysia Winner 2025</span>
-                    </article>
-                    <article class="hackathon-win-card" data-motion-card>
-                        <strong>2023</strong
-                        ><span>ETH Hackathon Winner 2023</span>
-                    </article>
+                <div
+                    class="hackathon-glass-carousel"
+                    data-hackathon-carousel
+                    aria-label="Real hackathon event image carousel"
+                >
+                    <div class="hackathon-carousel-stage">
+                        <div class="hackathon-carousel-track">
+                        <article
+                            class="hackathon-carousel-card is-active"
+                            data-motion-card
+                            data-carousel-card
+                        >
+                            <figure class="hackathon-carousel-frame">
+                                <img
+                                    class="hackathon-carousel-image"
+                                    loading="lazy"
+                                    src="images/hackathon/deriv-ai-hackathon-stage-2025.jpg"
+                                    width="1400"
+                                    height="787"
+                                    alt="Hunter Ho at Deriv AI Hackathon 2025 winner stage in Cyberjaya"
+                                    decoding="async"
+                                />
+                                <figcaption>
+                                    <span>2025 | Cyberjaya</span>
+                                    <strong>Deriv AI Hackathon</strong>
+                                    <em>AI Champion, RM15,000</em>
+                                </figcaption>
+                            </figure>
+                        </article>
+                        <article
+                            class="hackathon-carousel-card"
+                            data-motion-card
+                            data-carousel-card
+                        >
+                            <figure class="hackathon-carousel-frame">
+                                <img
+                                    class="hackathon-carousel-image"
+                                    loading="lazy"
+                                    src="images/hackathon/deriv-ai-hackathon-countdown.jpg"
+                                    width="1080"
+                                    height="1080"
+                                    alt="Deriv AI Hackathon countdown winner-stage visual"
+                                    decoding="async"
+                                />
+                                <figcaption>
+                                    <span>Build Sprint</span>
+                                    <strong>Champion Stage</strong>
+                                    <em>Countdown and event promotion</em>
+                                </figcaption>
+                            </figure>
+                        </article>
+                        </div>
+                        <button
+                            class="hackathon-carousel-control hackathon-carousel-prev"
+                            type="button"
+                            data-carousel-prev
+                            aria-label="Previous hackathon image"
+                        >
+                            Prev
+                        </button>
+                        <button
+                            class="hackathon-carousel-control hackathon-carousel-next"
+                            type="button"
+                            data-carousel-next
+                            aria-label="Next hackathon image"
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3713,7 +3764,13 @@
                         <h3>Choose the outcome. Hunter ships the stack.</h3>
                     </div>
                     <div class="service-capability-grid">
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="website"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-ios-browsers-outline"></i>
                             <span>Website | 网站</span>
                             <p class="separator">
@@ -3723,7 +3780,13 @@
                             </p>
                         </div>
 
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="server"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-ios-lightbulb-outline"></i>
                             <span>Server & Database | 服务器</span>
                             <p class="separator">
@@ -3733,7 +3796,13 @@
                             </p>
                         </div>
 
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="software"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-ios-color-wand-outline"></i>
                             <span>Software | 编程</span>
                             <p class="separator">
@@ -3745,7 +3814,13 @@
                             </p>
                         </div>
 
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="mobile"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-social-android-outline"></i>
                             <span>MOBILE APP | 手机应用</span>
                             <p class="separator">
@@ -3756,7 +3831,13 @@
                             </p>
                         </div>
 
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="ai"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-ios-analytics-outline"></i>
                             <span>Machine Learning (Ai) | 人工智能</span>
                             <p class="separator">
@@ -3767,7 +3848,13 @@
                             </p>
                         </div>
 
-                        <div class="services-block">
+                        <div
+                            class="services-block"
+                            role="button"
+                            tabindex="0"
+                            data-pricing-service="ux"
+                            aria-controls="service-pricing-modal"
+                        >
                             <i class="ion-ios-camera-outline"></i>
                             <span>UX & UI Designer | 计师</span>
                             <p class="separator">
@@ -3778,82 +3865,53 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div
-                id="journal"
-                class="about-pricing-list"
-                data-nav-label="Pricing"
-                data-nav-label-zh="价格"
-            >
-                <div class="container">
-                    <div class="service-subhead service-offer-head">
-                        <p class="section-kicker">My Service Offers</p>
-                        <h3>Clear commercial reasons to start now.</h3>
-                    </div>
-                    <div class="journal-block">
-                        <div class="service-offer-grid">
-                            <div>
-                                <div class="journal-info">
-                                    <div class="journal-txt">
-                                        <span class="offer-marker">01</span>
-                                        <h4>
-                                            <a
-                                                >THE MOST BEAUTIFUL CUSTOM
-                                                WEBSITE & PRICE</a
-                                            >
-                                        </h4>
-                                        <p class="separator">
-                                            Project price will be lower than
-                                            market rate from 20% up to 60% and
-                                            Deliver the same Quality and
-                                            Service.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="journal-info">
-                                    <div class="journal-txt">
-                                        <span class="offer-marker">02</span>
-                                        <h4>
-                                            <a
-                                                >1 DEVELOPMENT COST FOR BOTH IOS
-                                                & ANDROID</a
-                                            >
-                                        </h4>
-                                        <p class="separator">
-                                            We deliver quality and service
-                                            before and after projects, price
-                                            will be lower than market rate from
-                                            30% up to 70% with same Quality and
-                                            Service.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="journal-info">
-                                    <div class="journal-txt">
-                                        <span class="offer-marker">03</span>
-                                        <h4>
-                                            <a
-                                                >50% DISCOUNT MAINTENANCE
-                                                FEE</a
-                                            >
-                                        </h4>
-                                        <p class="separator">
-                                            Any of your existing website,
-                                            server, database, mobile app,
-                                            system, software that need
-                                            maintenance and we offer you up to
-                                            50% discount on your current
-                                            existing maintenance fee.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                <div
+                    class="service-pricing-modal"
+                    id="service-pricing-modal"
+                    aria-hidden="true"
+                >
+                    <div
+                        class="service-pricing-backdrop"
+                        data-service-pricing-close
+                    ></div>
+                    <div
+                        class="service-pricing-dialog"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="service-pricing-title"
+                    >
+                        <button
+                            type="button"
+                            class="service-pricing-close"
+                            data-service-pricing-close
+                            aria-label="Close pricing details"
+                        >
+                            <i class="ion-ios-close-empty" aria-hidden="true"></i>
+                        </button>
+                        <div class="service-pricing-copy">
+                            <p class="section-kicker">Market Pricing Snapshot</p>
+                            <h3 id="service-pricing-title">Website | 网站</h3>
+                            <p data-service-pricing-summary>
+                                Typical market ranges vary by scope, country,
+                                deadline, quality bar, and maintenance needs.
+                            </p>
+                        </div>
+                        <div
+                            class="service-pricing-ranges"
+                            data-service-pricing-ranges
+                        ></div>
+                        <div class="service-pricing-hunter">
+                            <span>Why ask Hunter</span>
+                            <p data-service-pricing-hunter>
+                                Better offer up to 50% because the same builder
+                                can design, code, deploy, automate, and maintain
+                                the stack.
+                            </p>
+                            <strong data-service-pricing-proof>
+                                Real track record: shipped portfolio demos,
+                                mobile apps, AI systems, games, and 3D product
+                                proof.
+                            </strong>
                         </div>
                     </div>
                 </div>
@@ -3868,14 +3926,13 @@
             data-nav-label="Contact"
             data-nav-label-zh="联系"
         >
-            <h2 class="contact-section-title">CONTACT ME</h2>
             <div
                 class="contact-footer-bg is-hunter-active"
                 data-hunter-zone="contact-footer"
                 aria-hidden="true"
             >
                 <img
-                    src="images/founder-banner.jpeg"
+                    src="images/founder-banner-contact-email.webp"
                     width="1280"
                     height="511"
                     alt=""
@@ -3883,75 +3940,14 @@
                     decoding="async"
                 />
             </div>
-            <div class="container">
+            <div class="container contact-footer-shell">
                 <div class="contact-block1">
                     <div class="row">
                         <div class="col-lg-6">
                             <div
                                 class="contact-contact"
-                                aria-label="Hunter Ho contact details"
-                            >
-                                <div class="contact-info-dock">
-                                    <div class="contact-panel contact-region">
-                                        <span class="contact-kicker"
-                                            >On-site / Remote</span
-                                        >
-                                        <p>
-                                            MALAYSIA & SINGAPORE (On-Site) /
-                                            Worldwide (Remote Any Timezone )
-                                        </p>
-                                        <p>
-                                            KUALU LUMPUR, SELANGOR, PENANG,
-                                            JOHOR BAHRU
-                                        </p>
-                                    </div>
-                                    <div class="contact-panel contact-links">
-                                        <span class="contact-kicker"
-                                            >Direct Contact</span
-                                        >
-                                        <ul class="contact-details">
-                                            <li>
-                                                <span
-                                                    >Whatsapp:
-                                                    <a
-                                                        href="https://wa.me/60162199186"
-                                                        >+60 016-2199186</a
-                                                    ></span
-                                                >
-                                            </li>
-                                            <li>
-                                                <span
-                                                    >Email:
-                                                    HunterHo.My@gmail.com</span
-                                                >
-                                            </li>
-                                            <li>
-                                                <span
-                                                    >Linkedin:
-                                                    <a
-                                                        href="https://my.linkedin.com/in/hunter-ho-0bb450114"
-                                                        >Profile</a
-                                                    ></span
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="contact-panel contact-offer">
-                                    <span class="contact-kicker"
-                                        >Maintenance Offer</span
-                                    >
-                                    <div class="contact-discount">
-                                        <span class="discount-text"
-                                            >50% Discount</span
-                                        >
-                                        <span
-                                            >Of Your Current Using Service (Any
-                                            Server/Hosting)</span
-                                        >
-                                    </div>
-                                </div>
-                            </div>
+                                aria-label="On-site or remote: Malaysia and Singapore on-site, worldwide remote any timezone. Direct contact email: HunterHo.My@gmail.com."
+                            ></div>
                         </div>
 
                         <!-- <div class="col-lg-6">
@@ -3999,9 +3995,24 @@
                       </div> -->
                     </div>
                 </div>
-            </div>
-            <div class="contact-copyright-dock" aria-live="polite">
-                <span>&copy; Copyrights Hunter Ho. All rights reserved.</span>
+                <div class="contact-footer-lower">
+                    <div class="contact-info-dock">
+                        <div class="contact-panel contact-offer">
+                            <span class="contact-kicker">Service Offer</span>
+                            <div class="contact-discount">
+                                <span class="discount-text">50% Discount</span>
+                                <span
+                                    >Save up to 50% on server/hosting maintenance.</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-copyright-dock" aria-live="polite">
+                        <span
+                            >&copy; Copyrights Hunter Ho. All rights reserved.</span
+                        >
+                    </div>
+                </div>
             </div>
         </div>
         <!-- start sectoion contact -->
@@ -4091,7 +4102,7 @@
 
         <!-- JavaScript Libraries -->
         <script src="lib/jquery/jquery.min.js" defer></script>
-        <script src="js/main.js?v=2.1.0" defer></script>
+        <script src="js/main.js?v=2.1.6" defer></script>
     </body>
 </html>
 

@@ -506,7 +506,7 @@ for (const behavior of ["localStorage", "data-theme", "portfolio-language", "pro
 }
 
 assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner-contact-email.webp") && fs.existsSync("images/founder-banner-contact-email.webp"), "Contact/footer section should use the simplified printed email contact banner image as its background");
-assert.ok(html.includes('css/style.css?v=2.1.9'), "Main stylesheet cache key should be bumped for the free-height contact footer layout");
+assert.ok(html.includes('css/style.css?v=2.1.10'), "Main stylesheet cache key should be bumped for the tighter free-height contact footer layout");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg") && css.includes("position: relative") && css.includes(".contact-footer-bg img") && css.includes("height: auto") && css.includes("object-fit: contain") && css.includes("object-position: center top"), "Founder footer background should render at its natural height without cropping banner information");
@@ -637,7 +637,7 @@ assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection
 assert.ok(startupLabSection.indexOf("TrillionUnicorn Startup Lab") < startupLabSection.indexOf("startup-tech-stack-flow"), "Startup Lab description should sit above the looping tech stack rows");
 assert.ok(css.includes(".startup-founder-roles") && css.includes("grid-column: 1 / -1") && css.includes("grid-template-columns: repeat(6, minmax(0, 1fr))"), "Founder role chips should use a full-width six-column row below the image on desktop");
 assert.ok(css.includes(".startup-founder-band") && css.includes("align-items: start") && css.includes("grid-template-columns: minmax(0, 1fr)"), "Startup Lab top layout should collapse to a single full-width video row");
-assert.ok(css.includes(".startup-founder-video-hero") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("min-height: clamp(460px, 46vw, 720px)"), "Startup video should take the full top-row space with a larger desktop hero height");
+assert.ok(css.includes(".startup-founder-video-hero") && css.includes("justify-self: center") && css.includes("width: min(100%, 1680px)") && css.includes("margin-inline: auto") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("min-height: clamp(460px, 46vw, 720px)"), "Startup video should stay centered in the section while keeping the larger desktop hero height");
 assert.ok(css.includes(".startup-founder-video-hero") && css.includes("overflow: visible") && css.includes("box-shadow: none") && css.includes(".startup-video-frame") && css.includes("background: transparent") && css.includes(".startup-sound-note") && css.includes("margin: 14px 0 0") && css.includes("padding: 0"), "Startup video should embed without a decorative frame and keep only a simple reminder row below");
 assert.ok(css.includes("@media (max-width: 767px)") && css.includes(".startup-founder-roles") && css.includes("display: none"), "Founder role chips should be hidden on mobile instead of becoming clipped horizontal controls");
 assert.ok(startupLabSection.includes("startup-tech-stack-flow"), "Startup founder band should include a three-layer tech stack flow in the empty strip before Proof Theater");
@@ -875,7 +875,7 @@ assert.ok(js.includes("setupFounderFinalProofFocus") && js.includes("data-final-
 assert.ok(js.includes("positionFounderFinalConnectors") && js.includes("founderFinalProofPoints") && js.includes("--connector-angle"), "Founder theater should calculate connector endpoints from live card positions and poster target points");
 assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("window.setTimeout(positionFounderFinalConnectors, 820)"), "Founder connector positioning should reschedule after final-state scroll and callout intro animation settle");
 assert.ok(js.includes("setFounderFinalCalloutPresence") && js.includes("finalCalloutsVisible") && js.includes("setFounderProofSpotlight") && js.includes("--proof-spotlight-clip"), "Founder theater should run final callout entry once per final-state transition and update the focused color spotlight");
-assert.ok(js.includes('ai: { x: 0.24, y: 0.54') && js.includes('world: { x: 0.81, y: 0.535') && js.includes('win: { x: 0.25, y: 0.8') && js.includes('teach: { x: 0.73, y: 0.77'), "Ahfaiz, WorldCup, Hackathon, and Teaching proof spotlight masks should stay aligned to the adjusted annotated target positions");
+assert.ok(js.includes('sport: { x: 0.26, y: 0.205') && js.includes('ai: { x: 0.24, y: 0.54') && js.includes('world: { x: 0.81, y: 0.535') && js.includes('win: { x: 0.25, y: 0.8') && js.includes('teach: { x: 0.73, y: 0.77'), "Sport, Ahfaiz, WorldCup, Hackathon, and Teaching proof spotlight masks should stay aligned to the adjusted annotated target positions");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 assert.ok(!founderJourneyCss.includes("width: min(78vw, 920px)"), "Founder poster should not keep the old narrow width");
@@ -983,11 +983,13 @@ assert.ok(speakerSection.includes("teaching-section-heading") && speakerSection.
 assert.ok(speakerSection.includes("boot camp teaching") && speakerSection.includes("back to the community"), "Teaching section intro should frame invited sessions as giving practical IT back to the community");
 assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length, 4, "Speaker & Teaching should only keep four teaching cards");
 assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 4, "Teaching cards should wrap real images in a stable media frame");
-assert.ok(hackathonWinsSection.includes("hackathon-glass-carousel") && hackathonWinsSection.includes("Real Hackathon Wins"), "Hackathon wins should keep the title and become a liquid-glass carousel gallery");
+assert.ok(hackathonWinsSection.includes("hackathon-glass-carousel") && hackathonWinsSection.includes("Hunter Timeline + Happening"), "The wins section should evolve into a broader Hunter timeline and happening gallery");
 assert.ok(!html.includes("hackathon-proof-wall"), "Standalone Champion Stage proof wall should be removed");
-assert.equal((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length, 2, "Hackathon carousel should show only the verified user-supplied/local event image cards");
-assert.equal((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length, 2, "Every hackathon carousel card should use a real image element");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 2, "Timeline gallery should support multiple real event cards and stay open-ended for future additions");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 2, "Every timeline card should use a real image element");
 assert.ok(!hackathonWinsSection.includes("hackathon-card-placeholder"), "Hackathon carousel should not keep placeholder cards after real event images are available");
+assert.ok(hackathonWinsSection.includes("Outside Full-Time Work") && hackathonWinsSection.includes("Web3 events") && hackathonWinsSection.includes("team highlights"), "Timeline gallery intro should frame the section as activity outside full-time work");
+assert.ok(hackathonWinsSection.includes("Hackathons") && hackathonWinsSection.includes("Startup") && hackathonWinsSection.includes("Team Highlights"), "Timeline gallery should expose quick category cues instead of only win-focused framing");
 for (const hackathonAsset of [
   "images/hackathon/deriv-ai-hackathon-stage-2025.jpg",
   "images/hackathon/deriv-ai-hackathon-countdown.jpg"
@@ -1004,6 +1006,7 @@ for (const unrelatedHackathonAsset of [
 }
 assert.ok(hackathonWinsSection.includes("Cyberjaya") && hackathonWinsSection.includes("RM15,000") && hackathonWinsSection.includes("AI Champion"), "Hackathon carousel should surface event metadata and achievement outcomes");
 assert.ok(hackathonWinsSection.includes("data-carousel-prev") && hackathonWinsSection.includes("data-carousel-next"), "Hackathon carousel should expose previous and next controls");
+assert.ok(hackathonWinsSection.includes("data-carousel-track"), "Timeline gallery should identify the moving media track in markup");
 assert.ok(html.indexOf('href="#speaker-teaching"') < html.indexOf('href="#hackathon-wins"'), "Navbar order should place Teaching before Wins after moving the wins block");
 for (const realTeachingAsset of [
   "images/teaching/teaching-n8n-event.jpeg",
@@ -1029,9 +1032,9 @@ assert.ok(css.includes(".real-teaching-grid"), "Teaching cards should use a dedi
 assert.ok(css.includes(".teaching-section-heading") && css.includes(".teaching-card-media") && css.includes("aspect-ratio") && css.includes("object-fit: contain"), "Teaching section CSS should size the title and fit full real images without cropping");
 assert.ok(css.includes(".teaching-card-copy") && css.includes("color: #f8f2e6") && css.includes("rgba(247, 243, 232, 0.74)"), "Teaching card copy should stay readable on the dark card surface in light and dark themes");
 assert.ok(css.includes(".hackathon-carousel-stage") && css.includes("perspective:") && css.includes("transform-style: preserve-3d"), "Hackathon carousel should use a real 3D stage");
-assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY(var(--carousel-rotation))"), "Hackathon carousel cards should use liquid-glass styling and 3D rotation");
+assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY("), "Timeline cards should keep liquid-glass styling and 3D tilt");
 assert.ok(js.includes("setupHackathonGlassCarousel") && js.includes("data-hackathon-carousel") && js.includes("data-carousel-next"), "Hackathon carousel should be controlled by JavaScript");
-assert.ok(js.includes("activeStep") && js.includes("--carousel-active") && js.includes("setControlsDisabled") && js.includes("pointerdown") && js.includes("dragThreshold"), "Hackathon carousel should loop continuously, guard button clicks during animation, and support left/right dragging");
+assert.ok(js.includes("requestAnimationFrame") && js.includes("trackOffset") && js.includes("trackVelocity") && js.includes("pointerdown") && js.includes("dragThreshold"), "Timeline gallery should use continuous motion, drag support, and scalable track state for near-endless scrolling");
 
 for (const oldHeroOverlay of [
   "hero-layer-vignette",

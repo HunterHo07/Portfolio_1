@@ -338,11 +338,12 @@ const requiredAssets = [
   "images/demo-thumb-qstyle-3d-models-lab-mobile.png",
   "images/hackathon/deriv-ai-hackathon-stage-2025.jpg",
   "images/hackathon/deriv-ai-hackathon-countdown.jpg",
+  "images/ui/hackathon-champion-stage-v2.png",
   "images/demo-thumb-mobile-warrantyscan.jpg",
   "images/demo-thumb-mobile-namecard.jpg",
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-vibe-coding-101.svg",
-  "images/teaching/teaching-intro-n8n-basics-2026.svg",
+  "images/teaching/teaching-vibe-coding-101.png",
+  "images/teaching/teaching-intro-n8n-basics-2026.png",
   "images/teaching/teaching-tech-readiness.jpeg",
   "images/teaching/teaching-productivity.jpeg",
   "images/ui/cinematic-product-overlay.jpg",
@@ -705,8 +706,8 @@ for (const token of [
   "proof-motion-wall",
   "real-teaching-grid",
   "teaching-non-it-vs-real-it.jpeg",
-  "teaching-vibe-coding-101.svg",
-  "teaching-intro-n8n-basics-2026.svg",
+  "teaching-vibe-coding-101.png",
+  "teaching-intro-n8n-basics-2026.png",
   "teaching-tech-readiness.jpeg",
   "teaching-productivity.jpeg",
   "hero-three-stage",
@@ -988,14 +989,19 @@ assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length
 assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 5, "Teaching cards should wrap all five teaching posters in a stable media frame");
 assert.ok(hackathonWinsSection.includes("hackathon-glass-carousel") && hackathonWinsSection.includes("Hunter Timeline + Happening"), "The wins section should evolve into a broader Hunter timeline and happening gallery");
 assert.ok(!html.includes("hackathon-proof-wall"), "Standalone Champion Stage proof wall should be removed");
-assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 2, "Timeline gallery should support multiple real event cards and stay open-ended for future additions");
-assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 2, "Every timeline card should use a real image element");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 7, "Timeline gallery should support many real event cards and stay open-ended for future additions");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 7, "Every timeline card should use a real image element");
 assert.ok(!hackathonWinsSection.includes("hackathon-card-placeholder"), "Hackathon carousel should not keep placeholder cards after real event images are available");
 assert.ok(hackathonWinsSection.includes("Outside Full-Time Work") && hackathonWinsSection.includes("Web3 events") && hackathonWinsSection.includes("team highlights"), "Timeline gallery intro should frame the section as activity outside full-time work");
 assert.ok(hackathonWinsSection.includes("Hackathons") && hackathonWinsSection.includes("Startup") && hackathonWinsSection.includes("Team Highlights"), "Timeline gallery should expose quick category cues instead of only win-focused framing");
 for (const hackathonAsset of [
   "images/hackathon/deriv-ai-hackathon-stage-2025.jpg",
-  "images/hackathon/deriv-ai-hackathon-countdown.jpg"
+  "images/hackathon/deriv-ai-hackathon-countdown.jpg",
+  "images/ui/hackathon-champion-stage-v2.png",
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg"
 ]) {
   assert.ok(hackathonWinsSection.includes(hackathonAsset), `Hackathon carousel should include real event asset: ${hackathonAsset}`);
 }
@@ -1013,8 +1019,8 @@ assert.ok(hackathonWinsSection.includes("data-carousel-track"), "Timeline galler
 assert.ok(html.indexOf('href="#speaker-teaching"') < html.indexOf('href="#hackathon-wins"'), "Navbar order should place Teaching before Wins after moving the wins block");
 for (const realTeachingAsset of [
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-vibe-coding-101.svg",
-  "images/teaching/teaching-intro-n8n-basics-2026.svg",
+  "images/teaching/teaching-vibe-coding-101.png",
+  "images/teaching/teaching-intro-n8n-basics-2026.png",
   "images/teaching/teaching-tech-readiness.jpeg",
   "images/teaching/teaching-productivity.jpeg"
 ]) {

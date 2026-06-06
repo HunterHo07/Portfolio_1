@@ -189,7 +189,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.1.1",
+  "Hunter v2.1.2",
 ];
 
 const requestedDemoUrls = [
@@ -539,7 +539,7 @@ assert.ok(html.includes("contact-banner-copy") && html.includes("contact-banner-
 assert.ok(js.includes("applyStaticCopy") && js.includes(".contact-banner-region") && js.includes("contactEmailLabel") && js.includes("马来西亚与新加坡可现场"), "Static page copy and contact banner text should be wired into the CN/EN language switch");
 assert.ok(js.includes("servicePricingDataZh") && js.includes("为什么找 Hunter") && js.includes("projectThinking") && js.includes("getLocalizedProjectTitle(projectTitle)"), "Runtime modals and project cards should localize CN/EN copy beyond the original data-i18n nodes");
 assert.ok(!js.includes("founder-banner-contact-email-cn.webp") && !html.includes("founder-banner-contact-email-cn.webp") && js.includes("images/founder-banner-cn.webp"), "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant");
-assert.ok(html.includes('css/style.css?v=2.1.12'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
+assert.ok(html.includes('css/style.css?v=2.1.13'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg") && css.includes("position: relative") && css.includes(".contact-footer-bg img") && css.includes("height: auto") && css.includes("object-fit: contain") && css.includes("object-position: center top"), "Founder footer background should render at its natural height without cropping banner information");
@@ -555,7 +555,7 @@ assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&cop
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
 assert.ok(css.includes(".contact-copyright-dock") && css.includes("left: 50%") && css.includes("bottom: clamp(10px, 1.8vw, 18px)") && css.includes("translate3d(-50%, calc(100% + 24px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should stay centered on the image background and animate from below");
 assert.ok(!css.includes("min-height: 1080px") && !css.includes("min-height: clamp(540px, 78vw, 640px)") && !css.includes("min-height: clamp(500px, 132vw, 560px)"), "Contact footer should no longer reserve fixed-height blank space below the banner");
-assert.ok(html.includes("js/main.js?v=2.1.7"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
+assert.ok(html.includes("js/main.js?v=2.1.8"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
 assert.ok(js.includes("setupContactCopyrightDock") && js.includes("contact-copyright-dock") && js.includes("is-visible"), "Copyright dock should be controlled by scroll/intersection state");
 assert.ok(!css.includes(".contact-parallax-bg") && !css.includes(".contact-layer-person"), "Contact/footer CSS should not keep the old layered parallax selectors");
 const visibleHtmlText = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
@@ -572,7 +572,7 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(!js.includes("is-over-contact"), "Floating helper should continue showing at the footer instead of being suppressed over the contact section");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.1"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.2"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -764,7 +764,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.1.1",
+  "v2.1.2",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -922,7 +922,8 @@ assert.ok(js.includes("handleFounderFinalProofOutsideClick") && js.includes('jou
 assert.ok(js.includes("positionFounderFinalConnectors") && js.includes("founderFinalProofPoints") && js.includes("--connector-angle"), "Founder theater should calculate connector endpoints from live card positions and poster target points");
 assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("founderFinalConnectorRevealLeadMs + founderFinalConnectorIntroMs") && js.includes("window.setTimeout(function () {\n          positionFounderFinalConnectors();\n          journey.classList.add(\"is-final-callout-entering\")") , "Founder connector positioning should wait for the stabilized final geometry before intro reveal and reschedule again after callout intro settles");
 assert.ok(js.includes("setFounderFinalCalloutPresence") && js.includes("finalCalloutsVisible") && js.includes("setFounderProofSpotlight") && js.includes("--proof-spotlight-clip"), "Founder theater should run final callout entry once per final-state transition and update the focused color spotlight");
-assert.ok(js.includes('sport: { x: 0.255, y: 0.205') && js.includes('ai: { x: 0.235, y: 0.535') && js.includes('world: { x: 0.8, y: 0.535') && js.includes('win: { x: 0.265, y: 0.81') && js.includes('teach: { x: 0.715, y: 0.78') && js.includes("borderScale = Math.max(") && js.includes("borderX = buttonCenterX + (deltaToTargetX / borderScale)") && js.includes("startX = borderX + (deltaToTargetX / directionLength) * 8"), "Proof spotlight masks and connector exits should stay aligned to the refined per-proof target positions and leave each card from the true border toward the target");
+assert.ok(js.includes('sport: { x: 0.255, y: 0.205, connectorY: 0.21') && js.includes('cto: { x: 0.645, y: 0.235') && js.includes('world: { x: 0.78, y: 0.565') && js.includes('teach: { x: 0.655, y: 0.82') && js.includes('anchorSide: "left"') && js.includes('anchorY: 0.72') && js.includes('anchorY: 0.8') && js.includes('anchorY: 0.16') && js.includes("targetPointY = typeof point.connectorY === \"number\" ? point.connectorY : point.y") && js.includes("borderScale = Math.max(") && js.includes("if (point.anchorSide)") && js.includes("startX = point.anchorSide === \"left\""), "Proof spotlight masks and connector exits should keep the left proofs on border-intersection math while allowing connector-only target nudges where needed");
+assert.ok(js.includes("isFounderJourneyMobileMode()") && js.includes("setFounderPosterLayerState(maxState, 1)") && js.includes("journey.scrollIntoView({") && css.includes("@media (max-width: 600px)") && css.includes(".founder-journey-steps {") && css.includes(".founder-theater-controls {") && css.includes("display: none;"), "Mobile founder journey should jump directly to the final proof poster and remove extra proof-state controls");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 assert.ok(!founderJourneyCss.includes("width: min(78vw, 920px)"), "Founder poster should not keep the old narrow width");

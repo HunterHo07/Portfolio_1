@@ -1116,6 +1116,10 @@
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  function isFounderJourneyMobileMode() {
+    return window.matchMedia && window.matchMedia("(max-width: 600px)").matches;
+  }
+
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
   }
@@ -1241,12 +1245,12 @@
     var founderFinalConnectorRevealLeadMs = 160;
     var founderFinalConnectorIntroMs = 1720;
     var founderFinalProofPoints = {
-      sport: { x: 0.255, y: 0.205, tone: "#ff7a5c", radius: "ellipse(18% 16% at 25.5% 20.5%)" },
-      cto: { x: 0.725, y: 0.215, tone: "#74e3ff", radius: "ellipse(20% 16% at 72.5% 21.5%)" },
+      sport: { x: 0.255, y: 0.205, connectorY: 0.21, tone: "#ff7a5c", radius: "ellipse(18% 16% at 25.5% 20.5%)" },
+      cto: { x: 0.645, y: 0.235, tone: "#74e3ff", radius: "ellipse(20% 16% at 64.5% 23.5%)", anchorSide: "left", anchorY: 0.72, anchorOffset: 8 },
       ai: { x: 0.235, y: 0.535, tone: "#b481ff", radius: "ellipse(16% 15% at 23.5% 53.5%)" },
-      world: { x: 0.8, y: 0.535, tone: "#6ef0a1", radius: "ellipse(18% 15% at 80% 53.5%)" },
+      world: { x: 0.78, y: 0.565, tone: "#6ef0a1", radius: "ellipse(18% 15% at 78% 56.5%)", anchorSide: "left", anchorY: 0.8, anchorOffset: 8 },
       win: { x: 0.265, y: 0.81, tone: "#d8b987", radius: "ellipse(19% 15% at 26.5% 81%)" },
-      teach: { x: 0.715, y: 0.78, tone: "#ff9ed1", radius: "ellipse(21% 15% at 71.5% 78%)" }
+      teach: { x: 0.655, y: 0.82, tone: "#ff9ed1", radius: "ellipse(21% 15% at 65.5% 82%)", anchorSide: "left", anchorY: 0.16, anchorOffset: 8 }
     };
     var founderPosterScrollAnchors = [
       { scroll: "0%" },
@@ -1413,22 +1417,35 @@
         var buttonRect = button.getBoundingClientRect();
         var buttonCenterX = buttonRect.left + buttonRect.width / 2 - shellRect.left;
         var buttonCenterY = buttonRect.top + buttonRect.height / 2 - shellRect.top;
+        var targetPointY = typeof point.connectorY === "number" ? point.connectorY : point.y;
         var targetX = posterRect.left + posterRect.width * point.x - shellRect.left;
-        var targetY = posterRect.top + posterRect.height * point.y - shellRect.top;
+        var targetY = posterRect.top + posterRect.height * targetPointY - shellRect.top;
         var deltaToTargetX = targetX - buttonCenterX;
         var deltaToTargetY = targetY - buttonCenterY;
         var halfWidth = buttonRect.width / 2;
         var halfHeight = buttonRect.height / 2;
-        var borderScale = Math.max(
-          Math.abs(deltaToTargetX) / Math.max(halfWidth, 1),
-          Math.abs(deltaToTargetY) / Math.max(halfHeight, 1),
-          1
-        );
-        var borderX = buttonCenterX + (deltaToTargetX / borderScale);
-        var borderY = buttonCenterY + (deltaToTargetY / borderScale);
         var directionLength = Math.max(Math.sqrt(deltaToTargetX * deltaToTargetX + deltaToTargetY * deltaToTargetY), 1);
-        var startX = borderX + (deltaToTargetX / directionLength) * 8;
-        var startY = borderY + (deltaToTargetY / directionLength) * 8;
+        var startX;
+        var startY;
+
+        if (point.anchorSide) {
+          var anchorOffset = typeof point.anchorOffset === "number" ? point.anchorOffset : 8;
+          var anchorY = typeof point.anchorY === "number" ? point.anchorY : 0.5;
+          startX = point.anchorSide === "left"
+            ? buttonRect.left - shellRect.left - anchorOffset
+            : buttonRect.right - shellRect.left + anchorOffset;
+          startY = buttonRect.top + buttonRect.height * anchorY - shellRect.top;
+        } else {
+          var borderScale = Math.max(
+            Math.abs(deltaToTargetX) / Math.max(halfWidth, 1),
+            Math.abs(deltaToTargetY) / Math.max(halfHeight, 1),
+            1
+          );
+          var borderX = buttonCenterX + (deltaToTargetX / borderScale);
+          var borderY = buttonCenterY + (deltaToTargetY / borderScale);
+          startX = borderX + (deltaToTargetX / directionLength) * 8;
+          startY = borderY + (deltaToTargetY / directionLength) * 8;
+        }
         var deltaX = targetX - startX;
         var deltaY = targetY - startY;
         var connectorLength = Math.max(Math.sqrt(deltaX * deltaX + deltaY * deltaY), 1);
@@ -1663,6 +1680,12 @@
     }
 
     function updateJourney() {
+      if (isFounderJourneyMobileMode()) {
+        setFounderPosterLayerState(maxState, 1);
+        scheduleFounderFinalConnectorPosition();
+        return;
+      }
+
       var rect = journey.getBoundingClientRect();
       var denominator = Math.max(rect.height - window.innerHeight, 1);
       var progress = Math.min(Math.max((0 - rect.top) / denominator, 0), 1);
@@ -1671,6 +1694,16 @@
     }
 
     function scrollToFounderState(targetState, forceAuto) {
+      if (isFounderJourneyMobileMode()) {
+        journey.scrollIntoView({
+          block: "start",
+          behavior: forceAuto || isReducedMotion() ? "auto" : "smooth"
+        });
+        setFounderPosterLayerState(maxState, 1);
+        scheduleFounderFinalConnectorPosition();
+        return;
+      }
+
       var state = Math.min(maxState, Math.max(0, targetState));
       var rect = journey.getBoundingClientRect();
       var pageTop = window.pageYOffset + rect.top;
@@ -3509,10 +3542,10 @@
       slideWidth = cards[0].getBoundingClientRect().width || 220;
       ringStep = 360 / cards.length;
       ringRadius = Math.max(
-        stageWidth * 0.56,
-        slideWidth * cards.length / (Math.PI * 2) * 0.72
+        stageWidth * 0.9,
+        slideWidth * cards.length / (Math.PI * 2) * 1.16
       );
-      ringRadius = Math.min(ringRadius, Math.max(stageWidth, stageHeight) * 0.98);
+      ringRadius = Math.min(ringRadius, Math.max(stageWidth, stageHeight) * 1.68);
 
       carousel.style.setProperty("--ring-radius", String(Math.round(ringRadius)) + "px");
 

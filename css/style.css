@@ -3392,8 +3392,9 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-glass-carousel {
-  --carousel-card-width: clamp(300px, 31vw, 500px);
-  --carousel-card-height: clamp(420px, 44vw, 660px);
+  --carousel-card-width: clamp(390px, 38vw, 600px);
+  --carousel-card-height: clamp(540px, 54vw, 820px);
+  --carousel-card-gap: 5px;
   --ring-radius: 760px;
   --ring-rotation: 0deg;
   position: relative;
@@ -3430,7 +3431,7 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-stage {
   position: relative;
-  min-height: clamp(760px, 72vw, 1120px);
+  min-height: clamp(560px, 54vw, 780px);
   overflow: visible;
   border-radius: 0;
   perspective: 2200px;
@@ -3470,7 +3471,7 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-track {
   position: absolute;
-  top: 34%;
+  top: 56%;
   left: 50%;
   z-index: 1;
   width: 0;
@@ -3491,7 +3492,7 @@ body.is-hero-ready .hero-image-loader,
   left: calc(var(--carousel-card-width) / -2);
   width: var(--carousel-card-width);
   height: var(--carousel-card-height);
-  padding: clamp(12px, 1vw, 16px);
+  padding: var(--carousel-card-gap);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 24px;
   background:
@@ -3657,13 +3658,13 @@ body.is-hero-ready .hero-image-loader,
 
 @media (max-width: 767px) {
   .hackathon-glass-carousel {
-    --carousel-card-width: min(260px, 72vw);
-    --carousel-card-height: min(390px, 108vw);
+    --carousel-card-width: min(340px, 88vw);
+    --carousel-card-height: min(470px, 124vw);
     margin-top: -18px;
   }
 
   .hackathon-carousel-stage {
-    min-height: 620px;
+    min-height: 500px;
     border-radius: 0;
     perspective: 1200px;
   }
@@ -3843,20 +3844,11 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .founder-journey-steps {
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    max-height: 88px;
-    overflow: hidden;
+    display: none;
   }
 
-  .founder-journey-steps li {
-    flex-basis: calc(50% - 8px);
-    padding: 0;
-  }
-
-  .founder-journey-steps li.is-active {
-    flex-basis: calc(50% - 8px);
+  .founder-theater-controls {
+    display: none;
   }
 
   .startup-lab {

@@ -2471,14 +2471,11 @@ body.is-hero-ready .hero-image-loader,
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border: 1px solid rgba(216, 185, 135, 0.24);
-  border-radius: 8px;
+  border-bottom: 1px solid rgba(216, 185, 135, 0.16);
+  border-radius: 16px 16px 0 0;
   background:
     linear-gradient(135deg, rgba(116, 227, 255, 0.12), rgba(216, 185, 135, 0.08)),
     #050913;
-  box-shadow:
-    0 34px 95px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(116, 227, 255, 0.08);
 }
 
 .startup-video-frame iframe {
@@ -2494,7 +2491,12 @@ body.is-hero-ready .hero-image-loader,
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin: 14px 0 0;
+  min-height: 84px;
+  margin: 0;
+  padding: 18px 28px 20px;
+  border-radius: 0 0 16px 16px;
+  background:
+    linear-gradient(180deg, rgba(8, 13, 22, 0.92), rgba(5, 9, 16, 0.96));
   color: rgba(216, 226, 240, 0.82);
   font-size: 13px;
   font-weight: 700;
@@ -2660,7 +2662,8 @@ body.is-hero-ready .hero-image-loader,
 .startup-founder-video-hero {
   grid-column: 1 / -1;
   align-self: start;
-  padding: clamp(16px, 1.8vw, 24px);
+  overflow: hidden;
+  padding: 0;
   border: 1px solid rgba(116, 227, 255, 0.2);
   border-radius: 16px;
   background:
@@ -3679,6 +3682,8 @@ body.is-hero-ready .hero-image-loader,
 
   .startup-sound-note {
     display: block;
+    min-height: 0;
+    padding: 16px 18px 18px;
   }
 
   .startup-sound-note a {

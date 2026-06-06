@@ -178,13 +178,14 @@ const requiredText = [
   "3Wallet",
   "AhFai",
   "Speaker & Teaching",
-  "Intro to N8N Application & Basics",
   "Non-IT vs Real-IT",
+  "Vibe Coding 101",
+  "Intro to N8N Application &amp; Basics 2026",
   "Decoding Tech Readiness",
   "Developer Productivity Workflow",
-  "Hackathon Wins",
-  "Real Hackathon Wins",
-  "Liquid Glass Event Gallery",
+  "Outside Full-Time Work",
+  "Hunter Timeline + Happening",
+  "hackathons, Web3 events",
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
@@ -339,8 +340,9 @@ const requiredAssets = [
   "images/hackathon/deriv-ai-hackathon-countdown.jpg",
   "images/demo-thumb-mobile-warrantyscan.jpg",
   "images/demo-thumb-mobile-namecard.jpg",
-  "images/teaching/teaching-n8n-event.jpeg",
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-vibe-coding-101.svg",
+  "images/teaching/teaching-intro-n8n-basics-2026.svg",
   "images/teaching/teaching-tech-readiness.jpeg",
   "images/teaching/teaching-productivity.jpeg",
   "images/ui/cinematic-product-overlay.jpg",
@@ -506,7 +508,7 @@ for (const behavior of ["localStorage", "data-theme", "portfolio-language", "pro
 }
 
 assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner-contact-email.webp") && fs.existsSync("images/founder-banner-contact-email.webp"), "Contact/footer section should use the simplified printed email contact banner image as its background");
-assert.ok(html.includes('css/style.css?v=2.1.10'), "Main stylesheet cache key should be bumped for the tighter free-height contact footer layout");
+assert.ok(html.includes('css/style.css?v=2.1.11'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg") && css.includes("position: relative") && css.includes(".contact-footer-bg img") && css.includes("height: auto") && css.includes("object-fit: contain") && css.includes("object-position: center top"), "Founder footer background should render at its natural height without cropping banner information");
@@ -517,10 +519,10 @@ assert.ok(html.includes("Direct contact email: HunterHo.My@gmail.com") && !html.
 assert.ok(css.includes(".contact-offer") && css.includes("position: relative") && css.includes("text-align: left") && css.includes("white-space: nowrap"), "Discount offer should remain a compact live HTML panel with a single-line headline");
 assert.ok(css.includes("contactPanelIn") && css.includes("contactLightSweep") && css.includes("contactGlowPulse"), "Contact zones should have intro and lighting highlight animations");
 assert.ok(css.includes("#contact .col-lg-6") && css.includes("position: static"), "Contact card should not anchor to Bootstrap's 1px column height");
-assert.ok(html.includes('class="contact-footer-lower"') && css.includes(".contact-footer-lower") && css.includes(".contact-info-dock") && css.includes("grid-template-columns: minmax(0, 1fr)") && css.includes("margin-left: auto"), "Contact footer should place the live maintenance offer in a lower footer rail instead of anchoring it to the banner height");
+assert.ok(html.includes('class="contact-footer-lower"') && css.includes(".contact-footer-lower") && css.includes("position: absolute") && css.includes(".contact-info-dock") && css.includes("right: clamp(22px, 4vw, 56px)") && css.includes("bottom: clamp(46px, 6vw, 86px)"), "Contact footer should anchor the live maintenance offer to the image bottom-right instead of letting it drift left");
 assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&copy; Copyrights Hunter Ho. All rights reserved."), "Copyright should move into the contact section as an animated dock");
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
-assert.ok(css.includes(".contact-copyright-dock") && css.includes("translate3d(0, calc(100% + 34px), 0)") && css.includes(".contact-copyright-dock.is-visible") && css.includes("justify-self: center"), "Copyright dock should animate in and out while staying centered in the lower footer rail");
+assert.ok(css.includes(".contact-copyright-dock") && css.includes("left: 50%") && css.includes("bottom: clamp(10px, 1.8vw, 18px)") && css.includes("translate3d(-50%, calc(100% + 24px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should stay centered on the image background and animate from below");
 assert.ok(!css.includes("min-height: 1080px") && !css.includes("min-height: clamp(540px, 78vw, 640px)") && !css.includes("min-height: clamp(500px, 132vw, 560px)"), "Contact footer should no longer reserve fixed-height blank space below the banner");
 assert.ok(html.includes("js/main.js?v=2.1.6"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
 assert.ok(js.includes("setupContactCopyrightDock") && js.includes("contact-copyright-dock") && js.includes("is-visible"), "Copyright dock should be controlled by scroll/intersection state");
@@ -637,7 +639,7 @@ assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection
 assert.ok(startupLabSection.indexOf("TrillionUnicorn Startup Lab") < startupLabSection.indexOf("startup-tech-stack-flow"), "Startup Lab description should sit above the looping tech stack rows");
 assert.ok(css.includes(".startup-founder-roles") && css.includes("grid-column: 1 / -1") && css.includes("grid-template-columns: repeat(6, minmax(0, 1fr))"), "Founder role chips should use a full-width six-column row below the image on desktop");
 assert.ok(css.includes(".startup-founder-band") && css.includes("align-items: start") && css.includes("grid-template-columns: minmax(0, 1fr)"), "Startup Lab top layout should collapse to a single full-width video row");
-assert.ok(css.includes(".startup-founder-video-hero") && css.includes("justify-self: center") && css.includes("width: min(100%, 1680px)") && css.includes("margin-inline: auto") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("min-height: clamp(460px, 46vw, 720px)"), "Startup video should stay centered in the section while keeping the larger desktop hero height");
+assert.ok(css.includes(".startup-founder-video-hero") && css.includes("justify-self: center") && css.includes("width: min(100%, 1680px)") && css.includes("margin-inline: auto") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("display: block") && css.includes("justify-self: stretch") && css.includes("width: 100%") && css.includes("max-width: 100%") && css.includes("min-height: 0") && css.includes(".startup-founder-video-hero .startup-sound-note") && css.includes("justify-self: stretch") && css.includes("max-width: 100%"), "Startup video should stay centered in the section with equal left and right padding around the video and reminder row");
 assert.ok(css.includes(".startup-founder-video-hero") && css.includes("overflow: visible") && css.includes("box-shadow: none") && css.includes(".startup-video-frame") && css.includes("background: transparent") && css.includes(".startup-sound-note") && css.includes("margin: 14px 0 0") && css.includes("padding: 0"), "Startup video should embed without a decorative frame and keep only a simple reminder row below");
 assert.ok(css.includes("@media (max-width: 767px)") && css.includes(".startup-founder-roles") && css.includes("display: none"), "Founder role chips should be hidden on mobile instead of becoming clipped horizontal controls");
 assert.ok(startupLabSection.includes("startup-tech-stack-flow"), "Startup founder band should include a three-layer tech stack flow in the empty strip before Proof Theater");
@@ -702,8 +704,9 @@ for (const token of [
   "magnetic-cta",
   "proof-motion-wall",
   "real-teaching-grid",
-  "teaching-n8n-event.jpeg",
   "teaching-non-it-vs-real-it.jpeg",
+  "teaching-vibe-coding-101.svg",
+  "teaching-intro-n8n-basics-2026.svg",
   "teaching-tech-readiness.jpeg",
   "teaching-productivity.jpeg",
   "hero-three-stage",
@@ -981,8 +984,8 @@ const speakerSection = html.slice(speakerIndex, speakerEnd);
 const hackathonWinsSection = html.slice(hackathonWinsIndex, hackathonWinsEnd);
 assert.ok(speakerSection.includes("teaching-section-heading") && speakerSection.includes("IT Teaching & Community Sharing"), "Teaching section should have a compact community-sharing title above the cards");
 assert.ok(speakerSection.includes("boot camp teaching") && speakerSection.includes("back to the community"), "Teaching section intro should frame invited sessions as giving practical IT back to the community");
-assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length, 4, "Speaker & Teaching should only keep four teaching cards");
-assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 4, "Teaching cards should wrap real images in a stable media frame");
+assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length, 5, "Speaker & Teaching should keep five teaching cards after replacing the duplicate N8N poster with the new Krenovator additions");
+assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 5, "Teaching cards should wrap all five teaching posters in a stable media frame");
 assert.ok(hackathonWinsSection.includes("hackathon-glass-carousel") && hackathonWinsSection.includes("Hunter Timeline + Happening"), "The wins section should evolve into a broader Hunter timeline and happening gallery");
 assert.ok(!html.includes("hackathon-proof-wall"), "Standalone Champion Stage proof wall should be removed");
 assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 2, "Timeline gallery should support multiple real event cards and stay open-ended for future additions");
@@ -1009,13 +1012,15 @@ assert.ok(hackathonWinsSection.includes("data-carousel-prev") && hackathonWinsSe
 assert.ok(hackathonWinsSection.includes("data-carousel-track"), "Timeline gallery should identify the moving media track in markup");
 assert.ok(html.indexOf('href="#speaker-teaching"') < html.indexOf('href="#hackathon-wins"'), "Navbar order should place Teaching before Wins after moving the wins block");
 for (const realTeachingAsset of [
-  "images/teaching/teaching-n8n-event.jpeg",
   "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-vibe-coding-101.svg",
+  "images/teaching/teaching-intro-n8n-basics-2026.svg",
   "images/teaching/teaching-tech-readiness.jpeg",
   "images/teaching/teaching-productivity.jpeg"
 ]) {
   assert.ok(speakerSection.includes(realTeachingAsset), `Teaching section should use real class/invitation image: ${realTeachingAsset}`);
 }
+assert.ok(!speakerSection.includes("images/teaching/teaching-n8n-event.jpeg"), "Teaching section should drop the older duplicate N8N invitation image once the new 2026 Krenovator poster is added");
 for (const oldSafeTeachingAsset of [
   "images/teaching/teaching-safe-online.png",
   "images/teaching/teaching-safe-onsite.png",

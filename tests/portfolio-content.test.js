@@ -158,8 +158,6 @@ const requiredText = [
   "husky-helper",
   "parallax-backdrop",
   "data-theme",
-  "Founder Vision",
-  "Hunter promo video",
   "Ahfaiz Founder",
   "AI Automation Teacher",
   "CTO / Startup Builder",
@@ -622,30 +620,24 @@ assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should 
 assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
 assert.ok(!html.includes("startup-metrics") && !html.includes("startup-grid") && !html.includes("Platform Foundation"), "Startup lab should not keep the old heavy metric/card grid");
 assert.ok(css.includes(".startup-video-frame") && css.includes(".startup-icon-row") && css.includes(".startup-sound-note"), "Startup lab should include focused video and compact icon styling");
-assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("Founder Vision") && startupLabSection.includes("Hunter promo video"), "Founder Vision intro should stay as a compact lead-in beside the video hero");
+assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("startup-founder-video-hero"), "Startup Lab should keep the video hero as the top lead element");
+assert.ok(!startupLabSection.includes("Founder Vision") && !startupLabSection.includes("Hunter promo video") && !startupLabSection.includes("Founder, builder, teacher, and shipped-system operator."), "Startup Lab should remove the temporary Founder Vision copy block");
 assert.ok(!startupLabSection.includes("startup-lab-shell"), "Startup Lab should no longer keep a separate video/copy shell above Founder Vision");
 assert.ok(!html.includes('href="#founder-vision"') && !html.includes('data-nav-label="Vision"'), "Removed Founder Vision section should not leave a navbar target behind");
 assert.ok(css.includes(".startup-founder-band") && css.includes(".startup-founder-roles"), "Startup Lab should include dedicated bottom Founder Vision styling");
 assert.ok(!startupLabSection.includes("startup-founder-proof-preview") && !startupLabSection.includes("founder-poster-08-all-hunters.webp"), "Startup Lab should remove the old founder poster preview from this section");
-const founderCopyStart = startupLabSection.indexOf("startup-founder-copy");
-const founderCopyEnd = startupLabSection.indexOf("startup-founder-video-hero");
-const founderCopyMarkup = startupLabSection.slice(founderCopyStart, founderCopyEnd);
 const founderVideoStart = startupLabSection.indexOf("startup-founder-video-hero");
 const founderVideoEnd = startupLabSection.indexOf("startup-lab-copy");
 const founderVideoMarkup = startupLabSection.slice(founderVideoStart, founderVideoEnd);
-assert.ok(!founderCopyMarkup.includes("startup-video-frame") && !founderCopyMarkup.includes("startup-sound-note"), "Founder copy column should stay text-only after making the video the section hero");
 assert.ok(founderVideoMarkup.includes("startup-video-frame") && founderVideoMarkup.includes("startup-sound-note"), "Startup video hero should own the video frame and sound note");
-assert.ok(startupLabSection.indexOf("startup-lab-copy") > startupLabSection.indexOf("startup-founder-video-hero"), "Startup Lab description should sit below the Founder Vision and video hero row");
+assert.ok(startupLabSection.indexOf("startup-lab-copy") > startupLabSection.indexOf("startup-founder-video-hero"), "Startup Lab description should sit below the full-width video hero row");
 assert.ok(startupLabSection.indexOf("startup-icon-row") > startupLabSection.indexOf("startup-lab-copy"), "Startup project icons should sit below the Startup Lab description copy");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("startup-icon-row"), "Founder role tags should sit below the startup project icons");
-assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("Founder, builder, teacher, and shipped-system operator."), "Founder role chips should sit below the compact Founder Vision copy");
 assert.ok(startupLabSection.indexOf("startup-founder-roles") > startupLabSection.indexOf("TrillionUnicorn Startup Lab"), "Founder role tags should sit below the Startup Lab description copy");
 assert.ok(startupLabSection.indexOf("TrillionUnicorn Startup Lab") < startupLabSection.indexOf("startup-tech-stack-flow"), "Startup Lab description should sit above the looping tech stack rows");
 assert.ok(css.includes(".startup-founder-roles") && css.includes("grid-column: 1 / -1") && css.includes("grid-template-columns: repeat(6, minmax(0, 1fr))"), "Founder role chips should use a full-width six-column row below the image on desktop");
-assert.ok(css.includes(".startup-founder-band") && css.includes("align-items: start"), "Founder Vision top layout should align to the top of the Startup Lab section");
-assert.ok(css.includes(".startup-founder-copy") && css.includes("align-self: start"), "Founder Vision text should sit at the top-left of the section");
-assert.ok(css.includes(".startup-founder-band") && css.includes("grid-template-columns: minmax(260px, 0.48fr) minmax(620px, 1.18fr)"), "Desktop Startup Lab should allocate more width to the video hero than the Founder Vision copy");
-assert.ok(css.includes(".startup-founder-video-hero") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("min-height: clamp(420px, 42vw, 620px)"), "Startup video should be promoted into a larger hero panel on desktop");
+assert.ok(css.includes(".startup-founder-band") && css.includes("align-items: start") && css.includes("grid-template-columns: minmax(0, 1fr)"), "Startup Lab top layout should collapse to a single full-width video row");
+assert.ok(css.includes(".startup-founder-video-hero") && css.includes(".startup-founder-video-hero .startup-video-frame") && css.includes("min-height: clamp(460px, 46vw, 720px)"), "Startup video should take the full top-row space with a larger desktop hero height");
 assert.ok(css.includes("@media (max-width: 767px)") && css.includes(".startup-founder-roles") && css.includes("display: none"), "Founder role chips should be hidden on mobile instead of becoming clipped horizontal controls");
 assert.ok(startupLabSection.includes("startup-tech-stack-flow"), "Startup founder band should include a three-layer tech stack flow in the empty strip before Proof Theater");
 assert.equal((startupLabSection.match(/class="tech-stack-row/g) || []).length, 3, "Startup tech stack flow should have exactly three animated rows");
@@ -876,12 +868,13 @@ assert.ok(founderJourneyCss.includes("--proof-scan-angle") && founderJourneyCss.
 assert.ok(founderJourneyCss.includes(".founder-journey.has-final-proof-focus .founder-poster-layer-all") && founderJourneyCss.includes("filter: grayscale"), "Hovering/clicking a final proof should gray out other poster content");
 assert.ok(founderJourneyCss.includes(".founder-final-callout.is-focused") && founderJourneyCss.includes(".founder-proof-connector.is-focused"), "Focused final proof should highlight its card and connector line");
 assert.ok(founderJourneyCss.includes("translate3d(-170%, 0, 0)") && founderJourneyCss.includes("translate3d(340%, 0, 0)") && founderJourneyCss.includes("animation-play-state: paused"), "Founder final callout scan should travel fully off-card and pause on inactive focused-state cards to avoid stuck highlight blocks");
+assert.ok(founderJourneyCss.includes("--proof-scan-duration: 1.95s") && founderJourneyCss.includes("--proof-scan-duration: 3.05s"), "Founder final callout text-box scan effects should run at the faster 2x speed");
 assert.ok(founderJourneyCss.includes('data-final-proof-focus="win"') && founderJourneyCss.includes('data-final-proof-focus="teach"') && founderJourneyCss.includes("top: clamp(108px, 12vh, 150px)") && founderJourneyCss.includes("bottom: auto"), "Proof 05 and 06 detail drawers should move upward so they do not cover the lower poster panels");
 assert.ok(js.includes("setupFounderFinalProofFocus") && js.includes("data-final-proof") && js.includes("setFinalProofFocus") && js.includes("founder-proof-detail-drawer"), "Founder theater should support hover/click focus details for final proof callouts");
 assert.ok(js.includes("positionFounderFinalConnectors") && js.includes("founderFinalProofPoints") && js.includes("--connector-angle"), "Founder theater should calculate connector endpoints from live card positions and poster target points");
 assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("window.setTimeout(positionFounderFinalConnectors, 820)"), "Founder connector positioning should reschedule after final-state scroll and callout intro animation settle");
 assert.ok(js.includes("setFounderFinalCalloutPresence") && js.includes("finalCalloutsVisible") && js.includes("setFounderProofSpotlight") && js.includes("--proof-spotlight-clip"), "Founder theater should run final callout entry once per final-state transition and update the focused color spotlight");
-assert.ok(js.includes('world: { x: 0.8, y: 0.54') && js.includes('win: { x: 0.25, y: 0.8') && js.includes('teach: { x: 0.73, y: 0.77'), "WorldCup, Hackathon, and Teaching proof spotlight masks should stay aligned to the adjusted annotated target positions");
+assert.ok(js.includes('ai: { x: 0.24, y: 0.54') && js.includes('world: { x: 0.81, y: 0.535') && js.includes('win: { x: 0.25, y: 0.8') && js.includes('teach: { x: 0.73, y: 0.77'), "Ahfaiz, WorldCup, Hackathon, and Teaching proof spotlight masks should stay aligned to the adjusted annotated target positions");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 assert.ok(!founderJourneyCss.includes("width: min(78vw, 920px)"), "Founder poster should not keep the old narrow width");

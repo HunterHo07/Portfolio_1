@@ -2208,7 +2208,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="sport"] {
   --proof-tone: #ff7a5c;
   --proof-scan-angle: 112deg;
-  --proof-scan-duration: 3.9s;
+  --proof-scan-duration: 1.95s;
   --proof-glow-duration: 5.1s;
   --proof-focus-y: -5px;
   border-radius: 14px 20px 14px 14px;
@@ -2217,7 +2217,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="cto"] {
   --proof-tone: #74e3ff;
   --proof-scan-angle: 72deg;
-  --proof-scan-duration: 5.4s;
+  --proof-scan-duration: 2.7s;
   --proof-glow-duration: 4.8s;
   --proof-focus-scale: 1.035;
   border-radius: 18px 14px 18px 14px;
@@ -2226,7 +2226,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="ai"] {
   --proof-tone: #b481ff;
   --proof-scan-angle: 28deg;
-  --proof-scan-duration: 4.35s;
+  --proof-scan-duration: 2.175s;
   --proof-glow-duration: 6.2s;
   --proof-focus-y: -3px;
   border-radius: 14px 14px 22px 14px;
@@ -2235,7 +2235,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="world"] {
   --proof-tone: #6ef0a1;
   --proof-scan-angle: 148deg;
-  --proof-scan-duration: 5.8s;
+  --proof-scan-duration: 2.9s;
   --proof-glow-duration: 5.4s;
   --proof-focus-scale: 1.018;
   border-radius: 14px 22px 14px 18px;
@@ -2244,7 +2244,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="win"] {
   --proof-tone: #d8b987;
   --proof-scan-angle: 92deg;
-  --proof-scan-duration: 4.15s;
+  --proof-scan-duration: 2.075s;
   --proof-glow-duration: 4.6s;
   --proof-focus-y: -6px;
   border-radius: 22px 14px 14px 18px;
@@ -2253,7 +2253,7 @@ body.is-hero-ready .hero-image-loader,
 .founder-final-callout[data-proof-tone="teach"] {
   --proof-tone: #ff9ed1;
   --proof-scan-angle: 132deg;
-  --proof-scan-duration: 6.1s;
+  --proof-scan-duration: 3.05s;
   --proof-glow-duration: 5.9s;
   --proof-focus-scale: 1.03;
   border-radius: 18px 14px 22px 14px;
@@ -2534,8 +2534,8 @@ body.is-hero-ready .hero-image-loader,
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(260px, 0.48fr) minmax(620px, 1.18fr);
-  gap: clamp(18px, 3vw, 38px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 30px);
   align-items: start;
 }
 
@@ -2658,6 +2658,7 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .startup-founder-video-hero {
+  grid-column: 1 / -1;
   align-self: start;
   padding: clamp(16px, 1.8vw, 24px);
   border: 1px solid rgba(116, 227, 255, 0.2);
@@ -2671,7 +2672,7 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .startup-founder-video-hero .startup-video-frame {
-  min-height: clamp(420px, 42vw, 620px);
+  min-height: clamp(460px, 46vw, 720px);
 }
 
 .startup-tech-stack-flow {

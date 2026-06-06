@@ -2,7 +2,7 @@
 
 Public portfolio for Hunter Ho, deployed through GitHub Pages at `https://hunterho07.github.io/Portfolio_1/`.
 
-Current milestone: `Hunter v2.1.0`.
+Current milestone: `Hunter v2.1.1`.
 
 ## Release Focus
 

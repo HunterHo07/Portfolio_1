@@ -28,6 +28,7 @@
       "hero.ctaProject": "Hire for a project",
       "hero.ctaSpeak": "Book Me for Event",
       "hero.ctaProof": "Projects Demo",
+      "hero.loading": "Loading hero visual",
       "sections.mobileTitle": "Native Mobile App Projects",
       "sections.mobileIntro": "Two real React Native / Expo app projects with Android package metadata, camera or contact permissions, and install-build profiles.",
       "sections.gamesTitle": "Games Demo",
@@ -60,6 +61,7 @@
       "hero.ctaProject": "找我做项目",
       "hero.ctaSpeak": "预约活动分享",
       "hero.ctaProof": "项目 Demo",
+      "hero.loading": "正在载入首页视觉",
       "sections.mobileTitle": "真实手机 App 项目",
       "sections.mobileIntro": "两个 React Native / Expo 手机 App 项目，包含 Android 包名、相机或联系人权限，以及可打包安装的构建配置。",
       "sections.gamesTitle": "游戏 Demo",
@@ -75,6 +77,623 @@
       "theme.light": "亮色"
     }
   };
+
+  var projectBaseTitleTranslationsZh = {
+    "Amazing Technology & Gaming": "科技与游戏创意页",
+    "Professional Design & Animation": "专业设计与动画展示",
+    "Mobile App The Future Is Now": "手机 App 未来现在式",
+    "Smart Payment & Subscription Plans": "智能支付与订阅方案",
+    "Game Portal & Games Development Demo": "游戏入口与开发展示",
+    "Mobile App Development Show Case": "手机 App 开发展示",
+    "PalWorld Multiplayer Open-World Game": "PalWorld 多人开放世界游戏",
+    "Fintech Innovation Platform": "金融科技创新平台",
+    "BlockChain Dashboard": "区块链仪表板",
+    "Project 10 - BestzDeal Feature Marketplace": "BestzDeal 功能型市场",
+    "Project 11 - Travel Booking Feature UI": "旅游预订功能界面",
+    "Project 12 - OpsPilot Work Simulation": "OpsPilot 工作模拟",
+    "Project 13 - TeamForge Manager Simulator": "TeamForge 管理者模拟器",
+    "Project 14 - Cross-Border Report Platform": "跨境举报平台",
+    "Project 15 - Civic Report Routing UI": "公共举报分流界面",
+    "Project 16 - AR Digital Name Card": "AR 数字名片",
+    "Project 17 - Scan-First Profile Sharing": "扫码优先资料分享",
+    "Project 18 - AI Reverse Marketplace": "AI 反向市场",
+    "Project 19 - Buyer Request Deal Flow": "买家需求成交流程",
+    "Project 20 - Offer Comparison Marketplace": "报价对比市场",
+    "Project 21 - Visual Entity Discussion": "图像实体讨论",
+    "Project 22 - Community History by Photo": "照片驱动的社区记录",
+    "Project 23 - Warranty Tracking Assistant": "保固追踪助手",
+    "Project 24 - RunJian iRun SimWorld": "RunJian iRun SimWorld",
+    "Project 25 - RunJian SimWorld Iteration": "RunJian SimWorld 迭代版",
+    "Project 26 - WorkQuest Career Simulator": "WorkQuest 职涯模拟器",
+    "Project 27 - SkillSprint Office Challenge": "SkillSprint 办公挑战",
+    "Project 28 - CareerCraft Scenario Lab": "CareerCraft 情境实验室",
+    "Project 29 - WorkPath Simulation Studio": "WorkPath 模拟工作室",
+    "Project 30 - OpsForge Assessment Arena": "OpsForge 评估场",
+    "Project 31 - TalentRise Progress Simulator": "TalentRise 成长模拟器",
+    "Project 32 - Instant Website AI": "Instant Website AI",
+    "Project 33 - Grab Recycling IOTA": "Grab Recycling IOTA",
+    "Project 34 - WarrantyVault Service Assistant": "WarrantyVault 服务助手",
+    "Project 35 - ContentOps AI Command Desk": "ContentOps AI 指挥台",
+    "Project 36 - AdminFlow CMS Workspace": "AdminFlow CMS 工作台",
+    "Project 37 - HirePath Talent Portal": "HirePath 人才门户",
+    "Project 38 - RecruitFlow Hiring Hub": "RecruitFlow 招聘中心",
+    "Project 39 - TalentBoard Job Marketplace": "TalentBoard 职缺市场",
+    "Project 40 - LifeFlow AI": "LifeFlow AI",
+    "Project 41 - DicePattern Analytics Console": "DicePattern 分析控制台",
+    "Project 42 - Gami Sport": "Gami Sport",
+    "Project 43 - RunJian Command World": "RunJian 指挥世界",
+    "Mobile App 1 - WarrantyScan Mobile": "WarrantyScan 保固助手",
+    "Mobile App 2 - NameCard Mobile": "NameCard 名片助手",
+    "Games Demo - Neon Grid Racer": "霓虹网格赛车",
+    "Games Demo - Orbit Defense": "轨道防御",
+    "Games Demo - Husky Rescue Run": "哈士奇救援跑",
+    "Games Demo - Dragon Forge Arena": "龙铸竞技场",
+    "Games Demo - Quantum Card Lab": "量子卡牌实验室",
+    "Games Demo - Neon Signal Run": "霓虹讯号跑",
+    "Games Demo - Click The Dot": "点点快击",
+    "Games Demo - Hunt The Dot": "猎点挑战",
+    "Games Demo - Pick Drop Play": "拾取投放游玩",
+    "Assets 1 - Browser 3D Asset Viewer": "浏览器 3D 资产查看器",
+    "Assets 2 - Deployable 3D Catalog": "可部署 3D 目录",
+    "Assets 3 - Q-Style 3D Models Lab": "Q 版 3D 模型实验室"
+  };
+
+  var staticCopy = {
+    en: {
+      demoProjects: "Demo Projects",
+      details: "Details",
+      liveDemo: "Live Demo",
+      androidProject: "Android Project",
+      androidReady: "Android-ready",
+      mobileBuildStatuses: [
+        'Native app source includes Android package <strong>com.hunterho.warrantyscan</strong>, camera permission, notification permission, and EAS APK profile.',
+        'Native app source includes Android package <strong>com.hunterho.namecardmobile</strong>, contacts permission, notification permission, and EAS APK profile.'
+      ],
+      heroHunterDefault: "Still here? Tell me the problem and I will shape the build.",
+      startupSoundNote: 'Turn on sound for the full startup story. <a href="https://www.youtube.com/watch?v=KRxQ8JuqMyE" target="_blank" rel="noopener">Open on YouTube</a>',
+      startupLabel: "Startup Lab",
+      startupTitle: "TrillionUnicorn Startup Lab",
+      startupIntro: "Seven public startup and OSS concepts from the TrillionUnicorn ecosystem. This is portfolio proof of product thinking, not the full startup website.",
+      startupRoles: ["Fullstack Developer", "Ahfaiz Founder", "AI Automation Teacher", "CTO / Startup Builder", "Hackathon Winner", "Builder Since 2007"],
+      teachingLabel: "Speaker & Teaching",
+      teachingTitle: "IT Teaching & Community Sharing",
+      teachingIntro: "Invited classes, boot camp teaching, event speaking, and knowledge sharing that give practical IT experience back to the community.",
+      teachingCards: [
+        ["Invited Mentor Session", "Intro to N8N Application & Basics", "Automation class invitation proof for N8N application basics and workflow foundations."],
+        ["Online Class", "Non-IT vs Real-IT", "Free online session explaining the practical difference between surface tech and real IT work."],
+        ["Online Boot Camp", "Vibe Coding 101", "Multi-session online class covering practical coding rhythm, delivery habits, and fullstack thinking for real projects."],
+        ["Career Readiness", "Decoding Tech Readiness", "Mentoring session on what hiring managers and real project teams look for."],
+        ["Workflow Class", "Developer Productivity Workflow", "Workflow and workplace guidance for developers who want better execution habits."]
+      ],
+      timelineLabel: "Outside Full-Time Work",
+      timelineTitle: "Hunter Timeline + Happening",
+      timelineIntro: "Outside full-time work: hackathons, Web3 events, startup weekends, invited sessions, team highlights, and fun achievement moments.",
+      timelineTags: ["Hackathons", "Web3 Events", "Startup", "Team Highlights", "Achievement"],
+      timelineCaptions: [
+        ["Hackathon | Team | Build", "Team Build Table", "Outside-work sprint energy"],
+        ["Achievement | Deriv | AI", "Deriv Public Proof", "Team Phantom winner moment"],
+        ["Innovation | NTIS | Event", "NTIS Open Day", "Commercialisation exposure"],
+        ["Web3 | Event | Network", "Web3 Afterparty", "Community side-event highlight"],
+        ["Web3 | IOTA | Team", "IOTA Booth Discussion", "Event floor conversation"],
+        ["Hackathon | IOTA | Pitch", "IOTA Pitch Moment", "Live stage explanation"],
+        ["Hackathon | IOTA | Stage", "IOTA Hackathon Stage", "Malaysia 2025 event room"],
+        ["Startup | Competition", "Startup Competition", "Founder-room conversations"],
+        ["Hackathon | Sui | Prize", "Sui Hacker House", "1st runner up, RM3,000"],
+        ["Hackathon | Sui | Kit", "Hacker House Kit", "Small proof from the build floor"],
+        ["Hackathon | Deriv | Team", "Team Phantom Table", "Build sprint with teammates"],
+        ["Team | Discussion", "Demo Review Moment", "Working through project ideas"],
+        ["Hackathon | Badge | Proof", "Deriv Hacker Badge", "Team Phantom participant proof"],
+        ["Achievement | Deriv | Stage", "Deriv Winner Stage", "Public winner announcement"],
+        ["Achievement | RM15,000", "First Prize Proof", "AI Champion award moment"],
+        ["Web3 | Team | Event", "Web3 Team Table", "Side-event coordination"],
+        ["Startup Weekend | Team", "Startup Weekend Build", "Early founder sprint memory"],
+        ["Team | Startup | Sync", "Coffee Team Sync", "Planning outside the venue"],
+        ["Hackathon | Early Team", "Early Hackathon Table", "Older build-floor memory"],
+        ["Startup | Hackathon | Team", "Early Team Build", "Prototype-room snapshot"],
+        ["Achievement | Champion", "Champion Selfie", "Personal winner proof"],
+        ["Hackathon | Submission", "Deriv Submission Stage", "Final project handoff moment"],
+        ["Startup Weekend | Team", "Early Team Build", "Teamwork before the pitch"],
+        ["Event | Build Sprint", "Champion Stage", "Countdown and event promotion"],
+        ["Achievement | AI | Stage", "Champion Proof", "Winner-stage highlight"]
+      ],
+      prev: "Prev",
+      next: "Next",
+      skip: "Skip",
+      aboutHeading: "Experienced programmer turning ideas into production-ready systems.",
+      aboutProof: ["Fullstack", "AI Automation", "Mobile", "UI/UX", "Web3", "DevOps"],
+      serviceMenuKicker: "Client Build Menu",
+      serviceMenuTitle: "Choose the outcome. Hunter ships the stack.",
+      serviceCards: [
+        "Develop & Build a perfect website for you: Website, Mobile Responsive, eCommerce, Business, Media, Blog, forum.",
+        "Setup & Maintenance : Server & Database, Setup Shared Hosting, VPS, Security Enhanced, Custom API, Migration.",
+        "Custom For Your Business Need: (CMS)Content Management System, (CMMS)Computerized Maintenance Management System, Web Content Management for Financial, (EAM)Enterprise Asset Management, Custom Software.",
+        "iOS & Android : Flutter, React-Native, Ionic, Cordova, WebApp, PWA, PhoneGap, FlutterFlow (Apple Store | Google Play Store and other App Store).",
+        "Automation, Task Automation, Data-Training & Analysis, Predictor, Sentiment Analyzer, Object Detection, Recognition, Forecasting, Recommendation System, ChatBot, ChatGPT API.",
+        "Front-End designer, Fast load times, Lag free interaction, Responsive, Dynamic, intuitive UX/UI, image & photo protection and size reduce"
+      ],
+      pricingKicker: "Market Pricing Snapshot",
+      pricingClose: "Close pricing details",
+      offerKicker: "Service Offer",
+      offerDiscount: "50% Discount",
+      offerNote: "Save up to 50% on server/hosting maintenance.",
+      copyright: "© Copyrights Hunter Ho. All rights reserved.",
+      contactAria: "On-site or remote: Malaysia and Singapore on-site, worldwide remote any timezone. Direct contact email: HunterHo.My@gmail.com.",
+      contactMode: "ON-SITE / REMOTE",
+      contactRegion: "MALAYSIA & SINGAPORE (ON-SITE) / WORLDWIDE (REMOTE ANY TIMEZONE)",
+      contactDirect: "DIRECT CONTACT",
+      contactEmailLabel: "Email:",
+      projectDetails: "Project Details",
+      clickTechChip: "Click a tech chip",
+      skillDemoIntro: "Open a short reusable skill demo to see how that capability helps a real client project.",
+      founderDashboardAria: "Founder proof dashboard",
+      founderNavigationAria: "Founder proof navigation",
+      founderDetailsAria: "Complete proof poster details",
+      founderIntro: {
+        label: "Proof Theater",
+        title: "Choose a proof moment.",
+        message: "Use the proof controls to reveal six public moments without blocking the poster."
+      },
+      founderSteps: [
+        ["Challenge Accepted", "Sportsmanship, challenge breaking, and constant self-improvement."],
+        ["Trillion Unicorn CTO", "Startup architecture, CTO vision, and trillion-unicorn product direction."],
+        ["Ahfaiz AI Startup", "AI life companion product, assistant UX, and startup ownership."],
+        ["WorldCup Remote Work", "Invited WorldCup 2026 proof with work-anywhere delivery mindset."],
+        ["Hackathon Winner", "Pressure-tested execution across AI, Web3, and innovation events."],
+        ["Community IT Teacher", "Invited teaching, knowledge sharing, and speaker contribution back to the community."]
+      ],
+      founderCallouts: [
+        ["Challenge Accepted", "Sportsmanship and self-breakthrough keep the standard moving.", "Sportsmanship, challenge breaking, and challenge accepting keep the standard moving upward."],
+        ["Trillion Unicorn CTO", "Startup architecture turns big vision into a product path.", "Startup architecture, CTO thinking, and product framing turn big vision into an executable product path."],
+        ["Ahfaiz AI Startup", "AI companion ideas become real app direction and user value.", "AI companion ideas become product direction, assistant UX, user value, and startup ownership."],
+        ["WorldCup Remote Work", "Work-anywhere proof, remote delivery, and global readiness.", "Work-anywhere proof shows remote delivery, global readiness, and client work that is not limited by location."],
+        ["Hackathon Winner", "Proven pressure delivery across AI, Web3, and innovation.", "Proven pressure delivery across AI, Web3, and innovation events with public winner records."],
+        ["Community IT Teacher", "Invited classes and talks share practical IT back to the community.", "Invited classes, talks, and mentoring share practical IT knowledge back to the community."]
+      ],
+      premiumFocus: "Premium but credible delivery focus: clear UX, readable content, responsive behavior, visual polish, and demo-ready storytelling.",
+      defaultProjectStory: "is presented as a client-ready showcase with product positioning, responsive UI, interaction polish, and a clear demo path. The build turns a raw idea into something a client, interviewer, or investor can understand quickly, then expand into a real website, app, dashboard, system, or automation workflow.",
+      defaultProjectAbout: "This project is framed as a practical portfolio demo: readable, responsive, demo-ready, and built to communicate value before overbuilding unnecessary backend complexity.",
+      projectThinking: "The important part is not only the visual page; it is the product thinking behind it: what the user should do next, what the client can validate, and how the demo can grow into a production-ready build.",
+      defaultClientValue: "This helps clients validate an idea, attract users or investors, explain a workflow, and choose a freelancer who can handle product thinking, front-end execution, mobile responsiveness, visual polish, and deployment.",
+      footerBanner: "images/founder-banner.jpeg"
+    },
+    zh: {
+      demoProjects: "项目 Demo",
+      details: "详情",
+      liveDemo: "在线 Demo",
+      androidProject: "Android 项目",
+      androidReady: "可打包 Android",
+      mobileBuildStatuses: [
+        '原生 App 源码包含 Android package <strong>com.hunterho.warrantyscan</strong>、相机权限、通知权限，以及 EAS APK 配置。',
+        '原生 App 源码包含 Android package <strong>com.hunterho.namecardmobile</strong>、联系人权限、通知权限，以及 EAS APK 配置。'
+      ],
+      heroHunterDefault: "还在这里？告诉我问题，我帮你整理成可开发方案。",
+      startupSoundNote: '打开声音，听完整的创业故事。 <a href="https://www.youtube.com/watch?v=KRxQ8JuqMyE" target="_blank" rel="noopener">到 YouTube 打开</a>',
+      startupLabel: "创业实验室",
+      startupTitle: "TrillionUnicorn 创业实验室",
+      startupIntro: "这里整理了 TrillionUnicorn 生态里的七个公开创业与开源概念。它展示的是产品思路与执行证明，不是完整创业官网。",
+      startupRoles: ["全栈开发者", "Ahfaiz 创办人", "AI 自动化讲师", "CTO / 创业构建者", "黑客松得奖者", "自 2007 起持续构建"],
+      teachingLabel: "演讲与教学",
+      teachingTitle: "IT 教学与社区分享",
+      teachingIntro: "包含受邀课程、训练营教学、活动分享与知识回馈，把实战 IT 经验带回社区。",
+      teachingCards: [
+        ["线上课程", "Non-IT vs Real-IT", "免费线上分享，说明表面科技与真正 IT 实战之间的差别。"],
+        ["线上训练营", "Vibe Coding 101", "多堂线上课程，讲解实战 coding 节奏、交付习惯与真实项目需要的全栈思维。"],
+        ["受邀导师课程", "N8N 应用与基础导论", "以 N8N 应用基础与工作流观念为核心的自动化课程邀请证明。"],
+        ["职涯准备", "解读科技就绪度", "面向求职者与团队成员的 mentoring，说明招聘者与真实项目团队在看什么。"],
+        ["工作流课程", "开发者生产力工作流", "帮助开发者建立更稳定执行习惯的工作流与职场实战分享。"]
+      ],
+      timelineLabel: "全职工作以外",
+      timelineTitle: "Hunter 时间线 + 正在发生",
+      timelineIntro: "全职工作之外，还持续参与黑客松、Web3 活动、创业周末、受邀分享、团队协作与各类有趣成果时刻。",
+      timelineTags: ["黑客松", "Web3 活动", "创业", "团队亮点", "成果"],
+      timelineCaptions: [
+        ["黑客松 | 团队 | 构建", "团队构建现场", "下班后的冲刺能量"],
+        ["成果 | Deriv | AI", "Deriv 公开证明", "Team Phantom 得奖时刻"],
+        ["创新 | NTIS | 活动", "NTIS 开放日", "商业化曝光现场"],
+        ["Web3 | 活动 | 人脉", "Web3 Afterparty", "社区侧活动亮点"],
+        ["Web3 | IOTA | 团队", "IOTA 展位交流", "活动现场对谈"],
+        ["黑客松 | IOTA | 简报", "IOTA 简报时刻", "舞台即场说明"],
+        ["黑客松 | IOTA | 舞台", "IOTA 黑客松舞台", "马来西亚 2025 活动现场"],
+        ["创业 | 比赛", "创业竞赛现场", "创办人交流时刻"],
+        ["黑客松 | Sui | 奖项", "Sui Hacker House", "亚军，RM3,000"],
+        ["黑客松 | Sui | 物料", "Hacker House 物料", "构建现场的小证明"],
+        ["黑客松 | Deriv | 团队", "Team Phantom 桌面", "与队友一起冲刺"],
+        ["团队 | 讨论", "Demo 评审时刻", "一起推进项目想法"],
+        ["黑客松 | 证件 | 证明", "Deriv 黑客证件", "Team Phantom 参与证明"],
+        ["成果 | Deriv | 舞台", "Deriv 得奖舞台", "公开得奖宣布"],
+        ["成果 | RM15,000", "冠军奖金证明", "AI 冠军领奖时刻"],
+        ["Web3 | 团队 | 活动", "Web3 团队桌", "侧活动协调现场"],
+        ["创业周末 | 团队", "创业周末构建", "早期创办人冲刺记忆"],
+        ["团队 | 创业 | 同步", "咖啡团队同步", "场外规划时刻"],
+        ["黑客松 | 早期团队", "早期黑客松桌", "较早期的构建回忆"],
+        ["创业 | 黑客松 | 团队", "早期团队构建", "原型室快照"],
+        ["成果 | 冠军", "冠军自拍", "个人得奖证明"],
+        ["黑客松 | 提交", "Deriv 提交阶段", "最终项目交付时刻"],
+        ["创业周末 | 团队", "早期团队构建", "简报前的团队合作"],
+        ["活动 | 冲刺", "冠军舞台", "倒数与活动宣传"],
+        ["成果 | AI | 舞台", "冠军证明", "得奖舞台亮点"]
+      ],
+      prev: "上一个",
+      next: "下一个",
+      skip: "跳过",
+      aboutHeading: "把想法落成可上线系统的资深程序员。",
+      aboutProof: ["全栈", "AI 自动化", "手机 App", "UI/UX", "Web3", "DevOps"],
+      serviceMenuKicker: "客户构建菜单",
+      serviceMenuTitle: "你选结果，Hunter 负责整套交付。",
+      serviceCards: [
+        "为你开发与构建完整网站：企业官网、响应式网站、电商、商业站、媒体站、博客与论坛。",
+        "服务器与数据库的搭建与维护：共享主机、VPS、安全强化、自定义 API、迁移与日常维护。",
+        "按业务需要定制软件：CMS、CMMS、金融内容系统、EAM 与其他专属软件系统。",
+        "iOS 与 Android 开发：Flutter、React-Native、Ionic、Cordova、WebApp、PWA、PhoneGap、FlutterFlow，并可面向各类应用商店交付。",
+        "自动化、任务自动化、数据训练与分析、预测、情绪分析、目标检测、识别、预测模型、推荐系统、聊天机器人与 ChatGPT API。",
+        "前端设计、快速加载、低延迟互动、响应式、动态化、直觉式 UX/UI，以及图片保护与体积优化。"
+      ],
+      pricingKicker: "市场价格快照",
+      pricingClose: "关闭价格详情",
+      offerKicker: "服务优惠",
+      offerDiscount: "50% 折扣",
+      offerNote: "服务器／主机维护最高可省 50%。",
+      copyright: "© Hunter Ho 版权所有。",
+      contactAria: "可现场或远程合作：马来西亚与新加坡可现场，全球任何时区可远程。直接联系邮箱：HunterHo.My@gmail.com。",
+      contactMode: "现场 / 远程",
+      contactRegion: "马来西亚与新加坡可现场 / 全球远程（任何时区）",
+      contactDirect: "直接联系",
+      contactEmailLabel: "Email:",
+      projectDetails: "项目详情",
+      clickTechChip: "点击一个技术标签",
+      skillDemoIntro: "查看这个能力如何帮助真实客户项目的小型复用 Demo。",
+      founderDashboardAria: "创办人证明面板",
+      founderNavigationAria: "创办人证明导航",
+      founderDetailsAria: "完整证明海报细节",
+      founderIntro: {
+        label: "证明剧场",
+        title: "选择一个证明时刻。",
+        message: "用这些证明控制查看六个公开时刻，同时不遮住整张海报。"
+      },
+      founderSteps: [
+        ["接受挑战", "运动精神、突破挑战，以及持续自我提升。"],
+        ["Trillion Unicorn CTO", "创业架构、CTO 视角，以及 trillion-unicorn 产品方向。"],
+        ["Ahfaiz AI 创业", "AI 生活伙伴产品、助手体验，以及创业 ownership。"],
+        ["WorldCup 远程工作", "WorldCup 2026 邀请证明与全球远程交付心态。"],
+        ["黑客松得奖者", "在 AI、Web3 与创新活动中经过压力验证的执行力。"],
+        ["社区 IT 讲师", "受邀教学、知识分享，以及回馈社区的讲者贡献。"]
+      ],
+      founderCallouts: [
+        ["接受挑战", "运动精神与自我突破让标准持续提高。", "运动精神、突破挑战与接受挑战，让标准持续往上。"],
+        ["Trillion Unicorn CTO", "创业架构把大愿景变成产品路径。", "创业架构、CTO 思维与产品 framing，把大愿景变成可执行的产品路径。"],
+        ["Ahfaiz AI 创业", "AI 伙伴想法变成真实产品方向与用户价值。", "AI 伙伴想法转化为产品方向、助手体验、用户价值与创业 ownership。"],
+        ["WorldCup 远程工作", "全球远程证明、跨地交付与国际准备度。", "全球远程工作证明展示了跨地点交付、全球准备度，以及不受地点限制的客户工作。"],
+        ["黑客松得奖者", "在 AI、Web3 与创新场景中证明压力下交付。", "在 AI、Web3 与创新活动中，以公开得奖记录证明高压下交付。"],
+        ["社区 IT 讲师", "受邀课程与分享，把实战 IT 回馈给社区。", "受邀课程、演讲与 mentoring，把实战 IT 知识回馈给社区。"]
+      ],
+      premiumFocus: "高质但务实的交付重点：清晰 UX、可读内容、响应式行为、视觉打磨，以及可演示的产品叙事。",
+      defaultProjectStory: "以客户可理解的方式展示产品定位、响应式 UI、互动打磨与清楚 Demo 路径。这个构建把原始想法变成客户、面试官或投资人能快速理解的作品，并可继续扩展成真正的网站、App、仪表板、系统或自动化流程。",
+      defaultProjectAbout: "这个项目被包装成务实的作品集 Demo：清楚、响应式、可演示，并能在不过度堆后台复杂度前先说明价值。",
+      projectThinking: "重点不只是视觉页面，而是背后的产品思考：用户下一步该做什么、客户能验证什么，以及 Demo 如何成长为可上线交付。",
+      defaultClientValue: "这能帮助客户验证想法、吸引用户或投资人、解释流程，并选择能同时处理产品思考、前端执行、手机响应、视觉打磨与部署的自由开发者。",
+      footerBanner: "images/founder-banner-cn.webp"
+    }
+  };
+
+  function getProjectBaseTitle(projectTitle) {
+    return projectBaseTitleTranslationsZh[projectTitle] || projectTitle;
+  }
+
+  function getLocalizedProjectTitle(projectTitle) {
+    var projectMatch;
+    var mobileMatch;
+    var gameMatch;
+    var assetsMatch;
+
+    if (currentLanguage !== "zh") {
+      return projectTitle;
+    }
+
+    projectMatch = projectTitle.match(/^Project (\d+) - /);
+    if (projectMatch) {
+      return "项目 " + projectMatch[1] + " - " + getProjectBaseTitle(projectTitle);
+    }
+
+    mobileMatch = projectTitle.match(/^Mobile App (\d+) - /);
+    if (mobileMatch) {
+      return "手机 App " + mobileMatch[1] + " - " + getProjectBaseTitle(projectTitle);
+    }
+
+    gameMatch = projectTitle.match(/^Games Demo - /);
+    if (gameMatch) {
+      return "游戏 Demo - " + getProjectBaseTitle(projectTitle);
+    }
+
+    assetsMatch = projectTitle.match(/^Assets (\d+) - /);
+    if (assetsMatch) {
+      return "资源 " + assetsMatch[1] + " - " + getProjectBaseTitle(projectTitle);
+    }
+
+    return getProjectBaseTitle(projectTitle);
+  }
+
+  function localizeCardPrefix(prefix) {
+    var match;
+
+    if (!prefix || currentLanguage !== "zh") {
+      return prefix;
+    }
+
+    match = prefix.match(/^Project\s+(\d+)$/);
+    if (match) {
+      return "项目 " + match[1];
+    }
+
+    match = prefix.match(/^Mobile App\s+(\d+)$/);
+    if (match) {
+      return "手机 App " + match[1];
+    }
+
+    match = prefix.match(/^Assets\s+(\d+)$/);
+    if (match) {
+      return "资源 " + match[1];
+    }
+
+    return prefix;
+  }
+
+  function setTextContent(selector, value) {
+    var element = document.querySelector(selector);
+    if (element) {
+      element.textContent = value;
+    }
+  }
+
+  function setHtmlContent(selector, value) {
+    var element = document.querySelector(selector);
+    if (element) {
+      element.innerHTML = value;
+    }
+  }
+
+  function setGlitchText(selector, value) {
+    var element = document.querySelector(selector);
+    if (element) {
+      element.textContent = value;
+      element.setAttribute("data-text", value);
+    }
+  }
+
+  function setAttribute(selector, attribute, value) {
+    var element = document.querySelector(selector);
+    if (element) {
+      element.setAttribute(attribute, value);
+    }
+  }
+
+  function setIndexedText(selector, values) {
+    document.querySelectorAll(selector).forEach(function (element, index) {
+      if (values[index]) {
+        element.textContent = values[index];
+      }
+    });
+  }
+
+  function setIndexedHtml(selector, values) {
+    document.querySelectorAll(selector).forEach(function (element, index) {
+      if (values[index]) {
+        element.innerHTML = values[index];
+      }
+    });
+  }
+
+  function setIndexedCaptionTriples(selector, values) {
+    document.querySelectorAll(selector).forEach(function (caption, index) {
+      var item = values[index];
+      if (!item) {
+        return;
+      }
+      setTextContentFor(caption.querySelector("span"), item[0]);
+      setTextContentFor(caption.querySelector("strong"), item[1]);
+      setTextContentFor(caption.querySelector("em"), item[2]);
+    });
+  }
+
+  function localizeProjectCardTitle(card, projectTitle, link) {
+    var originalPrefix = card.getAttribute("data-card-prefix-en");
+    var originalMain = card.getAttribute("data-card-main-en");
+    var localizedTitle = getLocalizedProjectTitle(projectTitle);
+    var prefixMatch;
+    var mainTitle;
+    var originalMarkup;
+    var splitParts;
+
+    if (!originalMain) {
+      originalMarkup = link.innerHTML
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<[^>]+>/g, "")
+        .replace(/\u00a0/g, " ");
+      splitParts = originalMarkup
+        .split("\n")
+        .map(function (part) {
+          return part.replace(/\s+/g, " ").trim();
+        })
+        .filter(Boolean);
+      if (splitParts.length > 1) {
+        originalPrefix = splitParts[0];
+        originalMain = splitParts.slice(1).join(" ");
+      } else {
+        originalMain = link.textContent.replace(/\s+/g, " ").trim();
+        prefixMatch = originalMain.match(/^((?:Project|Mobile App|Assets)\s+\d+)\s+(.+)$/);
+        if (prefixMatch) {
+          originalPrefix = prefixMatch[1];
+          originalMain = prefixMatch[2];
+        }
+      }
+      card.setAttribute("data-card-prefix-en", originalPrefix || "");
+      card.setAttribute("data-card-main-en", originalMain);
+    }
+
+    if (currentLanguage !== "zh") {
+      setSplitHeading(link, originalPrefix, originalMain);
+      return;
+    }
+
+    prefixMatch = localizedTitle.match(/^((?:项目|手机 App|资源)\s+\d+)\s+-\s+(.+)$/);
+    if (prefixMatch) {
+      setSplitHeading(link, prefixMatch[1], prefixMatch[2]);
+      return;
+    }
+
+    mainTitle = localizedTitle.replace(/^游戏 Demo\s+-\s+/, "");
+    setSplitHeading(link, localizeCardPrefix(originalPrefix), mainTitle);
+  }
+
+  function applyStaticCopy(dictionary) {
+    var copy = staticCopy[currentLanguage] || staticCopy.en;
+    var contactFooterImage = document.querySelector(".contact-footer-bg img");
+
+    setTextContent("#hero-hunter-message", copy.heroHunterDefault);
+    setTextContent(".hero-image-loader span", dictionary["hero.loading"] || translations.en["hero.loading"]);
+    setGlitchText("#demo-projects-section .glitch", copy.demoProjects);
+    setGlitchText("#mobile-app-demos .glitch", dictionary["sections.mobileTitle"] || translations.en["sections.mobileTitle"]);
+    setGlitchText("#games-demo-section .glitch", dictionary["sections.gamesTitle"] || translations.en["sections.gamesTitle"]);
+    setGlitchText("#project-assets-section .glitch", dictionary["sections.modelsTitle"] || translations.en["sections.modelsTitle"]);
+
+    setHtmlContent(".startup-sound-note", copy.startupSoundNote);
+    setTextContent(".startup-lab-copy .vision-label", copy.startupLabel);
+    setTextContent(".startup-lab-copy h2", copy.startupTitle);
+    setTextContent(".startup-lab-copy p", copy.startupIntro);
+    setIndexedText(".startup-founder-roles span", copy.startupRoles);
+    setAttribute(".startup-founder-band", "aria-label", copy.startupTitle);
+    setAttribute(".startup-icon-row", "aria-label", currentLanguage === "zh" ? "七个 TrillionUnicorn 创业概念" : "Seven TrillionUnicorn startup concepts");
+    document.querySelectorAll(".startup-icon-link[data-tooltip-en]").forEach(function (link) {
+      var tooltip = link.getAttribute(currentLanguage === "zh" ? "data-tooltip-zh" : "data-tooltip-en");
+      if (tooltip) {
+        link.setAttribute("data-tooltip", tooltip);
+      }
+    });
+    setAttribute(".startup-founder-roles", "aria-label", currentLanguage === "zh" ? "核心角色" : "Core roles");
+    setAttribute(".startup-tech-stack-flow", "aria-label", currentLanguage === "zh" ? "Hunter 使用的技术栈、品牌、软件与 AI 工具" : "Technology stacks, brands, software, and AI tools used by Hunter");
+
+    setTextContentFor(document.querySelector("[data-founder-copy-label]"), copy.founderIntro.label);
+    setTextContentFor(document.querySelector("[data-founder-copy-title]"), copy.founderIntro.title);
+    setTextContentFor(document.querySelector("[data-founder-copy-message]"), copy.founderIntro.message);
+    setAttribute(".founder-dashboard-hud", "aria-label", copy.founderDashboardAria);
+    setAttribute(".founder-final-callouts", "aria-label", copy.founderDetailsAria);
+    setAttribute(".founder-theater-controls", "aria-label", copy.founderNavigationAria);
+    document.querySelectorAll(".founder-step-btn").forEach(function (button, index) {
+      var item = copy.founderSteps[index];
+      if (!item) {
+        return;
+      }
+      setTextContentFor(button.querySelector("strong"), item[0]);
+      setTextContentFor(button.querySelector("span"), item[1]);
+    });
+    document.querySelectorAll(".founder-final-callout").forEach(function (button, index) {
+      var item = copy.founderCallouts[index];
+      if (!item) {
+        return;
+      }
+      button.setAttribute("data-final-proof-title", item[0]);
+      button.setAttribute("data-final-proof-body", item[2]);
+      setTextContentFor(button.querySelector("strong"), item[0]);
+      setTextContentFor(button.querySelector("p"), item[1]);
+    });
+    setTextContentFor(document.querySelector("[data-final-proof-detail-title]"), copy.founderCallouts[0][0]);
+    setTextContentFor(document.querySelector("[data-final-proof-detail-body]"), copy.founderCallouts[0][2]);
+    setTextContent("[data-founder-action=\"prev\"]", copy.prev);
+    setTextContent("[data-founder-action=\"next\"]", copy.next);
+    setTextContent("[data-founder-action=\"skip\"]", copy.skip);
+
+    setTextContent("#speaker-teaching .vision-label", copy.teachingLabel);
+    setTextContent("#speaker-teaching h2", copy.teachingTitle);
+    setTextContent("#speaker-teaching .proof-section-heading p", copy.teachingIntro);
+    document.querySelectorAll(".teaching-proof-card").forEach(function (card, index) {
+      var item = copy.teachingCards[index];
+      if (!item) {
+        return;
+      }
+      setTextContentFor(card.querySelector(".teaching-card-copy span"), item[0]);
+      setTextContentFor(card.querySelector(".teaching-card-copy h3"), item[1]);
+      setTextContentFor(card.querySelector(".teaching-card-copy p"), item[2]);
+    });
+    setAttribute("#speaker-teaching", "aria-label", copy.teachingLabel);
+
+    setTextContent("#hackathon-wins .vision-label", copy.timelineLabel);
+    setTextContent("#hackathon-wins h2", copy.timelineTitle);
+    setTextContent("#hackathon-wins .proof-section-heading p", copy.timelineIntro);
+    setIndexedText(".hackathon-timeline-tags span", copy.timelineTags);
+    setTextContent("[data-carousel-prev]", copy.prev);
+    setTextContent("[data-carousel-next]", copy.next);
+    setIndexedCaptionTriples(".hackathon-carousel-frame figcaption", copy.timelineCaptions);
+    setAttribute(".hackathon-timeline-tags", "aria-label", currentLanguage === "zh" ? "时间线分类" : "Timeline categories");
+    setAttribute(".hackathon-glass-carousel", "aria-label", currentLanguage === "zh" ? "Hunter 时间线与活动图库" : "Hunter timeline and event gallery");
+    setAttribute("[data-carousel-prev]", "aria-label", currentLanguage === "zh" ? "时间线向后移动" : "Move timeline backward");
+    setAttribute("[data-carousel-next]", "aria-label", currentLanguage === "zh" ? "时间线向前移动" : "Move timeline forward");
+
+    setTextContent("#about .p-heading", copy.aboutHeading);
+    setIndexedText(".service-proof-strip span", copy.aboutProof);
+    setTextContent(".service-subhead .section-kicker", copy.serviceMenuKicker);
+    setTextContent(".service-subhead h3", copy.serviceMenuTitle);
+    setIndexedText(".service-capability-grid .services-block .separator", copy.serviceCards);
+    setIndexedText(".mobile-app-links a:first-child", [copy.liveDemo, copy.liveDemo]);
+    setIndexedText(".mobile-app-links a:last-child", [copy.androidProject, copy.androidProject]);
+    setIndexedText(".mobile-app-platforms span:last-child", [copy.androidReady, copy.androidReady]);
+    setIndexedHtml(".app-build-status", copy.mobileBuildStatuses);
+    setTextContent(".service-pricing-copy .section-kicker", copy.pricingKicker);
+    setAttribute(".service-pricing-close", "aria-label", copy.pricingClose);
+    setTextContent(".contact-kicker", copy.offerKicker);
+    setTextContent(".discount-text", copy.offerDiscount);
+    setTextContent(".contact-discount span:last-child", copy.offerNote);
+    setTextContent(".contact-copyright-dock span", copy.copyright);
+    setAttribute(".contact-contact", "aria-label", copy.contactAria);
+    setTextContent(".contact-banner-mode", copy.contactMode);
+    setTextContent(".contact-banner-region", copy.contactRegion);
+    setTextContent(".contact-banner-direct", copy.contactDirect);
+    setTextContent(".contact-banner-email-label", copy.contactEmailLabel);
+
+    setTextContent("#project-detail-title", copy.projectDetails);
+    setTextContent("#project-skill-demo strong", copy.clickTechChip);
+    setTextContent("#project-skill-demo p", copy.skillDemoIntro);
+    setAttribute(".project-detail-close", "aria-label", currentLanguage === "zh" ? "关闭项目详情" : "Close project details");
+
+    document.querySelectorAll(".project-detail-btn").forEach(function (button) {
+      var card = button.closest(".journal-info");
+      var link;
+      var image;
+      var projectTitle = button.getAttribute("data-project-title") || "";
+      if (!card || !projectTitle) {
+        return;
+      }
+      link = card.querySelector(".journal-txt h4 a");
+      image = card.querySelector("img");
+      button.textContent = copy.details;
+      button.setAttribute("aria-label", copy.details + ": " + getLocalizedProjectTitle(projectTitle));
+      if (link) {
+        localizeProjectCardTitle(card, projectTitle, link);
+      }
+      if (image) {
+        image.alt = getLocalizedProjectTitle(projectTitle);
+      }
+    });
+
+    if (contactFooterImage) {
+      contactFooterImage.src = copy.footerBanner;
+    }
+  }
+
+  function setTextContentFor(element, value) {
+    if (element) {
+      element.textContent = value;
+    }
+  }
+
+  function setSplitHeading(link, prefix, suffix) {
+    link.innerHTML = "";
+    if (prefix) {
+      link.appendChild(document.createTextNode(prefix));
+      link.appendChild(document.createElement("br"));
+      link.appendChild(document.createTextNode(suffix));
+      return;
+    }
+    link.textContent = suffix;
+  }
 
   function setupDynamicNavbar() {
     var navMenu = document.querySelector(".nav-menu");
@@ -332,6 +951,8 @@
       }
     });
 
+    applyStaticCopy(dictionary);
+
     var languageToggle = document.getElementById("language-toggle");
     if (languageToggle) {
       languageToggle.textContent = language === "zh" ? "EN" : "CN";
@@ -371,33 +992,38 @@
   }
 
   function buildProjectStory(projectTitle, projectTech, projectAbout, profile) {
+    var copy = staticCopy[currentLanguage] || staticCopy.en;
     if (profile && profile.story) {
       return profile.story;
     }
 
     return (
-      projectTitle +
-      " is presented as a client-ready showcase with product positioning, responsive UI, interaction polish, and a clear demo path. The build turns a raw idea into something a client, interviewer, or investor can understand quickly, then expand into a real website, app, dashboard, system, or automation workflow."
+      getLocalizedProjectTitle(projectTitle) +
+      " " +
+      copy.defaultProjectStory
     );
   }
 
   function buildProjectAbout(projectAbout) {
+    var copy = staticCopy[currentLanguage] || staticCopy.en;
     if (!projectAbout) {
-      return "This project is framed as a practical portfolio demo: readable, responsive, demo-ready, and built to communicate value before overbuilding unnecessary backend complexity.";
+      return copy.defaultProjectAbout;
     }
 
     return (
       projectAbout +
-      " The important part is not only the visual page; it is the product thinking behind it: what the user should do next, what the client can validate, and how the demo can grow into a production-ready build."
+      " " +
+      copy.projectThinking
     );
   }
 
   function buildClientValue(profile) {
+    var copy = staticCopy[currentLanguage] || staticCopy.en;
     if (profile && profile.client) {
       return profile.client;
     }
 
-    return "This helps clients validate an idea, attract users or investors, explain a workflow, and choose a freelancer who can handle product thinking, front-end execution, mobile responsiveness, visual polish, and deployment.";
+    return copy.defaultClientValue;
   }
 
   function resolveSkillDemo(label) {
@@ -408,8 +1034,8 @@
           return normalized.indexOf(token) !== -1;
         });
       }) || {
-        title: "Client-ready Skill",
-        copy: "Mini demo: this capability supports faster delivery, clearer client review, and a more polished product experience."
+        title: currentLanguage === "zh" ? "客户可理解的能力" : "Client-ready Skill",
+        copy: currentLanguage === "zh" ? "小型 Demo：这个能力能支持更快交付、更清楚的客户 review，以及更完整的产品体验。" : "Mini demo: this capability supports faster delivery, clearer client review, and a more polished product experience."
       }
     );
   }
@@ -435,13 +1061,14 @@
         var projectSkills = button.getAttribute("data-project-skills") || "";
         var projectAbout = button.getAttribute("data-project-about") || "";
         var profile = findProfile(projectTitle);
+        var copy = staticCopy[currentLanguage] || staticCopy.en;
 
-        title.textContent = projectTitle;
+        title.textContent = getLocalizedProjectTitle(projectTitle);
         story.textContent = buildProjectStory(projectTitle, projectTech, projectAbout, profile);
         skills.textContent =
           projectSkills +
           (projectSkills ? ". " : "") +
-          "Premium but credible delivery focus: clear UX, readable content, responsive behavior, visual polish, and demo-ready storytelling.";
+          copy.premiumFocus;
         about.textContent = buildProjectAbout(projectAbout);
         client.textContent = buildClientValue(profile);
 
@@ -466,7 +1093,7 @@
           tech.appendChild(chip);
         });
 
-        demoPanel.innerHTML = "<strong>Click a tech chip</strong><p>Open a short reusable skill demo to see how that capability helps a real client project.</p>";
+        demoPanel.innerHTML = "<strong>" + copy.clickTechChip + "</strong><p>" + copy.skillDemoIntro + "</p>";
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
       });
@@ -611,13 +1238,15 @@
     var lockedFinalProof = "";
     var finalCalloutsVisible = false;
     var finalCalloutStateTimer = 0;
+    var founderFinalConnectorRevealLeadMs = 160;
+    var founderFinalConnectorIntroMs = 1720;
     var founderFinalProofPoints = {
-      sport: { x: 0.28, y: 0.2, tone: "#ff7a5c", radius: "ellipse(18% 16% at 28% 20%)" },
-      cto: { x: 0.71, y: 0.21, tone: "#74e3ff", radius: "ellipse(20% 16% at 71% 21%)" },
-      ai: { x: 0.25, y: 0.54, tone: "#b481ff", radius: "ellipse(16% 15% at 25% 54%)" },
-      world: { x: 0.8, y: 0.54, tone: "#6ef0a1", radius: "ellipse(18% 15% at 80% 54%)" },
-      win: { x: 0.25, y: 0.8, tone: "#d8b987", radius: "ellipse(19% 15% at 25% 80%)" },
-      teach: { x: 0.73, y: 0.77, tone: "#ff9ed1", radius: "ellipse(21% 15% at 73% 77%)" }
+      sport: { x: 0.255, y: 0.205, tone: "#ff7a5c", radius: "ellipse(18% 16% at 25.5% 20.5%)" },
+      cto: { x: 0.725, y: 0.215, tone: "#74e3ff", radius: "ellipse(20% 16% at 72.5% 21.5%)" },
+      ai: { x: 0.235, y: 0.535, tone: "#b481ff", radius: "ellipse(16% 15% at 23.5% 53.5%)" },
+      world: { x: 0.8, y: 0.535, tone: "#6ef0a1", radius: "ellipse(18% 15% at 80% 53.5%)" },
+      win: { x: 0.265, y: 0.81, tone: "#d8b987", radius: "ellipse(19% 15% at 26.5% 81%)" },
+      teach: { x: 0.715, y: 0.78, tone: "#ff9ed1", radius: "ellipse(21% 15% at 71.5% 78%)" }
     };
     var founderPosterScrollAnchors = [
       { scroll: "0%" },
@@ -639,54 +1268,102 @@
       { x: "74%", y: "80%", focus: "82%" },
       { x: "50%", y: "50%", focus: "50%" }
     ];
-    var founderCopyStates = [
-      {
-        label: "Proof Theater",
-        title: "Choose a proof moment.",
-        message: "Use the proof controls to reveal six public moments without blocking the poster."
-      },
-      {
-        label: "Challenge Accepted",
-        title: "Break the next limit.",
-        message: "Sportsmanship, challenge breaking, and challenge accepting show the habit of outgrowing the last version."
-      },
-      {
-        label: "Trillion Unicorn CTO",
-        title: "Turn vision into architecture.",
-        message: "Startup direction, CTO thinking, and product architecture make the Trillion Unicorn idea executable."
-      },
-      {
-        label: "Ahfaiz AI Startup",
-        title: "Build the AI companion.",
-        message: "Ahfaiz turns personal AI, life planning, and assistant workflows into a real startup product direction."
-      },
-      {
-        label: "WorldCup 2026",
-        title: "Work anywhere in the world.",
-        message: "The WorldCup invitation frame points to remote-ready execution and global work from any location."
-      },
-      {
-        label: "Hackathon Winner",
-        title: "Win with proof, not talk.",
-        message: "Hackathon records prove fast framing, prototype shipping, pitching, and delivery under pressure."
-      },
-      {
-        label: "Community IT Teacher",
-        title: "Share practical IT back.",
-        message: "Invited classes and speaking sessions turn coding, AI automation, and workflow practice into community value."
-      },
-      {
-        label: "Complete Vision Poster",
-        title: "One Hunter. Six proof moments.",
-        message: "The full poster connects challenge, CTO work, AI startup building, remote work, wins, and teaching."
+    function getFounderCopyStates() {
+      if (currentLanguage === "zh") {
+        return [
+          {
+            label: "证明剧场",
+            title: "选择一个证明时刻。",
+            message: "用这些证明控制查看六个公开时刻，同时不遮住整张海报。"
+          },
+          {
+            label: "接受挑战",
+            title: "突破下一个极限。",
+            message: "运动精神、突破挑战与接受挑战，代表持续超越上一个版本的习惯。"
+          },
+          {
+            label: "Trillion Unicorn CTO",
+            title: "把愿景变成架构。",
+            message: "创业方向、CTO 思维与产品架构，让 Trillion Unicorn 的想法变成可执行产品。"
+          },
+          {
+            label: "Ahfaiz AI 创业",
+            title: "打造 AI 伙伴产品。",
+            message: "Ahfaiz 把个人 AI、生活规划与助手工作流变成真实创业产品方向。"
+          },
+          {
+            label: "WorldCup 2026",
+            title: "在世界任何地方工作。",
+            message: "WorldCup 邀请框展示了远程执行能力，以及可从任何地点工作的全球准备度。"
+          },
+          {
+            label: "黑客松得奖者",
+            title: "用证明取胜，不靠空谈。",
+            message: "黑客松记录证明了快速 framing、原型交付、pitching 与高压下交付。"
+          },
+          {
+            label: "社区 IT 讲师",
+            title: "把实战 IT 回馈社区。",
+            message: "受邀课程与演讲，把编码、AI 自动化与工作流实践转化为社区价值。"
+          },
+          {
+            label: "完整愿景海报",
+            title: "一个 Hunter，六个证明时刻。",
+            message: "整张海报把挑战、CTO 工作、AI 创业、远程工作、得奖与教学连成一条线。"
+          }
+        ];
       }
-    ];
+
+      return [
+        {
+          label: "Proof Theater",
+          title: "Choose a proof moment.",
+          message: "Use the proof controls to reveal six public moments without blocking the poster."
+        },
+        {
+          label: "Challenge Accepted",
+          title: "Break the next limit.",
+          message: "Sportsmanship, challenge breaking, and challenge accepting show the habit of outgrowing the last version."
+        },
+        {
+          label: "Trillion Unicorn CTO",
+          title: "Turn vision into architecture.",
+          message: "Startup direction, CTO thinking, and product architecture make the Trillion Unicorn idea executable."
+        },
+        {
+          label: "Ahfaiz AI Startup",
+          title: "Build the AI companion.",
+          message: "Ahfaiz turns personal AI, life planning, and assistant workflows into a real startup product direction."
+        },
+        {
+          label: "WorldCup 2026",
+          title: "Work anywhere in the world.",
+          message: "The WorldCup invitation frame points to remote-ready execution and global work from any location."
+        },
+        {
+          label: "Hackathon Winner",
+          title: "Win with proof, not talk.",
+          message: "Hackathon records prove fast framing, prototype shipping, pitching, and delivery under pressure."
+        },
+        {
+          label: "Community IT Teacher",
+          title: "Share practical IT back.",
+          message: "Invited classes and speaking sessions turn coding, AI automation, and workflow practice into community value."
+        },
+        {
+          label: "Complete Vision Poster",
+          title: "One Hunter. Six proof moments.",
+          message: "The full poster connects challenge, CTO work, AI startup building, remote work, wins, and teaching."
+        }
+      ];
+    }
 
     if (posterStage) {
       posterStage.classList.add("is-hunter-active");
     }
 
     function updateFounderCopy(activeState) {
+      var founderCopyStates = getFounderCopyStates();
       var copy = founderCopyStates[activeState] || founderCopyStates[0];
 
       if (!copyLabel || !copyTitle || !copyMessage || currentFounderCopyState === activeState) {
@@ -734,14 +1411,24 @@
         }
 
         var buttonRect = button.getBoundingClientRect();
-        var buttonCenterY = buttonRect.top + buttonRect.height / 2 - shellRect.top;
         var buttonCenterX = buttonRect.left + buttonRect.width / 2 - shellRect.left;
+        var buttonCenterY = buttonRect.top + buttonRect.height / 2 - shellRect.top;
         var targetX = posterRect.left + posterRect.width * point.x - shellRect.left;
         var targetY = posterRect.top + posterRect.height * point.y - shellRect.top;
-        var startX = targetX > buttonCenterX
-          ? buttonRect.right - shellRect.left - 3
-          : buttonRect.left - shellRect.left + 3;
-        var startY = buttonCenterY;
+        var deltaToTargetX = targetX - buttonCenterX;
+        var deltaToTargetY = targetY - buttonCenterY;
+        var halfWidth = buttonRect.width / 2;
+        var halfHeight = buttonRect.height / 2;
+        var borderScale = Math.max(
+          Math.abs(deltaToTargetX) / Math.max(halfWidth, 1),
+          Math.abs(deltaToTargetY) / Math.max(halfHeight, 1),
+          1
+        );
+        var borderX = buttonCenterX + (deltaToTargetX / borderScale);
+        var borderY = buttonCenterY + (deltaToTargetY / borderScale);
+        var directionLength = Math.max(Math.sqrt(deltaToTargetX * deltaToTargetX + deltaToTargetY * deltaToTargetY), 1);
+        var startX = borderX + (deltaToTargetX / directionLength) * 8;
+        var startY = borderY + (deltaToTargetY / directionLength) * 8;
         var deltaX = targetX - startX;
         var deltaY = targetY - startY;
         var connectorLength = Math.max(Math.sqrt(deltaX * deltaX + deltaY * deltaY), 1);
@@ -760,7 +1447,7 @@
         window.requestAnimationFrame(positionFounderFinalConnectors);
       });
       window.setTimeout(positionFounderFinalConnectors, 140);
-      window.setTimeout(positionFounderFinalConnectors, 820);
+      window.setTimeout(positionFounderFinalConnectors, founderFinalConnectorRevealLeadMs + founderFinalConnectorIntroMs);
     }
 
     function setFounderFinalCalloutPresence(isFinal) {
@@ -768,11 +1455,16 @@
         finalCalloutsVisible = true;
         window.clearTimeout(finalCalloutStateTimer);
         journey.classList.remove("is-final-callout-leaving", "has-final-callout-settled");
-        journey.classList.add("is-final-callout-entering");
+        positionFounderFinalConnectors();
+        window.setTimeout(function () {
+          positionFounderFinalConnectors();
+          journey.classList.add("is-final-callout-entering");
+        }, founderFinalConnectorRevealLeadMs);
         finalCalloutStateTimer = window.setTimeout(function () {
           journey.classList.remove("is-final-callout-entering");
           journey.classList.add("has-final-callout-settled");
-        }, 820);
+          positionFounderFinalConnectors();
+        }, founderFinalConnectorRevealLeadMs + founderFinalConnectorIntroMs);
         return;
       }
 
@@ -849,6 +1541,23 @@
       }
     }
 
+    function handleFounderFinalProofOutsideClick(event) {
+      var target = event.target;
+
+      if (currentFounderState !== maxState || !lockedFinalProof || !(target instanceof Element)) {
+        return;
+      }
+
+      if (target.closest("[data-final-proof]") ||
+        target.closest(".founder-proof-detail-drawer") ||
+        target.closest("[data-founder-action]") ||
+        target.closest("[data-founder-target]")) {
+        return;
+      }
+
+      clearFinalProofFocus(true);
+    }
+
     function setupFounderFinalProofFocus() {
       if (!finalProofButtons.length) {
         return;
@@ -885,6 +1594,8 @@
           clearFinalProofFocus(true);
         }
       });
+
+      journey.addEventListener("click", handleFounderFinalProofOutsideClick);
     }
 
     function setFounderPosterLayerState(activeState, progress) {
@@ -1135,8 +1846,6 @@
 
       stack.style.setProperty("--about-parallax-y", (depth * -54).toFixed(2) + "px");
       stack.style.setProperty("--about-layer-shift", (depth * 42).toFixed(2) + "px");
-      stack.style.setProperty("--about-portrait-x", (depth * -18).toFixed(2) + "px");
-      stack.style.setProperty("--about-portrait-y", (depth * 30).toFixed(2) + "px");
     }
 
     function requestAboutServicesParallax() {
@@ -1153,6 +1862,195 @@
     updateAboutServicesParallax();
   }
 
+  function setupAboutPortraitTalk() {
+    var aboutSection = document.getElementById("about");
+    var portrait = aboutSection ? aboutSection.querySelector(".about-portrait-parallax") : null;
+    var bubble = portrait ? portrait.querySelector(".about-portrait-bubble") : null;
+    var message = bubble ? bubble.querySelector("[data-about-portrait-message]") : null;
+    var showDelay = 3000;
+    var showTimer = null;
+    var rotateTimer = null;
+    var leaveTimer = null;
+    var visible = false;
+    var lastMessageIndex = -1;
+    var motionVectors = [
+      { x: "-42px", y: "-28px", r: "-2deg" },
+      { x: "38px", y: "-34px", r: "2deg" },
+      { x: "-34px", y: "34px", r: "1.5deg" },
+      { x: "46px", y: "28px", r: "-1.5deg" },
+      { x: "0px", y: "-52px", r: "0deg" },
+      { x: "0px", y: "46px", r: "0deg" }
+    ];
+    var portraitMessages = {
+      en: [
+        "From idea to shipped system, the work matters more than the noise.",
+        "I build for production, not for screenshots only.",
+        "Fullstack means I can move the whole system, not one corner.",
+        "The clean path is usually faster than the flashy path.",
+        "Good systems should feel clear, stable, and useful."
+      ],
+      zh: [
+        "从想法到上线系统，重点是交付，不是噪音。",
+        "我做的是可投入生产的系统，不只是好看的截图。",
+        "全栈代表我能推动整个系统，不只是其中一角。",
+        "清楚的路径通常比花哨的路径更快。",
+        "好的系统应该清晰、稳定，而且真正有用。"
+      ]
+    };
+
+    if (!aboutSection || !portrait || !bubble || !message) {
+      return;
+    }
+
+    function isAboutActive() {
+      var rect = portrait.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.68 && rect.bottom > window.innerHeight * 0.28;
+    }
+
+    function setPortraitMessage() {
+      var pool = portraitMessages[currentLanguage] || portraitMessages.en;
+      var nextIndex = Math.floor(Math.random() * pool.length);
+
+      if (pool.length > 1 && nextIndex === lastMessageIndex) {
+        nextIndex = (nextIndex + 1) % pool.length;
+      }
+
+      lastMessageIndex = nextIndex;
+      message.textContent = pool[nextIndex];
+
+      if (!isReducedMotion()) {
+        bubble.classList.remove("is-swapping");
+        void bubble.offsetWidth;
+        bubble.classList.add("is-swapping");
+      }
+    }
+
+    function clearPortraitTimers() {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(rotateTimer);
+      window.clearTimeout(leaveTimer);
+      showTimer = null;
+      rotateTimer = null;
+      leaveTimer = null;
+    }
+
+    function setRandomPortraitVector(prefix) {
+      var vector = motionVectors[Math.floor(Math.random() * motionVectors.length)];
+      portrait.style.setProperty(prefix + "-x", vector.x);
+      portrait.style.setProperty(prefix + "-y", vector.y);
+      portrait.style.setProperty(prefix + "-r", vector.r);
+    }
+
+    function scheduleRotation() {
+      window.clearTimeout(rotateTimer);
+
+      if (!visible) {
+        return;
+      }
+
+      rotateTimer = window.setTimeout(function () {
+        if (!visible || !isAboutActive()) {
+          return;
+        }
+
+        setPortraitMessage();
+        scheduleRotation();
+      }, 6200 + Math.random() * 4200);
+    }
+
+    function showPortraitTalk() {
+      if (visible || !isAboutActive()) {
+        return;
+      }
+
+      visible = true;
+      setRandomPortraitVector("--about-enter");
+      portrait.classList.remove("is-portrait-leaving");
+      portrait.classList.add("is-portrait-entering");
+      portrait.classList.add("is-portrait-awake");
+      bubble.classList.add("is-visible");
+      setPortraitMessage();
+      scheduleRotation();
+    }
+
+    function hidePortraitTalk() {
+      clearPortraitTimers();
+      if (!visible && !portrait.classList.contains("is-portrait-awake")) {
+        return;
+      }
+
+      visible = false;
+      setRandomPortraitVector("--about-exit");
+      bubble.classList.remove("is-visible");
+      portrait.classList.remove("is-portrait-entering");
+      portrait.classList.add("is-portrait-leaving");
+      portrait.classList.remove("is-portrait-awake");
+      leaveTimer = window.setTimeout(function () {
+        portrait.classList.remove("is-portrait-leaving");
+      }, 1600);
+    }
+
+    function schedulePortraitTalk() {
+      window.clearTimeout(showTimer);
+
+      if (!isAboutActive()) {
+        hidePortraitTalk();
+        return;
+      }
+
+      if (visible) {
+        scheduleRotation();
+        return;
+      }
+
+      showTimer = window.setTimeout(function () {
+        if (isAboutActive()) {
+          showPortraitTalk();
+        }
+      }, showDelay);
+    }
+
+    window.addEventListener("scroll", schedulePortraitTalk, { passive: true });
+    window.addEventListener("resize", schedulePortraitTalk);
+    schedulePortraitTalk();
+  }
+
+  function setupStartupIconTooltips() {
+    var links = Array.prototype.slice.call(document.querySelectorAll(".startup-icon-link[data-tooltip]"));
+
+    if (!links.length) {
+      return;
+    }
+
+    function hideOtherTooltips(activeLink) {
+      links.forEach(function (link) {
+        if (link !== activeLink) {
+          link.classList.remove("is-tooltip-visible");
+        }
+      });
+    }
+
+    links.forEach(function (link) {
+      link.addEventListener("pointerenter", function () {
+        hideOtherTooltips(link);
+        link.classList.add("is-tooltip-visible");
+      });
+
+      link.addEventListener("pointerleave", function () {
+        link.classList.remove("is-tooltip-visible");
+      });
+
+      link.addEventListener("focus", function () {
+        hideOtherTooltips(link);
+        link.classList.add("is-tooltip-visible");
+      });
+
+      link.addEventListener("blur", function () {
+        link.classList.remove("is-tooltip-visible");
+      });
+    });
+  }
+
   function setupServiceMarketPricingModal() {
     var modal = document.getElementById("service-pricing-modal");
     var cards = Array.prototype.slice.call(document.querySelectorAll("[data-pricing-service]"));
@@ -1166,9 +2064,10 @@
     var ranges = modal.querySelector("[data-service-pricing-ranges]");
     var hunter = modal.querySelector("[data-service-pricing-hunter]");
     var proof = modal.querySelector("[data-service-pricing-proof]");
+    var hunterLabel = modal.querySelector(".service-pricing-hunter span");
     var closeButtons = Array.prototype.slice.call(modal.querySelectorAll("[data-service-pricing-close]"));
     var lastFocusedCard = null;
-    var servicePricingData = {
+    var servicePricingDataEn = {
       website: {
         title: "Website | 网站",
         summary: "Typical market ranges for a custom business website, landing site, CMS, responsive build, or eCommerce starter. Final pricing depends on pages, content, integrations, and deadline.",
@@ -1242,13 +2141,91 @@
         proof: "Track record: accepted Option C hero, animated proof theater, responsive contact footer, startup lab, WebGL demos, and real HTML/CSS text."
       }
     };
+    var servicePricingDataZh = {
+      website: {
+        title: "Website | 网站",
+        summary: "自定义企业官网、落地页、CMS、响应式网站或电商起步版的常见市场范围。最终价格取决于页面数量、内容、整合与交期。",
+        rows: [
+          ["MY / SEA", "USD 800-3.5k", "精简企业站或活动页"],
+          ["Singapore", "USD 2.5k-9k", "Agency 或资深自由开发者范围"],
+          ["US / UK / AU", "USD 5k-25k+", "较高本地人力与 agency 成本"],
+          ["Europe / GCC", "USD 4k-18k+", "随合规与范围变化"]
+        ],
+        hunter: "如果你想用更少交接、直接全栈构建拿到同等务实结果，可以找 Hunter，报价可比常见市场低最多 50%。",
+        proof: "交付证明：作品集网站、线上 Demo、游戏 Demo、手机 App Demo 与 3D WebGL 证明，不只是 mockup。"
+      },
+      server: {
+        title: "Server & Database | 服务器",
+        summary: "VPS、主机、迁移、数据库、安全强化、API 设置与持续维护的常见市场范围。",
+        rows: [
+          ["MY / SEA", "USD 300-2.5k", "设置、迁移与月度维护"],
+          ["Singapore", "USD 1k-6k", "商业主机与托管支持"],
+          ["US / UK / AU", "USD 2k-12k+", "DevOps 或 agency 托管"],
+          ["Europe / GCC", "USD 1.5k-10k+", "随 SLA 变化"]
+        ],
+        hunter: "适合需要实际设置加维护折扣，而不是每个服务器/数据库小任务都被分开计费的客户。",
+        proof: "交付证明：已部署和验证生产网站、Vercel App、本地 GLB 目录、API Demo 与维护导向作品集流程。"
+      },
+      software: {
+        title: "Software | 编程",
+        summary: "自定义 CMS、CMMS、EAM、内部工具、工作流系统、仪表板与业务软件的常见市场范围。",
+        rows: [
+          ["MY / SEA", "USD 3k-18k", "中小型自定义软件"],
+          ["Singapore", "USD 8k-45k", "Agency 或资深团队交付"],
+          ["US / UK / AU", "USD 15k-100k+", "高成本自定义产品团队"],
+          ["Europe / GCC", "USD 12k-80k+", "取决于合规与整合"]
+        ],
+        hunter: "适合想让同一个 builder 理解流程、快速原型、交付整套 stack，并把成本贴近业务价值的客户。",
+        proof: "交付证明：CRM 式指挥中心、自动化流程、举报工具、支付相关系统与生产级 Demo 项目。"
+      },
+      mobile: {
+        title: "Mobile App | 手机应用",
+        summary: "iOS/Android、Expo/React Native、Flutter、QR/联系人流程、相机权限与可发布 build profile 的常见市场范围。",
+        rows: [
+          ["MY / SEA", "USD 5k-25k", "MVP 或聚焦型原生 App"],
+          ["Singapore", "USD 15k-70k", "含 agency QA 的商业 App"],
+          ["US / UK / AU", "USD 40k-150k+", "中型 App 团队范围"],
+          ["Europe / GCC", "USD 25k-120k+", "随平台与合规变化"]
+        ],
+        hunter: "适合需要手机 MVP 同时连接真实 Web、后台、QR、联系人、通知与部署证明的客户。",
+        proof: "交付证明：React Native / Expo Demo App，包含 Android metadata、权限、build profile 与线上证明页。"
+      },
+      ai: {
+        title: "Machine Learning (AI) | 人工智能",
+        summary: "自动化、AI 助手流程、数据训练、预测、目标检测、推荐与 ChatGPT API 构建的常见市场范围。",
+        rows: [
+          ["MY / SEA", "USD 2k-15k", "自动化或 AI 工作流"],
+          ["Singapore", "USD 8k-45k", "商业 AI 整合"],
+          ["US / UK / AU", "USD 15k-120k+", "专业 AI/产品团队"],
+          ["Europe / GCC", "USD 12k-90k+", "取决于数据与风险"]
+        ],
+        hunter: "适合需要 AI 真正接到网站、App、数据库与运营流程，而不是孤立 AI Demo 的客户。",
+        proof: "交付证明：Ahfaiz 创办人工作、AI 自动化概念、数据/报告 Demo、助手式流程与产品化作品集证明。"
+      },
+      ux: {
+        title: "UX & UI Designer | 计师",
+        summary: "UI 设计、可点击原型、响应式前端、转化打磨、图片优化与互动质量的常见市场范围。",
+        rows: [
+          ["MY / SEA", "USD 600-5k", "原型或前端打磨"],
+          ["Singapore", "USD 2k-15k", "资深 UI/UX 交付"],
+          ["US / UK / AU", "USD 5k-35k+", "产品设计与前端团队"],
+          ["Europe / GCC", "USD 4k-28k+", "取决于研究与精度"]
+        ],
+        hunter: "适合想要 UI/UX 能被同一个交付 owner 编码、测试、部署、优化和维护的客户。",
+        proof: "交付证明：已接受的 Option C hero、动态证明剧场、响应式联系页脚、Startup Lab、WebGL Demo 与真实 HTML/CSS 文本。"
+      }
+    };
 
     function renderPricing(serviceId) {
+      var servicePricingData = currentLanguage === "zh" ? servicePricingDataZh : servicePricingDataEn;
       var item = servicePricingData[serviceId] || servicePricingData.website;
       title.textContent = item.title;
       summary.textContent = item.summary;
       hunter.textContent = item.hunter;
       proof.textContent = item.proof;
+      if (hunterLabel) {
+        hunterLabel.textContent = currentLanguage === "zh" ? "为什么找 Hunter" : "Why ask Hunter";
+      }
       ranges.innerHTML = item.rows
         .map(function (row) {
           return '<div class="service-pricing-range"><span>' + row[0] + '</span><strong>' + row[1] + '</strong><p>' + row[2] + '</p></div>';
@@ -1821,7 +2798,6 @@
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
     var huskyMessage = document.getElementById("husky-message");
-    var contactSection = document.getElementById("contact");
     var celebrate = setupCelebration();
     var huskyHasAppeared = false;
     var huskyEmotionTimer = null;
@@ -1944,15 +2920,6 @@
       requestHeroThreeMotion();
 
       if (husky) {
-        var shouldSuppressHusky = false;
-
-        if (contactSection) {
-          var contactRect = contactSection.getBoundingClientRect();
-          shouldSuppressHusky = contactRect.top < window.innerHeight && contactRect.bottom > 0;
-        }
-
-        husky.classList.toggle("is-over-contact", shouldSuppressHusky);
-
         if (!huskyHasAppeared && window.scrollY + window.innerHeight > doc.scrollHeight - 900) {
           huskyHasAppeared = true;
           husky.classList.add("is-visible");
@@ -2470,151 +3437,27 @@
       return;
     }
 
-    var track = carousel.querySelector(".hackathon-carousel-track");
+    var track = carousel.querySelector("[data-carousel-track]");
     var stage = carousel.querySelector(".hackathon-carousel-stage");
     var cards = Array.prototype.slice.call(carousel.querySelectorAll("[data-carousel-card]:not([data-carousel-clone])"));
     var prevButton = carousel.querySelector("[data-carousel-prev]");
     var nextButton = carousel.querySelector("[data-carousel-next]");
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var activeStep = 0;
-    var autoTimer = null;
-    var isAnimating = false;
-    var isJumping = false;
+    var animationFrameId = 0;
+    var ringRotation = 0;
+    var ringVelocity = reduceMotion ? 0 : 7.5;
+    var ringStep = 0;
+    var ringRadius = 760;
+    var slideWidth = 0;
+    var lastFrameTime = 0;
     var dragStartX = 0;
     var dragStartY = 0;
+    var lastPointerX = 0;
     var dragDeltaX = 0;
     var isDragging = false;
+    var isPaused = false;
+    var controlsLocked = false;
     var dragThreshold = 38;
-    var animationDelay = reduceMotion ? 200 : 720;
-    var slides = [];
-    var currentIndex = 1;
-    var slideWidth = 0;
-    var slideGap = 0;
-
-    function setControlsDisabled(isDisabled) {
-      [prevButton, nextButton].forEach(function (button) {
-        if (button) {
-          button.disabled = isDisabled;
-          button.setAttribute("aria-disabled", String(isDisabled));
-        }
-      });
-    }
-
-    function setCarouselShift() {
-      carousel.style.setProperty("--track-shift", String(-currentIndex * (slideWidth + slideGap)) + "px");
-    }
-
-    function refreshCardStates() {
-      var activeIndex = ((currentIndex - 1) % cards.length + cards.length) % cards.length;
-      carousel.style.setProperty("--carousel-active", activeStep);
-      carousel.style.setProperty("--carousel-count", cards.length);
-
-      slides.forEach(function (card, index) {
-        var offset = index - currentIndex;
-        card.classList.remove("is-active", "is-prev", "is-next", "is-far-left", "is-far-right");
-
-        if (offset === 0) {
-          card.classList.add("is-active");
-          card.setAttribute("aria-hidden", "false");
-        } else if (offset === -1) {
-          card.classList.add("is-prev");
-          card.setAttribute("aria-hidden", "true");
-        } else if (offset === 1) {
-          card.classList.add("is-next");
-          card.setAttribute("aria-hidden", "true");
-        } else if (offset < 0) {
-          card.classList.add("is-far-left");
-          card.setAttribute("aria-hidden", "true");
-        } else {
-          card.classList.add("is-far-right");
-          card.setAttribute("aria-hidden", "true");
-        }
-      });
-
-      cards.forEach(function (card, index) {
-        card.classList.toggle("is-active", index === activeIndex);
-      });
-    }
-
-    function updateMetrics() {
-      if (!slides.length) {
-        return;
-      }
-
-      var referenceSlide = slides[0];
-      if (!referenceSlide) {
-        return;
-      }
-
-      slideWidth = referenceSlide.getBoundingClientRect().width;
-      slideGap = parseFloat(window.getComputedStyle(track).gap) || 0;
-      setCarouselShift();
-      refreshCardStates();
-    }
-
-    function jumpToIndex(nextIndex) {
-      isJumping = true;
-      track.style.transition = "none";
-      currentIndex = nextIndex;
-      setCarouselShift();
-      refreshCardStates();
-
-      window.requestAnimationFrame(function () {
-        track.style.transition = "";
-        isJumping = false;
-      });
-    }
-
-    function setActiveCard(nextActiveStep, shouldLockControls) {
-      activeStep = nextActiveStep;
-      setCarouselShift();
-      refreshCardStates();
-
-      if (!shouldLockControls) {
-        return;
-      }
-
-      isAnimating = true;
-      carousel.classList.add("is-animating");
-      setControlsDisabled(true);
-      window.setTimeout(function () {
-        if (currentIndex === 0) {
-          jumpToIndex(cards.length);
-        } else if (currentIndex === slides.length - 1) {
-          jumpToIndex(1);
-        }
-
-        isAnimating = false;
-        carousel.classList.remove("is-animating");
-        setControlsDisabled(false);
-      }, animationDelay);
-    }
-
-    function rotateBy(direction) {
-      if (isAnimating || isJumping) {
-        return;
-      }
-
-      activeStep += direction;
-      currentIndex += direction;
-      setActiveCard(activeStep, true);
-    }
-
-    function stopAutoRotate() {
-      if (autoTimer) {
-        window.clearInterval(autoTimer);
-        autoTimer = null;
-      }
-    }
-
-    function startAutoRotate() {
-      if (reduceMotion || autoTimer) {
-        return;
-      }
-      autoTimer = window.setInterval(function () {
-        rotateBy(1);
-      }, 4200);
-    }
 
     if (!cards.length) {
       return;
@@ -2624,26 +3467,111 @@
       return;
     }
 
-    if (!carousel.hasAttribute("data-carousel-initialized")) {
-      var firstClone = cards[0].cloneNode(true);
-      var lastClone = cards[cards.length - 1].cloneNode(true);
-      firstClone.setAttribute("data-carousel-clone", "true");
-      lastClone.setAttribute("data-carousel-clone", "true");
-      firstClone.setAttribute("aria-hidden", "true");
-      lastClone.setAttribute("aria-hidden", "true");
-      track.insertBefore(lastClone, cards[0]);
-      track.appendChild(firstClone);
-      carousel.setAttribute("data-carousel-initialized", "true");
+    function setControlsDisabled(isDisabled) {
+      controlsLocked = isDisabled;
+      [prevButton, nextButton].forEach(function (button) {
+        if (!button) {
+          return;
+        }
+
+        button.disabled = isDisabled;
+        button.setAttribute("aria-disabled", String(isDisabled));
+      });
     }
 
-    slides = Array.prototype.slice.call(track.querySelectorAll("[data-carousel-card]"));
-    carousel.style.setProperty("--carousel-count", cards.length);
-    currentIndex = 1;
-    updateMetrics();
+    function normalizeRingRotation() {
+      ringRotation %= 360;
+
+      if (ringRotation < 0) {
+        ringRotation += 360;
+      }
+    }
+
+    function applyRingRotation() {
+      carousel.style.setProperty("--ring-rotation", String(ringRotation) + "deg");
+    }
+
+    function updateRingDepthClasses() {
+      cards.forEach(function (card, cardIndex) {
+        var cardAngle = (cardIndex * ringStep + ringRotation) % 360;
+        var normalizedAngle = ((cardAngle - 180 + 540) % 360) - 180;
+        var frontDistance = Math.abs(normalizedAngle);
+
+        card.classList.toggle("is-ring-focus", frontDistance < ringStep * 0.72);
+        card.classList.toggle("is-ring-side", frontDistance >= ringStep * 0.72 && frontDistance < 88);
+        card.classList.toggle("is-ring-back", frontDistance > 116);
+      });
+    }
+
+    function layoutRing() {
+      var stageWidth = stage.getBoundingClientRect().width || 960;
+      var stageHeight = stage.getBoundingClientRect().height || 720;
+      slideWidth = cards[0].getBoundingClientRect().width || 220;
+      ringStep = 360 / cards.length;
+      ringRadius = Math.max(
+        stageWidth * 0.56,
+        slideWidth * cards.length / (Math.PI * 2) * 0.72
+      );
+      ringRadius = Math.min(ringRadius, Math.max(stageWidth, stageHeight) * 0.98);
+
+      carousel.style.setProperty("--ring-radius", String(Math.round(ringRadius)) + "px");
+
+      cards.forEach(function (card, cardIndex) {
+        card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
+        card.setAttribute("data-carousel-seq", String(cardIndex));
+        card.setAttribute("aria-hidden", "false");
+      });
+
+      normalizeRingRotation();
+      applyRingRotation();
+      updateRingDepthClasses();
+    }
+
+    function lockControlsBriefly() {
+      setControlsDisabled(true);
+      window.setTimeout(function () {
+        setControlsDisabled(false);
+      }, 220);
+    }
+
+    function stepTrack(direction) {
+      if (controlsLocked) {
+        return;
+      }
+
+      ringRotation += direction * ringStep;
+      normalizeRingRotation();
+      applyRingRotation();
+      updateRingDepthClasses();
+      lockControlsBriefly();
+    }
+
+    function tick(timestamp) {
+      if (!lastFrameTime) {
+        lastFrameTime = timestamp;
+      }
+
+      var elapsedSeconds = (timestamp - lastFrameTime) / 1000;
+      lastFrameTime = timestamp;
+
+      if (!reduceMotion && !isPaused && !isDragging) {
+        ringRotation -= ringVelocity * elapsedSeconds;
+        normalizeRingRotation();
+        applyRingRotation();
+        updateRingDepthClasses();
+      }
+
+      animationFrameId = window.requestAnimationFrame(tick);
+    }
+
+    function refreshLayout() {
+      layoutRing();
+      lastFrameTime = 0;
+    }
+
+    refreshLayout();
 
     if (carousel.hasAttribute("data-carousel-bound")) {
-      setCarouselShift();
-      refreshCardStates();
       return;
     }
 
@@ -2651,23 +3579,13 @@
 
     if (prevButton) {
       prevButton.addEventListener("click", function () {
-        if (prevButton.disabled) {
-          return;
-        }
-        stopAutoRotate();
-        rotateBy(-1);
-        startAutoRotate();
+        stepTrack(1);
       });
     }
 
     if (nextButton) {
       nextButton.addEventListener("click", function () {
-        if (nextButton.disabled) {
-          return;
-        }
-        stopAutoRotate();
-        rotateBy(1);
-        startAutoRotate();
+        stepTrack(-1);
       });
     }
 
@@ -2675,14 +3593,14 @@
       if (event.pointerType === "mouse" && event.button !== 0) {
         return;
       }
-      if (isAnimating || isJumping) {
+      if (event.target && event.target.closest(".hackathon-carousel-control")) {
         return;
       }
 
-      stopAutoRotate();
       isDragging = true;
       dragStartX = event.clientX;
       dragStartY = event.clientY;
+      lastPointerX = event.clientX;
       dragDeltaX = 0;
       carousel.classList.add("is-dragging");
       carousel.setPointerCapture(event.pointerId);
@@ -2693,8 +3611,13 @@
         return;
       }
 
+      var pointerDeltaX = event.clientX - lastPointerX;
       dragDeltaX = event.clientX - dragStartX;
-      carousel.style.setProperty("--track-shift", String((-currentIndex * (slideWidth + slideGap)) + dragDeltaX) + "px");
+      lastPointerX = event.clientX;
+      ringRotation += pointerDeltaX * 0.18;
+      normalizeRingRotation();
+      applyRingRotation();
+      updateRingDepthClasses();
     });
 
     carousel.addEventListener("pointerup", function (event) {
@@ -2705,34 +3628,43 @@
       var dragDeltaY = event.clientY - dragStartY;
       isDragging = false;
       carousel.classList.remove("is-dragging");
+
       if (carousel.hasPointerCapture(event.pointerId)) {
         carousel.releasePointerCapture(event.pointerId);
       }
-      setCarouselShift();
 
       if (Math.abs(dragDeltaX) > dragThreshold && Math.abs(dragDeltaX) > Math.abs(dragDeltaY)) {
-        rotateBy(dragDeltaX < 0 ? 1 : -1);
+        stepTrack(dragDeltaX < 0 ? -1 : 1);
+      } else {
+        normalizeRingRotation();
+        applyRingRotation();
+        updateRingDepthClasses();
       }
-
-      startAutoRotate();
     });
 
     carousel.addEventListener("pointercancel", function () {
       isDragging = false;
       carousel.classList.remove("is-dragging");
-      setCarouselShift();
-      startAutoRotate();
+      normalizeRingRotation();
+      applyRingRotation();
+      updateRingDepthClasses();
     });
 
-    carousel.addEventListener("mouseenter", stopAutoRotate);
-    carousel.addEventListener("mouseleave", startAutoRotate);
-    carousel.addEventListener("focusin", stopAutoRotate);
-    carousel.addEventListener("focusout", startAutoRotate);
-    window.addEventListener("resize", updateMetrics);
+    carousel.addEventListener("mouseenter", function () {
+      isPaused = true;
+    });
+    carousel.addEventListener("mouseleave", function () {
+      isPaused = false;
+    });
+    carousel.addEventListener("focusin", function () {
+      isPaused = true;
+    });
+    carousel.addEventListener("focusout", function () {
+      isPaused = false;
+    });
 
-    setCarouselShift();
-    refreshCardStates();
-    startAutoRotate();
+    window.addEventListener("resize", refreshLayout);
+    animationFrameId = window.requestAnimationFrame(tick);
   }
 
   function setupResponsiveNavbarToggle() {
@@ -2780,6 +3712,8 @@
       setupSectionParallax();
       setupContactCopyrightDock();
       setupAboutServicesParallax();
+      setupAboutPortraitTalk();
+      setupStartupIconTooltips();
       setupServiceMarketPricingModal();
       setupSingleHunterFocus();
       setupMagneticEffects();
@@ -2801,6 +3735,8 @@
     setupSectionParallax();
     setupContactCopyrightDock();
     setupAboutServicesParallax();
+    setupAboutPortraitTalk();
+    setupStartupIconTooltips();
     setupServiceMarketPricingModal();
     setupSingleHunterFocus();
     setupMagneticEffects();

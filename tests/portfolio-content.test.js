@@ -189,7 +189,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.1.0",
+  "Hunter v2.1.1",
 ];
 
 const requestedDemoUrls = [
@@ -336,7 +336,29 @@ const requiredAssets = [
   "images/demo-thumb-qstyle-3d-models-lab-cards.png",
   "images/demo-thumb-qstyle-3d-models-lab-detail.png",
   "images/demo-thumb-qstyle-3d-models-lab-mobile.png",
-  "images/hackathon/deriv-ai-hackathon-stage-2025.jpg",
+  "images/hackathon/timeline-happening-01.webp",
+  "images/hackathon/timeline-happening-02.webp",
+  "images/hackathon/timeline-happening-03.webp",
+  "images/hackathon/timeline-happening-04.webp",
+  "images/hackathon/timeline-happening-05.webp",
+  "images/hackathon/timeline-happening-06.webp",
+  "images/hackathon/timeline-happening-07.webp",
+  "images/hackathon/timeline-happening-08.webp",
+  "images/hackathon/timeline-happening-09.webp",
+  "images/hackathon/timeline-happening-10.webp",
+  "images/hackathon/timeline-happening-11.webp",
+  "images/hackathon/timeline-happening-12.webp",
+  "images/hackathon/timeline-happening-13.webp",
+  "images/hackathon/timeline-happening-14.webp",
+  "images/hackathon/timeline-happening-15.webp",
+  "images/hackathon/timeline-happening-16.webp",
+  "images/hackathon/timeline-happening-17.webp",
+  "images/hackathon/timeline-happening-18.webp",
+  "images/hackathon/timeline-happening-19.webp",
+  "images/hackathon/timeline-happening-20.webp",
+  "images/hackathon/timeline-happening-21.webp",
+  "images/hackathon/timeline-happening-22.webp",
+  "images/hackathon/timeline-happening-23.webp",
   "images/hackathon/deriv-ai-hackathon-countdown.jpg",
   "images/ui/hackathon-champion-stage-v2.png",
   "images/demo-thumb-mobile-warrantyscan.jpg",
@@ -351,7 +373,8 @@ const requiredAssets = [
   "images/ui/husky-happy.png",
   "images/ui/husky-excited.png",
   "images/ui/husky-contact.png",
-  "images/founder-banner-contact-email.webp",
+  "images/founder-banner.jpeg",
+  "images/founder-banner-cn.webp",
   "images/about-hunter-parallax-v2.png",
   "images/hero-layers/hero-hunter-cutout.webp",
   "images/hunter-demo-bg-neon-matrix.png",
@@ -366,7 +389,7 @@ for (const url of requiredUrls) {
 }
 
 for (const asset of requiredAssets) {
-  assert.ok(html.includes(asset) || css.includes(asset), `Missing required asset reference: ${asset}`);
+  assert.ok(html.includes(asset) || css.includes(asset) || js.includes(asset), `Missing required asset reference: ${asset}`);
   assert.ok(fs.existsSync(asset), `Missing required asset file: ${asset}`);
 }
 
@@ -496,6 +519,9 @@ for (const selector of themeSelectors) {
 }
 
 assert.ok(css.includes(".release-badge") && css.includes("min-height: 24px") && css.includes("font-size: 8px") && css.includes("bottom: 13px"), "Release badge should stay compact so it does not block proof controls or poster content");
+assert.ok(js.includes("timelineCaptions:") && js.includes("setIndexedCaptionTriples"), "Timeline carousel captions should be part of the i18n copy path");
+assert.ok(js.includes('footerBanner: "images/founder-banner.jpeg"') && js.includes('footerBanner: "images/founder-banner-cn.webp"') && !html.includes("contact-poster-copy"), "Footer should keep the original EN background and switch to the generated CN background without the duplicate poster overlay");
+assert.ok(js.includes("localizeCardPrefix") && js.includes('document.querySelectorAll(".project-detail-btn")'), "Project and game cards should localize through the shared Details-button path so Project 1-9 and all game demos switch language");
 
 for (const token of ["--color-bg", "--color-surface", "--color-text", "--color-heading", "--color-accent"]) {
   assert.ok(css.includes(token), `Missing theme token: ${token}`);
@@ -508,8 +534,12 @@ for (const behavior of ["localStorage", "data-theme", "portfolio-language", "pro
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
 
-assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner-contact-email.webp") && fs.existsSync("images/founder-banner-contact-email.webp"), "Contact/footer section should use the simplified printed email contact banner image as its background");
-assert.ok(html.includes('css/style.css?v=2.1.11'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
+assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner.jpeg") && fs.existsSync("images/founder-banner.jpeg") && fs.existsSync("images/founder-banner-cn.webp"), "Contact/footer section should use the original founder banner and include a generated CN banner variant");
+assert.ok(html.includes("contact-banner-copy") && html.includes("contact-banner-region") && html.includes("HunterHo.My@gmail.com"), "Contact footer should expose the raster banner contact text as a live i18n overlay while keeping the email literal");
+assert.ok(js.includes("applyStaticCopy") && js.includes(".contact-banner-region") && js.includes("contactEmailLabel") && js.includes("马来西亚与新加坡可现场"), "Static page copy and contact banner text should be wired into the CN/EN language switch");
+assert.ok(js.includes("servicePricingDataZh") && js.includes("为什么找 Hunter") && js.includes("projectThinking") && js.includes("getLocalizedProjectTitle(projectTitle)"), "Runtime modals and project cards should localize CN/EN copy beyond the original data-i18n nodes");
+assert.ok(!js.includes("founder-banner-contact-email-cn.webp") && !html.includes("founder-banner-contact-email-cn.webp") && js.includes("images/founder-banner-cn.webp"), "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant");
+assert.ok(html.includes('css/style.css?v=2.1.12'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg") && css.includes("position: relative") && css.includes(".contact-footer-bg img") && css.includes("height: auto") && css.includes("object-fit: contain") && css.includes("object-position: center top"), "Founder footer background should render at its natural height without cropping banner information");
@@ -525,7 +555,7 @@ assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&cop
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
 assert.ok(css.includes(".contact-copyright-dock") && css.includes("left: 50%") && css.includes("bottom: clamp(10px, 1.8vw, 18px)") && css.includes("translate3d(-50%, calc(100% + 24px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should stay centered on the image background and animate from below");
 assert.ok(!css.includes("min-height: 1080px") && !css.includes("min-height: clamp(540px, 78vw, 640px)") && !css.includes("min-height: clamp(500px, 132vw, 560px)"), "Contact footer should no longer reserve fixed-height blank space below the banner");
-assert.ok(html.includes("js/main.js?v=2.1.6"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
+assert.ok(html.includes("js/main.js?v=2.1.7"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
 assert.ok(js.includes("setupContactCopyrightDock") && js.includes("contact-copyright-dock") && js.includes("is-visible"), "Copyright dock should be controlled by scroll/intersection state");
 assert.ok(!css.includes(".contact-parallax-bg") && !css.includes(".contact-layer-person"), "Contact/footer CSS should not keep the old layered parallax selectors");
 const visibleHtmlText = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
@@ -540,9 +570,9 @@ assert.ok(!visibleHtmlText.includes("Direct Contact Whatsapp") && !visibleHtmlTe
 assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center center / cover no-repeat'), "Footer should not reuse the hero banner as a cover background");
 
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
-assert.ok(js.includes("is-over-contact") && css.includes(".husky-helper.is-over-contact"), "Floating contact shortcut should hide when it would overlap the contact footer");
+assert.ok(!js.includes("is-over-contact"), "Floating helper should continue showing at the footer instead of being suppressed over the contact section");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.0"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.1"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -583,7 +613,9 @@ assert.ok(aboutServicesStack.includes("about-services-stack"), "About and Servic
 assert.ok(!aboutServicesStack.includes('id="journal"') && !aboutServicesStack.includes("Clear commercial reasons to start now.") && !aboutServicesStack.includes("My Service Offers"), "Commercial pricing reason cards should be removed from the About/Services bottom stack");
 assert.ok(aboutServicesStack.includes("about-hunter-parallax-v2.png"), "About section should use the new generated Hunter cutout");
 assert.ok(!aboutServicesStack.includes("images/HunterHo.webp"), "About section should not keep the old framed Hunter portrait");
-assert.ok(aboutServicesStack.includes("about-portrait-parallax") && aboutServicesStack.includes("data-parallax-depth"), "About portrait should include parallax hooks");
+assert.ok(aboutServicesStack.includes("about-portrait-parallax") && !aboutServicesStack.includes("data-parallax-depth"), "About portrait should remove the old image parallax hooks");
+assert.ok(aboutServicesStack.includes("about-portrait-bubble") && aboutServicesStack.includes("data-about-portrait-message"), "About portrait should include a timed speech bubble slot");
+assert.ok(aboutServicesStack.includes("Give me 3 seconds"), "About portrait placeholder copy should match the 3-second dwell timing");
 assert.ok(aboutServicesStack.includes("about-service-command-center"), "Merged About/Services section should use one command-center layout");
 assert.ok(aboutServicesStack.includes("service-capability-grid") && !aboutServicesStack.includes("service-offer-grid"), "Merged section should keep capabilities without the removed commercial offer grid");
 assert.equal((aboutServicesStack.match(/data-pricing-service="/g) || []).length, 6, "Each Client Build Menu service card should open market pricing details");
@@ -599,10 +631,15 @@ for (const oldSplitHeading of [
   assert.ok(!aboutServicesStack.includes(oldSplitHeading), `Merged service section should not keep old split heading: ${oldSplitHeading}`);
 }
 assert.ok(css.includes(".about-services-stack") && css.includes(".about-portrait-parallax"), "About/Services stack should include dedicated parallax styling");
+assert.ok(css.includes(".about-portrait-bubble") && css.includes("is-portrait-awake") && css.includes("aboutPortraitSlideIn") && css.includes("aboutPortraitSlideOut") && css.includes("drop-shadow(0 0 16px rgba(116, 227, 255, 0.42))"), "About portrait should include randomized intro/outro speech bubble and person-outline lighting effects");
+assert.ok(css.includes("animation: none;") && css.includes("left: clamp(260px, 27vw, 342px)") && css.includes("top: clamp(106px, 17vw, 168px)"), "About portrait should suppress the old Hunter-zone image animation and place the speech bubble near the head");
+assert.ok(css.includes("#about.about-services-stack .about-services-intro > .col-lg-5") && css.includes("z-index: 8;") && css.includes("#about.about-services-stack .about-services-intro > .col-lg-7") && css.includes("top: clamp(106px, 17vw, 168px)") && css.includes("z-index: 80;"), "About portrait bubble should render above the copy column and sit 30px higher");
 assert.ok(css.includes(".about-service-command-center") && css.includes(".service-capability-grid") && css.includes(".service-offer-grid"), "Merged service section should include command-center styling");
 assert.ok(css.includes(".about-services-stack .services-block:hover") && css.includes("View market pricing") && css.includes(".service-pricing-modal.is-open") && css.includes("transform: translate3d(0, 0, 0) scale(1)"), "Client Build Menu should have card hover effects and animated pricing modal styles");
 assert.ok(css.includes(".is-service-pricing-open .husky-helper"), "Floating helper should hide while Client Build Menu pricing modal is open");
 assert.ok(js.includes("setupAboutServicesParallax") && js.includes("--about-parallax-y"), "About/Services stack should include scroll-driven parallax behavior");
+assert.ok(js.includes("setupAboutPortraitTalk") && js.includes("var showDelay = 3000") && js.includes("motionVectors") && js.includes("setRandomPortraitVector") && js.includes("is-portrait-leaving"), "About portrait should wake up after 3 seconds in view and use random intro/outro directions");
+assert.ok(js.includes("var rect = portrait.getBoundingClientRect()") && js.includes("rect.bottom > window.innerHeight * 0.28"), "About portrait active state should follow the portrait viewport position, not the full tall About/Services section");
 assert.ok(js.includes("setupServiceMarketPricingModal") && js.includes("servicePricingData") && js.includes("MY / SEA") && js.includes("Singapore") && js.includes("US / UK / AU") && js.includes("Europe / GCC"), "Client Build Menu should drive market pricing modal data by country/region");
 assert.ok(js.includes("data-pricing-service") && js.includes("is-service-pricing-open") && js.includes('event.key === "Escape"'), "Client Build Menu pricing modal should support card click, modal state, and Escape close");
 assert.ok(js.includes("getSectionDocumentTop") && js.includes("getBoundingClientRect().top + window.scrollY"), "Navbar scrollspy should use document coordinates so nested Services does not become active too early");
@@ -621,8 +658,13 @@ assert.ok(html.includes("allowfullscreen"), "Startup video should allow fullscre
 assert.ok(html.includes("compute-pressure"), "Startup video should allow compute-pressure to avoid embedded permission console errors");
 assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should include a direct YouTube link fallback");
 assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
+assert.equal((startupLabSection.match(/data-tooltip-en="/g) || []).length, 7, "Each Startup Lab concept icon should expose an English tooltip");
+assert.equal((startupLabSection.match(/data-tooltip-zh="/g) || []).length, 7, "Each Startup Lab concept icon should expose a Chinese tooltip");
 assert.ok(!html.includes("startup-metrics") && !html.includes("startup-grid") && !html.includes("Platform Foundation"), "Startup lab should not keep the old heavy metric/card grid");
 assert.ok(css.includes(".startup-video-frame") && css.includes(".startup-icon-row") && css.includes(".startup-sound-note"), "Startup lab should include focused video and compact icon styling");
+assert.ok(css.includes(".startup-icon-link::before") && css.includes("content: attr(data-tooltip)") && css.includes(".startup-icon-link:focus-visible::before") && css.includes(".startup-icon-link.is-tooltip-visible::before"), "Startup concept icons should show custom hover and focus tooltips");
+assert.ok(css.includes(".startup-icon-row {\n  position: relative;\n  z-index: 12;") && css.includes(".startup-icon-link.is-tooltip-visible {\n  z-index: 130;"), "Startup icon tooltips should render above nearby Startup Lab copy");
+assert.ok(js.includes('querySelectorAll(".startup-icon-link[data-tooltip-en]")') && js.includes('link.setAttribute("data-tooltip", tooltip)') && js.includes("setupStartupIconTooltips") && js.includes('link.addEventListener("pointerenter"'), "Startup concept tooltips should switch with the current language and support pointer/focus visibility");
 assert.ok(startupLabSection.includes("startup-founder-band") && startupLabSection.includes("startup-founder-video-hero"), "Startup Lab should keep the video hero as the top lead element");
 assert.ok(!startupLabSection.includes("Founder Vision") && !startupLabSection.includes("Hunter promo video") && !startupLabSection.includes("Founder, builder, teacher, and shipped-system operator."), "Startup Lab should remove the temporary Founder Vision copy block");
 assert.ok(!startupLabSection.includes("startup-lab-shell"), "Startup Lab should no longer keep a separate video/copy shell above Founder Vision");
@@ -722,7 +764,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.1.0",
+  "v2.1.1",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -867,7 +909,7 @@ assert.ok(html.includes("founder-proof-color-spotlight") && html.includes('aria-
 assert.ok(html.includes("founder-proof-detail-drawer") && html.includes("data-final-proof-detail-title") && html.includes("data-final-proof-detail-body"), "Founder final poster should include a bottom detail drawer for hover/click proof details");
 assert.ok(founderJourneyCss.includes("is-final-callout-entering") && founderJourneyCss.includes("has-final-callout-settled") && founderJourneyCss.includes("is-final-callout-leaving"), "Founder final callouts should use explicit enter, settled, and leave classes instead of replaying slide animation on every final-state update");
 assert.ok(founderJourneyCss.includes("--connector-x") && founderJourneyCss.includes("--connector-y") && founderJourneyCss.includes("--connector-angle"), "Founder final connector lines should be positioned from live JS geometry instead of fixed static percentages");
-assert.ok(founderJourneyCss.includes("founderConnectorTravel") && founderJourneyCss.includes("linear-gradient(90deg, transparent 0%, color-mix"), "Founder connector lines should use a one-way digital light sweep");
+assert.ok(founderJourneyCss.includes("--connector-intro-duration: 1.36s") && founderJourneyCss.includes("founderConnectorReveal") && founderJourneyCss.includes("clip-path: inset(0 100% 0 0 round 999px)") && founderJourneyCss.includes("founderConnectorPulseForward") && founderJourneyCss.includes("founderConnectorPulseReverse"), "Founder connector lines should reveal from the correct final geometry first, then run brighter bidirectional moving light pulses");
 assert.ok(founderJourneyCss.includes(".founder-proof-color-spotlight") && founderJourneyCss.includes("--proof-spotlight-clip") && founderJourneyCss.includes("clip-path: var(--proof-spotlight-clip)"), "Focused final proof should preserve the selected poster area in color using a CSS mask");
 assert.ok(founderJourneyCss.includes("--proof-scan-angle") && founderJourneyCss.includes("--proof-scan-duration") && founderJourneyCss.includes("--connector-travel-duration"), "Founder final callouts should expose per-proof scan and connector timing variables");
 assert.ok(founderJourneyCss.includes(".founder-journey.has-final-proof-focus .founder-poster-layer-all") && founderJourneyCss.includes("filter: grayscale"), "Hovering/clicking a final proof should gray out other poster content");
@@ -876,10 +918,11 @@ assert.ok(founderJourneyCss.includes("translate3d(-170%, 0, 0)") && founderJourn
 assert.ok(founderJourneyCss.includes("--proof-scan-duration: 1.95s") && founderJourneyCss.includes("--proof-scan-duration: 3.05s"), "Founder final callout text-box scan effects should run at the faster 2x speed");
 assert.ok(founderJourneyCss.includes('data-final-proof-focus="win"') && founderJourneyCss.includes('data-final-proof-focus="teach"') && founderJourneyCss.includes("top: clamp(108px, 12vh, 150px)") && founderJourneyCss.includes("bottom: auto"), "Proof 05 and 06 detail drawers should move upward so they do not cover the lower poster panels");
 assert.ok(js.includes("setupFounderFinalProofFocus") && js.includes("data-final-proof") && js.includes("setFinalProofFocus") && js.includes("founder-proof-detail-drawer"), "Founder theater should support hover/click focus details for final proof callouts");
+assert.ok(js.includes("handleFounderFinalProofOutsideClick") && js.includes('journey.addEventListener("click", handleFounderFinalProofOutsideClick)') && js.includes("clearFinalProofFocus(true)"), "Founder theater should clear a locked proof focus when the user clicks outside the proof cards and detail drawer");
 assert.ok(js.includes("positionFounderFinalConnectors") && js.includes("founderFinalProofPoints") && js.includes("--connector-angle"), "Founder theater should calculate connector endpoints from live card positions and poster target points");
-assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("window.setTimeout(positionFounderFinalConnectors, 820)"), "Founder connector positioning should reschedule after final-state scroll and callout intro animation settle");
+assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("founderFinalConnectorRevealLeadMs + founderFinalConnectorIntroMs") && js.includes("window.setTimeout(function () {\n          positionFounderFinalConnectors();\n          journey.classList.add(\"is-final-callout-entering\")") , "Founder connector positioning should wait for the stabilized final geometry before intro reveal and reschedule again after callout intro settles");
 assert.ok(js.includes("setFounderFinalCalloutPresence") && js.includes("finalCalloutsVisible") && js.includes("setFounderProofSpotlight") && js.includes("--proof-spotlight-clip"), "Founder theater should run final callout entry once per final-state transition and update the focused color spotlight");
-assert.ok(js.includes('sport: { x: 0.26, y: 0.205') && js.includes('ai: { x: 0.24, y: 0.54') && js.includes('world: { x: 0.81, y: 0.535') && js.includes('win: { x: 0.25, y: 0.8') && js.includes('teach: { x: 0.73, y: 0.77'), "Sport, Ahfaiz, WorldCup, Hackathon, and Teaching proof spotlight masks should stay aligned to the adjusted annotated target positions");
+assert.ok(js.includes('sport: { x: 0.255, y: 0.205') && js.includes('ai: { x: 0.235, y: 0.535') && js.includes('world: { x: 0.8, y: 0.535') && js.includes('win: { x: 0.265, y: 0.81') && js.includes('teach: { x: 0.715, y: 0.78') && js.includes("borderScale = Math.max(") && js.includes("borderX = buttonCenterX + (deltaToTargetX / borderScale)") && js.includes("startX = borderX + (deltaToTargetX / directionLength) * 8"), "Proof spotlight masks and connector exits should stay aligned to the refined per-proof target positions and leave each card from the true border toward the target");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
 assert.ok(!founderJourneyCss.includes("width: min(78vw, 920px)"), "Founder poster should not keep the old narrow width");
@@ -989,23 +1032,45 @@ assert.equal((speakerSection.match(/class="teaching-proof-card"/g) || []).length
 assert.equal((speakerSection.match(/class="teaching-card-media"/g) || []).length, 5, "Teaching cards should wrap all five teaching posters in a stable media frame");
 assert.ok(hackathonWinsSection.includes("hackathon-glass-carousel") && hackathonWinsSection.includes("Hunter Timeline + Happening"), "The wins section should evolve into a broader Hunter timeline and happening gallery");
 assert.ok(!html.includes("hackathon-proof-wall"), "Standalone Champion Stage proof wall should be removed");
-assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 7, "Timeline gallery should support many real event cards and stay open-ended for future additions");
-assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 7, "Every timeline card should use a real image element");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 25, "Timeline gallery should include the full uploaded event photo set and stay open-ended for future additions");
+assert.ok((hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 25, "Every timeline card should use a real image element");
 assert.ok(!hackathonWinsSection.includes("hackathon-card-placeholder"), "Hackathon carousel should not keep placeholder cards after real event images are available");
 assert.ok(hackathonWinsSection.includes("Outside Full-Time Work") && hackathonWinsSection.includes("Web3 events") && hackathonWinsSection.includes("team highlights"), "Timeline gallery intro should frame the section as activity outside full-time work");
 assert.ok(hackathonWinsSection.includes("Hackathons") && hackathonWinsSection.includes("Startup") && hackathonWinsSection.includes("Team Highlights"), "Timeline gallery should expose quick category cues instead of only win-focused framing");
 for (const hackathonAsset of [
-  "images/hackathon/deriv-ai-hackathon-stage-2025.jpg",
+  "images/hackathon/timeline-happening-01.webp",
+  "images/hackathon/timeline-happening-02.webp",
+  "images/hackathon/timeline-happening-03.webp",
+  "images/hackathon/timeline-happening-04.webp",
+  "images/hackathon/timeline-happening-05.webp",
+  "images/hackathon/timeline-happening-06.webp",
+  "images/hackathon/timeline-happening-07.webp",
+  "images/hackathon/timeline-happening-08.webp",
+  "images/hackathon/timeline-happening-09.webp",
+  "images/hackathon/timeline-happening-10.webp",
+  "images/hackathon/timeline-happening-11.webp",
+  "images/hackathon/timeline-happening-12.webp",
+  "images/hackathon/timeline-happening-13.webp",
+  "images/hackathon/timeline-happening-14.webp",
+  "images/hackathon/timeline-happening-15.webp",
+  "images/hackathon/timeline-happening-16.webp",
+  "images/hackathon/timeline-happening-17.webp",
+  "images/hackathon/timeline-happening-18.webp",
+  "images/hackathon/timeline-happening-19.webp",
+  "images/hackathon/timeline-happening-20.webp",
+  "images/hackathon/timeline-happening-21.webp",
+  "images/hackathon/timeline-happening-22.webp",
+  "images/hackathon/timeline-happening-23.webp",
   "images/hackathon/deriv-ai-hackathon-countdown.jpg",
-  "images/ui/hackathon-champion-stage-v2.png",
-  "images/teaching/teaching-n8n-event.jpeg",
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg"
+  "images/ui/hackathon-champion-stage-v2.png"
 ]) {
   assert.ok(hackathonWinsSection.includes(hackathonAsset), `Hackathon carousel should include real event asset: ${hackathonAsset}`);
 }
 for (const unrelatedHackathonAsset of [
+  "images/teaching/teaching-n8n-event.jpeg",
+  "images/teaching/teaching-non-it-vs-real-it.jpeg",
+  "images/teaching/teaching-tech-readiness.jpeg",
+  "images/teaching/teaching-productivity.jpeg",
   "images/hackathon/deriv-ai-hackathon-live-session.jpg",
   "images/hackathon/deriv-ai-hackathon-application.jpg",
   "images/hackathon/deriv-ai-hackathon-semifinalists.jpg",
@@ -1013,7 +1078,7 @@ for (const unrelatedHackathonAsset of [
 ]) {
   assert.ok(!hackathonWinsSection.includes(unrelatedHackathonAsset), `Hackathon carousel should not use unrelated local asset: ${unrelatedHackathonAsset}`);
 }
-assert.ok(hackathonWinsSection.includes("Cyberjaya") && hackathonWinsSection.includes("RM15,000") && hackathonWinsSection.includes("AI Champion"), "Hackathon carousel should surface event metadata and achievement outcomes");
+assert.ok(hackathonWinsSection.includes("Deriv Public Proof") && hackathonWinsSection.includes("RM15,000") && hackathonWinsSection.includes("AI Champion"), "Hackathon carousel should surface event metadata and achievement outcomes");
 assert.ok(hackathonWinsSection.includes("data-carousel-prev") && hackathonWinsSection.includes("data-carousel-next"), "Hackathon carousel should expose previous and next controls");
 assert.ok(hackathonWinsSection.includes("data-carousel-track"), "Timeline gallery should identify the moving media track in markup");
 assert.ok(html.indexOf('href="#speaker-teaching"') < html.indexOf('href="#hackathon-wins"'), "Navbar order should place Teaching before Wins after moving the wins block");
@@ -1043,9 +1108,9 @@ assert.ok(css.includes(".real-teaching-grid"), "Teaching cards should use a dedi
 assert.ok(css.includes(".teaching-section-heading") && css.includes(".teaching-card-media") && css.includes("aspect-ratio") && css.includes("object-fit: contain"), "Teaching section CSS should size the title and fit full real images without cropping");
 assert.ok(css.includes(".teaching-card-copy") && css.includes("color: #f8f2e6") && css.includes("rgba(247, 243, 232, 0.74)"), "Teaching card copy should stay readable on the dark card surface in light and dark themes");
 assert.ok(css.includes(".hackathon-carousel-stage") && css.includes("perspective:") && css.includes("transform-style: preserve-3d"), "Hackathon carousel should use a real 3D stage");
-assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY("), "Timeline cards should keep liquid-glass styling and 3D tilt");
+assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY(var(--card-angle))") && css.includes("translateZ(var(--ring-radius))"), "Timeline cards should sit around a circular 3D ring instead of a flat row");
 assert.ok(js.includes("setupHackathonGlassCarousel") && js.includes("data-hackathon-carousel") && js.includes("data-carousel-next"), "Hackathon carousel should be controlled by JavaScript");
-assert.ok(js.includes("requestAnimationFrame") && js.includes("trackOffset") && js.includes("trackVelocity") && js.includes("pointerdown") && js.includes("dragThreshold"), "Timeline gallery should use continuous motion, drag support, and scalable track state for near-endless scrolling");
+assert.ok(js.includes("requestAnimationFrame") && js.includes("ringRotation") && js.includes("ringVelocity") && js.includes("ringRadius") && js.includes("pointerdown") && js.includes("dragThreshold"), "Timeline gallery should use continuous circular motion, drag support, and scalable ring state for near-endless carousel rotation");
 
 for (const oldHeroOverlay of [
   "hero-layer-vignette",

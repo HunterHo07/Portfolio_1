@@ -34,41 +34,6 @@
         <!-- Bootstrap CSS File -->
         <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-        <!-- Libraries CSS Files -->
-        <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet" />
-        <link
-            href="lib/owlcarousel/assets/owl.carousel.min.css"
-            rel="stylesheet"
-            media="print"
-            onload="this.media = 'all'"
-            data-async-css="lib/owlcarousel/assets/owl.carousel.min.css"
-        />
-        <link
-            href="lib/magnific-popup/magnific-popup.css"
-            rel="stylesheet"
-            media="print"
-            onload="this.media = 'all'"
-            data-async-css="lib/magnific-popup/magnific-popup.css"
-        />
-        <link
-            href="lib/hover/hover.min.css"
-            rel="stylesheet"
-            media="print"
-            onload="this.media = 'all'"
-            data-async-css="lib/hover/hover.min.css"
-        />
-        <noscript>
-            <link
-                href="lib/owlcarousel/assets/owl.carousel.min.css"
-                rel="stylesheet"
-            />
-            <link
-                href="lib/magnific-popup/magnific-popup.css"
-                rel="stylesheet"
-            />
-            <link href="lib/hover/hover.min.css" rel="stylesheet" />
-        </noscript>
-
         <!-- Main Stylesheet File -->
         <script>
             (function () {
@@ -78,24 +43,12 @@
         <link
             rel="preload"
             as="image"
-            href="images/hero-options/option-c-three-source.jpg"
+            href="images/hero-options/option-c-three-source.webp"
         />
-        <link href="css/style.css?v=2.1.13" rel="stylesheet" />
+        <link href="css/style.min.css?v=2.2.3" rel="stylesheet" />
 
         <!-- Responsive css -->
-        <link href="css/responsive.css?v=2.0.8" rel="stylesheet" />
-
-        <!-- Cool Animation css -->
-        <link
-            href="css/animate.css"
-            rel="stylesheet"
-            media="print"
-            onload="this.media = 'all'"
-            data-async-css="css/animate.css"
-        />
-        <noscript>
-            <link href="css/animate.css" rel="stylesheet" />
-        </noscript>
+        <link href="css/responsive.min.css?v=2.2.3" rel="stylesheet" />
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
@@ -128,7 +81,7 @@
                     </div>
 
                     <div class="responsive">
-                        <i data-icon="m" class="ion-navicon-round"></i>
+                        <span class="menu-icon" aria-hidden="true"></span>
                     </div>
 
                     <ul class="nav-menu list-unstyled">
@@ -214,7 +167,7 @@
             target="_blank"
             rel="noopener"
         >
-            Hunter v2.1.2
+            Hunter v2.2.3
         </a>
         <div
             class="hero-hunter-popup"
@@ -225,7 +178,7 @@
             <div class="hero-hunter-portrait-shell" aria-hidden="true">
                 <img
                     class="hero-hunter-portrait"
-                    src="images/hero-layers/hero-hunter-cutout.webp"
+                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hero-layers/hero-hunter-cutout.webp"
                     width="691"
                     height="660"
                     alt=""
@@ -251,7 +204,7 @@
             <div class="hero-three-stage" aria-hidden="true">
                 <img
                     class="hero-three-source"
-                    src="images/hero-options/option-c-three-source.jpg"
+                    src="images/hero-options/option-c-three-source.webp"
                     width="1672"
                     height="941"
                     alt=""
@@ -313,15 +266,6 @@
                             >Projects Demo</a
                         >
                     </div>
-
-                    <!-- <ul class="list-unstyled list-social">
-                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
-                    <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                    <li><a href="#"><i class="ion-social-tumblr"></i></a></li>
-                    <li><a href="#"><i class="ion-social-dribbble"></i></a></li>
-                </ul> -->
                 </div>
             </div>
         </div>
@@ -343,23 +287,21 @@
                         class="startup-founder-video-slot startup-founder-video-hero"
                     >
                         <div class="startup-video-frame">
-                            <iframe
-                                src="https://www.youtube.com/embed/KRxQ8JuqMyE?rel=0&amp;modestbranding=1&amp;playsinline=1"
-                                title="TrillionUnicorn startup video"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allow="
-                                    accelerometer;
-                                    autoplay;
-                                    clipboard-write;
-                                    compute-pressure;
-                                    encrypted-media;
-                                    gyroscope;
-                                    picture-in-picture;
-                                    web-share;
-                                "
-                                allowfullscreen
-                            ></iframe>
+                            <button
+                                type="button"
+                                class="youtube-lite-embed"
+                                data-youtube-id="KRxQ8JuqMyE"
+                                aria-label="Play TrillionUnicorn startup video"
+                            >
+                                <span
+                                    class="youtube-lite-play"
+                                    aria-hidden="true"
+                                ></span>
+                                <span class="youtube-lite-copy">
+                                    <strong>TrillionUnicorn story</strong>
+                                    <span>Tap to load YouTube video</span>
+                                </span>
+                            </button>
                         </div>
                         <p class="startup-sound-note">
                             Turn on sound for the full startup story.
@@ -773,7 +715,7 @@
                             <img
                                 class="founder-poster-layer founder-poster-layer-base is-visible"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-00-no-hunter.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-00-no-hunter.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho vision poster background before each proof moment appears"
@@ -783,7 +725,7 @@
                                 class="founder-poster-layer founder-poster-layer-01"
                                 data-founder-step="0"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-01-miami.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-01-miami.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho Miami Heat vision proof moment"
@@ -793,7 +735,7 @@
                                 class="founder-poster-layer founder-poster-layer-02"
                                 data-founder-step="1"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-02-cto.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-02-cto.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho CTO startup builder proof moment"
@@ -803,7 +745,7 @@
                                 class="founder-poster-layer founder-poster-layer-04"
                                 data-founder-step="2"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-04-ahfaiz.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-04-ahfaiz.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho Ahfaiz founder app proof moment"
@@ -813,7 +755,7 @@
                                 class="founder-poster-layer founder-poster-layer-05"
                                 data-founder-step="3"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-05-worldcup.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-05-worldcup.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho World Cup goal proof moment"
@@ -823,7 +765,7 @@
                                 class="founder-poster-layer founder-poster-layer-06"
                                 data-founder-step="4"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-06-hackathon.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-06-hackathon.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho hackathon champion proof moment"
@@ -833,7 +775,7 @@
                                 class="founder-poster-layer founder-poster-layer-07"
                                 data-founder-step="5"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-07-teaching.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-07-teaching.webp"
                                 width="607"
                                 height="1280"
                                 alt="Hunter Ho teaching IT class proof moment"
@@ -842,7 +784,7 @@
                             <img
                                 class="founder-poster-layer founder-poster-layer-all"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
                                 width="607"
                                 height="1280"
                                 alt="Full Hunter Ho vision poster with six proof moments visible"
@@ -851,7 +793,7 @@
                             <img
                                 class="founder-proof-color-spotlight"
                                 loading="lazy"
-                                src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-poster-layers/founder-poster-08-all-hunters.webp"
                                 width="607"
                                 height="1280"
                                 alt=""
@@ -1139,7 +1081,7 @@
                 ></canvas>
                 <img
                     class="models-hunter-bg-ghost"
-                    src="images/hunter-demo-bg-neon-matrix.png"
+                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hunter-demo-bg-neon-matrix.webp"
                     width="941"
                     height="1672"
                     alt=""
@@ -1164,8 +1106,8 @@
                                 href="https://hunterho07.github.io/Website_1"
                                 ><img
                                     loading="lazy"
-                                    src="images/p1.webp"
-                                    data-alt-thumb="images/p1-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p1.webp"
+                                    data-alt-thumb="images/p1-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1201,8 +1143,8 @@
                                 href="https://hunterho07.github.io/Website_2"
                                 ><img
                                     loading="lazy"
-                                    src="images/p2.webp"
-                                    data-alt-thumb="images/p2-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p2.webp"
+                                    data-alt-thumb="images/p2-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1238,8 +1180,8 @@
                                 href="https://hunterhobbq.github.io/Mobile_App/"
                                 ><img
                                     loading="lazy"
-                                    src="images/p4.webp"
-                                    data-alt-thumb="images/p4-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p4.webp"
+                                    data-alt-thumb="images/p4-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1275,8 +1217,8 @@
                                 href="https://hunterho07.github.io/Website_4"
                                 ><img
                                     loading="lazy"
-                                    src="images/p3.webp"
-                                    data-alt-thumb="images/p3-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p3.webp"
+                                    data-alt-thumb="images/p3-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1312,8 +1254,8 @@
                                 href="https://hunterhobbq.github.io/Games_Portal"
                                 ><img
                                     loading="lazy"
-                                    src="images/p5.webp"
-                                    data-alt-thumb="images/p5-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p5.webp"
+                                    data-alt-thumb="images/p5-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1349,8 +1291,8 @@
                                 href="https://hunterhobbq.github.io/Mobile_App_Showcase"
                                 ><img
                                     loading="lazy"
-                                    src="images/p6.webp"
-                                    data-alt-thumb="images/p6-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p6.webp"
+                                    data-alt-thumb="images/p6-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1386,8 +1328,8 @@
                                 href="https://hunterhobbq.github.io/PalWorld"
                                 ><img
                                     loading="lazy"
-                                    src="images/p7.webp"
-                                    data-alt-thumb="images/p7-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p7.webp"
+                                    data-alt-thumb="images/p7-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1424,8 +1366,8 @@
                                 href="https://hunterho07.github.io/STAR_APOCALYPSE/"
                                 ><img
                                     loading="lazy"
-                                    src="images/p8.webp"
-                                    data-alt-thumb="images/p8-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p8.webp"
+                                    data-alt-thumb="images/p8-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1461,8 +1403,8 @@
                                 href="https://hunterhobbq.github.io/BlockChain_API_DashBoard/"
                                 ><img
                                     loading="lazy"
-                                    src="images/p9.webp"
-                                    data-alt-thumb="images/p9-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/p9.webp"
+                                    data-alt-thumb="images/p9-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1499,9 +1441,9 @@
                                 href="https://hunterho07.github.io/d21-i3-BestzDeal"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-bestzdeal-feature.png"
-                                    data-alt-thumb="images/demo-thumb-bestzdeal-feature-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.png,images/demo-thumb-bestzdeal-feature-demo-match.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-bestzdeal-feature.webp"
+                                    data-alt-thumb="images/demo-thumb-bestzdeal-feature-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.webp,images/demo-thumb-bestzdeal-feature-demo-match.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1537,8 +1479,8 @@
                                 href="https://hunterho07.github.io/d4-fe-Travel"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-travel-feature.png"
-                                    data-alt-thumb="images/demo-thumb-travel-feature-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-travel-feature.webp"
+                                    data-alt-thumb="images/demo-thumb-travel-feature-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1574,9 +1516,9 @@
                                 href="https://d27-i7-sim-work.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sim-work-d27.png"
-                                    data-alt-thumb="images/demo-thumb-sim-work-d27-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sim-work-d27.webp"
+                                    data-alt-thumb="images/demo-thumb-sim-work-d27-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1612,9 +1554,9 @@
                                 href="https://d34-i7-sim-work.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sim-work-d34.png"
-                                    data-alt-thumb="images/demo-thumb-sim-work-d34-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.png,images/demo-thumb-sim-work-d34-project-manager.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sim-work-d34.webp"
+                                    data-alt-thumb="images/demo-thumb-sim-work-d34-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.webp,images/demo-thumb-sim-work-d34-project-manager.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1651,9 +1593,9 @@
                                 href="https://i1-d1-report-u.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-reportu-d1.png"
-                                    data-alt-thumb="images/demo-thumb-reportu-d1-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-reportu-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-reportu-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-reportu-d1-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-reportu-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1689,9 +1631,9 @@
                                 href="https://i1-d2-reportu.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-reportu-d2.png"
-                                    data-alt-thumb="images/demo-thumb-reportu-d2-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-reportu-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-reportu-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-reportu-d2-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-reportu-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1727,9 +1669,9 @@
                                 href="https://i2-d1-namecardai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-namecardai-d1.png"
-                                    data-alt-thumb="images/demo-thumb-namecardai-d1-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-namecardai-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-namecardai-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-namecardai-d1-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-namecardai-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1765,9 +1707,9 @@
                                 href="https://i2-d2-namecardai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-namecardai-d2.png"
-                                    data-alt-thumb="images/demo-thumb-namecardai-d2-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-namecardai-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-namecardai-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-namecardai-d2-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-namecardai-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1803,9 +1745,9 @@
                                 href="https://i3-d1-bestzdealai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-bestzdealai-d1.png"
-                                    data-alt-thumb="images/demo-thumb-bestzdealai-d1-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-bestzdealai-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-bestzdealai-d1-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1841,9 +1783,9 @@
                                 href="https://i3-d2-bestzdealai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-bestzdealai-d2.png"
-                                    data-alt-thumb="images/demo-thumb-bestzdealai-d2-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-bestzdealai-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-bestzdealai-d2-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1879,9 +1821,9 @@
                                 href="https://i3-d3-bestzdealai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-bestzdealai-d3.png"
-                                    data-alt-thumb="images/demo-thumb-bestzdealai-d3-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d3-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-bestzdealai-d3.webp"
+                                    data-alt-thumb="images/demo-thumb-bestzdealai-d3-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-bestzdealai-d3-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1917,9 +1859,9 @@
                                 href="https://i4-d1-messageyouai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-messageyou-d1.png"
-                                    data-alt-thumb="images/demo-thumb-messageyou-d1-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-messageyou-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-messageyou-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-messageyou-d1-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-messageyou-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1955,9 +1897,9 @@
                                 href="https://i4-d2-messageyouai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-messageyou-d2.png"
-                                    data-alt-thumb="images/demo-thumb-messageyou-d2-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-messageyou-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-messageyou-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-messageyou-d2-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-messageyou-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -1993,9 +1935,9 @@
                                 href="https://i5-d2-warrantyai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-warrantyai-d2.png"
-                                    data-alt-thumb="images/demo-thumb-warrantyai-d2-alt.png"
-                                    data-extra-thumbs="images/demo-thumb-warrantyai-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-warrantyai-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-warrantyai-d2-alt.webp"
+                                    data-extra-thumbs="images/demo-thumb-warrantyai-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2031,8 +1973,8 @@
                                 href="https://runjian-irun-simworld.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-rj-1.png"
-                                    data-alt-thumb="images/demo-thumb-rj-1-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-rj-1.webp"
+                                    data-alt-thumb="images/demo-thumb-rj-1-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2066,8 +2008,8 @@
                             <a target="_blank" href="https://rj-2.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-rj-2.png"
-                                    data-alt-thumb="images/demo-thumb-rj-2-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-rj-2.webp"
+                                    data-alt-thumb="images/demo-thumb-rj-2-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2103,8 +2045,8 @@
                                 href="https://i7-d5-simwork.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-simwork-d5.png"
-                                    data-alt-thumb="images/demo-thumb-simwork-d5-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-simwork-d5.webp"
+                                    data-alt-thumb="images/demo-thumb-simwork-d5-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2140,8 +2082,8 @@
                                 href="https://i7-d1-simwork.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-simwork-d1.png"
-                                    data-alt-thumb="images/demo-thumb-simwork-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-simwork-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-simwork-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2177,8 +2119,8 @@
                                 href="https://i7-d2-simwork-lb6q.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-simwork-d2.png"
-                                    data-alt-thumb="images/demo-thumb-simwork-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-simwork-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-simwork-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2214,8 +2156,8 @@
                                 href="https://d25-i7-sim-work.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sim-work-d25.png"
-                                    data-alt-thumb="images/demo-thumb-sim-work-d25-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sim-work-d25.webp"
+                                    data-alt-thumb="images/demo-thumb-sim-work-d25-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2251,8 +2193,8 @@
                                 href="https://d26-i7-sim-work.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sim-work-d26.png"
-                                    data-alt-thumb="images/demo-thumb-sim-work-d26-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sim-work-d26.webp"
+                                    data-alt-thumb="images/demo-thumb-sim-work-d26-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2288,8 +2230,8 @@
                                 href="https://d33-i7-sim-work.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sim-work-d33.png"
-                                    data-alt-thumb="images/demo-thumb-sim-work-d33-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sim-work-d33.webp"
+                                    data-alt-thumb="images/demo-thumb-sim-work-d33-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2325,8 +2267,8 @@
                                 href="https://d30-i42-instant-website-ai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-instant-website-ai-d30.png"
-                                    data-alt-thumb="images/demo-thumb-instant-website-ai-d30-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-instant-website-ai-d30.webp"
+                                    data-alt-thumb="images/demo-thumb-instant-website-ai-d30-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2362,7 +2304,7 @@
                                 href="https://h1-iota-recyclling.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-grab-recycling-iota.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-grab-recycling-iota.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2398,8 +2340,8 @@
                                 href="https://i5-d3-warrantyai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-warrantyai-d3.png"
-                                    data-alt-thumb="images/demo-thumb-warrantyai-d3-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-warrantyai-d3.webp"
+                                    data-alt-thumb="images/demo-thumb-warrantyai-d3-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2435,8 +2377,8 @@
                                 href="https://i6-d1-coredeskaicms.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-coredesk-d1.png"
-                                    data-alt-thumb="images/demo-thumb-coredesk-d1-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-coredesk-d1.webp"
+                                    data-alt-thumb="images/demo-thumb-coredesk-d1-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2472,8 +2414,8 @@
                                 href="https://i6-d2-coredeskaicms.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-coredesk-d2.png"
-                                    data-alt-thumb="images/demo-thumb-coredesk-d2-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-coredesk-d2.webp"
+                                    data-alt-thumb="images/demo-thumb-coredesk-d2-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2509,7 +2451,7 @@
                                 href="https://job1-six.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-job1.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-job1.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2545,7 +2487,7 @@
                                 href="https://job2-pearl.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-job2.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-job2.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2581,7 +2523,7 @@
                                 href="https://job3-sigma.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-job3.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-job3.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2617,8 +2559,8 @@
                                 href="https://lifeflowai.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-lifeflowai.png"
-                                    data-alt-thumb="images/demo-thumb-lifeflowai-demo.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-lifeflowai.webp"
+                                    data-alt-thumb="images/demo-thumb-lifeflowai-demo.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2654,7 +2596,7 @@
                                 href="https://sicbo-ui-tool.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-sicbo-tool.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-sicbo-tool.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2690,7 +2632,7 @@
                                 href="https://v0-launch-gami-sport.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-gami-sport.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-gami-sport.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2726,7 +2668,7 @@
                                 href="https://p2-run-jian-sim-world.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-runjian-simworld-p2.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-runjian-simworld-p2.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2793,7 +2735,7 @@
                                 href="https://mobile-warrantyscan-demo.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-mobile-warrantyscan.jpg"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-mobile-warrantyscan.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2853,7 +2795,7 @@
                                 href="https://mobile-namecard-demo.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-mobile-namecard.jpg"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-mobile-namecard.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -2983,7 +2925,7 @@
                                 href="https://game-demo-04-neon-grid-racer.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-neon-grid-racer.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-neon-grid-racer.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3018,7 +2960,7 @@
                                 href="https://game-demo-05-orbit-defense.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-orbit-defense.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-orbit-defense.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3053,7 +2995,7 @@
                                 href="https://game-demo-06-husky-rescue-run.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-husky-rescue.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-husky-rescue.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3088,7 +3030,7 @@
                                 href="https://game-demo-07-dragon-forge-arena.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-dragon-forge.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-dragon-forge.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3123,7 +3065,7 @@
                                 href="https://game-demo-08-quantum-card-lab.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-quantum-card.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-quantum-card.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3158,7 +3100,7 @@
                                 href="https://game-demo-09-sky-island-tycoon.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-game-neon-signal-run.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-game-neon-signal-run.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3193,8 +3135,8 @@
                                 href="https://hunterhobbq.github.io/Click_The_Dot/"
                                 ><img
                                     loading="lazy"
-                                    src="images/Click_The_Dot.webp"
-                                    data-alt-thumb="images/Click_The_Dot-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/Click_The_Dot.webp"
+                                    data-alt-thumb="images/Click_The_Dot-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3229,8 +3171,8 @@
                                 href="https://hunterhobbq.github.io/Pick_Apple/"
                                 ><img
                                     loading="lazy"
-                                    src="images/Hunt_The_Dot.webp"
-                                    data-alt-thumb="images/Hunt_The_Dot-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/Hunt_The_Dot.webp"
+                                    data-alt-thumb="images/Hunt_The_Dot-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3265,8 +3207,8 @@
                                 href="https://hunterhobbq.github.io/Pick_Drop_Play"
                                 ><img
                                     loading="lazy"
-                                    src="images/Pick_The_Apple.webp"
-                                    data-alt-thumb="images/Pick_The_Apple-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/Pick_The_Apple.webp"
+                                    data-alt-thumb="images/Pick_The_Apple-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3340,8 +3282,8 @@
                                 href="https://rj-assets-hunter5.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-rj-assets-1.png"
-                                    data-alt-thumb="images/demo-thumb-rj-assets-1-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-rj-assets-1.webp"
+                                    data-alt-thumb="images/demo-thumb-rj-assets-1-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3377,8 +3319,8 @@
                                 href="https://rj-assets-2-hunter5.vercel.app/"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-rj-assets-2.png"
-                                    data-alt-thumb="images/demo-thumb-rj-assets-2-alt.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-rj-assets-2.webp"
+                                    data-alt-thumb="images/demo-thumb-rj-assets-2-alt.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3414,9 +3356,9 @@
                                 href="https://qstyle-3d-models-lab.vercel.app"
                                 ><img
                                     loading="lazy"
-                                    src="images/demo-thumb-qstyle-3d-models-lab.png"
-                                    data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.png"
-                                    data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.png,images/demo-thumb-qstyle-3d-models-lab-mobile.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/demo-thumb-qstyle-3d-models-lab.webp"
+                                    data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.webp"
+                                    data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.webp,images/demo-thumb-qstyle-3d-models-lab-mobile.webp"
                                     width="450"
                                     height="300"
                                     class="img-responsive"
@@ -3472,7 +3414,7 @@
                         <div class="teaching-card-media">
                             <img
                                 loading="lazy"
-                                src="images/teaching/teaching-non-it-vs-real-it.jpeg"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/teaching/teaching-non-it-vs-real-it.webp"
                                 width="719"
                                 height="724"
                                 alt="Real Krenovator class poster for Non-IT vs Real-IT session by Hunter Ho"
@@ -3493,7 +3435,7 @@
                         <div class="teaching-card-media">
                             <img
                                 loading="lazy"
-                                src="images/teaching/teaching-vibe-coding-101.png"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/teaching/teaching-vibe-coding-101.webp"
                                 width="722"
                                 height="718"
                                 alt="Real Krenovator class poster for Vibe Coding 101 by Hunter Ho"
@@ -3514,7 +3456,7 @@
                         <div class="teaching-card-media">
                             <img
                                 loading="lazy"
-                                src="images/teaching/teaching-intro-n8n-basics-2026.png"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/teaching/teaching-intro-n8n-basics-2026.webp"
                                 width="721"
                                 height="721"
                                 alt="Real Krenovator class poster for Intro to N8N Application and Basics by Hunter Ho"
@@ -3535,7 +3477,7 @@
                         <div class="teaching-card-media">
                             <img
                                 loading="lazy"
-                                src="images/teaching/teaching-tech-readiness.jpeg"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/teaching/teaching-tech-readiness.webp"
                                 width="716"
                                 height="688"
                                 alt="Real Krenovator class poster for Decoding Tech Readiness by Hunter Ho"
@@ -3555,7 +3497,7 @@
                         <div class="teaching-card-media">
                             <img
                                 loading="lazy"
-                                src="images/teaching/teaching-productivity.jpeg"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/teaching/teaching-productivity.webp"
                                 width="717"
                                 height="719"
                                 alt="Real Krenovator class poster for developer productivity workflow by Hunter Ho"
@@ -3622,7 +3564,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-01.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-01.webp"
                                         width="1280"
                                         height="960"
                                         alt="Hunter Ho and teammates building at a hackathon table"
@@ -3644,7 +3586,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-02.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-02.webp"
                                         width="1220"
                                         height="1211"
                                         alt="Deriv AI Hackathon public post showing Hunter team achievement"
@@ -3666,7 +3608,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-03.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-03.webp"
                                         width="960"
                                         height="1280"
                                         alt="Hunter Ho attending NTIS Open Day innovation commercialisation event"
@@ -3688,7 +3630,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-04.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-04.webp"
                                         width="1280"
                                         height="960"
                                         alt="Hunter Ho at Web3 afterparty event backdrop"
@@ -3710,7 +3652,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-05.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-05.webp"
                                         width="1280"
                                         height="854"
                                         alt="Hunter Ho and team discussing at IOTA event booth"
@@ -3732,7 +3674,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-06.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-06.webp"
                                         width="688"
                                         height="1280"
                                         alt="Presenter speaking with microphone at IOTA Hackathon event"
@@ -3754,7 +3696,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-07.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-07.webp"
                                         width="1280"
                                         height="960"
                                         alt="IOTA Hackathon Malaysia 2025 stage presentation"
@@ -3776,7 +3718,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-08.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-08.webp"
                                         width="960"
                                         height="1280"
                                         alt="Startup competition networking room with founders and judges"
@@ -3798,7 +3740,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-09.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-09.webp"
                                         width="810"
                                         height="1080"
                                         alt="Sui Hacker House team holding first runner up prize board"
@@ -3820,7 +3762,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-10.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-10.webp"
                                         width="960"
                                         height="1280"
                                         alt="Close-up of Sui Hacker House Malaysia 2025 badge and event kit"
@@ -3842,7 +3784,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-11.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-11.webp"
                                         width="720"
                                         height="1280"
                                         alt="Hunter Ho and teammates at Deriv AI Hackathon build table"
@@ -3864,7 +3806,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-12.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-12.webp"
                                         width="1280"
                                         height="959"
                                         alt="Team discussion captured during hackathon project review"
@@ -3886,7 +3828,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-13.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-13.webp"
                                         width="1223"
                                         height="1280"
                                         alt="Hunter Ho Deriv AI Hackathon hacker badge for Team Phantom"
@@ -3908,7 +3850,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-14.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-14.webp"
                                         width="1114"
                                         height="501"
                                         alt="Deriv AI Hackathon winner stage social proof screenshot"
@@ -3930,7 +3872,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-15.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-15.webp"
                                         width="965"
                                         height="1364"
                                         alt="Deriv AI Hackathon first prize board and trophy"
@@ -3952,7 +3894,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-16.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-16.webp"
                                         width="1280"
                                         height="720"
                                         alt="Hunter Ho and Web3 teammates at conference table"
@@ -3974,7 +3916,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-17.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-17.webp"
                                         width="1350"
                                         height="2400"
                                         alt="Startup weekend team building at long desk"
@@ -3996,7 +3938,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-18.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-18.webp"
                                         width="2400"
                                         height="1350"
                                         alt="Team coffee meeting during Web3 or startup event"
@@ -4018,7 +3960,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-19.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-19.webp"
                                         width="1200"
                                         height="675"
                                         alt="Early hackathon team working with laptops at shared table"
@@ -4040,7 +3982,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-20.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-20.webp"
                                         width="1080"
                                         height="809"
                                         alt="Hunter Ho and teammate at early startup hackathon table"
@@ -4062,7 +4004,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-21.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-21.webp"
                                         width="1280"
                                         height="960"
                                         alt="Hunter Ho holding Deriv AI Hackathon champion trophy"
@@ -4084,7 +4026,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-22.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-22.webp"
                                         width="3594"
                                         height="1912"
                                         alt="Hunter Ho selfie in front of Deriv AI Hackathon project submission screen"
@@ -4106,7 +4048,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/timeline-happening-23.webp"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/timeline-happening-23.webp"
                                         width="1280"
                                         height="959"
                                         alt="Early startup weekend team building together at laptops"
@@ -4128,7 +4070,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/hackathon/deriv-ai-hackathon-countdown.jpg"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/hackathon/deriv-ai-hackathon-countdown.webp"
                                         width="1080"
                                         height="1080"
                                         alt="Deriv AI Hackathon countdown winner-stage visual"
@@ -4150,7 +4092,7 @@
                                     <img
                                         class="hackathon-carousel-image"
                                         loading="lazy"
-                                        src="images/ui/hackathon-champion-stage-v2.png"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/ui/hackathon-champion-stage-v2.webp"
                                         width="1672"
                                         height="941"
                                         alt="Champion stage event visual for Hunter Ho hackathon achievement"
@@ -4219,7 +4161,7 @@
                                 ></span>
                                 <img
                                     loading="lazy"
-                                    src="images/about-hunter-parallax-v2.png"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/about-hunter-parallax-v2.webp"
                                     width="1024"
                                     height="1536"
                                     class="img-responsive"
@@ -4325,7 +4267,7 @@
                             data-pricing-service="website"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-ios-browsers-outline"></i>
+                            <span class="service-icon" aria-hidden="true">WEB</span>
                             <span>Website | 网站</span>
                             <p class="separator">
                                 Develop & Build a perfect website for you:
@@ -4341,7 +4283,7 @@
                             data-pricing-service="server"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-ios-lightbulb-outline"></i>
+                            <span class="service-icon" aria-hidden="true">DB</span>
                             <span>Server & Database | 服务器</span>
                             <p class="separator">
                                 Setup & Maintenance : Server & Database, Setup
@@ -4357,7 +4299,7 @@
                             data-pricing-service="software"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-ios-color-wand-outline"></i>
+                            <span class="service-icon" aria-hidden="true">SYS</span>
                             <span>Software | 编程</span>
                             <p class="separator">
                                 Custom For Your Business Need: (CMS)Content
@@ -4375,7 +4317,7 @@
                             data-pricing-service="mobile"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-social-android-outline"></i>
+                            <span class="service-icon" aria-hidden="true">APP</span>
                             <span>MOBILE APP | 手机应用</span>
                             <p class="separator">
                                 iOS & Android : Flutter, React-Native, Ionic,
@@ -4392,7 +4334,7 @@
                             data-pricing-service="ai"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-ios-analytics-outline"></i>
+                            <span class="service-icon" aria-hidden="true">AI</span>
                             <span>Machine Learning (Ai) | 人工智能</span>
                             <p class="separator">
                                 Automation, Task Automation, Data-Training &
@@ -4409,7 +4351,7 @@
                             data-pricing-service="ux"
                             aria-controls="service-pricing-modal"
                         >
-                            <i class="ion-ios-camera-outline"></i>
+                            <span class="service-icon" aria-hidden="true">UX</span>
                             <span>UX & UI Designer | 计师</span>
                             <p class="separator">
                                 Front-End designer, Fast load times, Lag free
@@ -4440,7 +4382,7 @@
                             data-service-pricing-close
                             aria-label="Close pricing details"
                         >
-                            <i class="ion-ios-close-empty" aria-hidden="true"></i>
+                            <span aria-hidden="true">x</span>
                         </button>
                         <div class="service-pricing-copy">
                             <p class="section-kicker">Market Pricing Snapshot</p>
@@ -4486,7 +4428,7 @@
                 aria-hidden="true"
             >
                 <img
-                    src="images/founder-banner.jpeg"
+                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/founder-banner.webp"
                     width="1280"
                     height="511"
                     alt=""
@@ -4593,7 +4535,7 @@
                 <span class="husky-sprite-stage" aria-hidden="true">
                     <img
                         class="husky-sprite husky-sprite-idle"
-                        src="images/ui/husky-idle.png"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/ui/husky-idle.webp"
                         width="256"
                         height="256"
                         alt=""
@@ -4602,7 +4544,7 @@
                     />
                     <img
                         class="husky-sprite husky-sprite-happy"
-                        src="images/ui/husky-happy.png"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/ui/husky-happy.webp"
                         width="256"
                         height="256"
                         alt=""
@@ -4611,7 +4553,7 @@
                     />
                     <img
                         class="husky-sprite husky-sprite-excited"
-                        src="images/ui/husky-excited.png"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/ui/husky-excited.webp"
                         width="256"
                         height="256"
                         alt=""
@@ -4620,7 +4562,7 @@
                     />
                     <img
                         class="husky-sprite husky-sprite-contact"
-                        src="images/ui/husky-contact.png"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="images/ui/husky-contact.webp"
                         width="256"
                         height="256"
                         alt=""
@@ -4666,9 +4608,7 @@
             </div>
         </div>
 
-        <!-- JavaScript Libraries -->
-        <script src="lib/jquery/jquery.min.js" defer></script>
-        <script src="js/main.js?v=2.1.8" defer></script>
+        <script src="js/main.min.js?v=2.2.3" defer></script>
     </body>
 </html>
 

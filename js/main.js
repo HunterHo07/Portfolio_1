@@ -1,4 +1,4 @@
-/*global $, jQuery, alert*/
+/*global alert*/
 (function () {
   "use strict";
 
@@ -254,7 +254,7 @@
       defaultProjectAbout: "This project is framed as a practical portfolio demo: readable, responsive, demo-ready, and built to communicate value before overbuilding unnecessary backend complexity.",
       projectThinking: "The important part is not only the visual page; it is the product thinking behind it: what the user should do next, what the client can validate, and how the demo can grow into a production-ready build.",
       defaultClientValue: "This helps clients validate an idea, attract users or investors, explain a workflow, and choose a freelancer who can handle product thinking, front-end execution, mobile responsiveness, visual polish, and deployment.",
-      footerBanner: "images/founder-banner.jpeg"
+      footerBanner: "images/founder-banner.webp"
     },
     zh: {
       demoProjects: "项目 Demo",
@@ -466,6 +466,19 @@
     }
   }
 
+  function setDeferredImageSource(image, src) {
+    if (!image || !src) {
+      return;
+    }
+
+    if (image.dataset && image.dataset.src && image.dataset.loaded !== "true") {
+      image.dataset.src = src;
+      return;
+    }
+
+    image.src = src;
+  }
+
   function setIndexedText(selector, values) {
     document.querySelectorAll(selector).forEach(function (element, index) {
       if (values[index]) {
@@ -673,9 +686,7 @@
       }
     });
 
-    if (contactFooterImage) {
-      contactFooterImage.src = copy.footerBanner;
-    }
+    setDeferredImageSource(contactFooterImage, copy.footerBanner);
   }
 
   function setTextContentFor(element, value) {
@@ -1245,11 +1256,11 @@
     var founderFinalConnectorRevealLeadMs = 160;
     var founderFinalConnectorIntroMs = 1720;
     var founderFinalProofPoints = {
-      sport: { x: 0.255, y: 0.205, connectorY: 0.21, tone: "#ff7a5c", radius: "ellipse(18% 16% at 25.5% 20.5%)" },
-      cto: { x: 0.645, y: 0.235, tone: "#74e3ff", radius: "ellipse(20% 16% at 64.5% 23.5%)", anchorSide: "left", anchorY: 0.72, anchorOffset: 8 },
+      sport: { x: 0.255, y: 0.205, connectorY: 0.22, targetOffsetX: -5, targetOffsetY: 20, tone: "#ff7a5c", radius: "ellipse(18% 16% at 25.5% 20.5%)" },
+      cto: { x: 0.645, y: 0.235, connectorY: 0.235, targetOffsetX: 5, targetOffsetY: 15, tone: "#74e3ff", radius: "ellipse(20% 16% at 64.5% 23.5%)", anchorSide: "left", anchorY: 0.72, anchorOffset: 8 },
       ai: { x: 0.235, y: 0.535, tone: "#b481ff", radius: "ellipse(16% 15% at 23.5% 53.5%)" },
-      world: { x: 0.78, y: 0.565, tone: "#6ef0a1", radius: "ellipse(18% 15% at 78% 56.5%)", anchorSide: "left", anchorY: 0.8, anchorOffset: 8 },
-      win: { x: 0.265, y: 0.81, tone: "#d8b987", radius: "ellipse(19% 15% at 26.5% 81%)" },
+      world: { x: 0.78, y: 0.565, targetOffsetX: 20, tone: "#6ef0a1", radius: "ellipse(18% 15% at 78% 56.5%)", anchorSide: "left", anchorY: 0.8, anchorOffset: 8 },
+      win: { x: 0.265, y: 0.81, connectorY: 0.81, targetOffsetY: 35, tone: "#d8b987", radius: "ellipse(19% 15% at 26.5% 81%)" },
       teach: { x: 0.655, y: 0.82, tone: "#ff9ed1", radius: "ellipse(21% 15% at 65.5% 82%)", anchorSide: "left", anchorY: 0.16, anchorOffset: 8 }
     };
     var founderPosterScrollAnchors = [
@@ -1418,8 +1429,8 @@
         var buttonCenterX = buttonRect.left + buttonRect.width / 2 - shellRect.left;
         var buttonCenterY = buttonRect.top + buttonRect.height / 2 - shellRect.top;
         var targetPointY = typeof point.connectorY === "number" ? point.connectorY : point.y;
-        var targetX = posterRect.left + posterRect.width * point.x - shellRect.left;
-        var targetY = posterRect.top + posterRect.height * targetPointY - shellRect.top;
+        var targetX = posterRect.left + posterRect.width * point.x - shellRect.left + (point.targetOffsetX || 0);
+        var targetY = posterRect.top + posterRect.height * targetPointY - shellRect.top + (point.targetOffsetY || 0);
         var deltaToTargetX = targetX - buttonCenterX;
         var deltaToTargetY = targetY - buttonCenterY;
         var halfWidth = buttonRect.width / 2;
@@ -2365,6 +2376,48 @@
     updateHunterFocus();
   }
 
+  function setupDeferredImages() {
+    var images = Array.prototype.slice.call(document.querySelectorAll("img[data-src]"));
+
+    function loadImage(image) {
+      var src = image.getAttribute("data-src");
+
+      if (!src || image.dataset.loaded === "true") {
+        return;
+      }
+
+      image.src = src;
+      image.dataset.loaded = "true";
+    }
+
+    if (!images.length) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      images.forEach(loadImage);
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          observer.unobserve(entry.target);
+          loadImage(entry.target);
+        });
+      },
+      { rootMargin: "360px 0px", threshold: 0.01 }
+    );
+
+    images.forEach(function (image) {
+      observer.observe(image);
+    });
+  }
+
   function setupProjectThumbnailLoops() {
     var thumbnails = Array.prototype.slice.call(document.querySelectorAll("img[data-alt-thumb]"));
 
@@ -2379,7 +2432,7 @@
     }
 
     thumbnails.forEach(function (thumbnail, index) {
-      var primary = thumbnail.getAttribute("src");
+      var primary = thumbnail.getAttribute("data-src") || thumbnail.getAttribute("src");
       var alternate = thumbnail.getAttribute("data-alt-thumb");
       var extraThumbs = (thumbnail.getAttribute("data-extra-thumbs") || "")
         .split(",")
@@ -2394,7 +2447,7 @@
       var currentThumbIndex = 0;
       var visible = false;
       var waitingForPreload = false;
-      var preloaded = alternates.map(preload);
+      var preloaded = [];
 
       if (thumbSources.length < 2) {
         return;
@@ -2416,7 +2469,9 @@
         thumbnail.classList.add("is-thumb-swapping");
 
         window.setTimeout(function () {
+          thumbnail.setAttribute("data-src", nextSrc);
           thumbnail.setAttribute("src", nextSrc);
+          thumbnail.dataset.loaded = "true";
           thumbnail.classList.toggle("is-thumb-alt", useAlternate);
           thumbnail.classList.remove("is-thumb-swapping");
         }, 180);
@@ -2435,6 +2490,14 @@
 
       function start() {
         visible = true;
+
+        if (thumbnail.dataset && thumbnail.dataset.src && thumbnail.dataset.loaded !== "true") {
+          setDeferredImageSource(thumbnail, thumbnail.dataset.src);
+        }
+
+        if (!preloaded.length) {
+          preloaded = alternates.map(preload);
+        }
 
         if (intervalId) {
           return;
@@ -3477,10 +3540,11 @@
     var nextButton = carousel.querySelector("[data-carousel-next]");
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var animationFrameId = 0;
-    var ringRotation = 0;
-    var ringVelocity = reduceMotion ? 0 : 7.5;
-    var ringStep = 0;
-    var ringRadius = 760;
+    var carouselIndex = 0;
+    var carouselVelocity = reduceMotion ? 0 : 0.22;
+    var visibleSlots = 9;
+    var slotStep = 40;
+    var carouselRadius = 860;
     var slideWidth = 0;
     var lastFrameTime = 0;
     var dragStartX = 0;
@@ -3512,52 +3576,52 @@
       });
     }
 
-    function normalizeRingRotation() {
-      ringRotation %= 360;
+    function getSignedLoopDistance(cardIndex) {
+      var cardDistance = cardIndex - carouselIndex;
+      var halfLength = cards.length / 2;
 
-      if (ringRotation < 0) {
-        ringRotation += 360;
-      }
+      cardDistance = ((cardDistance + halfLength) % cards.length + cards.length) % cards.length - halfLength;
+      return cardDistance;
     }
 
-    function applyRingRotation() {
-      carousel.style.setProperty("--ring-rotation", String(ringRotation) + "deg");
-    }
+    function applyCarouselLayout() {
+      var halfVisibleSlots = Math.floor(visibleSlots / 2);
 
-    function updateRingDepthClasses() {
       cards.forEach(function (card, cardIndex) {
-        var cardAngle = (cardIndex * ringStep + ringRotation) % 360;
-        var normalizedAngle = ((cardAngle - 180 + 540) % 360) - 180;
-        var frontDistance = Math.abs(normalizedAngle);
+        var slotDistance = getSignedLoopDistance(cardIndex);
+        var absSlotDistance = Math.abs(slotDistance);
+        var isVisible = absSlotDistance <= halfVisibleSlots + 0.65;
+        var angle = Math.max(Math.min(slotDistance, halfVisibleSlots + 1), -halfVisibleSlots - 1) * slotStep;
+        var depthY = Math.abs(slotDistance) * 10;
+        var opacity = isVisible ? Math.max(0.12, 1 - absSlotDistance * 0.18) : 0;
 
-        card.classList.toggle("is-ring-focus", frontDistance < ringStep * 0.72);
-        card.classList.toggle("is-ring-side", frontDistance >= ringStep * 0.72 && frontDistance < 88);
-        card.classList.toggle("is-ring-back", frontDistance > 116);
+        card.style.setProperty("--card-angle", String(angle) + "deg");
+        card.style.setProperty("--card-depth-y", String(depthY.toFixed(2)) + "px");
+        card.style.setProperty("--card-opacity", String(opacity.toFixed(3)));
+        card.style.zIndex = String(100 - Math.round(absSlotDistance * 10));
+        card.classList.toggle("is-ring-focus", absSlotDistance < 0.5);
+        card.classList.toggle("is-ring-side", absSlotDistance >= 0.5 && absSlotDistance <= 2.5);
+        card.classList.toggle("is-ring-back", absSlotDistance > 2.5);
       });
     }
 
     function layoutRing() {
       var stageWidth = stage.getBoundingClientRect().width || 960;
-      var stageHeight = stage.getBoundingClientRect().height || 720;
-      slideWidth = cards[0].getBoundingClientRect().width || 220;
-      ringStep = 360 / cards.length;
-      ringRadius = Math.max(
-        stageWidth * 0.9,
-        slideWidth * cards.length / (Math.PI * 2) * 1.16
-      );
-      ringRadius = Math.min(ringRadius, Math.max(stageWidth, stageHeight) * 1.68);
+      slideWidth = cards[0].getBoundingClientRect().width || 520;
+      visibleSlots = stageWidth < 720 ? 7 : 9;
+      slotStep = 360 / visibleSlots;
+      carouselRadius = Math.round((slideWidth / 2) / Math.tan(Math.PI / visibleSlots));
+      carouselRadius = Math.max(stageWidth * 0.48, carouselRadius);
+      carouselRadius = Math.min(carouselRadius, 1280);
 
-      carousel.style.setProperty("--ring-radius", String(Math.round(ringRadius)) + "px");
+      carousel.style.setProperty("--carousel-radius", String(Math.round(carouselRadius)) + "px");
 
       cards.forEach(function (card, cardIndex) {
-        card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
         card.setAttribute("data-carousel-seq", String(cardIndex));
         card.setAttribute("aria-hidden", "false");
       });
 
-      normalizeRingRotation();
-      applyRingRotation();
-      updateRingDepthClasses();
+      applyCarouselLayout();
     }
 
     function lockControlsBriefly() {
@@ -3572,10 +3636,8 @@
         return;
       }
 
-      ringRotation += direction * ringStep;
-      normalizeRingRotation();
-      applyRingRotation();
-      updateRingDepthClasses();
+      carouselIndex += direction;
+      applyCarouselLayout();
       lockControlsBriefly();
     }
 
@@ -3588,10 +3650,8 @@
       lastFrameTime = timestamp;
 
       if (!reduceMotion && !isPaused && !isDragging) {
-        ringRotation -= ringVelocity * elapsedSeconds;
-        normalizeRingRotation();
-        applyRingRotation();
-        updateRingDepthClasses();
+        carouselIndex += carouselVelocity * elapsedSeconds;
+        applyCarouselLayout();
       }
 
       animationFrameId = window.requestAnimationFrame(tick);
@@ -3647,10 +3707,8 @@
       var pointerDeltaX = event.clientX - lastPointerX;
       dragDeltaX = event.clientX - dragStartX;
       lastPointerX = event.clientX;
-      ringRotation += pointerDeltaX * 0.18;
-      normalizeRingRotation();
-      applyRingRotation();
-      updateRingDepthClasses();
+      carouselIndex -= pointerDeltaX / Math.max(stage.getBoundingClientRect().width, 1) * 2.8;
+      applyCarouselLayout();
     });
 
     carousel.addEventListener("pointerup", function (event) {
@@ -3669,18 +3727,14 @@
       if (Math.abs(dragDeltaX) > dragThreshold && Math.abs(dragDeltaX) > Math.abs(dragDeltaY)) {
         stepTrack(dragDeltaX < 0 ? -1 : 1);
       } else {
-        normalizeRingRotation();
-        applyRingRotation();
-        updateRingDepthClasses();
+        applyCarouselLayout();
       }
     });
 
     carousel.addEventListener("pointercancel", function () {
       isDragging = false;
       carousel.classList.remove("is-dragging");
-      normalizeRingRotation();
-      applyRingRotation();
-      updateRingDepthClasses();
+      applyCarouselLayout();
     });
 
     carousel.addEventListener("mouseenter", function () {
@@ -3737,10 +3791,66 @@
     });
   }
 
+  function setupLazyYouTubeEmbeds() {
+    document.querySelectorAll("[data-youtube-id]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var videoId = button.getAttribute("data-youtube-id");
+        var frame = document.createElement("iframe");
+
+        if (!videoId || button.dataset.loaded === "true") {
+          return;
+        }
+
+        button.dataset.loaded = "true";
+        frame.src = "https://www.youtube.com/embed/" + encodeURIComponent(videoId) + "?rel=0&modestbranding=1&playsinline=1&autoplay=1";
+        frame.title = button.getAttribute("aria-label") || "YouTube video";
+        frame.loading = "lazy";
+        frame.referrerPolicy = "strict-origin-when-cross-origin";
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        frame.allowFullscreen = true;
+        button.replaceWith(frame);
+      });
+    });
+  }
+
+  function setupSmoothAnchorScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        var targetHash = link.getAttribute("href");
+        var target;
+
+        if (!targetHash || targetHash === "#") {
+          return;
+        }
+
+        target = document.querySelector(targetHash);
+        if (!target) {
+          return;
+        }
+
+        event.preventDefault();
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+          anchor.classList.toggle("active", anchor === link);
+        });
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - 80,
+          behavior: isReducedMotion() ? "auto" : "smooth"
+        });
+
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, "", targetHash);
+        } else {
+          window.location.hash = targetHash;
+        }
+      });
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       setupLanguageToggle();
       setupProjectDetails();
+      setupDeferredImages();
       setupProjectThumbnailLoops();
       setupSectionParallax();
       setupContactCopyrightDock();
@@ -3760,10 +3870,13 @@
       setupStartupTechStackLights();
       setupHackathonGlassCarousel();
       setupResponsiveNavbarToggle();
+      setupLazyYouTubeEmbeds();
+      setupSmoothAnchorScroll();
     });
   } else {
     setupLanguageToggle();
     setupProjectDetails();
+    setupDeferredImages();
     setupProjectThumbnailLoops();
     setupSectionParallax();
     setupContactCopyrightDock();
@@ -3783,218 +3896,7 @@
     setupStartupTechStackLights();
     setupHackathonGlassCarousel();
     setupResponsiveNavbarToggle();
+    setupLazyYouTubeEmbeds();
+    setupSmoothAnchorScroll();
   }
 })();
-
-var portfolioScriptPromises = {};
-
-function loadScriptOnce(src) {
-  if (portfolioScriptPromises[src]) {
-    return portfolioScriptPromises[src];
-  }
-
-  portfolioScriptPromises[src] = new Promise(function (resolve, reject) {
-    var existing = document.querySelector('script[src="' + src + '"]');
-
-    if (existing) {
-      if (existing.dataset.loaded === "true") {
-        resolve();
-        return;
-      }
-
-      existing.addEventListener("load", resolve, { once: true });
-      existing.addEventListener("error", reject, { once: true });
-      return;
-    }
-
-    var script = document.createElement("script");
-    script.src = src;
-    script.defer = true;
-    script.dataset.lazyLibrary = "true";
-    script.addEventListener("load", function () {
-      script.dataset.loaded = "true";
-      resolve();
-    }, { once: true });
-    script.addEventListener("error", reject, { once: true });
-    document.body.appendChild(script);
-  });
-
-  return portfolioScriptPromises[src];
-}
-
-function runWhenElementIsNear($elements, callback) {
-  var nodes = $elements.toArray().filter(Boolean);
-  var didRun = false;
-
-  if (!nodes.length) {
-    return;
-  }
-
-  function run() {
-    if (didRun) {
-      return;
-    }
-
-    didRun = true;
-    callback();
-  }
-
-  if (!("IntersectionObserver" in window)) {
-    run();
-    return;
-  }
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      if (entries.some(function (entry) { return entry.isIntersecting; })) {
-        observer.disconnect();
-        run();
-      }
-    },
-    { rootMargin: "720px 0px", threshold: 0 }
-  );
-
-  nodes.slice(0, 4).forEach(function (node) {
-    observer.observe(node);
-  });
-}
-
-function loadOptionalPortfolioPlugins($) {
-  var typed = $(".typed");
-  var servicesCarousel = $(".services-carousel");
-  var popupLinks = $(".popup-img");
-
-  if (typed.length) {
-    loadScriptOnce("lib/typed/typed.js")
-      .then(function () {
-        if ($.fn.typed) {
-          typed.typed({
-            strings: ["Hunter.", "Programmer.", "Developer.", "Hacker.", "Designer.", "Freelancer."],
-            typeSpeed: 100,
-            loop: true,
-          });
-        }
-      })
-      .catch(function () {});
-  }
-
-  if (servicesCarousel.length) {
-    runWhenElementIsNear(servicesCarousel, function () {
-      loadScriptOnce("lib/owlcarousel/owl.carousel.min.js")
-        .then(function () {
-          if ($.fn.owlCarousel) {
-            servicesCarousel.owlCarousel({
-              autoplay: true,
-              loop: true,
-              margin: 20,
-              dots: true,
-              nav: false,
-              responsiveClass: true,
-              responsive: { 0: { items: 1 }, 768: { items: 2 }, 900: { items: 4 } },
-            });
-          }
-        })
-        .catch(function () {});
-    });
-  }
-
-  if (popupLinks.length) {
-    runWhenElementIsNear(popupLinks, function () {
-      loadScriptOnce("lib/magnific-popup/magnific-popup.min.js")
-        .then(function () {
-          if ($.fn.magnificPopup) {
-            popupLinks.magnificPopup({
-              type: "image",
-              removalDelay: 300,
-              mainClass: "mfp-with-zoom",
-              gallery: {
-                enabled: true,
-              },
-              zoom: {
-                enabled: true,
-                duration: 300,
-                easing: "ease-in-out",
-                opener: function (openerElement) {
-                  return openerElement.is("img") ? openerElement : openerElement.find("img");
-                },
-              },
-            });
-          }
-        })
-        .catch(function () {});
-    });
-  }
-}
-
-$(document).ready(function () {
-  "use strict";
-
-  // ========================================================================= //
-  //  //SMOOTH SCROLL
-  // ========================================================================= //
-
-  $(document).on("scroll", onScroll);
-
-  $('a[href^="#"]').on("click", function (e) {
-    e.preventDefault();
-    $(document).off("scroll");
-
-    $("a").each(function () {
-      $(this).removeClass("active");
-      if ($(window).width() < 768) {
-        $(".nav-menu").slideUp();
-      }
-    });
-
-    $(this).addClass("active");
-
-    var targetHash = this.hash;
-    var target = $(targetHash);
-
-    if (!target.length) {
-      $(document).on("scroll", onScroll);
-      return;
-    }
-
-    $("html, body")
-      .stop()
-      .animate(
-        {
-          scrollTop: target.offset().top - 80,
-        },
-        500,
-        "swing",
-        function () {
-          if (window.history && window.history.pushState) {
-            window.history.pushState(null, "", targetHash);
-          } else {
-            window.location.hash = targetHash;
-          }
-          $(document).on("scroll", onScroll);
-        }
-      );
-  });
-
-  function onScroll(event) {
-    if ($(".home").length) {
-      var scrollPos = $(document).scrollTop();
-      $("nav ul li a").each(function () {
-        var currLink = $(this);
-        var refElement = $(currLink.attr("href"));
-      });
-    }
-  }
-
-  $("#main-nav-subpage").removeClass("subpage-nav");
-
-  // ========================================================================= //
-  //  // RESPONSIVE MENU
-  // ========================================================================= //
-
-  $(".responsive").on("click", function (e) {
-    e.preventDefault();
-  });
-
-  loadOptionalPortfolioPlugins($);
-
-});

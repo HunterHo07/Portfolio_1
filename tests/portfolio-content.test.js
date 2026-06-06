@@ -17,6 +17,32 @@ function readImageSize(filePath) {
     };
   }
 
+  if (buffer.toString("ascii", 0, 4) === "RIFF" && buffer.toString("ascii", 8, 12) === "WEBP") {
+    const chunkType = buffer.toString("ascii", 12, 16);
+
+    if (chunkType === "VP8X") {
+      return {
+        width: 1 + buffer.readUIntLE(24, 3),
+        height: 1 + buffer.readUIntLE(27, 3)
+      };
+    }
+
+    if (chunkType === "VP8L") {
+      const bits = buffer.readUInt32LE(21);
+      return {
+        width: 1 + (bits & 0x3fff),
+        height: 1 + ((bits >> 14) & 0x3fff)
+      };
+    }
+
+    if (chunkType === "VP8 ") {
+      return {
+        width: buffer.readUInt16LE(26) & 0x3fff,
+        height: buffer.readUInt16LE(28) & 0x3fff
+      };
+    }
+  }
+
   if (buffer[0] === 0xff && buffer[1] === 0xd8) {
     let offset = 2;
     while (offset < buffer.length) {
@@ -50,21 +76,21 @@ const headWithoutNoscript = headHtml.replace(/<noscript>[\s\S]*?<\/noscript>/g, 
 assert.ok(!/<script\s+src=/.test(headHtml), "Head should not contain external render-blocking scripts");
 assert.ok(headHtml.includes('rel="preconnect" href="https://fonts.googleapis.com"'), "Head should preconnect to Google Fonts");
 assert.ok(headHtml.includes('rel="preconnect" href="https://fonts.gstatic.com" crossorigin'), "Head should preconnect to Google font assets");
-for (const asyncCss of [
+for (const removedCss of [
   "lib/owlcarousel/assets/owl.carousel.min.css",
   "lib/magnific-popup/magnific-popup.css",
   "lib/hover/hover.min.css",
   "css/animate.css"
 ]) {
-  assert.ok(headHtml.includes(`href="${asyncCss}"`) && headHtml.includes(`data-async-css="${asyncCss}"`) && /this\.media\s*=\s*['"]all['"]/.test(headHtml), `Noncritical CSS should load asynchronously: ${asyncCss}`);
-  assert.ok(!headWithoutNoscript.includes(`<link href="${asyncCss}" rel="stylesheet" />`), `Noncritical CSS should not remain render-blocking: ${asyncCss}`);
+  assert.ok(!headHtml.includes(`href="${removedCss}"`) && !headHtml.includes(`data-async-css="${removedCss}"`), `Unused optional CSS should not load: ${removedCss}`);
+  assert.ok(!headWithoutNoscript.includes(`<link href="${removedCss}" rel="stylesheet" />`), `Unused optional CSS should not remain render-blocking: ${removedCss}`);
 }
-assert.ok(/<link[\s\S]*rel="preload"[\s\S]*as="image"[\s\S]*href="images\/hero-options\/option-c-three-source\.jpg"[\s\S]*>/.test(headHtml), "Head should preload only the optimized active hero source image");
-assert.ok(!headHtml.includes('rel="preload" as="image" href="images/founder-banner.jpeg"') && !headHtml.includes('rel="preload" as="image" href="images/founder-vision-poster.jpeg"'), "Below-fold images should not be preloaded");
+assert.ok(/<link[\s\S]*rel="preload"[\s\S]*as="image"[\s\S]*href="images\/hero-options\/option-c-three-source\.webp"[\s\S]*>/.test(headHtml), "Head should preload only the optimized active hero source image");
+assert.ok(!headHtml.includes('rel="preload" as="image" href="images/founder-banner.webp"') && !headHtml.includes('rel="preload" as="image" href="images/founder-vision-poster.webp"'), "Below-fold images should not be preloaded");
 const heroSourceTag = html.match(/<img[^>]*class="hero-three-source"[^>]*>/);
-assert.ok(heroSourceTag && heroSourceTag[0].includes('src="images/hero-options/option-c-three-source.jpg"') && heroSourceTag[0].includes('loading="eager"') && heroSourceTag[0].includes('decoding="async"') && heroSourceTag[0].includes('fetchpriority="high"'), "Hero source image should be optimized, eager, async-decoded, and high priority");
-assert.ok(fs.existsSync("images/hero-options/option-c-three-source.jpg"), "Missing optimized homepage hero source image");
-assert.ok(fs.statSync("images/hero-options/option-c-three-source.jpg").size < 360000, "Optimized homepage hero source image should stay under 360 KB");
+assert.ok(heroSourceTag && heroSourceTag[0].includes('src="images/hero-options/option-c-three-source.webp"') && heroSourceTag[0].includes('loading="eager"') && heroSourceTag[0].includes('decoding="async"') && heroSourceTag[0].includes('fetchpriority="high"'), "Hero source image should be optimized, eager, async-decoded, and high priority");
+assert.ok(fs.existsSync("images/hero-options/option-c-three-source.webp"), "Missing optimized homepage hero source image");
+assert.ok(fs.statSync("images/hero-options/option-c-three-source.webp").size < 360000, "Optimized homepage hero source image should stay under 360 KB");
 assert.ok(css.includes(".hero-three-stage::before") && css.includes("filter: blur(20px)") && css.includes("hero blur placeholder"), "Hero should have a lightweight blur placeholder before the hero image loads");
 assert.ok(html.includes('class="is-hero-top is-hero-loading"'), "Body should start with a hero loading state before the hero image is ready");
 assert.ok(html.includes('class="hero-image-loader"') && html.includes('data-hero-loader') && html.includes("Loading hero visual"), "Hero should show a small loader while the hero image is still downloading");
@@ -72,11 +98,14 @@ assert.ok(css.includes(".hero-image-loader") && css.includes(".hero-three-stage.
 assert.ok(js.includes("setupHeroImageLoading") && js.includes("is-hero-loading") && js.includes("is-image-ready") && js.includes("decode()"), "Hero loader should resolve through image decode/load state in main.js");
 assert.ok(!html.includes('src="lib/typed/typed.js"') && !html.includes('src="lib/owlcarousel/owl.carousel.min.js"') && !html.includes('src="lib/magnific-popup/magnific-popup.min.js"') && !html.includes('src="lib/isotope/isotope.pkgd.min.js"'), "Optional UI libraries should not be loaded as page-level script tags");
 assert.ok(!html.includes('src="lib/jquery/jquery-migrate.min.js"') && !html.includes('src="contactform/contactform.js"') && !html.includes("https://smtpjs.com/v3/smtp.js"), "Unused legacy scripts should not load on the critical path");
-assert.ok(js.includes("loadScriptOnce") && js.includes("loadOptionalPortfolioPlugins") && js.includes("runWhenElementIsNear") && js.includes("IntersectionObserver") && js.includes("lib/magnific-popup/magnific-popup.min.js"), "Optional libraries should be viewport-gated and lazy-loaded by main.js only when needed");
+assert.ok(!headHtml.includes("lib/ionicons/css/ionicons.min.css") && !html.includes("ion-social-") && !html.includes('class="ion-'), "Ionicons font CSS should not load on the critical path");
+assert.ok(js.includes("setupDeferredImages") && js.includes('document.querySelectorAll("img[data-src]")') && js.includes("IntersectionObserver"), "Below-fold images should use a strict data-src lazy loader instead of relying only on native lazy loading");
+assert.ok(!html.includes('src="lib/jquery/jquery.min.js"') && !js.includes("loadOptionalPortfolioPlugins") && !js.includes("loadScriptOnce"), "jQuery and unused optional plugin loaders should not load on the critical path");
 
 for (const match of html.matchAll(/<img\b[^>]*>/g)) {
   const tag = match[0];
   const src = (tag.match(/src="([^"]+)"/) || [])[1] || "";
+  const dataSrc = (tag.match(/data-src="([^"]+)"/) || [])[1] || "";
   const isLogo = src.endsWith("logo.svg");
   const isHero = tag.includes("hero-three-source");
 
@@ -88,8 +117,10 @@ for (const match of html.matchAll(/<img\b[^>]*>/g)) {
 
   if (isHero) {
     assert.ok(/\bloading="eager"/.test(tag), `Hero image should be eager: ${src}`);
+    assert.ok(!/\bdata-src="/.test(tag), "Hero image should keep a real eager src");
   } else if (!isLogo) {
     assert.ok(/\bloading="lazy"/.test(tag), `Below-fold or delayed image should be lazy: ${src}`);
+    assert.ok(src.startsWith("data:image/") && dataSrc.startsWith("images/"), `Below-fold image should defer its real asset through data-src: ${dataSrc || src}`);
   }
 }
 
@@ -100,10 +131,10 @@ for (const match of html.matchAll(/<iframe\b[^>]*>/g)) {
 }
 
 for (const huskySprite of [
-  "images/ui/husky-idle.png",
-  "images/ui/husky-happy.png",
-  "images/ui/husky-excited.png",
-  "images/ui/husky-contact.png"
+  "images/ui/husky-idle.webp",
+  "images/ui/husky-happy.webp",
+  "images/ui/husky-excited.webp",
+  "images/ui/husky-contact.webp"
 ]) {
   const size = readImageSize(huskySprite);
   assert.equal(size.width, 256, `Husky helper sprite should be resized for its on-screen display width: ${huskySprite}`);
@@ -117,8 +148,8 @@ const heroOptionsCss = fs.readFileSync("css/hero-options.css", "utf8");
 const heroOptionsJs = fs.readFileSync("js/hero-options.js", "utf8");
 
 const heroOptionAssets = [
-  "images/hero-options/option-a-cinematic-source.png",
-  "images/hero-options/option-c-three-source.png"
+  "images/hero-options/option-a-cinematic-source.webp",
+  "images/hero-options/option-c-three-source.webp"
 ];
 for (const asset of heroOptionAssets) {
   assert.ok(fs.existsSync(asset), `Missing generated hero option source image: ${asset}`);
@@ -129,8 +160,8 @@ assert.ok(heroOptionsHtml.includes("data-hero-preview=\"option-a\""), "Hero pick
 assert.ok(heroOptionsHtml.includes("data-hero-preview=\"option-c\""), "Hero picker should include Option C interactive 3D preview");
 const cinematicPlanes = heroOptionsHtml.match(/class="cinematic-plane/g) || [];
 assert.ok(cinematicPlanes.length >= 18, `Option A should expose at least 18 visible depth planes, found ${cinematicPlanes.length}`);
-assert.ok(heroOptionsHtml.includes("option-a-cinematic-source.png"), "Option A should use the generated cinematic source image");
-assert.ok(heroOptionsHtml.includes("option-c-three-source.png"), "Option C should use the generated 3D source image");
+assert.ok(heroOptionsHtml.includes("option-a-cinematic-source.webp"), "Option A should use the generated cinematic source image");
+assert.ok(heroOptionsHtml.includes("option-c-three-source.webp"), "Option C should use the generated 3D source image");
 assert.ok(heroOptionsHtml.includes("three-canvas") && heroOptionsJs.includes("initThreeHero"), "Option C should mount a dedicated 3D scene hook");
 assert.ok(heroOptionsCss.includes("perspective:") && heroOptionsCss.includes("--plane-depth"), "Hero options CSS should support real depth-plane transforms");
 assert.ok(heroOptionsJs.includes("requestAnimationFrame") && heroOptionsJs.includes("prefers-reduced-motion"), "Hero options should animate efficiently and respect reduced motion");
@@ -189,7 +220,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.1.2",
+  "Hunter v2.2.3",
 ];
 
 const requestedDemoUrls = [
@@ -273,69 +304,69 @@ const requiredUrls = [
 const requiredAssets = [
   "images/logo.svg",
   "images/favicon.svg",
-  "images/demo-thumb-bestzdeal-feature.png",
-  "images/demo-thumb-bestzdeal-feature-demo.png",
-  "images/demo-thumb-bestzdeal-feature-demo-match.png",
-  "images/demo-thumb-travel-feature.png",
-  "images/demo-thumb-sim-work-d27.png",
-  "images/demo-thumb-sim-work-d27-demo.png",
-  "images/demo-thumb-sim-work-d34.png",
-  "images/demo-thumb-sim-work-d34-demo.png",
-  "images/demo-thumb-sim-work-d34-project-manager.png",
-  "images/demo-thumb-reportu-d1.png",
-  "images/demo-thumb-reportu-d1-demo.png",
-  "images/demo-thumb-reportu-d2.png",
-  "images/demo-thumb-reportu-d2-demo.png",
-  "images/demo-thumb-namecardai-d1.png",
-  "images/demo-thumb-namecardai-d1-demo.png",
-  "images/demo-thumb-namecardai-d2.png",
-  "images/demo-thumb-namecardai-d2-demo.png",
-  "images/demo-thumb-bestzdealai-d1.png",
-  "images/demo-thumb-bestzdealai-d1-demo.png",
-  "images/demo-thumb-bestzdealai-d2.png",
-  "images/demo-thumb-bestzdealai-d2-demo.png",
-  "images/demo-thumb-bestzdealai-d3.png",
-  "images/demo-thumb-bestzdealai-d3-demo.png",
-  "images/demo-thumb-messageyou-d1.png",
-  "images/demo-thumb-messageyou-d1-demo.png",
-  "images/demo-thumb-messageyou-d2.png",
-  "images/demo-thumb-messageyou-d2-demo.png",
-  "images/demo-thumb-warrantyai-d2.png",
-  "images/demo-thumb-warrantyai-d2-demo.png",
-  "images/demo-thumb-simwork-d5.png",
-  "images/demo-thumb-simwork-d1.png",
-  "images/demo-thumb-simwork-d2.png",
-  "images/demo-thumb-sim-work-d25.png",
-  "images/demo-thumb-sim-work-d26.png",
-  "images/demo-thumb-sim-work-d33.png",
-  "images/demo-thumb-instant-website-ai-d30.png",
-  "images/demo-thumb-grab-recycling-iota.png",
-  "images/demo-thumb-warrantyai-d3.png",
-  "images/demo-thumb-coredesk-d1.png",
-  "images/demo-thumb-coredesk-d2.png",
-  "images/demo-thumb-job1.png",
-  "images/demo-thumb-job2.png",
-  "images/demo-thumb-job3.png",
-  "images/demo-thumb-lifeflowai.png",
-  "images/demo-thumb-sicbo-tool.png",
-  "images/demo-thumb-gami-sport.png",
-  "images/demo-thumb-runjian-simworld-p2.png",
-  "images/demo-thumb-rj-1.png",
-  "images/demo-thumb-rj-1-alt.png",
-  "images/demo-thumb-rj-2.png",
-  "images/demo-thumb-rj-assets-1.png",
-  "images/demo-thumb-rj-assets-1-alt.png",
-  "images/demo-thumb-rj-assets-2.png",
-  "images/demo-thumb-game-neon-grid-racer.png",
-  "images/demo-thumb-game-orbit-defense.png",
-  "images/demo-thumb-game-husky-rescue.png",
-  "images/demo-thumb-game-dragon-forge.png",
-  "images/demo-thumb-game-quantum-card.png",
-  "images/demo-thumb-game-neon-signal-run.png",
-  "images/demo-thumb-qstyle-3d-models-lab.png",
-  "images/demo-thumb-qstyle-3d-models-lab-cards.png",
-  "images/demo-thumb-qstyle-3d-models-lab-detail.png",
-  "images/demo-thumb-qstyle-3d-models-lab-mobile.png",
+  "images/demo-thumb-bestzdeal-feature.webp",
+  "images/demo-thumb-bestzdeal-feature-demo.webp",
+  "images/demo-thumb-bestzdeal-feature-demo-match.webp",
+  "images/demo-thumb-travel-feature.webp",
+  "images/demo-thumb-sim-work-d27.webp",
+  "images/demo-thumb-sim-work-d27-demo.webp",
+  "images/demo-thumb-sim-work-d34.webp",
+  "images/demo-thumb-sim-work-d34-demo.webp",
+  "images/demo-thumb-sim-work-d34-project-manager.webp",
+  "images/demo-thumb-reportu-d1.webp",
+  "images/demo-thumb-reportu-d1-demo.webp",
+  "images/demo-thumb-reportu-d2.webp",
+  "images/demo-thumb-reportu-d2-demo.webp",
+  "images/demo-thumb-namecardai-d1.webp",
+  "images/demo-thumb-namecardai-d1-demo.webp",
+  "images/demo-thumb-namecardai-d2.webp",
+  "images/demo-thumb-namecardai-d2-demo.webp",
+  "images/demo-thumb-bestzdealai-d1.webp",
+  "images/demo-thumb-bestzdealai-d1-demo.webp",
+  "images/demo-thumb-bestzdealai-d2.webp",
+  "images/demo-thumb-bestzdealai-d2-demo.webp",
+  "images/demo-thumb-bestzdealai-d3.webp",
+  "images/demo-thumb-bestzdealai-d3-demo.webp",
+  "images/demo-thumb-messageyou-d1.webp",
+  "images/demo-thumb-messageyou-d1-demo.webp",
+  "images/demo-thumb-messageyou-d2.webp",
+  "images/demo-thumb-messageyou-d2-demo.webp",
+  "images/demo-thumb-warrantyai-d2.webp",
+  "images/demo-thumb-warrantyai-d2-demo.webp",
+  "images/demo-thumb-simwork-d5.webp",
+  "images/demo-thumb-simwork-d1.webp",
+  "images/demo-thumb-simwork-d2.webp",
+  "images/demo-thumb-sim-work-d25.webp",
+  "images/demo-thumb-sim-work-d26.webp",
+  "images/demo-thumb-sim-work-d33.webp",
+  "images/demo-thumb-instant-website-ai-d30.webp",
+  "images/demo-thumb-grab-recycling-iota.webp",
+  "images/demo-thumb-warrantyai-d3.webp",
+  "images/demo-thumb-coredesk-d1.webp",
+  "images/demo-thumb-coredesk-d2.webp",
+  "images/demo-thumb-job1.webp",
+  "images/demo-thumb-job2.webp",
+  "images/demo-thumb-job3.webp",
+  "images/demo-thumb-lifeflowai.webp",
+  "images/demo-thumb-sicbo-tool.webp",
+  "images/demo-thumb-gami-sport.webp",
+  "images/demo-thumb-runjian-simworld-p2.webp",
+  "images/demo-thumb-rj-1.webp",
+  "images/demo-thumb-rj-1-alt.webp",
+  "images/demo-thumb-rj-2.webp",
+  "images/demo-thumb-rj-assets-1.webp",
+  "images/demo-thumb-rj-assets-1-alt.webp",
+  "images/demo-thumb-rj-assets-2.webp",
+  "images/demo-thumb-game-neon-grid-racer.webp",
+  "images/demo-thumb-game-orbit-defense.webp",
+  "images/demo-thumb-game-husky-rescue.webp",
+  "images/demo-thumb-game-dragon-forge.webp",
+  "images/demo-thumb-game-quantum-card.webp",
+  "images/demo-thumb-game-neon-signal-run.webp",
+  "images/demo-thumb-qstyle-3d-models-lab.webp",
+  "images/demo-thumb-qstyle-3d-models-lab-cards.webp",
+  "images/demo-thumb-qstyle-3d-models-lab-detail.webp",
+  "images/demo-thumb-qstyle-3d-models-lab-mobile.webp",
   "images/hackathon/timeline-happening-01.webp",
   "images/hackathon/timeline-happening-02.webp",
   "images/hackathon/timeline-happening-03.webp",
@@ -359,25 +390,25 @@ const requiredAssets = [
   "images/hackathon/timeline-happening-21.webp",
   "images/hackathon/timeline-happening-22.webp",
   "images/hackathon/timeline-happening-23.webp",
-  "images/hackathon/deriv-ai-hackathon-countdown.jpg",
-  "images/ui/hackathon-champion-stage-v2.png",
-  "images/demo-thumb-mobile-warrantyscan.jpg",
-  "images/demo-thumb-mobile-namecard.jpg",
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-vibe-coding-101.png",
-  "images/teaching/teaching-intro-n8n-basics-2026.png",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg",
-  "images/ui/cinematic-product-overlay.jpg",
-  "images/ui/husky-idle.png",
-  "images/ui/husky-happy.png",
-  "images/ui/husky-excited.png",
-  "images/ui/husky-contact.png",
-  "images/founder-banner.jpeg",
+  "images/hackathon/deriv-ai-hackathon-countdown.webp",
+  "images/ui/hackathon-champion-stage-v2.webp",
+  "images/demo-thumb-mobile-warrantyscan.webp",
+  "images/demo-thumb-mobile-namecard.webp",
+  "images/teaching/teaching-non-it-vs-real-it.webp",
+  "images/teaching/teaching-vibe-coding-101.webp",
+  "images/teaching/teaching-intro-n8n-basics-2026.webp",
+  "images/teaching/teaching-tech-readiness.webp",
+  "images/teaching/teaching-productivity.webp",
+  "images/ui/cinematic-product-overlay.webp",
+  "images/ui/husky-idle.webp",
+  "images/ui/husky-happy.webp",
+  "images/ui/husky-excited.webp",
+  "images/ui/husky-contact.webp",
+  "images/founder-banner.webp",
   "images/founder-banner-cn.webp",
-  "images/about-hunter-parallax-v2.png",
+  "images/about-hunter-parallax-v2.webp",
   "images/hero-layers/hero-hunter-cutout.webp",
-  "images/hunter-demo-bg-neon-matrix.png",
+  "images/hunter-demo-bg-neon-matrix.webp",
 ];
 
 for (const text of requiredText) {
@@ -393,9 +424,9 @@ for (const asset of requiredAssets) {
   assert.ok(fs.existsSync(asset), `Missing required asset file: ${asset}`);
 }
 
-const assetsReferenceThumbSize = readImageSize("images/demo-thumb-rj-assets-1.png");
+const assetsReferenceThumbSize = readImageSize("images/demo-thumb-rj-assets-1.webp");
 assert.deepEqual(
-  readImageSize("images/demo-thumb-qstyle-3d-models-lab.png"),
+  readImageSize("images/demo-thumb-qstyle-3d-models-lab.webp"),
   assetsReferenceThumbSize,
   "Assets 3 thumbnail should be refreshed from the working Q-style demo and match the Assets 1/2 screenshot format"
 );
@@ -408,23 +439,23 @@ assert.ok(projectCards.length >= 43, `Expected at least 43 portfolio project car
 
 assert.ok(!html.includes('src="images/p1.webp" width="450" height="300" class="img-responsive" alt="Nice & Features BestzDeal"'), "BestzDeal feature demo still uses reused placeholder thumbnail");
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.png,images/demo-thumb-bestzdeal-feature-demo-match.png"'),
+  html.includes('data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.webp,images/demo-thumb-bestzdeal-feature-demo-match.webp"'),
   "Project 10 should include both BestzDeal /demo thumbnails in the thumbnail loop"
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d1-demo.png"'),
+  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d1-demo.webp"'),
   "Project 14 should include the ReportU /demo thumbnail in the thumbnail loop"
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d2-demo.png"'),
+  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d2-demo.webp"'),
   "Project 15 should include the ReportU D2 /demo thumbnail in the thumbnail loop"
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.png"'),
+  html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.webp"'),
   "Project 12 should include the Sim Work D27 /demo thumbnail in the thumbnail loop"
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.png,images/demo-thumb-sim-work-d34-project-manager.png"'),
+  html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.webp,images/demo-thumb-sim-work-d34-project-manager.webp"'),
   "Project 13 should include both Sim Work D34 /demo thumbnails in the thumbnail loop"
 );
 const demoProjectsStart = html.indexOf('data-text="Demo Projects"');
@@ -471,14 +502,14 @@ for (const professionalName of [
   assert.ok(demoProjectsForNames.includes(professionalName), `Demo Projects should include professional project name: ${professionalName}`);
 }
 for (const [projectNumber, demoThumb] of [
-  [16, "images/demo-thumb-namecardai-d1-demo.png"],
-  [17, "images/demo-thumb-namecardai-d2-demo.png"],
-  [18, "images/demo-thumb-bestzdealai-d1-demo.png"],
-  [19, "images/demo-thumb-bestzdealai-d2-demo.png"],
-  [20, "images/demo-thumb-bestzdealai-d3-demo.png"],
-  [21, "images/demo-thumb-messageyou-d1-demo.png"],
-  [22, "images/demo-thumb-messageyou-d2-demo.png"],
-  [23, "images/demo-thumb-warrantyai-d2-demo.png"],
+  [16, "images/demo-thumb-namecardai-d1-demo.webp"],
+  [17, "images/demo-thumb-namecardai-d2-demo.webp"],
+  [18, "images/demo-thumb-bestzdealai-d1-demo.webp"],
+  [19, "images/demo-thumb-bestzdealai-d2-demo.webp"],
+  [20, "images/demo-thumb-bestzdealai-d3-demo.webp"],
+  [21, "images/demo-thumb-messageyou-d1-demo.webp"],
+  [22, "images/demo-thumb-messageyou-d2-demo.webp"],
+  [23, "images/demo-thumb-warrantyai-d2-demo.webp"],
 ]) {
   assert.ok(
     html.includes(`data-extra-thumbs="${demoThumb}"`),
@@ -494,9 +525,9 @@ for (const gameClass of ["game-racer", "game-orbit", "game-runner", "game-arena"
   assert.ok(html.includes(`game-demo-card ${gameClass}`), `Games Demo portfolio cards should expose distinct themed card class ${gameClass}`);
 }
 assert.ok(css.includes(".game-demo-card.game-racer") && css.includes(".game-demo-card.game-tycoon"), "Games Demo cards should use per-game visual themes instead of the same card surface");
-assert.ok(html.includes("demo-thumb-game-neon-signal-run.png") && html.includes("Games Demo - Neon Signal Run"), "Redesigned game-demo-09 card should use the Neon Signal Run thumbnail and details title");
+assert.ok(html.includes("demo-thumb-game-neon-signal-run.webp") && html.includes("Games Demo - Neon Signal Run"), "Redesigned game-demo-09 card should use the Neon Signal Run thumbnail and details title");
 assert.ok(!html.includes("Sky Island Tycoon") && !html.includes("demo-thumb-game-sky-tycoon.png"), "Redesigned game-demo-09 card should not keep stale Sky Island Tycoon label or thumbnail");
-assert.ok(fs.existsSync("images/demo-thumb-game-neon-signal-run.png") && fs.statSync("images/demo-thumb-game-neon-signal-run.png").size > 10000, "Missing generated Neon Signal Run thumbnail asset");
+assert.ok(fs.existsSync("images/demo-thumb-game-neon-signal-run.webp") && fs.statSync("images/demo-thumb-game-neon-signal-run.webp").size > 10000, "Missing generated Neon Signal Run thumbnail asset");
 
 const themeSelectors = [
   ":root",
@@ -520,7 +551,7 @@ for (const selector of themeSelectors) {
 
 assert.ok(css.includes(".release-badge") && css.includes("min-height: 24px") && css.includes("font-size: 8px") && css.includes("bottom: 13px"), "Release badge should stay compact so it does not block proof controls or poster content");
 assert.ok(js.includes("timelineCaptions:") && js.includes("setIndexedCaptionTriples"), "Timeline carousel captions should be part of the i18n copy path");
-assert.ok(js.includes('footerBanner: "images/founder-banner.jpeg"') && js.includes('footerBanner: "images/founder-banner-cn.webp"') && !html.includes("contact-poster-copy"), "Footer should keep the original EN background and switch to the generated CN background without the duplicate poster overlay");
+assert.ok(js.includes('footerBanner: "images/founder-banner.webp"') && js.includes('footerBanner: "images/founder-banner-cn.webp"') && !html.includes("contact-poster-copy"), "Footer should keep the original EN background and switch to the generated CN background without the duplicate poster overlay");
 assert.ok(js.includes("localizeCardPrefix") && js.includes('document.querySelectorAll(".project-detail-btn")'), "Project and game cards should localize through the shared Details-button path so Project 1-9 and all game demos switch language");
 
 for (const token of ["--color-bg", "--color-surface", "--color-text", "--color-heading", "--color-accent"]) {
@@ -534,12 +565,12 @@ for (const behavior of ["localStorage", "data-theme", "portfolio-language", "pro
   assert.ok(js.includes(behavior), `Missing theme behavior: ${behavior}`);
 }
 
-assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner.jpeg") && fs.existsSync("images/founder-banner.jpeg") && fs.existsSync("images/founder-banner-cn.webp"), "Contact/footer section should use the original founder banner and include a generated CN banner variant");
+assert.ok(html.includes("contact-footer-bg") && html.includes("images/founder-banner.webp") && fs.existsSync("images/founder-banner.webp") && fs.existsSync("images/founder-banner-cn.webp"), "Contact/footer section should use the original founder banner and include a generated CN banner variant");
 assert.ok(html.includes("contact-banner-copy") && html.includes("contact-banner-region") && html.includes("HunterHo.My@gmail.com"), "Contact footer should expose the raster banner contact text as a live i18n overlay while keeping the email literal");
 assert.ok(js.includes("applyStaticCopy") && js.includes(".contact-banner-region") && js.includes("contactEmailLabel") && js.includes("马来西亚与新加坡可现场"), "Static page copy and contact banner text should be wired into the CN/EN language switch");
 assert.ok(js.includes("servicePricingDataZh") && js.includes("为什么找 Hunter") && js.includes("projectThinking") && js.includes("getLocalizedProjectTitle(projectTitle)"), "Runtime modals and project cards should localize CN/EN copy beyond the original data-i18n nodes");
 assert.ok(!js.includes("founder-banner-contact-email-cn.webp") && !html.includes("founder-banner-contact-email-cn.webp") && js.includes("images/founder-banner-cn.webp"), "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant");
-assert.ok(html.includes('css/style.css?v=2.1.13'), "Main stylesheet cache key should be bumped for the image-anchored contact footer overlay");
+assert.ok(html.includes('css/style.min.css?v=2.2.3') && html.includes('css/responsive.min.css?v=2.2.3'), "Production stylesheets should use minified release cache keys");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"), "Contact/footer should not keep the old generated footer backdrop layer");
 assert.ok(!html.includes("contact-footer-layers/contact-footer-layer-03-person.webp"), "Contact/footer should not keep the old generated contact person layer");
 assert.ok(css.includes(".contact-footer-bg") && css.includes("position: relative") && css.includes(".contact-footer-bg img") && css.includes("height: auto") && css.includes("object-fit: contain") && css.includes("object-position: center top"), "Founder footer background should render at its natural height without cropping banner information");
@@ -555,7 +586,7 @@ assert.ok(html.includes('class="contact-copyright-dock"') && html.includes("&cop
 assert.ok(!html.includes('id="footer"'), "Standalone footer section should be removed so the footer background is not a separate empty band");
 assert.ok(css.includes(".contact-copyright-dock") && css.includes("left: 50%") && css.includes("bottom: clamp(10px, 1.8vw, 18px)") && css.includes("translate3d(-50%, calc(100% + 24px), 0)") && css.includes(".contact-copyright-dock.is-visible"), "Copyright dock should stay centered on the image background and animate from below");
 assert.ok(!css.includes("min-height: 1080px") && !css.includes("min-height: clamp(540px, 78vw, 640px)") && !css.includes("min-height: clamp(500px, 132vw, 560px)"), "Contact footer should no longer reserve fixed-height blank space below the banner");
-assert.ok(html.includes("js/main.js?v=2.1.8"), "Main script cache key should be bumped for the stronger demo Hunter random effects");
+assert.ok(html.includes("js/main.min.js?v=2.2.3"), "Production script should use the minified release cache key");
 assert.ok(js.includes("setupContactCopyrightDock") && js.includes("contact-copyright-dock") && js.includes("is-visible"), "Copyright dock should be controlled by scroll/intersection state");
 assert.ok(!css.includes(".contact-parallax-bg") && !css.includes(".contact-layer-person"), "Contact/footer CSS should not keep the old layered parallax selectors");
 const visibleHtmlText = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
@@ -572,7 +603,7 @@ assert.ok(!css.includes('url("../images/hero-founder-banner-ai.png") center cent
 assert.ok(html.includes("wa.me/60162199186"), "Missing WhatsApp helper link");
 assert.ok(!js.includes("is-over-contact"), "Floating helper should continue showing at the footer instead of being suppressed over the contact section");
 const releaseBadgeTag = html.match(/<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/);
-assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.1.2"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
+assert.ok(releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.3"), "Release badge should link to Hunter GitHub profile and use Hunter v2 version label");
 assert.ok(!html.includes("Portfolio v") && !html.includes("Portfolio_1/releases/tag/"), "Release badge should no longer use the Portfolio release label or release URL");
 assert.ok(html.includes("Book Me for Event") && js.includes('"hero.ctaSpeak": "Book Me for Event"'), "Hero event CTA should clearly target event/function invitations");
 assert.ok(html.includes("Projects Demo") && js.includes('"hero.ctaProof": "Projects Demo"'), "Hero proof CTA should be renamed to Projects Demo");
@@ -611,7 +642,7 @@ assert.ok(aboutSectionEnd > aboutIndex, "About/Services stack should keep an exp
 const aboutServicesStack = html.slice(aboutIndex, aboutSectionEnd);
 assert.ok(aboutServicesStack.includes("about-services-stack"), "About and Services should be grouped in one bottom stack");
 assert.ok(!aboutServicesStack.includes('id="journal"') && !aboutServicesStack.includes("Clear commercial reasons to start now.") && !aboutServicesStack.includes("My Service Offers"), "Commercial pricing reason cards should be removed from the About/Services bottom stack");
-assert.ok(aboutServicesStack.includes("about-hunter-parallax-v2.png"), "About section should use the new generated Hunter cutout");
+assert.ok(aboutServicesStack.includes("about-hunter-parallax-v2.webp"), "About section should use the new generated Hunter cutout");
 assert.ok(!aboutServicesStack.includes("images/HunterHo.webp"), "About section should not keep the old framed Hunter portrait");
 assert.ok(aboutServicesStack.includes("about-portrait-parallax") && !aboutServicesStack.includes("data-parallax-depth"), "About portrait should remove the old image parallax hooks");
 assert.ok(aboutServicesStack.includes("about-portrait-bubble") && aboutServicesStack.includes("data-about-portrait-message"), "About portrait should include a timed speech bubble slot");
@@ -653,9 +684,8 @@ assert.ok(heroIndex !== -1 && labIndex !== -1 && journeyIndex !== -1, "Hero, sta
 assert.equal(visionIndex, -1, "Founder Vision standalone section should be removed after moving its useful intro into the Startup Lab");
 assert.ok(heroIndex < labIndex && labIndex < journeyIndex, "Startup Lab should be the second section and lead directly into the proof theater");
 const startupLabSection = html.slice(labIndex, journeyIndex);
-assert.ok(html.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"), "Startup lab should embed the requested YouTube video");
-assert.ok(html.includes("allowfullscreen"), "Startup video should allow fullscreen playback");
-assert.ok(html.includes("compute-pressure"), "Startup video should allow compute-pressure to avoid embedded permission console errors");
+assert.ok(!html.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"), "Startup lab should not load the YouTube iframe on initial page load");
+assert.ok(html.includes('data-youtube-id="KRxQ8JuqMyE"') && html.includes("youtube-lite-embed") && js.includes("setupLazyYouTubeEmbeds") && js.includes("allowFullscreen"), "Startup lab should click-load the requested YouTube video");
 assert.ok(html.includes("youtube.com/watch?v=KRxQ8JuqMyE"), "Startup lab should include a direct YouTube link fallback");
 assert.equal((html.match(/class="startup-icon-link/g) || []).length, 7, "Startup lab should show exactly seven compact startup icons");
 assert.equal((startupLabSection.match(/data-tooltip-en="/g) || []).length, 7, "Each Startup Lab concept icon should expose an English tooltip");
@@ -724,12 +754,12 @@ const demoHunterStart = html.indexOf('data-demo-hunter-start');
 const demoHunterRange = html.slice(demoHunterStart, modelsSectionEnd);
 assert.ok(demoHunterStart !== -1 && demoHunterStart < modelsSectionStart, "Hunter matrix background should start at the Demo Projects heading, before the 3D Models section");
 assert.ok(demoHunterRange.includes("models-hunter-bg-stage") && demoHunterRange.includes("data-demo-hunter-bg"), "Demo Projects through 3D Models should share one Hunter matrix background stage");
-assert.ok(demoHunterRange.includes("images/hunter-demo-bg-neon-matrix.png"), "Demo background should use the Image Gen neon matrix Hunter asset");
+assert.ok(demoHunterRange.includes("images/hunter-demo-bg-neon-matrix.webp"), "Demo background should use the Image Gen neon matrix Hunter asset");
 assert.ok(js.includes("demoHunterStart") && js.includes("demoHunterEnd") && js.includes("--models-hunter-range-height"), "Hunter matrix background should measure from Demo Projects start to the 3D Models end");
-assert.ok(modelsSection.includes("Q-Style 3D Models Lab") && modelsSection.includes("demo-thumb-qstyle-3d-models-lab.png"), "3D Models section should keep the real Q-Style GLB catalog proof card");
+assert.ok(modelsSection.includes("Q-Style 3D Models Lab") && modelsSection.includes("demo-thumb-qstyle-3d-models-lab.webp"), "3D Models section should keep the real Q-Style GLB catalog proof card");
 assert.ok(
-  modelsSection.includes('data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.png"') &&
-    modelsSection.includes('data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.png,images/demo-thumb-qstyle-3d-models-lab-mobile.png"'),
+  modelsSection.includes('data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.webp"') &&
+    modelsSection.includes('data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.webp,images/demo-thumb-qstyle-3d-models-lab-mobile.webp"'),
   "Q-Style Assets 3 card should rotate through real per-card GLB preview thumbnails"
 );
 assert.ok(demoHunterRange.includes("models-hunter-bg-stage") && demoHunterRange.includes("models-matrix-canvas"), "Demo range should include a visible Hunter background stage and matrix canvas");
@@ -747,16 +777,16 @@ for (const token of [
   "magnetic-cta",
   "proof-motion-wall",
   "real-teaching-grid",
-  "teaching-non-it-vs-real-it.jpeg",
-  "teaching-vibe-coding-101.png",
-  "teaching-intro-n8n-basics-2026.png",
-  "teaching-tech-readiness.jpeg",
-  "teaching-productivity.jpeg",
+  "teaching-non-it-vs-real-it.webp",
+  "teaching-vibe-coding-101.webp",
+  "teaching-intro-n8n-basics-2026.webp",
+  "teaching-tech-readiness.webp",
+  "teaching-productivity.webp",
   "hero-three-stage",
   "hero-three-source",
   "hero-three-canvas",
   "hero-three-orbit-field",
-  "option-c-three-source.jpg",
+  "option-c-three-source.webp",
   "initHeroThreeScene",
   "updateHeroThreeMotion",
   "--hero-three-bg-x",
@@ -764,7 +794,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.1.2",
+  "v2.2.3",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -813,9 +843,9 @@ for (const token of [
   "moveHuskySafely",
   "prefers-reduced-motion",
   "cinematic-media-frame",
-  "cinematic-product-overlay.jpg",
+  "cinematic-product-overlay.webp",
   "mix-blend-mode",
-  "popup-img",
+  "setupSmoothAnchorScroll",
   ".journal-info > a:first-child"
 ]) {
   assert.ok(html.includes(token) || css.includes(token) || js.includes(token), `Missing upgraded portfolio token: ${token}`);
@@ -867,7 +897,7 @@ assert.ok(js.includes("setupSingleHunterFocus") && js.includes("[data-hunter-zon
 assert.ok(css.includes("[data-hunter-zone]:not(.is-hunter-active)") && css.includes("brightness(0.03)"), "Inactive Hunter zones should be blacked/masked");
 
 assert.ok(html.includes('class="hero-three-stage"') && html.includes('id="hero-three-canvas"'), "Homepage hero should use the selected Option C 3D stage");
-assert.ok(html.includes("images/hero-options/option-c-three-source.jpg"), "Homepage hero should use the optimized Option C source image");
+assert.ok(html.includes("images/hero-options/option-c-three-source.webp"), "Homepage hero should use the optimized Option C source image");
 assert.ok(!html.includes("hero-parallax-stack"), "Homepage hero should not keep the old five-layer hero stack after Option C is selected");
 assert.ok(!js.includes("heroLayerSpeeds") && !js.includes("--layer-offset-x"), "Homepage hero JS should not keep the old five-layer scroll offset system");
 assert.ok(css.includes(".hero-three-stage") && css.includes(".hero-three-canvas") && css.includes(".hero-three-orbit-field"), "Homepage CSS should style the Option C 3D hero");
@@ -875,8 +905,8 @@ assert.ok(css.includes("--hero-three-bg-x") && css.includes("--hero-three-bg-y")
 assert.ok(js.includes("function initHeroThreeScene()") && js.includes("function updateHeroThreeMotion()"), "Homepage JS should initialize and animate the Option C hero");
 assert.ok(js.includes("preserveDrawingBuffer: true"), "Homepage Three.js renderer should preserve the frame buffer for browser verification");
 assert.ok(js.includes("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"), "Homepage Option C hero should load Three.js as a static-page module");
-assert.ok(fs.existsSync("images/hero-options/option-c-three-source.png"), "Missing selected Option C source image for the hero option picker");
-assert.ok(fs.statSync("images/hero-options/option-c-three-source.png").size > 10000, "Selected Option C source image for the hero option picker looks too small");
+assert.ok(fs.existsSync("images/hero-options/option-c-three-source.webp"), "Missing selected Option C source image for the hero option picker");
+assert.ok(fs.statSync("images/hero-options/option-c-three-source.webp").size > 10000, "Selected Option C source image for the hero option picker looks too small");
 
 const founderJourneyCss = css.slice(css.indexOf(".founder-journey {"), css.indexOf(".proof-section {"));
 assert.ok(founderJourneyCss.includes("min-height: 1300vh"), "Founder theater should reserve enough scroll runway so lower proof states land visibly before changing");
@@ -908,7 +938,7 @@ assert.equal((html.match(/class="[^"]*founder-proof-connector/g) || []).length, 
 assert.ok(html.includes("founder-proof-color-spotlight") && html.includes('aria-hidden="true"'), "Founder final poster should include a masked color spotlight layer for focused proof regions");
 assert.ok(html.includes("founder-proof-detail-drawer") && html.includes("data-final-proof-detail-title") && html.includes("data-final-proof-detail-body"), "Founder final poster should include a bottom detail drawer for hover/click proof details");
 assert.ok(founderJourneyCss.includes("is-final-callout-entering") && founderJourneyCss.includes("has-final-callout-settled") && founderJourneyCss.includes("is-final-callout-leaving"), "Founder final callouts should use explicit enter, settled, and leave classes instead of replaying slide animation on every final-state update");
-assert.ok(founderJourneyCss.includes("--connector-x") && founderJourneyCss.includes("--connector-y") && founderJourneyCss.includes("--connector-angle"), "Founder final connector lines should be positioned from live JS geometry instead of fixed static percentages");
+assert.ok(founderJourneyCss.includes("--connector-x") && founderJourneyCss.includes("--connector-y") && founderJourneyCss.includes("--connector-angle") && founderJourneyCss.includes("transform-origin: 0 50%"), "Founder final connector lines should be positioned from live JS geometry and rotate from their true card-side anchor instead of a center pivot");
 assert.ok(founderJourneyCss.includes("--connector-intro-duration: 1.36s") && founderJourneyCss.includes("founderConnectorReveal") && founderJourneyCss.includes("clip-path: inset(0 100% 0 0 round 999px)") && founderJourneyCss.includes("founderConnectorPulseForward") && founderJourneyCss.includes("founderConnectorPulseReverse"), "Founder connector lines should reveal from the correct final geometry first, then run brighter bidirectional moving light pulses");
 assert.ok(founderJourneyCss.includes(".founder-proof-color-spotlight") && founderJourneyCss.includes("--proof-spotlight-clip") && founderJourneyCss.includes("clip-path: var(--proof-spotlight-clip)"), "Focused final proof should preserve the selected poster area in color using a CSS mask");
 assert.ok(founderJourneyCss.includes("--proof-scan-angle") && founderJourneyCss.includes("--proof-scan-duration") && founderJourneyCss.includes("--connector-travel-duration"), "Founder final callouts should expose per-proof scan and connector timing variables");
@@ -922,7 +952,7 @@ assert.ok(js.includes("handleFounderFinalProofOutsideClick") && js.includes('jou
 assert.ok(js.includes("positionFounderFinalConnectors") && js.includes("founderFinalProofPoints") && js.includes("--connector-angle"), "Founder theater should calculate connector endpoints from live card positions and poster target points");
 assert.ok(js.includes("scheduleFounderFinalConnectorPosition") && js.includes("window.setTimeout(positionFounderFinalConnectors, 140)") && js.includes("founderFinalConnectorRevealLeadMs + founderFinalConnectorIntroMs") && js.includes("window.setTimeout(function () {\n          positionFounderFinalConnectors();\n          journey.classList.add(\"is-final-callout-entering\")") , "Founder connector positioning should wait for the stabilized final geometry before intro reveal and reschedule again after callout intro settles");
 assert.ok(js.includes("setFounderFinalCalloutPresence") && js.includes("finalCalloutsVisible") && js.includes("setFounderProofSpotlight") && js.includes("--proof-spotlight-clip"), "Founder theater should run final callout entry once per final-state transition and update the focused color spotlight");
-assert.ok(js.includes('sport: { x: 0.255, y: 0.205, connectorY: 0.21') && js.includes('cto: { x: 0.645, y: 0.235') && js.includes('world: { x: 0.78, y: 0.565') && js.includes('teach: { x: 0.655, y: 0.82') && js.includes('anchorSide: "left"') && js.includes('anchorY: 0.72') && js.includes('anchorY: 0.8') && js.includes('anchorY: 0.16') && js.includes("targetPointY = typeof point.connectorY === \"number\" ? point.connectorY : point.y") && js.includes("borderScale = Math.max(") && js.includes("if (point.anchorSide)") && js.includes("startX = point.anchorSide === \"left\""), "Proof spotlight masks and connector exits should keep the left proofs on border-intersection math while allowing connector-only target nudges where needed");
+assert.ok(js.includes('sport: { x: 0.255, y: 0.205, connectorY: 0.22') && js.includes('cto: { x: 0.645, y: 0.235, connectorY: 0.235') && js.includes('world: { x: 0.78, y: 0.565') && js.includes('win: { x: 0.265, y: 0.81, connectorY: 0.81') && js.includes('teach: { x: 0.655, y: 0.82') && js.includes('anchorSide: "left"') && js.includes('anchorY: 0.72') && js.includes('anchorY: 0.8') && js.includes('anchorY: 0.16') && js.includes("targetPointY = typeof point.connectorY === \"number\" ? point.connectorY : point.y") && js.includes("borderScale = Math.max(") && js.includes("if (point.anchorSide)") && js.includes("startX = point.anchorSide === \"left\""), "Proof spotlight masks and connector exits should keep the left proofs on border-intersection math while allowing connector-only target nudges where needed");
 assert.ok(js.includes("isFounderJourneyMobileMode()") && js.includes("setFounderPosterLayerState(maxState, 1)") && js.includes("journey.scrollIntoView({") && css.includes("@media (max-width: 600px)") && css.includes(".founder-journey-steps {") && css.includes(".founder-theater-controls {") && css.includes("display: none;"), "Mobile founder journey should jump directly to the final proof poster and remove extra proof-state controls");
 assert.ok(founderJourneyCss.includes("mix-blend-mode: screen"), "Founder theater should use a soft image mask effect");
 assert.ok(!founderJourneyCss.includes("max-width: 560px"), "Founder poster should not be constrained to the old small card width");
@@ -1062,16 +1092,16 @@ for (const hackathonAsset of [
   "images/hackathon/timeline-happening-21.webp",
   "images/hackathon/timeline-happening-22.webp",
   "images/hackathon/timeline-happening-23.webp",
-  "images/hackathon/deriv-ai-hackathon-countdown.jpg",
-  "images/ui/hackathon-champion-stage-v2.png"
+  "images/hackathon/deriv-ai-hackathon-countdown.webp",
+  "images/ui/hackathon-champion-stage-v2.webp"
 ]) {
   assert.ok(hackathonWinsSection.includes(hackathonAsset), `Hackathon carousel should include real event asset: ${hackathonAsset}`);
 }
 for (const unrelatedHackathonAsset of [
-  "images/teaching/teaching-n8n-event.jpeg",
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg",
+  "images/teaching/teaching-n8n-event.webp",
+  "images/teaching/teaching-non-it-vs-real-it.webp",
+  "images/teaching/teaching-tech-readiness.webp",
+  "images/teaching/teaching-productivity.webp",
   "images/hackathon/deriv-ai-hackathon-live-session.jpg",
   "images/hackathon/deriv-ai-hackathon-application.jpg",
   "images/hackathon/deriv-ai-hackathon-semifinalists.jpg",
@@ -1084,15 +1114,15 @@ assert.ok(hackathonWinsSection.includes("data-carousel-prev") && hackathonWinsSe
 assert.ok(hackathonWinsSection.includes("data-carousel-track"), "Timeline gallery should identify the moving media track in markup");
 assert.ok(html.indexOf('href="#speaker-teaching"') < html.indexOf('href="#hackathon-wins"'), "Navbar order should place Teaching before Wins after moving the wins block");
 for (const realTeachingAsset of [
-  "images/teaching/teaching-non-it-vs-real-it.jpeg",
-  "images/teaching/teaching-vibe-coding-101.png",
-  "images/teaching/teaching-intro-n8n-basics-2026.png",
-  "images/teaching/teaching-tech-readiness.jpeg",
-  "images/teaching/teaching-productivity.jpeg"
+  "images/teaching/teaching-non-it-vs-real-it.webp",
+  "images/teaching/teaching-vibe-coding-101.webp",
+  "images/teaching/teaching-intro-n8n-basics-2026.webp",
+  "images/teaching/teaching-tech-readiness.webp",
+  "images/teaching/teaching-productivity.webp"
 ]) {
   assert.ok(speakerSection.includes(realTeachingAsset), `Teaching section should use real class/invitation image: ${realTeachingAsset}`);
 }
-assert.ok(!speakerSection.includes("images/teaching/teaching-n8n-event.jpeg"), "Teaching section should drop the older duplicate N8N invitation image once the new 2026 Krenovator poster is added");
+assert.ok(!speakerSection.includes("images/teaching/teaching-n8n-event.webp"), "Teaching section should drop the older duplicate N8N invitation image once the new 2026 Krenovator poster is added");
 for (const oldSafeTeachingAsset of [
   "images/teaching/teaching-safe-online.png",
   "images/teaching/teaching-safe-onsite.png",
@@ -1109,9 +1139,9 @@ assert.ok(css.includes(".real-teaching-grid"), "Teaching cards should use a dedi
 assert.ok(css.includes(".teaching-section-heading") && css.includes(".teaching-card-media") && css.includes("aspect-ratio") && css.includes("object-fit: contain"), "Teaching section CSS should size the title and fit full real images without cropping");
 assert.ok(css.includes(".teaching-card-copy") && css.includes("color: #f8f2e6") && css.includes("rgba(247, 243, 232, 0.74)"), "Teaching card copy should stay readable on the dark card surface in light and dark themes");
 assert.ok(css.includes(".hackathon-carousel-stage") && css.includes("perspective:") && css.includes("transform-style: preserve-3d"), "Hackathon carousel should use a real 3D stage");
-assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY(var(--card-angle))") && css.includes("translateZ(var(--ring-radius))"), "Timeline cards should sit around a circular 3D ring instead of a flat row");
+assert.ok(css.includes(".hackathon-carousel-card") && css.includes("backdrop-filter: blur") && css.includes("rotateY(var(--card-angle))") && css.includes("translateZ(var(--carousel-radius))") && css.includes("translateZ(calc(var(--carousel-radius) * -1))"), "Timeline cards should use the Desandro-style 3D carousel pattern with panels around a circular stage");
 assert.ok(js.includes("setupHackathonGlassCarousel") && js.includes("data-hackathon-carousel") && js.includes("data-carousel-next"), "Hackathon carousel should be controlled by JavaScript");
-assert.ok(js.includes("requestAnimationFrame") && js.includes("ringRotation") && js.includes("ringVelocity") && js.includes("ringRadius") && js.includes("pointerdown") && js.includes("dragThreshold"), "Timeline gallery should use continuous circular motion, drag support, and scalable ring state for near-endless carousel rotation");
+assert.ok(js.includes("requestAnimationFrame") && js.includes("carouselIndex") && js.includes("carouselVelocity") && js.includes("carouselRadius") && js.includes("visibleSlots") && js.includes("getSignedLoopDistance") && js.includes("pointerdown") && js.includes("dragThreshold"), "Timeline gallery should use continuous forward carousel motion, drag support, virtual Desandro slots, and modulo distance for near-endless rotation");
 
 for (const oldHeroOverlay of [
   "hero-layer-vignette",
@@ -1127,7 +1157,7 @@ for (const oldHeroOverlay of [
   assert.ok(!html.includes(oldHeroOverlay) && !css.includes(oldHeroOverlay) && !js.includes(oldHeroOverlay), `Old CSS-drawn hero overlay should be removed: ${oldHeroOverlay}`);
 }
 
-const thumbnailLoops = html.match(/data-alt-thumb="images\/[^"]+-alt\.png"/g) || [];
+const thumbnailLoops = html.match(/data-alt-thumb="images\/[^"]+-alt\.webp"/g) || [];
 assert.ok(thumbnailLoops.length >= 30, `Expected at least 30 real second-state thumbnail loops, found ${thumbnailLoops.length}`);
 assert.ok(!/<a target="_blank" href="https:\/\/github\.com\/[^"]+"><img[^>]+data-alt-thumb=/.test(html), "GitHub-only cards should not use live demo thumbnail loops");
 

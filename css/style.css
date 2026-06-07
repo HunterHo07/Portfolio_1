@@ -233,6 +233,56 @@ p {
   margin-bottom: 70px;
 }
 
+.glitch-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(34px, 4.6vw, 50px);
+  margin-top: 18px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #171a20;
+  z-index: 1;
+  text-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .glitch {
+  background: linear-gradient(92deg, #f7f0de 0%, #d8b987 38%, #74e3ff 72%, #f0a2c5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
+}
+
+.glitch::before,
+.glitch::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: min(220px, 52vw);
+  height: 3px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #d8b987, #74e3ff, transparent);
+  opacity: 0.72;
+}
+
+.glitch::after {
+  bottom: -22px;
+  width: min(130px, 36vw);
+  height: 1px;
+  opacity: 0.38;
+}
+
 .section-title h2 {
   font-size: 25px;
   letter-spacing: 2px;
@@ -4028,11 +4078,12 @@ body.is-hero-ready .hero-image-loader,
   .startup-sound-note {
     display: block;
     padding: 0;
+    margin-top: 6px;
   }
 
   .startup-sound-note a {
     display: inline-flex;
-    margin-top: 8px;
+    margin-top: 4px;
   }
 
   .startup-icon-row {
@@ -5102,6 +5153,73 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
 }
 
 @media (max-width: 575px) {
+  .glitch {
+    font-size: 34px;
+    margin-top: 0;
+  }
+
+  .glitch::before {
+    bottom: -10px;
+    width: min(150px, 48vw);
+  }
+
+  .glitch::after {
+    bottom: -16px;
+    width: min(92px, 28vw);
+  }
+
+  .startup-founder-video-hero .startup-sound-note {
+    margin-top: 4px;
+    padding-left: 2px;
+    line-height: 1.3;
+  }
+
+  .startup-icon-row {
+    display: none;
+  }
+
+  #demo-projects-section .journal-block .row > [class*="col-"]:nth-child(n + 31) {
+    display: none;
+  }
+
+  .demo-projects-section {
+    padding-bottom: 52px;
+  }
+
+  .hackathon-wins {
+    padding: 42px 0 64px;
+  }
+
+  .compact-wins-heading {
+    margin-bottom: 16px;
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .hackathon-timeline-tags {
+    justify-content: flex-start;
+    margin-top: 14px;
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .hackathon-glass-carousel {
+    margin-top: 2px;
+  }
+
+  .hackathon-carousel-stage {
+    min-height: 372px;
+    padding: 0 8px 38px;
+  }
+
+  .hackathon-carousel-track {
+    top: 41%;
+  }
+
+  .hackathon-carousel-control {
+    bottom: 6px;
+  }
+
   #about.about-services-stack {
     padding: 76px 0 82px;
   }
@@ -7019,34 +7137,34 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   .contact-info-dock {
-    right: 10px;
-    bottom: 26px;
-    width: min(40vw, 164px);
+    right: 8px;
+    bottom: 18px;
+    width: min(31vw, 124px);
   }
 
   .contact-banner-copy {
-    left: 12px;
-    bottom: 10px;
-    width: min(39vw, 156px);
-    min-height: 64px;
-    padding: 5px 6px;
+    left: 8px;
+    bottom: 8px;
+    width: min(31vw, 126px);
+    min-height: 56px;
+    padding: 4px 5px;
     gap: 2px;
   }
 
   .contact-banner-mode,
   .contact-banner-direct {
-    font-size: 6px;
-    letter-spacing: 0.08em;
+    font-size: 5px;
+    letter-spacing: 0.06em;
   }
 
   .contact-banner-region,
   .contact-banner-email {
-    font-size: 7px;
-    line-height: 1.22;
+    font-size: 6px;
+    line-height: 1.14;
   }
 
   .contact-panel {
-    padding: 7px 8px;
+    padding: 5px 6px;
   }
 
   .contact-region p,
@@ -7059,27 +7177,29 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   .contact-kicker {
-    margin-bottom: 3px;
-    font-size: 6px;
-    letter-spacing: 0.12em;
+    margin-bottom: 2px;
+    font-size: 5px;
+    letter-spacing: 0.08em;
   }
 
   .discount-text {
-    font-size: clamp(14px, 4.2vw, 18px);
+    font-size: clamp(11px, 3.2vw, 14px);
   }
 
   .contact-discount span:last-child {
     margin-top: 1px;
-    font-size: 8px;
-    line-height: 1.12;
+    font-size: 6px;
+    line-height: 1.08;
   }
 
   .contact-copyright-dock {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
     bottom: 8px;
     max-width: calc(100% - 30px);
-    padding: 7px 10px;
-    font-size: 8px;
-    letter-spacing: 0.06em;
+    padding: 5px 8px;
+    font-size: 7px;
+    letter-spacing: 0.04em;
   }
 }
 

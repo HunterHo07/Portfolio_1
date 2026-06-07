@@ -853,6 +853,12 @@ body.is-hero-ready .hero-image-loader,
 }
 
 @media (max-width: 860px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .hero-three-source {
     inset: -4vh -34vw 0 -22vw;
     width: 156%;
@@ -892,6 +898,30 @@ body.is-hero-ready .hero-image-loader,
     top: 86px;
     max-width: calc(100vw - 36px);
     font-size: 10px;
+  }
+
+  .startup-lab,
+  .startup-founder-band,
+  .startup-founder-video-slot,
+  .startup-founder-video-hero,
+  .startup-video-frame,
+  .startup-tech-stack-flow,
+  #hackathon-wins,
+  .hackathon-glass-carousel,
+  .hackathon-carousel-stage {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .startup-founder-video-hero .startup-video-frame,
+  .startup-founder-video-hero .youtube-lite-embed {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .startup-tech-stack-flow {
+    margin-right: 0;
+    margin-left: 0;
   }
 }
 
@@ -3752,22 +3782,26 @@ body.is-hero-ready .hero-image-loader,
 
 @media (max-width: 767px) {
   .hackathon-glass-carousel {
-    --carousel-card-width: min(300px, calc(100vw - 96px));
-    --carousel-card-height: min(240px, 66vw);
+    --carousel-card-width: min(288px, calc(100vw - 132px));
+    --carousel-card-height: min(236px, 63vw);
     margin-top: -8px;
     width: 100vw;
+    max-width: 100vw;
     padding-right: 10px;
     padding-left: 10px;
+    overflow: hidden;
   }
 
   .hackathon-carousel-stage {
-    min-height: 520px;
+    min-height: 454px;
+    padding: 0 8px 74px;
     border-radius: 0;
-    perspective: 2200px;
+    overflow: hidden;
+    perspective: 1700px;
   }
 
   .hackathon-carousel-track {
-    top: 48%;
+    top: 44%;
     left: 50%;
   }
 
@@ -3775,9 +3809,38 @@ body.is-hero-ready .hero-image-loader,
     justify-content: flex-start;
   }
 
+  .hackathon-carousel-card.is-ring-side {
+    opacity: 0.66;
+  }
+
+  .hackathon-carousel-card.is-ring-back {
+    opacity: 0.14;
+  }
+
+  .hackathon-carousel-frame {
+    border-radius: 16px;
+  }
+
+  .hackathon-carousel-frame figcaption {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    padding: 11px 12px;
+  }
+
+  .hackathon-carousel-frame figcaption span,
+  .hackathon-carousel-frame figcaption em {
+    font-size: 9px;
+  }
+
+  .hackathon-carousel-frame figcaption strong {
+    margin: 7px 0 5px;
+    font-size: clamp(15px, 5vw, 20px);
+  }
+
   .hackathon-carousel-control {
     top: auto;
-    bottom: 18px;
+    bottom: 16px;
     min-width: 66px;
     min-height: 42px;
     transform: none;
@@ -3829,14 +3892,19 @@ body.is-hero-ready .hero-image-loader,
 
   .startup-founder-video-slot {
     align-content: start;
+    width: 100%;
   }
 
   .startup-founder-video-hero {
-    padding: clamp(16px, 3vw, 24px);
+    width: 100%;
+    max-width: 100%;
+    padding: clamp(12px, 2.4vw, 18px) 0 0;
   }
 
   .startup-founder-video-hero .startup-video-frame {
-    min-height: clamp(280px, 62vw, 420px);
+    min-height: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .real-teaching-grid {
@@ -3985,12 +4053,40 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .startup-founder-video-hero .startup-video-frame {
-    min-height: clamp(220px, 54vw, 300px);
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .youtube-lite-embed {
+    padding: 18px 14px;
+  }
+
+  .youtube-lite-play {
+    width: 58px;
+    height: 58px;
+  }
+
+  .youtube-lite-play::before {
+    margin-left: 4px;
+    border-top-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 16px;
+  }
+
+  .youtube-lite-copy {
+    gap: 3px;
+    margin-top: 12px;
+  }
+
+  .youtube-lite-copy strong {
+    font-size: clamp(16px, 5.8vw, 22px);
+  }
+
+  .youtube-lite-copy span {
+    font-size: 10px;
   }
 
   .startup-tech-stack-flow {
-    margin-right: -14px;
-    margin-left: -14px;
     gap: 9px;
   }
 
@@ -6358,25 +6454,25 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   .hero-hunter-popup {
     left: 12px;
     bottom: 54px;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: 98px minmax(0, 1fr);
+    gap: 6px;
     max-width: calc(100vw - 24px);
   }
 
   .hero-hunter-portrait-shell {
-    width: 118px;
-    height: 112px;
+    width: 98px;
+    height: 94px;
   }
 
   .hero-hunter-bubble {
-    margin-bottom: 38px;
-    padding: 11px 12px;
+    margin-bottom: 22px;
+    padding: 10px 11px;
     border-radius: 12px 12px 12px 5px;
   }
 
   .hero-hunter-bubble p {
-    font-size: 11px;
-    line-height: 1.38;
+    font-size: 10px;
+    line-height: 1.34;
   }
 
   .husky-helper {
@@ -6912,6 +7008,10 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
 }
 
 @media (max-width: 575px) {
+  #about.about-services-stack .about-services-intro > .col-lg-5 {
+    display: none;
+  }
+
   .contact-section-title {
     left: 18px;
     top: 26px;
@@ -6919,32 +7019,34 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   .contact-info-dock {
-    right: 12px;
-    bottom: 34px;
-    width: min(45vw, 190px);
+    right: 10px;
+    bottom: 26px;
+    width: min(40vw, 164px);
   }
 
   .contact-banner-copy {
-    left: 16px;
-    bottom: 14px;
-    width: min(44vw, 188px);
-    min-height: 78px;
-    padding: 7px 8px;
-    gap: 3px;
+    left: 12px;
+    bottom: 10px;
+    width: min(39vw, 156px);
+    min-height: 64px;
+    padding: 5px 6px;
+    gap: 2px;
   }
 
   .contact-banner-mode,
   .contact-banner-direct {
-    font-size: 7px;
+    font-size: 6px;
+    letter-spacing: 0.08em;
   }
 
   .contact-banner-region,
   .contact-banner-email {
-    font-size: 8px;
+    font-size: 7px;
+    line-height: 1.22;
   }
 
   .contact-panel {
-    padding: 9px 10px;
+    padding: 7px 8px;
   }
 
   .contact-region p,
@@ -6956,8 +7058,20 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
     bottom: auto;
   }
 
+  .contact-kicker {
+    margin-bottom: 3px;
+    font-size: 6px;
+    letter-spacing: 0.12em;
+  }
+
   .discount-text {
-    font-size: clamp(18px, 5vw, 24px);
+    font-size: clamp(14px, 4.2vw, 18px);
+  }
+
+  .contact-discount span:last-child {
+    margin-top: 1px;
+    font-size: 8px;
+    line-height: 1.12;
   }
 
   .contact-copyright-dock {

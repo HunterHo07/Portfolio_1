@@ -3466,8 +3466,8 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-wins {
   scroll-margin-top: 86px;
-  padding: clamp(48px, 6vw, 82px) 0 clamp(120px, 12vw, 188px);
-  overflow: hidden;
+  padding: clamp(48px, 6vw, 82px) 0 clamp(180px, 14vw, 260px);
+  overflow: visible;
   background:
     linear-gradient(135deg, rgba(216, 185, 135, 0.1), transparent 38%),
     linear-gradient(180deg, var(--color-bg), var(--color-surface));
@@ -3478,6 +3478,7 @@ body.is-hero-ready .hero-image-loader,
   max-width: none;
   padding-right: 0;
   padding-left: 0;
+  overflow: visible;
 }
 
 .compact-wins-heading {
@@ -3498,12 +3499,12 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-glass-carousel {
-  --carousel-card-width: clamp(520px, 56vw, 760px);
-  --carousel-card-height: clamp(430px, 48vw, 640px);
-  --carousel-radius: 860px;
+  --carousel-card-width: clamp(440px, 44vw, 560px);
+  --carousel-card-height: clamp(352px, 34vw, 440px);
+  --carousel-radius: 1480px;
   position: relative;
   width: calc(100vw - 20px);
-  margin-top: clamp(-34px, -2.5vw, -12px);
+  margin-top: clamp(-18px, -1.4vw, -8px);
   margin-left: 50%;
   padding-right: 10px;
   padding-left: 10px;
@@ -3538,16 +3539,11 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-stage {
   position: relative;
-  min-height: clamp(600px, 58vw, 780px);
-  overflow: hidden;
+  min-height: clamp(760px, 70vw, 940px);
+  overflow: visible;
   border-radius: 0;
-  perspective: 1250px;
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(116, 227, 255, 0.24), transparent 20%),
-    radial-gradient(circle at 72% 54%, rgba(216, 111, 156, 0.18), transparent 24%),
-    radial-gradient(ellipse at center, rgba(216, 185, 135, 0.1), transparent 62%);
+  background: transparent;
+  perspective: 4200px;
   box-shadow: none;
   touch-action: pan-y;
   user-select: none;
@@ -3555,47 +3551,33 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-stage::before,
 .hackathon-carousel-stage::after {
-  content: "";
-  position: absolute;
-  inset: 10% 8%;
-  pointer-events: none;
-  border-radius: 50%;
-  background:
-    conic-gradient(from 90deg, transparent, rgba(116, 227, 255, 0.28), transparent, rgba(216, 185, 135, 0.18), transparent);
-  filter: blur(22px);
-  opacity: 0.42;
-  transform: translate3d(0, 58px, -440px) rotateX(74deg);
+  content: none;
 }
 
 .hackathon-carousel-stage::after {
-  inset: 18% 8% 4%;
-  opacity: 0.22;
-  background:
-    repeating-radial-gradient(ellipse at center, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 42px),
-    radial-gradient(ellipse at center, rgba(248, 242, 230, 0.26), transparent 62%);
-  transform: translate3d(0, 150px, -620px) rotateX(72deg);
+  content: none;
 }
 
 .hackathon-carousel-track {
+  --carousel-rotation: 0deg;
   position: absolute;
-  top: 50%;
-  left: 61%;
-  z-index: 1;
+  top: clamp(260px, 20vw, 285px);
+  left: 50%;
+  z-index: 3;
   width: var(--carousel-card-width);
   height: var(--carousel-card-height);
   transform:
-    translate3d(-50%, -50%, 0)
-    translateZ(calc(var(--carousel-radius) * -1));
+    translate3d(-50%, -50%, calc(var(--carousel-radius) * -1))
+    rotateY(var(--carousel-rotation));
   transform-style: preserve-3d;
-  transition: transform 0.32s cubic-bezier(0.2, 0.84, 0.2, 1);
+  transition: transform 0.8s cubic-bezier(0.2, 0.84, 0.2, 1);
   will-change: transform;
 }
 
 .hackathon-carousel-card {
   --card-angle: 0deg;
-  --card-depth-y: 0px;
-  --card-opacity: 0;
-  --card-scale: 0.82;
+  --card-lift: 0px;
+  --card-scale: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -3610,18 +3592,18 @@ body.is-hero-ready .hero-image-loader,
   backdrop-filter: blur(18px) saturate(1.18);
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
   box-shadow:
-    0 30px 70px rgba(0, 0, 0, 0.32),
+    0 28px 72px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     inset 0 -28px 48px rgba(255, 255, 255, 0.04);
-  opacity: var(--card-opacity);
+  opacity: 0.95;
   transform:
-    translateY(var(--card-depth-y))
+    translateY(var(--card-lift))
     rotateY(var(--card-angle))
     translateZ(var(--carousel-radius))
     scale(var(--card-scale));
   transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
   transition:
     opacity 0.35s ease,
     filter 0.35s ease,
@@ -3631,22 +3613,19 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-carousel-card.is-ring-focus {
-  --card-scale: 1;
   opacity: 1;
   filter: saturate(1.16) contrast(1.04);
 }
 
 .hackathon-carousel-card.is-ring-side {
-  --card-scale: 0.9;
-  opacity: 0.78;
-  filter: saturate(1.02) brightness(0.86);
+  opacity: 0.92;
+  filter: saturate(0.96) brightness(0.9);
 }
 
 .hackathon-carousel-card.is-ring-back {
-  --card-scale: 0.76;
-  opacity: var(--card-opacity);
-  filter: saturate(0.66) brightness(0.48) blur(0.8px);
-  pointer-events: none;
+  opacity: 0.5;
+  filter: saturate(0.8) brightness(0.62);
+  pointer-events: auto;
 }
 
 .hackathon-carousel-frame {
@@ -3656,7 +3635,6 @@ body.is-hero-ready .hero-image-loader,
   margin: 0;
   overflow: hidden;
   border-radius: 18px;
-  transform: translateZ(34px);
   background: rgba(5, 12, 22, 0.62);
 }
 
@@ -3685,13 +3663,13 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-frame figcaption {
   position: absolute;
-  right: 18px;
-  bottom: 18px;
-  left: 18px;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
   z-index: 3;
-  padding: 18px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
   color: #f8f2e6;
   background: rgba(5, 12, 22, 0.48);
   backdrop-filter: blur(16px);
@@ -3702,7 +3680,7 @@ body.is-hero-ready .hero-image-loader,
 .hackathon-carousel-frame figcaption em {
   display: block;
   color: rgba(247, 243, 232, 0.72);
-  font-size: 14px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -3712,10 +3690,10 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-frame figcaption strong {
   display: block;
-  margin: 10px 0 8px;
+  margin: 8px 0 6px;
   color: #fff7e8;
-  font-size: clamp(24px, 2.4vw, 36px);
-  line-height: 1.04;
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.1;
 }
 
 .hackathon-carousel-control {
@@ -3774,21 +3752,22 @@ body.is-hero-ready .hero-image-loader,
 
 @media (max-width: 767px) {
   .hackathon-glass-carousel {
-    --carousel-card-width: min(430px, calc(100vw - 20px));
-    --carousel-card-height: min(560px, 122vw);
-    margin-top: -18px;
+    --carousel-card-width: min(300px, calc(100vw - 96px));
+    --carousel-card-height: min(240px, 66vw);
+    margin-top: -8px;
     width: 100vw;
     padding-right: 10px;
     padding-left: 10px;
   }
 
   .hackathon-carousel-stage {
-    min-height: 650px;
+    min-height: 520px;
     border-radius: 0;
-    perspective: 920px;
+    perspective: 2200px;
   }
 
   .hackathon-carousel-track {
+    top: 48%;
     left: 50%;
   }
 

@@ -4554,6 +4554,11 @@
     var isDragging = false;
     var controlsLocked = false;
     var dragThreshold = 38;
+    var carouselAutoplayDelay = 3200;
+    var carouselInteractionHold = 7000;
+    var carouselAutoplayTimer = null;
+    var isCarouselHovered = false;
+    var interactionHoldUntil = 0;
 
     if (!cards.length) {
       return;
@@ -4650,11 +4655,52 @@
       }
 
       setActiveIndex(activeIndex - direction);
+      holdCarouselAutoplay();
       lockControlsBriefly();
     }
 
     function snapToNearestCard() {
       setActiveIndex(Math.round(-carouselRotation / ringStep));
+    }
+
+    function clearCarouselAutoplay() {
+      if (!carouselAutoplayTimer) {
+        return;
+      }
+
+      window.clearTimeout(carouselAutoplayTimer);
+      carouselAutoplayTimer = null;
+    }
+
+    function shouldPauseCarouselAutoplay() {
+      return (
+        isReducedMotion() ||
+        document.hidden ||
+        isDragging ||
+        isCarouselHovered ||
+        Date.now() < interactionHoldUntil
+      );
+    }
+
+    function scheduleCarouselAutoplay() {
+      clearCarouselAutoplay();
+
+      if (isReducedMotion()) {
+        return;
+      }
+
+      carouselAutoplayTimer = window.setTimeout(function () {
+        if (!shouldPauseCarouselAutoplay()) {
+          setActiveIndex(activeIndex + 1);
+        }
+
+        scheduleCarouselAutoplay();
+      }, carouselAutoplayDelay);
+    }
+
+    function holdCarouselAutoplay() {
+      interactionHoldUntil = Date.now() + carouselInteractionHold;
+      scheduleCarouselAutoplay();
     }
 
     function refreshLayout() {
@@ -4681,6 +4727,30 @@
       });
     }
 
+    carousel.addEventListener("mouseenter", function () {
+      isCarouselHovered = true;
+      clearCarouselAutoplay();
+    });
+
+    carousel.addEventListener("mouseleave", function () {
+      isCarouselHovered = false;
+      scheduleCarouselAutoplay();
+    });
+
+    carousel.addEventListener("focusin", function () {
+      isCarouselHovered = true;
+      clearCarouselAutoplay();
+    });
+
+    carousel.addEventListener("focusout", function () {
+      isCarouselHovered = false;
+      scheduleCarouselAutoplay();
+    });
+
+    carousel.addEventListener("click", holdCarouselAutoplay);
+
+    document.addEventListener("visibilitychange", scheduleCarouselAutoplay);
+
     stage.addEventListener("pointerdown", function (event) {
       if (event.pointerType === "mouse" && event.button !== 0) {
         return;
@@ -4697,6 +4767,7 @@
       lastPointerX = event.clientX;
       dragDeltaX = 0;
       carousel.classList.add("is-dragging");
+      clearCarouselAutoplay();
     });
 
     window.addEventListener("pointermove", function (event) {
@@ -4721,6 +4792,7 @@
       isDragging = false;
       activePointerId = null;
       carousel.classList.remove("is-dragging");
+      holdCarouselAutoplay();
 
       if (
         Math.abs(dragDeltaX) > dragThreshold &&
@@ -4742,10 +4814,12 @@
       isDragging = false;
       activePointerId = null;
       carousel.classList.remove("is-dragging");
+      holdCarouselAutoplay();
       snapToNearestCard();
     });
 
     window.addEventListener("resize", refreshLayout);
+    scheduleCarouselAutoplay();
   }
 
   function setupResponsiveNavbarToggle() {

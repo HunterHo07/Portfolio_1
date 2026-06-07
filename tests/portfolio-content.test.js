@@ -403,7 +403,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.4",
+  "Hunter v2.2.5",
 ];
 
 const requestedDemoUrls = [
@@ -896,8 +896,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.4") &&
-    html.includes("css/responsive.min.css?v=2.2.4"),
+  html.includes("css/style.min.css?v=2.2.5") &&
+    html.includes("css/responsive.min.css?v=2.2.5"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -988,7 +988,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.4"),
+  html.includes("js/main.min.js?v=2.2.5"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1035,7 +1035,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.4"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.5"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1721,7 +1721,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.4",
+  "v2.2.5",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2822,6 +2822,9 @@ assert.ok(
     js.includes("carouselRadius") &&
     js.includes("Math.tan(Math.PI / cards.length)") &&
     js.includes("carouselRotation += pointerDeltaX * 0.18") &&
+    js.includes("scheduleCarouselAutoplay") &&
+    js.includes("holdCarouselAutoplay") &&
+    js.includes("isCarouselHovered") &&
     js.includes("pointerdown") &&
     js.includes("dragThreshold"),
   "Timeline gallery should use continuous forward carousel motion, drag support, and the Desandro radius formula for near-endless rotation",

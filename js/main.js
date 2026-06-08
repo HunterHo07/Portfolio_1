@@ -3821,10 +3821,36 @@
   }
 
   function scheduleHeroThreeScene() {
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(initHeroThreeScene, { timeout: 1400 });
+    var connection = navigator.connection || {};
+    var heroThreeDelay = 12000;
+    var isQueued = false;
+
+    if (connection.saveData) {
+      return;
+    }
+
+    function startHeroThreeScene() {
+      if (isQueued) {
+        return;
+      }
+
+      isQueued = true;
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(initHeroThreeScene, { timeout: 3200 });
+      } else {
+        window.setTimeout(initHeroThreeScene, 900);
+      }
+    }
+
+    function queueHeroThreeScene() {
+      window.setTimeout(startHeroThreeScene, heroThreeDelay);
+    }
+
+    if (document.readyState === "complete") {
+      queueHeroThreeScene();
     } else {
-      window.setTimeout(initHeroThreeScene, 450);
+      window.addEventListener("load", queueHeroThreeScene, { once: true });
     }
   }
 

@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.7"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.8"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -425,7 +425,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.7",
+  "Hunter v2.2.8",
 ];
 
 const requestedDemoUrls = [
@@ -927,8 +927,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.7") &&
-    html.includes("css/responsive.min.css?v=2.2.7"),
+  html.includes("css/style.min.css?v=2.2.8") &&
+    html.includes("css/responsive.min.css?v=2.2.8"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1019,7 +1019,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.7"),
+  html.includes("js/main.min.js?v=2.2.8"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1066,7 +1066,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.7"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.8"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1282,6 +1282,12 @@ assert.ok(
     css.includes(".service-pricing-modal.is-open") &&
     css.includes("transform: translate3d(0, 0, 0) scale(1)"),
   "Client Build Menu should have card hover effects and animated pricing modal styles",
+);
+assert.ok(
+  css.includes(".service-icon::before") &&
+    css.includes(".services-block[data-pricing-service=\"software\"] .service-icon::before") &&
+    css.includes("font-size: 0"),
+  "Client Build Menu service icons should be CSS-drawn glyphs instead of clipped text labels",
 );
 assert.ok(
   css.includes(".is-service-pricing-open .husky-helper"),
@@ -1752,7 +1758,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.7",
+  "v2.2.8",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2029,6 +2035,12 @@ assert.ok(
     "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
   ),
   "Homepage Option C hero should load Three.js as a static-page module",
+);
+assert.ok(
+  js.includes("var heroThreeDelay = 12000") &&
+    js.includes("window.addEventListener(\"load\", queueHeroThreeScene") &&
+    js.includes("connection.saveData"),
+  "Optional Three.js hero layer should wait until after load so the eager hero image stays the LCP path",
 );
 assert.ok(
   fs.existsSync("images/hero-options/option-c-three-source.webp"),

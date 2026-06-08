@@ -6,6 +6,7 @@ const html = fs.readFileSync("index.html", "utf8");
 const css = fs.readFileSync("css/style.css", "utf8");
 const responsiveCss = fs.readFileSync("css/responsive.css", "utf8");
 const js = fs.readFileSync("js/main.js", "utf8");
+const sw = fs.readFileSync("sw.js", "utf8");
 const siblingRoot = path.resolve(process.cwd(), "..");
 
 function readImageSize(filePath) {
@@ -102,6 +103,7 @@ assert.ok(
   "Head should preconnect to Google font assets",
 );
 for (const removedCss of [
+  "lib/bootstrap/css/bootstrap.min.css",
   "lib/owlcarousel/assets/owl.carousel.min.css",
   "lib/magnific-popup/magnific-popup.css",
   "lib/hover/hover.min.css",
@@ -176,6 +178,14 @@ assert.ok(
   "Hero loader should be styled and fade the blur placeholder after the image is ready",
 );
 assert.ok(
+  !headHtml.includes("lib/bootstrap/css/bootstrap.min.css") &&
+    css.includes(".container") &&
+    css.includes(".col-lg-4") &&
+    css.includes(".col-md-6") &&
+    css.includes(".img-responsive"),
+  "Critical path should replace the full Bootstrap stylesheet with the small local grid subset this page uses",
+);
+assert.ok(
   js.includes("setupHeroImageLoading") &&
     js.includes("is-hero-loading") &&
     js.includes("is-image-ready") &&
@@ -204,8 +214,20 @@ assert.ok(
 assert.ok(
   js.includes("setupDeferredImages") &&
     js.includes('document.querySelectorAll("img[data-src]")') &&
-    js.includes("IntersectionObserver"),
-  "Below-fold images should use a strict data-src lazy loader instead of relying only on native lazy loading",
+    js.includes("IntersectionObserver") &&
+    js.includes("scheduleImagePrewarm") &&
+    js.includes("requestIdleCallback") &&
+    js.includes("navigator.connection"),
+  "Below-fold images should use lazy loading plus slow idle prewarming after the page settles",
+);
+assert.ok(
+  js.includes("registerPortfolioServiceWorker") &&
+    js.includes('navigator.serviceWorker.register("sw.js")') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.7"') &&
+    sw.includes('request.destination === "image"') &&
+    sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
+    sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
+  "Portfolio should register a versioned service worker that caches images, CSS, JS, and navigation",
 );
 assert.ok(
   !html.includes('src="lib/jquery/jquery.min.js"') &&
@@ -403,7 +425,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.6",
+  "Hunter v2.2.7",
 ];
 
 const requestedDemoUrls = [
@@ -582,7 +604,6 @@ const requiredAssets = [
   "images/teaching/teaching-intro-n8n-basics-2026.webp",
   "images/teaching/teaching-tech-readiness.webp",
   "images/teaching/teaching-productivity.webp",
-  "images/ui/cinematic-product-overlay.webp",
   "images/ui/husky-idle.webp",
   "images/ui/husky-happy.webp",
   "images/ui/husky-excited.webp",
@@ -609,6 +630,13 @@ for (const asset of requiredAssets) {
   );
   assert.ok(fs.existsSync(asset), `Missing required asset file: ${asset}`);
 }
+assert.ok(
+  fs.existsSync("images/ui/cinematic-product-overlay.webp") &&
+    !html.includes("images/ui/cinematic-product-overlay.webp") &&
+    !css.includes("cinematic-product-overlay.webp") &&
+    !js.includes("cinematic-product-overlay.webp"),
+  "Cinematic overlay asset should remain available but not load as an eager CSS background",
+);
 
 const assetsReferenceThumbSize = readImageSize(
   "images/demo-thumb-rj-assets-1.webp",
@@ -810,8 +838,11 @@ assert.ok(
   css.includes(".release-badge") &&
     css.includes("min-height: 24px") &&
     css.includes("font-size: 8px") &&
-    css.includes("bottom: 13px"),
-  "Release badge should stay compact so it does not block proof controls or poster content",
+    css.includes("bottom: 13px") &&
+    /@media \(max-width: 600px\)[\s\S]*\.release-badge \{[\s\S]*left: auto;[\s\S]*right: 10px;[\s\S]*bottom: 10px;/.test(
+      css,
+    ),
+  "Release badge should stay compact and move to the mobile bottom-right corner",
 );
 assert.ok(
   js.includes("timelineCaptions:") && js.includes("setIndexedCaptionTriples"),
@@ -896,8 +927,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.6") &&
-    html.includes("css/responsive.min.css?v=2.2.6"),
+  html.includes("css/style.min.css?v=2.2.7") &&
+    html.includes("css/responsive.min.css?v=2.2.7"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -988,7 +1019,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.6"),
+  html.includes("js/main.min.js?v=2.2.7"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1035,7 +1066,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.6"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.7"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1721,7 +1752,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.6",
+  "v2.2.7",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -1770,7 +1801,6 @@ for (const token of [
   "moveHuskySafely",
   "prefers-reduced-motion",
   "cinematic-media-frame",
-  "cinematic-product-overlay.webp",
   "mix-blend-mode",
   "setupSmoothAnchorScroll",
   ".journal-info > a:first-child",

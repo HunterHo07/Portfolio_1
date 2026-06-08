@@ -67,6 +67,118 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-12,
+.col-md-6 {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+
+  .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+
+  .col-lg-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+  }
+
+  .col-lg-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .col-lg-7 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+  }
+
+  .col-lg-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
 .parallax-backdrop {
   position: fixed;
   inset: 0;
@@ -1313,7 +1425,8 @@ body.is-hero-ready .hero-image-loader,
   pointer-events: none;
   background:
     linear-gradient(115deg, rgba(255, 255, 255, 0.08), transparent 22%, rgba(116, 227, 255, 0.12) 50%, transparent 68%, rgba(216, 185, 135, 0.16)),
-    url("../images/ui/cinematic-product-overlay.webp") center / cover no-repeat;
+    radial-gradient(circle at 28% 24%, rgba(116, 227, 255, 0.16), transparent 26%),
+    linear-gradient(135deg, transparent, rgba(216, 185, 135, 0.1));
   mix-blend-mode: screen;
   opacity: var(--media-overlay-opacity);
   transition: opacity 0.5s ease, transform 0.8s ease;
@@ -1500,7 +1613,9 @@ body.is-hero-ready .hero-image-loader,
   inset: -8%;
   z-index: 0;
   pointer-events: none;
-  background: url("../images/founder-poster-layers/founder-poster-08-all-hunters.webp") center / cover no-repeat;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(116, 227, 255, 0.2), transparent 32%),
+    linear-gradient(135deg, rgba(216, 185, 135, 0.16), rgba(8, 13, 22, 0.82));
   filter: blur(20px) brightness(0.34) saturate(1.12);
   transform: scale(1.06);
   opacity: 0.88;
@@ -6557,7 +6672,8 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   .release-badge {
-    left: 10px;
+    left: auto;
+    right: 10px;
     bottom: 10px;
     min-height: 22px;
     padding: 0 8px;
@@ -6565,8 +6681,9 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   body:not(.is-hero-top) .release-badge {
-    top: 76px;
-    bottom: auto;
+    top: auto;
+    right: 10px;
+    bottom: 10px;
   }
 
   .hero-hunter-popup {

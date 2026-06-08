@@ -3158,6 +3158,8 @@
     var images = Array.prototype.slice.call(
       document.querySelectorAll("img[data-src]"),
     );
+    var prewarmDelay = 8500;
+    var prewarmGap = 420;
 
     function loadImage(image) {
       var src = image.getAttribute("data-src");
@@ -3168,6 +3170,67 @@
 
       image.src = src;
       image.dataset.loaded = "true";
+    }
+
+    function shouldPrewarmImages() {
+      var connection = navigator.connection || {};
+
+      return !connection.saveData;
+    }
+
+    function prewarmImage(src) {
+      var image = new Image();
+
+      image.decoding = "async";
+      image.src = src;
+    }
+
+    function scheduleImagePrewarm() {
+      var sources;
+      var index = 0;
+
+      if (!shouldPrewarmImages()) {
+        return;
+      }
+
+      sources = images
+        .map(function (image) {
+          return image.getAttribute("data-src");
+        })
+        .filter(function (src, srcIndex, list) {
+          return src && list.indexOf(src) === srcIndex;
+        });
+
+      function warmNextImage(deadline) {
+        var hasIdleBudget = !deadline || deadline.timeRemaining() > 8;
+
+        if (document.hidden || !hasIdleBudget) {
+          window.setTimeout(queueNextWarm, prewarmGap);
+          return;
+        }
+
+        if (index >= sources.length) {
+          return;
+        }
+
+        prewarmImage(sources[index]);
+        index += 1;
+        window.setTimeout(queueNextWarm, prewarmGap);
+      }
+
+      function queueNextWarm() {
+        if (index >= sources.length) {
+          return;
+        }
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(warmNextImage, { timeout: 1800 });
+        } else {
+          window.setTimeout(warmNextImage, 0);
+        }
+      }
+
+      window.setTimeout(queueNextWarm, prewarmDelay);
     }
 
     if (!images.length) {
@@ -3196,6 +3259,32 @@
     images.forEach(function (image) {
       observer.observe(image);
     });
+    scheduleImagePrewarm();
+  }
+
+  function registerPortfolioServiceWorker() {
+    if (
+      !("serviceWorker" in navigator) ||
+      !/^https?:$/.test(window.location.protocol)
+    ) {
+      return;
+    }
+
+    window.addEventListener(
+      "load",
+      function () {
+        var register = function () {
+          navigator.serviceWorker.register("sw.js").catch(function () {});
+        };
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(register, { timeout: 2600 });
+        } else {
+          window.setTimeout(register, 1800);
+        }
+      },
+      { once: true },
+    );
   }
 
   function setupProjectThumbnailLoops() {
@@ -4947,6 +5036,7 @@
       setupResponsiveNavbarToggle();
       setupLazyYouTubeEmbeds();
       setupSmoothAnchorScroll();
+      registerPortfolioServiceWorker();
     });
   } else {
     setupLanguageToggle();
@@ -4973,5 +5063,6 @@
     setupResponsiveNavbarToggle();
     setupLazyYouTubeEmbeds();
     setupSmoothAnchorScroll();
+    registerPortfolioServiceWorker();
   }
 })();

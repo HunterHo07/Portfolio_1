@@ -3975,11 +3975,28 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .hackathon-carousel-card.is-ring-side {
-    opacity: 0.66;
+    z-index: 1;
+    opacity: 0.42;
+    filter: saturate(0.7) brightness(0.62) blur(1px);
+    pointer-events: none;
+  }
+
+  .hackathon-carousel-card.is-ring-focus {
+    z-index: 5;
+  }
+
+  .hackathon-carousel-card.is-ring-side-left {
+    clip-path: inset(0 70% 0 0 round 24px);
+  }
+
+  .hackathon-carousel-card.is-ring-side-right {
+    clip-path: inset(0 0 0 70% round 24px);
   }
 
   .hackathon-carousel-card.is-ring-back {
+    z-index: 0;
     opacity: 0.14;
+    pointer-events: none;
   }
 
   .hackathon-carousel-frame {

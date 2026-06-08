@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.9"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.10"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -425,7 +425,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.9",
+  "Hunter v2.2.10",
 ];
 
 const requestedDemoUrls = [
@@ -927,8 +927,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.9") &&
-    html.includes("css/responsive.min.css?v=2.2.9"),
+  html.includes("css/style.min.css?v=2.2.10") &&
+    html.includes("css/responsive.min.css?v=2.2.10"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1019,7 +1019,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.9"),
+  html.includes("js/main.min.js?v=2.2.10"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1066,7 +1066,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.9"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.10"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1758,7 +1758,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.9",
+  "v2.2.10",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2751,29 +2751,29 @@ const hackathonCarouselSources = [
 assert.deepEqual(
   hackathonCarouselSources.slice(0, 3),
   [
-    "images/hackathon/timeline-happening-21.webp",
-    "images/hackathon/timeline-happening-15.webp",
-    "images/hackathon/timeline-happening-14.webp",
+    "images/hackathon/timeline-happening-02.webp",
+    "images/hackathon/timeline-happening-06.webp",
+    "images/hackathon/deriv-ai-hackathon-countdown.webp",
   ],
-  "Hackathon carousel should open with Hunter's personal champion proof sequence",
+  "Hackathon carousel should open with the selected B/C/A proof image sequence",
 );
 assert.deepEqual(
   hackathonCarouselSources.slice(-3),
   [
-    "images/hackathon/timeline-happening-02.webp",
-    "images/hackathon/deriv-ai-hackathon-countdown.webp",
+    "images/hackathon/timeline-happening-23.webp",
+    "images/hackathon/timeline-happening-01.webp",
     "images/ui/hackathon-champion-stage-v2.webp",
   ],
-  "Hackathon carousel should close with a final 1-2-3 achievement proof sequence",
+  "Hackathon carousel should still close on a proof image after the reshuffled line-up",
 );
 assert.ok(
-  js.indexOf('["Achievement | Champion","Champion Selfie","Personal winner proof"]') <
-    js.indexOf('["Achievement | RM15,000","First Prize Proof","AI Champion award moment"]') &&
-    js.indexOf('["Achievement | RM15,000","First Prize Proof","AI Champion award moment"]') <
-      js.indexOf(
-        '["Achievement | Deriv | Stage","Deriv Winner Stage","Public winner announcement"]',
-      ),
-  "Localized carousel captions should follow the same champion-first order as the HTML cards",
+  js.indexOf(
+    '["Achievement | Deriv | AI","Deriv Public Proof","Team Phantom winner moment"]',
+  ) <
+    js.indexOf('["Hackathon | IOTA | Pitch","IOTA Pitch Moment","Live stage explanation"]') &&
+    js.indexOf('["Hackathon | IOTA | Pitch","IOTA Pitch Moment","Live stage explanation"]') <
+      js.indexOf('["Event | Build Sprint","Champion Stage","Countdown and event promotion"]'),
+  "Localized carousel captions should follow the same selected B/C/A order as the HTML cards",
 );
 for (const unrelatedHackathonAsset of [
   "images/teaching/teaching-n8n-event.webp",
@@ -2882,6 +2882,15 @@ assert.ok(
     css.includes("calc(var(--carousel-radius) * -1)") &&
     css.includes("rotateY(var(--carousel-rotation))"),
   "Timeline cards should use the Desandro-style 3D carousel pattern with panels around a circular stage",
+);
+assert.ok(
+  css.includes(".hackathon-carousel-card.is-ring-side-left") &&
+    css.includes("clip-path: inset(0 70% 0 0 round 24px)") &&
+    css.includes(".hackathon-carousel-card.is-ring-side-right") &&
+    css.includes("clip-path: inset(0 0 0 70% round 24px)") &&
+    js.includes("is-ring-side-left") &&
+    js.includes("is-ring-side-right"),
+  "Mobile carousel side cards should be clipped to their outer edges so they do not cover the focused middle card",
 );
 assert.ok(
   js.includes("setupHackathonGlassCarousel") &&

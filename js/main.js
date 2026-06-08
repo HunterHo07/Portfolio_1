@@ -214,6 +214,9 @@
         "Achievement",
       ],
       timelineCaptions: [
+        ["Achievement | Deriv | AI","Deriv Public Proof","Team Phantom winner moment"],
+        ["Hackathon | IOTA | Pitch","IOTA Pitch Moment","Live stage explanation"],
+        ["Event | Build Sprint","Champion Stage","Countdown and event promotion"],
         ["Achievement | Champion","Champion Selfie","Personal winner proof"],
         ["Achievement | RM15,000","First Prize Proof","AI Champion award moment"],
         ["Achievement | Deriv | Stage","Deriv Winner Stage","Public winner announcement"],
@@ -226,7 +229,6 @@
         ["Web3 | Team | Event","Web3 Team Table","Side-event coordination"],
         ["Innovation | NTIS | Event","NTIS Open Day","Commercialisation exposure"],
         ["Team | Startup | Sync","Coffee Team Sync","Planning outside the venue"],
-        ["Hackathon | IOTA | Pitch","IOTA Pitch Moment","Live stage explanation"],
         ["Team | Discussion","Demo Review Moment","Working through project ideas"],
         ["Web3 | Event | Network","Web3 Afterparty","Community side-event highlight"],
         ["Startup | Competition","Startup Competition","Founder-room conversations"],
@@ -236,8 +238,6 @@
         ["Hackathon | Early Team","Early Hackathon Table","Older build-floor memory"],
         ["Startup Weekend | Team","Early Team Build","Teamwork before the pitch"],
         ["Hackathon | Team | Build","Team Build Table","Outside-work sprint energy"],
-        ["Achievement | Deriv | AI","Deriv Public Proof","Team Phantom winner moment"],
-        ["Event | Build Sprint","Champion Stage","Countdown and event promotion"],
         ["Achievement | AI | Stage","Champion Proof","Winner-stage highlight"],
       ],
       prev: "Prev",
@@ -420,6 +420,9 @@
         "全职工作之外，还持续参与黑客松、Web3 活动、创业周末、受邀分享、团队协作与各类有趣成果时刻。",
       timelineTags: ["黑客松", "Web3 活动", "创业", "团队亮点", "成果"],
       timelineCaptions: [
+        ["成果 | Deriv | AI","Deriv 公开证明","Team Phantom 得奖时刻"],
+        ["黑客松 | IOTA | 简报","IOTA 简报时刻","舞台即场说明"],
+        ["活动 | 冲刺","冠军舞台","倒数与活动宣传"],
         ["成果 | 冠军","冠军自拍","个人得奖证明"],
         ["成果 | RM15,000","冠军奖金证明","AI 冠军领奖时刻"],
         ["成果 | Deriv | 舞台","Deriv 得奖舞台","公开得奖宣布"],
@@ -432,7 +435,6 @@
         ["Web3 | 团队 | 活动","Web3 团队桌","侧活动协调现场"],
         ["创新 | NTIS | 活动","NTIS 开放日","商业化曝光现场"],
         ["团队 | 创业 | 同步","咖啡团队同步","场外规划时刻"],
-        ["黑客松 | IOTA | 简报","IOTA 简报时刻","舞台即场说明"],
         ["团队 | 讨论","Demo 评审时刻","一起推进项目想法"],
         ["Web3 | 活动 | 人脉","Web3 Afterparty","社区侧活动亮点"],
         ["创业 | 比赛","创业竞赛现场","创办人交流时刻"],
@@ -442,8 +444,6 @@
         ["黑客松 | 早期团队","早期黑客松桌","较早期的构建回忆"],
         ["创业周末 | 团队","早期团队构建","简报前的团队合作"],
         ["黑客松 | 团队 | 构建","团队构建现场","下班后的冲刺能量"],
-        ["成果 | Deriv | AI","Deriv 公开证明","Team Phantom 得奖时刻"],
-        ["活动 | 冲刺","冠军舞台","倒数与活动宣传"],
         ["成果 | AI | 舞台","冠军证明","得奖舞台亮点"],
       ],
       prev: "上一个",
@@ -4620,6 +4620,8 @@
         var absAngle = Math.abs(normalizedAngle);
         var isFocus = absAngle < ringStep * 0.55;
         var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
+        var isSideLeft = isSide && normalizedAngle < 0;
+        var isSideRight = isSide && normalizedAngle > 0;
         var cardLift = isFocus ? 72 : isSide ? 16 : -94;
         var cardScale = isFocus ? 1.4 : 1;
 
@@ -4631,6 +4633,8 @@
         card.style.zIndex = "";
         card.classList.toggle("is-ring-focus", isFocus);
         card.classList.toggle("is-ring-side", isSide);
+        card.classList.toggle("is-ring-side-left", isSideLeft);
+        card.classList.toggle("is-ring-side-right", isSideRight);
         card.classList.toggle("is-ring-back", !isFocus && !isSide);
       });
     }

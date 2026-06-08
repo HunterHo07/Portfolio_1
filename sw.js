@@ -1,11 +1,11 @@
-const STATIC_CACHE = "hunter-static-v2.2.9";
-const IMAGE_CACHE = "hunter-images-v2.2.9";
+const STATIC_CACHE = "hunter-static-v2.2.10";
+const IMAGE_CACHE = "hunter-images-v2.2.10";
 const STATIC_ASSETS = [
   "./",
   "./index.html",
-  "./css/style.min.css?v=2.2.9",
-  "./css/responsive.min.css?v=2.2.9",
-  "./js/main.min.js?v=2.2.9",
+  "./css/style.min.css?v=2.2.10",
+  "./css/responsive.min.css?v=2.2.10",
+  "./js/main.min.js?v=2.2.10",
   "./images/logo.svg",
   "./images/favicon.svg",
   "./images/favicon.webp",

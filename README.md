@@ -2,13 +2,13 @@
 
 Public portfolio for Hunter Ho, deployed through GitHub Pages at `https://hunterho07.github.io/Portfolio_1/`.
 
-Current milestone: `Hunter v2.2.10 · Mobile carousel proof order`.
+Current milestone: `Hunter v2.2.11 · Cinema memory reel`.
 
 ## Release Focus
 
 - Option C hero with eager hero image, visible slow-network loading state, text-first rendering, and lazy lower-section media.
 - Startup Lab as the second section with video, seven compact startup icons, and founder context.
-- Founder proof theater, project demos, teaching proof cards, 3D model demos, development gallery, and contact footer.
+- Founder proof theater, Cinema Reel, project demos, teaching proof cards, 3D model demos, development gallery, and contact footer.
 - Assets 3 links to `qstyle-3d-models-lab`, now a real GLB catalog with local model files and downloadable assets.
 
 ## Service Note

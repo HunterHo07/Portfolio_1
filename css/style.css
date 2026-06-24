@@ -7378,7 +7378,7 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   display: none;
   align-items: center;
   justify-content: center;
-  padding: clamp(18px, 4vw, 48px);
+  padding: clamp(10px, 3vw, 32px);
 }
 
 .startup-video-modal.is-open {
@@ -7397,10 +7397,12 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
 .startup-video-modal-card {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
   width: min(920px, 100%);
-  max-height: min(88vh, 760px);
-  overflow: auto;
-  padding: clamp(18px, 3vw, 34px);
+  max-height: calc(100dvh - clamp(20px, 6vw, 64px));
+  overflow: hidden;
+  padding: clamp(14px, 2.4vw, 28px);
   border: 1px solid rgba(216, 185, 135, 0.28);
   border-radius: 28px;
   background:
@@ -7434,26 +7436,32 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
 }
 
 .startup-video-modal-copy {
-  margin: 0 48px 18px 0;
+  flex: 0 0 auto;
+  margin: 0 48px clamp(10px, 1.6vw, 16px) 0;
 }
 
 .startup-video-modal-copy h2 {
-  margin: 6px 0;
+  margin: 3px 0;
   color: #ffffff;
-  font-size: clamp(24px, 4vw, 44px);
+  font-size: clamp(24px, 3.4vw, 40px);
+  line-height: 0.98;
 }
 
 .startup-video-modal-copy p {
   margin: 0;
   color: rgba(216, 226, 240, 0.76);
+  font-size: clamp(13px, 1.7vw, 16px);
+  line-height: 1.35;
 }
 
 .startup-video-modal-frame {
   position: relative;
   display: grid;
+  flex: 1 1 auto;
   place-items: center;
   width: 100%;
-  min-height: min(58vh, 420px);
+  min-height: 0;
+  height: clamp(220px, 54dvh, 420px);
   overflow: hidden;
   border-radius: 22px;
   color: #ffffff;
@@ -7462,7 +7470,7 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
 .cinema-modal-link img {
   width: 100%;
   height: 100%;
-  min-height: min(58vh, 420px);
+  min-height: 0;
   object-fit: cover;
   filter: saturate(1.04) contrast(1.04);
 }

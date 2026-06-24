@@ -32,6 +32,22 @@
       "hero.ctaSpeak": "Book Me for Event",
       "hero.ctaProof": "Projects Demo",
       "hero.loading": "Loading hero visual",
+      "cinema.label": "Cinema Reel",
+      "cinema.title": "Cinema Memory Reel",
+      "cinema.intro":
+        "A cinematic memory slot for videos and photo stories. This first reel opens the shared Google Photos moment, with room for more video chapters next.",
+      "cinema.ctaPhotos": "Open Google Photos",
+      "cinema.ctaContact": "Contact Hunter",
+      "cinema.slideOneMeta": "Shared Memory | Google Photos",
+      "cinema.slideOneTitle": "First Shared Reel",
+      "cinema.slideOneBody": "Open the full moment in Google Photos.",
+      "cinema.slideTwoMeta": "Coming Next | Video Slot",
+      "cinema.slideTwoTitle": "Next Video Slot",
+      "cinema.slideTwoBody": "Drop the next video here when it is ready.",
+      "cinema.slideThreeMeta": "Story Archive | Future Reel",
+      "cinema.slideThreeTitle": "Behind the Build",
+      "cinema.slideThreeBody":
+        "A future carousel card for work, travel, or event clips.",
       "sections.mobileTitle": "Native Mobile App Projects",
       "sections.mobileIntro":
         "Two real React Native / Expo app projects with Android package metadata, camera or contact permissions, and install-build profiles.",
@@ -67,6 +83,21 @@
       "hero.ctaSpeak": "预约活动分享",
       "hero.ctaProof": "项目 Demo",
       "hero.loading": "正在载入首页视觉",
+      "cinema.label": "电影片段",
+      "cinema.title": "电影回忆影片",
+      "cinema.intro":
+        "一个用来放视频和照片故事的电影感区域。第一段会打开共享 Google Photos，之后可以继续加入更多影片章节。",
+      "cinema.ctaPhotos": "打开 Google Photos",
+      "cinema.ctaContact": "联系 Hunter",
+      "cinema.slideOneMeta": "共享回忆 | Google Photos",
+      "cinema.slideOneTitle": "第一段共享影片",
+      "cinema.slideOneBody": "在 Google Photos 打开完整回忆。",
+      "cinema.slideTwoMeta": "下一个 | 视频位置",
+      "cinema.slideTwoTitle": "下一个视频位置",
+      "cinema.slideTwoBody": "准备好后，可以把下一段视频放在这里。",
+      "cinema.slideThreeMeta": "故事档案 | 未来影片",
+      "cinema.slideThreeTitle": "Behind the Build",
+      "cinema.slideThreeBody": "未来可放工作、旅行或活动片段。",
       "sections.mobileTitle": "真实手机 App 项目",
       "sections.mobileIntro":
         "两个 React Native / Expo 手机 App 项目，包含 Android 包名、相机或联系人权限，以及可打包安装的构建配置。",
@@ -3764,7 +3795,7 @@
 
   function setupMotionAndHelper() {
     var revealTargets = document.querySelectorAll(
-      "section, #about, #services, .journal-info, .startup-icon-link, .teaching-proof-card, .hackathon-carousel-card",
+      "section, #about, #services, .journal-info, .startup-icon-link, .teaching-proof-card, .cinema-carousel-card, .hackathon-carousel-card",
     );
     var husky = document.getElementById("husky-helper");
     var huskyButton = document.getElementById("husky-button");
@@ -4849,6 +4880,138 @@
     scheduleCarouselAutoplay();
   }
 
+  function setupCinemaCarousel() {
+    document.querySelectorAll("[data-cinema-carousel]").forEach(function (carousel) {
+      if (carousel.hasAttribute("data-cinema-bound")) {
+        return;
+      }
+
+      var track = carousel.querySelector("[data-cinema-track]");
+      var cards = Array.prototype.slice.call(
+        carousel.querySelectorAll("[data-cinema-card]"),
+      );
+      var dots = Array.prototype.slice.call(
+        carousel.querySelectorAll("[data-cinema-dot]"),
+      );
+      var prevButton = carousel.querySelector("[data-cinema-prev]");
+      var nextButton = carousel.querySelector("[data-cinema-next]");
+      var activeIndex = 0;
+      var autoplayTimer = null;
+      var isPaused = false;
+
+      if (!track || cards.length < 2) {
+        return;
+      }
+
+      function normalizeIndex(index) {
+        return (index + cards.length) % cards.length;
+      }
+
+      function clearAutoplay() {
+        if (autoplayTimer) {
+          window.clearTimeout(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      function scheduleAutoplay() {
+        clearAutoplay();
+
+        if (isReducedMotion()) {
+          return;
+        }
+
+        autoplayTimer = window.setTimeout(function () {
+          if (!isPaused && !document.hidden) {
+            setActiveIndex(activeIndex + 1);
+          }
+
+          scheduleAutoplay();
+        }, 5600);
+      }
+
+      function setActiveIndex(index) {
+        activeIndex = normalizeIndex(index);
+        track.style.setProperty("--cinema-index", String(activeIndex));
+
+        cards.forEach(function (card, cardIndex) {
+          var isActive = cardIndex === activeIndex;
+          var cardOffset = (cardIndex - activeIndex + cards.length) % cards.length;
+          var isNext = cardOffset === 1;
+          var isPrev = cardOffset === cards.length - 1;
+
+          card.classList.toggle("is-active", isActive);
+          card.classList.toggle("is-next", isNext);
+          card.classList.toggle("is-prev", isPrev);
+          card.setAttribute("aria-hidden", String(!isActive));
+          Array.prototype.slice
+            .call(card.querySelectorAll("a, button"))
+            .forEach(function (control) {
+              control.tabIndex = isActive ? 0 : -1;
+            });
+        });
+
+        dots.forEach(function (dot) {
+          var isActive = Number(dot.getAttribute("data-cinema-dot")) === activeIndex;
+          dot.classList.toggle("is-active", isActive);
+          dot.setAttribute("aria-current", isActive ? "true" : "false");
+        });
+      }
+
+      function holdAutoplay() {
+        clearAutoplay();
+        scheduleAutoplay();
+      }
+
+      carousel.setAttribute("data-cinema-bound", "true");
+
+      if (prevButton) {
+        prevButton.addEventListener("click", function () {
+          setActiveIndex(activeIndex - 1);
+          holdAutoplay();
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener("click", function () {
+          setActiveIndex(activeIndex + 1);
+          holdAutoplay();
+        });
+      }
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          setActiveIndex(Number(dot.getAttribute("data-cinema-dot")) || 0);
+          holdAutoplay();
+        });
+      });
+
+      carousel.addEventListener("mouseenter", function () {
+        isPaused = true;
+        clearAutoplay();
+      });
+
+      carousel.addEventListener("mouseleave", function () {
+        isPaused = false;
+        scheduleAutoplay();
+      });
+
+      carousel.addEventListener("focusin", function () {
+        isPaused = true;
+        clearAutoplay();
+      });
+
+      carousel.addEventListener("focusout", function () {
+        isPaused = false;
+        scheduleAutoplay();
+      });
+
+      document.addEventListener("visibilitychange", scheduleAutoplay);
+      setActiveIndex(0);
+      scheduleAutoplay();
+    });
+  }
+
   function setupResponsiveNavbarToggle() {
     var toggle = document.querySelector(".responsive");
     var navMenu = document.querySelector(".nav-menu");
@@ -5050,6 +5213,7 @@
       setupModelsHunterBackground();
       setupStartupTechStackLights();
       setupHackathonGlassCarousel();
+      setupCinemaCarousel();
       setupResponsiveNavbarToggle();
       setupLazyYouTubeEmbeds();
       setupStartupVideoModal();
@@ -5078,6 +5242,7 @@
     setupModelsHunterBackground();
     setupStartupTechStackLights();
     setupHackathonGlassCarousel();
+    setupCinemaCarousel();
     setupResponsiveNavbarToggle();
     setupLazyYouTubeEmbeds();
     setupStartupVideoModal();

@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.11"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.12"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -405,7 +405,8 @@ const requiredText = [
   "hero-capability",
   "hero-promise",
   "TrillionUnicorn Startup Lab",
-  "Turn on sound for the full startup story",
+  "Cinema Memory Reel",
+  "Open the shared memory video from Google Photos.",
   "OpenChance",
   "WorkFree",
   "CTOrendang",
@@ -425,11 +426,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Cinema Reel",
-  "Cinema Memory Reel",
-  "Open Google Photos",
-  "Next Video Slot",
-  "Hunter v2.2.11",
+  "Hunter v2.2.12",
 ];
 
 const requestedDemoUrls = [
@@ -617,7 +614,6 @@ const requiredAssets = [
   "images/about-hunter-parallax-v2.webp",
   "images/hero-layers/hero-hunter-cutout.webp",
   "images/hunter-demo-bg-neon-matrix.webp",
-  "images/cinema/hunter-bbq-memory-reel.jpg",
 ];
 
 for (const text of requiredText) {
@@ -932,8 +928,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.11") &&
-    html.includes("css/responsive.min.css?v=2.2.11"),
+  html.includes("css/style.min.css?v=2.2.12") &&
+    html.includes("css/responsive.min.css?v=2.2.12"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1024,7 +1020,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.11"),
+  html.includes("js/main.min.js?v=2.2.12"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1071,7 +1067,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.11"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.12"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1345,7 +1341,6 @@ const heroIndex = html.indexOf('id="header"');
 const labIndex = html.indexOf('id="trillionunicorn-lab"');
 const visionIndex = html.indexOf('id="founder-vision"');
 const journeyIndex = html.indexOf('id="founder-journey"');
-const cinemaReelIndex = html.indexOf('id="cinema-reel"');
 assert.ok(
   heroIndex !== -1 && labIndex !== -1 && journeyIndex !== -1,
   "Hero, startup lab, and founder proof theater sections should exist",
@@ -1360,71 +1355,29 @@ assert.ok(
   "Startup Lab should be the second section and lead directly into the proof theater",
 );
 const startupLabSection = html.slice(labIndex, journeyIndex);
-const cinemaReelEnd = html.indexOf(
-  "<!-- end section cinema reel -->",
-  cinemaReelIndex,
-);
-assert.ok(
-  cinemaReelIndex !== -1 && cinemaReelEnd > cinemaReelIndex,
-  "Cinema Reel should exist as a standalone section with an explicit end marker",
-);
-assert.ok(
-  journeyIndex < cinemaReelIndex &&
-    cinemaReelIndex < html.indexOf('id="demo-projects-section"'),
-  "Cinema Reel should sit after Proof Theater and before the project demos",
-);
-const cinemaReelSection = html.slice(cinemaReelIndex, cinemaReelEnd);
-assert.ok(
-  cinemaReelSection.includes("https://photos.app.goo.gl/W245pUVpw55axXnaA") &&
-    cinemaReelSection.includes("images/cinema/hunter-bbq-memory-reel.jpg"),
-  "Cinema Reel should open the supplied Google Photos link from a local thumbnail",
-);
-assert.ok(
-  cinemaReelSection.includes("data-cinema-carousel") &&
-    cinemaReelSection.includes("data-cinema-card") &&
-    cinemaReelSection.includes("data-cinema-prev") &&
-    cinemaReelSection.includes("data-cinema-next") &&
-    cinemaReelSection.includes("data-cinema-dot"),
-  "Cinema Reel should expose a carousel structure ready for more videos",
-);
-assert.equal(
-  (cinemaReelSection.match(/class="cinema-carousel-card/g) || []).length,
-  3,
-  "Cinema Reel should start with one real reel and two future video slots",
-);
-assert.ok(
-  js.includes("setupCinemaCarousel") &&
-    js.includes("data-cinema-carousel") &&
-    js.includes("data-cinema-dot") &&
-    js.includes("is-next") &&
-    js.includes("is-prev"),
-  "Cinema Reel carousel should be controlled by JavaScript",
-);
-assert.ok(
-  css.includes(".cinema-reel") &&
-    css.includes(".cinema-carousel-viewport") &&
-    css.includes(".cinema-carousel-card.is-active") &&
-    css.includes(".cinema-carousel-card.is-next") &&
-    css.includes(".cinema-carousel-dots"),
-  "Cinema Reel should include cinematic section and carousel styling",
-);
 assert.ok(
   !html.includes("https://www.youtube.com/embed/KRxQ8JuqMyE"),
   "Startup lab should not load the YouTube iframe on initial page load",
 );
 assert.ok(
-  html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
-    html.includes("startup-video-modal") &&
-    html.includes("data-startup-video-open") &&
-    js.includes("setupStartupVideoModal") &&
-    js.includes("allowFullscreen"),
-  "Startup story video should be deferred into the footer copyright modal",
+  !html.includes('id="cinema-reel"') &&
+    !html.includes('href="#cinema-reel"') &&
+    !html.includes('data-nav-label="Cinema"'),
+  "Cinema Memory Reel should not exist as a normal page section or navbar item",
 );
 assert.ok(
-  !startupLabSection.includes('data-youtube-id="KRxQ8JuqMyE"') &&
-    !startupLabSection.includes("youtube-lite-embed") &&
-    !startupLabSection.includes("startup-sound-note"),
-  "Startup Lab section should not show the video in normal website/mobile view",
+  html.includes("https://photos.app.goo.gl/W245pUVpw55axXnaA") &&
+    html.includes("images/cinema/hunter-bbq-memory-reel.jpg") &&
+    html.includes("startup-video-modal") &&
+    html.includes("data-startup-video-open") &&
+    html.includes("Cinema Memory Reel") &&
+    js.includes("setupStartupVideoModal"),
+  "Copyright footer modal should open the Cinema Memory Reel source instead of the old YouTube video",
+);
+assert.ok(
+  !html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
+    !html.includes("youtube-lite-embed"),
+  "Footer modal should not use the wrong TrillionUnicorn YouTube video",
 );
 assert.equal(
   (html.match(/class="startup-icon-link/g) || []).length,
@@ -1789,7 +1742,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.11",
+  "v2.2.12",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -1906,8 +1859,8 @@ const staticNavLinks =
   navMenuBlock.match(/<a\b[^>]*href="#[^"]+"[^>]*class="smoothScroll"/g) || [];
 assert.equal(
   navSectionLabels.length,
-  11,
-  `Expected 11 marked navbar sections after adding Cinema, found ${navSectionLabels.length}`,
+  10,
+  `Expected 10 marked navbar sections after removing Pricing, found ${navSectionLabels.length}`,
 );
 assert.equal(
   staticNavLinks.length,

@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.13"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.14"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -451,7 +451,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.13",
+  "Hunter v2.2.14",
 ];
 
 const requestedDemoUrls = [
@@ -953,8 +953,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.13") &&
-    html.includes("css/responsive.min.css?v=2.2.13"),
+  html.includes("css/style.min.css?v=2.2.14") &&
+    html.includes("css/responsive.min.css?v=2.2.14"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1045,7 +1045,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.13"),
+  html.includes("js/main.min.js?v=2.2.14"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1092,7 +1092,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.13"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.14"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1408,6 +1408,15 @@ assert.ok(
     css.includes("body > *:not(.parallax-backdrop)") &&
     css.includes(":not(.startup-video-modal)"),
   "Copyright video should open as a centered fixed popup, not as another page section/below-flow element",
+);
+assert.ok(
+  css.includes(".startup-video-modal-card") &&
+    css.includes("display: flex") &&
+    css.includes("flex-direction: column") &&
+    css.includes("overflow: hidden") &&
+    !css.includes(".startup-video-modal-card {\n  position: relative;\n  z-index: 1;\n  width: min(920px, 100%);\n  max-height: min(88vh, 760px);\n  overflow: auto;") &&
+    css.includes("height: clamp(220px, 54dvh, 420px)"),
+  "Cinema popup should fit title/text and preview in the viewport without an internal modal scrollbar",
 );
 assert.ok(
   !html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
@@ -1777,7 +1786,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.13",
+  "v2.2.14",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",

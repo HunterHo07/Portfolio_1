@@ -3773,21 +3773,36 @@
     var huskyHasAppeared = false;
     var huskyEmotionTimer = null;
     var huskyMoveTimer = null;
+    var huskyContactTimer = null;
+    var huskyDragState = null;
+    var suppressHuskyClick = false;
     var huskyEmotions = ["idle", "happy", "excited", "contact"];
     var messages = {
       en: [
-        "Woof. I found the fastest way to reach Hunter.",
-        "Need a website, app, system, or automation? Tap me and I will help.",
-        "Tiny idea or serious build, I can bring Hunter over.",
-        "I am the gray husky helper. I guard the contact shortcut.",
-        "Need a quote fast? My paws are already on the button.",
+        'Woof. I can help turn a <span class="husky-message-hotword">small idea</span> into a shipped project.',
+        'Need <span class="husky-message-chip">website</span>, <span class="husky-message-chip">mobile app</span>, system, or AI automation? Tap me.',
+        'Hunter can be your real <span class="husky-message-hotword">pair-partner</span>: plan, build, test, deploy.',
+        'Got a messy workflow? I can fetch Hunter to make it <span class="husky-message-hotword">simple and usable</span>.',
+        'From landing page to dashboard, I guard the <span class="husky-message-chip">fast contact</span> shortcut.',
+        'Want a quote? Drag me away if I block the view, or tap me when ready.',
+        'A serious build starts with one message: problem, deadline, and target users.',
+        'Need someone who can finish more projects together with you? I know the human.',
+        'Prototype, MVP, automation, payment flow, portfolio polish — I can call Hunter.',
+        'Your customer should feel trust fast. Let\'s make the page clearer and more alive.',
+        'Tap for WhatsApp or Email when you want a <span class="husky-message-hotword">real project partner</span>.',
+        'I can move aside. The build help stays one tap away.',
       ],
       zh: [
-        "汪，我帮你找到最快联系 Hunter 的入口。",
-        "需要网站、App、系统或自动化？点我就可以。",
-        "小想法或大项目，我都可以帮你叫 Hunter。",
-        "我是灰色哈士奇助手，专门守着联系按钮。",
-        "想快速报价？我的小爪已经准备好了。",
+        '汪，我可以帮你把<span class="husky-message-hotword">小想法</span>变成可上线项目。',
+        '需要<span class="husky-message-chip">网站</span>、<span class="husky-message-chip">手机 App</span>、系统或 AI 自动化？点我。',
+        'Hunter 可以做你的<span class="husky-message-hotword">真实开发伙伴</span>：规划、开发、测试、上线。',
+        '流程很乱？我可以叫 Hunter 把它变得<span class="husky-message-hotword">清楚又好用</span>。',
+        '从落地页到 Dashboard，我守着<span class="husky-message-chip">快速联系</span>入口。',
+        '想报价？如果我挡到内容，可以先把我拖走。',
+        '认真项目从一句话开始：问题、期限、目标用户。',
+        '想找人一起完成更多项目？我知道该找谁。',
+        'Prototype、MVP、自动化、付款流程、作品集优化，我都可以叫 Hunter。',
+        '客户要很快建立信任。我们可以把页面做得更清楚、更有生命力。',
       ],
     };
 
@@ -3817,17 +3832,49 @@
       }
 
       if (contactMode) {
-        huskyMessage.textContent =
+        huskyMessage.innerHTML =
           currentLanguage === "zh"
-            ? "想快速聊项目？WhatsApp 或 Email 都可以。"
-            : "Want the fast path? WhatsApp or email Hunter here.";
+            ? '想快速聊项目？<span class="husky-message-chip">WhatsApp</span> 或 <span class="husky-message-chip">Email</span> 都可以。'
+            : 'Want the fast path? <span class="husky-message-chip">WhatsApp</span> or <span class="husky-message-chip">Email</span> Hunter here.';
         setHuskyEmotion("contact");
         return;
       }
 
       var pool = messages[currentLanguage] || messages.en;
-      huskyMessage.textContent = pool[Math.floor(Math.random() * pool.length)];
+      // Safe: messages are fixed local templates above, not user input.
+      huskyMessage.innerHTML = pool[Math.floor(Math.random() * pool.length)];
       setHuskyEmotion(Math.random() > 0.32 ? "happy" : "idle", 4200);
+    }
+
+    function closeHuskyContact() {
+      window.clearTimeout(huskyContactTimer);
+      if (!husky) {
+        return;
+      }
+      husky.classList.remove("is-chat-open");
+      setRandomHuskyMessage(false);
+      setHuskyEmotion("idle");
+    }
+
+    function scheduleHuskyContactReset() {
+      window.clearTimeout(huskyContactTimer);
+      huskyContactTimer = window.setTimeout(closeHuskyContact, 10000);
+    }
+
+    function setHuskyPosition(x, y) {
+      if (!husky) {
+        return;
+      }
+
+      var rect = husky.getBoundingClientRect();
+      var edge = window.innerWidth < 600 ? 8 : 14;
+      var maxX = Math.max(edge, window.innerWidth - Math.max(rect.width, 120) - edge);
+      var maxY = Math.max(edge, window.innerHeight - Math.max(rect.height, 96) - edge);
+      var nextX = clamp(x, edge, maxX);
+      var nextY = clamp(y, edge, maxY);
+
+      husky.style.setProperty("--husky-x", Math.round(nextX) + "px");
+      husky.style.setProperty("--husky-y", Math.round(nextY) + "px");
     }
 
     function scheduleHuskyRoam(delay, force) {
@@ -3842,6 +3889,11 @@
       window.clearTimeout(huskyMoveTimer);
       huskyMoveTimer = window.setTimeout(function () {
         huskyMoveTimer = null;
+
+        if (husky.classList.contains("is-dragging")) {
+          scheduleHuskyRoam(3000);
+          return;
+        }
 
         if (!husky.classList.contains("is-visible")) {
           scheduleHuskyRoam(1800);
@@ -3915,15 +3967,94 @@
     }
 
     if (huskyButton && huskyMessage) {
+      huskyButton.addEventListener("pointerdown", function (event) {
+        if (!husky || event.button > 0) {
+          return;
+        }
+
+        var rect = husky.getBoundingClientRect();
+        huskyDragState = {
+          pointerId: event.pointerId,
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false,
+        };
+        suppressHuskyClick = false;
+        window.clearTimeout(huskyMoveTimer);
+        huskyMoveTimer = null;
+        husky.classList.add("is-dragging");
+        if (typeof huskyButton.setPointerCapture === "function") {
+          huskyButton.setPointerCapture(event.pointerId);
+        }
+      });
+
+      huskyButton.addEventListener("pointermove", function (event) {
+        if (!huskyDragState || huskyDragState.pointerId !== event.pointerId) {
+          return;
+        }
+
+        if (
+          Math.abs(event.clientX - huskyDragState.startX) > 5 ||
+          Math.abs(event.clientY - huskyDragState.startY) > 5
+        ) {
+          huskyDragState.moved = true;
+          suppressHuskyClick = true;
+        }
+
+        if (huskyDragState.moved) {
+          event.preventDefault();
+          setHuskyPosition(
+            event.clientX - huskyDragState.offsetX,
+            event.clientY - huskyDragState.offsetY,
+          );
+        }
+      });
+
+      huskyButton.addEventListener("pointerup", function (event) {
+        if (!huskyDragState || huskyDragState.pointerId !== event.pointerId) {
+          return;
+        }
+
+        if (typeof huskyButton.releasePointerCapture === "function") {
+          try {
+            huskyButton.releasePointerCapture(event.pointerId);
+          } catch (error) {
+            // Pointer capture may already be released by the browser.
+          }
+        }
+
+        husky.classList.remove("is-dragging");
+        if (huskyDragState.moved) {
+          event.preventDefault();
+          setHuskyEmotion("happy", 1600);
+          scheduleHuskyRoam(12000, true);
+        }
+        huskyDragState = null;
+      });
+
+      huskyButton.addEventListener("pointercancel", function () {
+        if (husky) {
+          husky.classList.remove("is-dragging");
+        }
+        huskyDragState = null;
+      });
+
       huskyButton.addEventListener("click", function (event) {
         var rect = huskyButton.getBoundingClientRect();
 
         event.stopPropagation();
+        if (suppressHuskyClick) {
+          suppressHuskyClick = false;
+          return;
+        }
         huskyHasAppeared = true;
         husky.classList.add("is-visible");
         husky.classList.add("is-chat-open");
         setRandomHuskyMessage(true);
         setHuskyEmotion("excited", 900);
+        scheduleHuskyContactReset();
         celebrate(rect.left + rect.width / 2, rect.top + rect.height / 2);
         moveHuskySafely(husky);
         scheduleHuskyRoam(2600, true);

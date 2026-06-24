@@ -42,10 +42,10 @@
             as="image"
             href="images/hero-options/option-c-three-source.webp"
         />
-        <link href="css/style.min.css?v=2.2.12" rel="stylesheet" />
+        <link href="css/style.min.css?v=2.2.13" rel="stylesheet" />
 
         <!-- Responsive css -->
-        <link href="css/responsive.min.css?v=2.2.12" rel="stylesheet" />
+        <link href="css/responsive.min.css?v=2.2.13" rel="stylesheet" />
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
@@ -164,7 +164,7 @@
             target="_blank"
             rel="noopener"
         >
-            Hunter v2.2.12
+            Hunter v2.2.13
         </a>
         <div
             class="hero-hunter-popup"
@@ -4627,7 +4627,7 @@
                         data-startup-video-open
                         aria-haspopup="dialog"
                         aria-controls="startup-video-modal"
-                        aria-label="Open TrillionUnicorn story video"
+                        aria-label="Open Cinema Memory Reel popup"
                     >
                         <span
                             >&copy; Copyrights Hunter Ho. All rights reserved.</span
@@ -4652,21 +4652,24 @@
                     type="button"
                     class="startup-video-modal-close"
                     data-startup-video-close
-                    aria-label="Close startup video"
+                    aria-label="Close Cinema Memory Reel popup"
                 >
                     ×
                 </button>
                 <div class="startup-video-modal-copy">
                     <span class="vision-label">Cinema Reel</span>
                     <h2 id="startup-video-modal-title">Cinema Memory Reel</h2>
-                    <p>Open the shared memory video from Google Photos.</p>
+                    <p>
+                        The reel opens here as a centered popup. Tap the preview
+                        if your browser asks to continue in Google Photos.
+                    </p>
                 </div>
                 <a
                     class="cinema-modal-link startup-video-modal-frame"
                     href="https://photos.app.goo.gl/W245pUVpw55axXnaA"
                     target="_blank"
                     rel="noopener"
-                    aria-label="Open Cinema Memory Reel video"
+                    aria-label="Open Cinema Memory Reel preview"
                 >
                     <img
                         src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
@@ -4678,17 +4681,22 @@
                         decoding="async"
                     />
                     <span class="cinema-play-button" aria-hidden="true">▶</span>
-                    <strong>Open Cinema Memory Reel</strong>
+                    <strong>Watch Cinema Memory Reel</strong>
                 </a>
             </div>
         </div>
 
-        <div class="husky-helper" id="husky-helper" aria-live="polite">
+        <div
+            class="husky-helper"
+            id="husky-helper"
+            aria-live="polite"
+            data-husky-draggable="true"
+        >
             <button
                 type="button"
                 class="husky-body"
                 id="husky-button"
-                aria-label="Open WhatsApp helper"
+                aria-label="Open or drag project helper"
             >
                 <span class="husky-sprite-stage" aria-hidden="true">
                     <img
@@ -4770,7 +4778,7 @@
             </div>
         </div>
 
-        <script src="js/main.min.js?v=2.2.12" defer></script>
+        <script src="js/main.min.js?v=2.2.13" defer></script>
     </body>
 </html>
 

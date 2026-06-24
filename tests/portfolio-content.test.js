@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.12"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.13"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -307,6 +307,31 @@ for (const huskySprite of [
     `Husky helper sprite should stay under 125 KB: ${huskySprite}`,
   );
 }
+
+assert.ok(
+  html.includes('data-husky-draggable="true"') &&
+    html.includes('aria-label="Open or drag project helper"') &&
+    js.includes('addEventListener("pointerdown"') &&
+    js.includes('addEventListener("pointermove"') &&
+    js.includes('setHuskyPosition') &&
+    js.includes('suppressHuskyClick'),
+  "Husky helper should be draggable so visitors can move it away from content",
+);
+assert.ok(
+  js.includes("scheduleHuskyContactReset") &&
+    js.includes("setTimeout(closeHuskyContact, 10000)") &&
+    js.includes('husky.classList.remove("is-chat-open")'),
+  "Husky contact panel should return to normal automatically after 10 seconds",
+);
+assert.ok(
+  js.includes("husky-message-hotword") &&
+    js.includes("husky-message-chip") &&
+    js.includes("pair-partner") &&
+    js.includes("real project partner") &&
+    css.includes(".husky-message-hotword") &&
+    css.includes(".husky-message-chip"),
+  "Husky helper should include richer randomized sales messages with colored emphasis words",
+);
 
 assert.ok(
   fs.existsSync("hero-options.html"),
@@ -406,7 +431,7 @@ const requiredText = [
   "hero-promise",
   "TrillionUnicorn Startup Lab",
   "Cinema Memory Reel",
-  "Open the shared memory video from Google Photos.",
+  "The reel opens here as a centered popup.",
   "OpenChance",
   "WorkFree",
   "CTOrendang",
@@ -426,7 +451,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.12",
+  "Hunter v2.2.13",
 ];
 
 const requestedDemoUrls = [
@@ -928,8 +953,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.12") &&
-    html.includes("css/responsive.min.css?v=2.2.12"),
+  html.includes("css/style.min.css?v=2.2.13") &&
+    html.includes("css/responsive.min.css?v=2.2.13"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1020,7 +1045,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.12"),
+  html.includes("js/main.min.js?v=2.2.13"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1067,7 +1092,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.12"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.13"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1371,8 +1396,18 @@ assert.ok(
     html.includes("startup-video-modal") &&
     html.includes("data-startup-video-open") &&
     html.includes("Cinema Memory Reel") &&
+    html.includes("Open Cinema Memory Reel popup") &&
+    html.includes("Watch Cinema Memory Reel") &&
     js.includes("setupStartupVideoModal"),
   "Copyright footer modal should open the Cinema Memory Reel source instead of the old YouTube video",
+);
+assert.ok(
+  css.includes(".startup-video-modal {\n  position: fixed;") &&
+    css.includes("align-items: center") &&
+    css.includes("justify-content: center") &&
+    css.includes("body > *:not(.parallax-backdrop)") &&
+    css.includes(":not(.startup-video-modal)"),
+  "Copyright video should open as a centered fixed popup, not as another page section/below-flow element",
 );
 assert.ok(
   !html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
@@ -1742,7 +1777,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.12",
+  "v2.2.13",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",

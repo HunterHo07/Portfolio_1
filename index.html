@@ -284,38 +284,8 @@
             <div class="container">
                 <div
                     class="startup-founder-band"
-                    aria-label="Startup Lab promo video"
+                    aria-label="Startup Lab concepts"
                 >
-                    <div
-                        class="startup-founder-video-slot startup-founder-video-hero"
-                    >
-                        <div class="startup-video-frame">
-                            <button
-                                type="button"
-                                class="youtube-lite-embed"
-                                data-youtube-id="KRxQ8JuqMyE"
-                                aria-label="Play TrillionUnicorn startup video"
-                            >
-                                <span
-                                    class="youtube-lite-play"
-                                    aria-hidden="true"
-                                ></span>
-                                <span class="youtube-lite-copy">
-                                    <strong>TrillionUnicorn story</strong>
-                                    <span>Tap to load YouTube video</span>
-                                </span>
-                            </button>
-                        </div>
-                        <p class="startup-sound-note">
-                            Turn on sound for the full startup story.
-                            <a
-                                href="https://www.youtube.com/watch?v=KRxQ8JuqMyE"
-                                target="_blank"
-                                rel="noopener"
-                                >Open on YouTube</a
-                            >
-                        </p>
-                    </div>
                     <div class="startup-lab-copy">
                         <span class="vision-label">Startup Lab</span>
                         <h2>TrillionUnicorn Startup Lab</h2>
@@ -4868,15 +4838,56 @@
                             </div>
                         </div>
                     </div>
-                    <div class="contact-copyright-dock" aria-live="polite">
+                    <button
+                        type="button"
+                        class="contact-copyright-dock"
+                        data-startup-video-open
+                        aria-haspopup="dialog"
+                        aria-controls="startup-video-modal"
+                        aria-label="Open TrillionUnicorn story video"
+                    >
                         <span
                             >&copy; Copyrights Hunter Ho. All rights reserved.</span
                         >
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
         <!-- start sectoion contact -->
+
+        <div
+            class="startup-video-modal"
+            id="startup-video-modal"
+            aria-hidden="true"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="startup-video-modal-title"
+        >
+            <div class="startup-video-modal-backdrop" data-startup-video-close></div>
+            <div class="startup-video-modal-card" role="document">
+                <button
+                    type="button"
+                    class="startup-video-modal-close"
+                    data-startup-video-close
+                    aria-label="Close startup video"
+                >
+                    ×
+                </button>
+                <div class="startup-video-modal-copy">
+                    <span class="vision-label">Startup Story</span>
+                    <h2 id="startup-video-modal-title">TrillionUnicorn story</h2>
+                    <p>Turn on sound for the full startup story.</p>
+                </div>
+                <div class="startup-video-frame startup-video-modal-frame">
+                    <div
+                        class="youtube-lite-embed"
+                        data-youtube-id="KRxQ8JuqMyE"
+                        data-youtube-deferred="true"
+                        aria-label="TrillionUnicorn startup video"
+                    ></div>
+                </div>
+            </div>
+        </div>
 
         <div class="husky-helper" id="husky-helper" aria-live="polite">
             <button

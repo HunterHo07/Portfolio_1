@@ -1414,14 +1414,17 @@ assert.ok(
 );
 assert.ok(
   html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
-    html.includes("youtube-lite-embed") &&
-    js.includes("setupLazyYouTubeEmbeds") &&
+    html.includes("startup-video-modal") &&
+    html.includes("data-startup-video-open") &&
+    js.includes("setupStartupVideoModal") &&
     js.includes("allowFullscreen"),
-  "Startup lab should click-load the requested YouTube video",
+  "Startup story video should be deferred into the footer copyright modal",
 );
 assert.ok(
-  html.includes("youtube.com/watch?v=KRxQ8JuqMyE"),
-  "Startup lab should include a direct YouTube link fallback",
+  !startupLabSection.includes('data-youtube-id="KRxQ8JuqMyE"') &&
+    !startupLabSection.includes("youtube-lite-embed") &&
+    !startupLabSection.includes("startup-sound-note"),
+  "Startup Lab section should not show the video in normal website/mobile view",
 );
 assert.equal(
   (html.match(/class="startup-icon-link/g) || []).length,
@@ -1445,10 +1448,10 @@ assert.ok(
   "Startup lab should not keep the old heavy metric/card grid",
 );
 assert.ok(
-  css.includes(".startup-video-frame") &&
+  css.includes(".startup-video-modal") &&
     css.includes(".startup-icon-row") &&
-    css.includes(".startup-sound-note"),
-  "Startup lab should include focused video and compact icon styling",
+    css.includes(".contact-copyright-dock:hover"),
+  "Startup video should be styled as a copyright-triggered modal, while Startup Lab keeps compact icon styling",
 );
 assert.ok(
   css.includes(".startup-icon-link::before") &&
@@ -1471,8 +1474,9 @@ assert.ok(
 );
 assert.ok(
   startupLabSection.includes("startup-founder-band") &&
-    startupLabSection.includes("startup-founder-video-hero"),
-  "Startup Lab should keep the video hero as the top lead element",
+    startupLabSection.includes("startup-lab-copy") &&
+    !startupLabSection.includes("startup-founder-video-hero"),
+  "Startup Lab should return to copy plus icon grid; the video should not be the top lead element",
 );
 assert.ok(
   !startupLabSection.includes("Founder Vision") &&
@@ -1501,23 +1505,11 @@ assert.ok(
     !startupLabSection.includes("founder-poster-08-all-hunters.webp"),
   "Startup Lab should remove the old founder poster preview from this section",
 );
-const founderVideoStart = startupLabSection.indexOf(
-  "startup-founder-video-hero",
-);
-const founderVideoEnd = startupLabSection.indexOf("startup-lab-copy");
-const founderVideoMarkup = startupLabSection.slice(
-  founderVideoStart,
-  founderVideoEnd,
-);
 assert.ok(
-  founderVideoMarkup.includes("startup-video-frame") &&
-    founderVideoMarkup.includes("startup-sound-note"),
-  "Startup video hero should own the video frame and sound note",
-);
-assert.ok(
-  startupLabSection.indexOf("startup-lab-copy") >
-    startupLabSection.indexOf("startup-founder-video-hero"),
-  "Startup Lab description should sit below the full-width video hero row",
+  !startupLabSection.includes("startup-founder-video-hero") &&
+    !startupLabSection.includes("startup-video-frame") &&
+    !startupLabSection.includes("startup-sound-note"),
+  "Startup Lab should not own the video frame or sound note anymore",
 );
 assert.ok(
   startupLabSection.indexOf("startup-icon-row") >
@@ -1549,34 +1541,19 @@ assert.ok(
   css.includes(".startup-founder-band") &&
     css.includes("align-items: start") &&
     css.includes("grid-template-columns: minmax(0, 1fr)"),
-  "Startup Lab top layout should collapse to a single full-width video row",
+  "Startup Lab top layout should keep the single-column copy/icon/stack layout",
 );
 assert.ok(
-  css.includes(".startup-founder-video-hero") &&
-    css.includes("justify-self: center") &&
-    css.includes("width: min(100%, 1680px)") &&
-    css.includes("margin-inline: auto") &&
-    css.includes(".startup-founder-video-hero .startup-video-frame") &&
-    css.includes("display: block") &&
-    css.includes("justify-self: stretch") &&
-    css.includes("width: 100%") &&
-    css.includes("max-width: 100%") &&
-    css.includes("min-height: 0") &&
-    css.includes(".startup-founder-video-hero .startup-sound-note") &&
-    css.includes("justify-self: stretch") &&
-    css.includes("max-width: 100%"),
-  "Startup video should stay centered in the section with equal left and right padding around the video and reminder row",
+  css.includes(".startup-video-modal") &&
+    css.includes(".startup-video-modal-frame") &&
+    css.includes(".startup-video-modal-open") &&
+    css.includes(".contact-copyright-dock:hover"),
+  "Startup video styling should live in the copyright-triggered modal, not the normal Startup Lab view",
 );
 assert.ok(
-  css.includes(".startup-founder-video-hero") &&
-    css.includes("overflow: visible") &&
-    css.includes("box-shadow: none") &&
-    css.includes(".startup-video-frame") &&
-    css.includes("background: transparent") &&
-    css.includes(".startup-sound-note") &&
-    css.includes("margin: 14px 0 0") &&
-    css.includes("padding: 0"),
-  "Startup video should embed without a decorative frame and keep only a simple reminder row below",
+  !startupLabSection.includes("startup-founder-video-hero") &&
+    !startupLabSection.includes("startup-sound-note"),
+  "Startup Lab should not keep the embedded video frame/reminder row after moving the video to the copyright modal",
 );
 assert.ok(
   css.includes("@media (max-width: 767px)") &&

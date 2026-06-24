@@ -42,10 +42,10 @@
             as="image"
             href="images/hero-options/option-c-three-source.webp"
         />
-        <link href="css/style.min.css?v=2.2.14" rel="stylesheet" />
+        <link href="css/style.min.css?v=2.2.15" rel="stylesheet" />
 
         <!-- Responsive css -->
-        <link href="css/responsive.min.css?v=2.2.14" rel="stylesheet" />
+        <link href="css/responsive.min.css?v=2.2.15" rel="stylesheet" />
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
@@ -164,7 +164,7 @@
             target="_blank"
             rel="noopener"
         >
-            Hunter v2.2.14
+            Hunter v2.2.15
         </a>
         <div
             class="hero-hunter-popup"
@@ -4660,29 +4660,45 @@
                     <span class="vision-label">Cinema Reel</span>
                     <h2 id="startup-video-modal-title">Cinema Memory Reel</h2>
                     <p>
-                        The reel opens here as a centered popup. Tap the preview
-                        if your browser asks to continue in Google Photos.
+                        Click the preview to play the reel here. Use the video
+                        controls for full screen mode.
                     </p>
                 </div>
-                <a
+                <div
                     class="cinema-modal-link startup-video-modal-frame"
-                    href="https://photos.app.goo.gl/W245pUVpw55axXnaA"
-                    target="_blank"
-                    rel="noopener"
-                    aria-label="Open Cinema Memory Reel preview"
+                    data-cinema-reel-player
+                    data-video-src="videos/cinema/cinema-memory-reel.mp4"
+                    role="group"
+                    aria-label="Cinema Memory Reel inline player"
                 >
-                    <img
-                        src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
-                        data-src="images/cinema/hunter-bbq-memory-reel.jpg"
-                        width="1200"
-                        height="900"
-                        alt="Cinema Memory Reel thumbnail"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                    <span class="cinema-play-button" aria-hidden="true">▶</span>
-                    <strong>Watch Cinema Memory Reel</strong>
-                </a>
+                    <button
+                        type="button"
+                        class="cinema-video-preview"
+                        data-cinema-reel-play
+                        aria-label="Play Cinema Memory Reel in this popup"
+                    >
+                        <img
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+                            data-src="images/cinema/hunter-bbq-memory-reel.jpg"
+                            width="1200"
+                            height="900"
+                            alt="Cinema Memory Reel thumbnail"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <span class="cinema-play-button" aria-hidden="true">▶</span>
+                        <strong>Play Cinema Memory Reel</strong>
+                    </button>
+                    <video
+                        class="cinema-reel-video"
+                        data-cinema-reel-video
+                        controls
+                        playsinline
+                        preload="metadata"
+                        poster="images/cinema/hunter-bbq-memory-reel.jpg"
+                        aria-label="Cinema Memory Reel video"
+                    ></video>
+                </div>
             </div>
         </div>
 
@@ -4778,7 +4794,7 @@
             </div>
         </div>
 
-        <script src="js/main.min.js?v=2.2.14" defer></script>
+        <script src="js/main.min.js?v=2.2.15" defer></script>
     </body>
 </html>
 

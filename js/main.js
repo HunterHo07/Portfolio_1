@@ -5058,8 +5058,45 @@
     }
 
     var frameHost = modal.querySelector("[data-youtube-id]");
+    var cinemaPlayer = modal.querySelector("[data-cinema-reel-player]");
+    var cinemaPlayButton = modal.querySelector("[data-cinema-reel-play]");
+    var cinemaVideo = modal.querySelector("[data-cinema-reel-video]");
     var closeButtons = modal.querySelectorAll("[data-startup-video-close]");
     var lastFocus = null;
+
+    function playCinemaReel() {
+      var videoSrc = cinemaPlayer && cinemaPlayer.getAttribute("data-video-src");
+      var playPromise;
+
+      if (!cinemaPlayer || !cinemaVideo || !videoSrc) {
+        return;
+      }
+
+      if (!cinemaVideo.getAttribute("src")) {
+        cinemaVideo.setAttribute("src", videoSrc);
+      }
+
+      modal.classList.add("is-video-playing");
+      cinemaVideo.focus({ preventScroll: true });
+      playPromise = cinemaVideo.play();
+
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(function () {
+          cinemaVideo.setAttribute("controls", "controls");
+        });
+      }
+    }
+
+    function resetCinemaReel() {
+      if (!cinemaVideo) {
+        return;
+      }
+
+      cinemaVideo.pause();
+      cinemaVideo.removeAttribute("src");
+      cinemaVideo.load();
+      modal.classList.remove("is-video-playing");
+    }
 
     function renderVideo() {
       var videoId = frameHost && frameHost.getAttribute("data-youtube-id");
@@ -5115,6 +5152,7 @@
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
       document.body.classList.remove("startup-video-modal-open");
+      resetCinemaReel();
       resetVideo();
       if (lastFocus && typeof lastFocus.focus === "function") {
         lastFocus.focus();
@@ -5122,6 +5160,9 @@
     }
 
     openButton.addEventListener("click", openModal);
+    if (cinemaPlayButton) {
+      cinemaPlayButton.addEventListener("click", playCinemaReel);
+    }
     closeButtons.forEach(function (button) {
       button.addEventListener("click", closeModal);
     });

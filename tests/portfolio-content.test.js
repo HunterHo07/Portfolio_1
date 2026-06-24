@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.14"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.15"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -431,7 +431,7 @@ const requiredText = [
   "hero-promise",
   "TrillionUnicorn Startup Lab",
   "Cinema Memory Reel",
-  "The reel opens here as a centered popup.",
+  "Click the preview to play the reel here.",
   "OpenChance",
   "WorkFree",
   "CTOrendang",
@@ -451,7 +451,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.14",
+  "Hunter v2.2.15",
 ];
 
 const requestedDemoUrls = [
@@ -640,6 +640,12 @@ const requiredAssets = [
   "images/hero-layers/hero-hunter-cutout.webp",
   "images/hunter-demo-bg-neon-matrix.webp",
 ];
+
+assert.ok(
+  fs.existsSync("videos/cinema/cinema-memory-reel.mp4") &&
+    fs.statSync("videos/cinema/cinema-memory-reel.mp4").size > 1000000,
+  "Cinema Memory Reel should be available as a local MP4 for inline playback",
+);
 
 for (const text of requiredText) {
   assert.ok(html.includes(text), `Missing required text: ${text}`);
@@ -953,8 +959,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.14") &&
-    html.includes("css/responsive.min.css?v=2.2.14"),
+  html.includes("css/style.min.css?v=2.2.15") &&
+    html.includes("css/responsive.min.css?v=2.2.15"),
   "Production stylesheets should use minified release cache keys",
 );
 assert.ok(
@@ -1045,7 +1051,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.14"),
+  html.includes("js/main.min.js?v=2.2.15"),
   "Production script should use the minified release cache key",
 );
 assert.ok(
@@ -1092,7 +1098,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.14"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.15"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1391,15 +1397,26 @@ assert.ok(
   "Cinema Memory Reel should not exist as a normal page section or navbar item",
 );
 assert.ok(
-  html.includes("https://photos.app.goo.gl/W245pUVpw55axXnaA") &&
+  html.includes("videos/cinema/cinema-memory-reel.mp4") &&
     html.includes("images/cinema/hunter-bbq-memory-reel.jpg") &&
     html.includes("startup-video-modal") &&
     html.includes("data-startup-video-open") &&
     html.includes("Cinema Memory Reel") &&
     html.includes("Open Cinema Memory Reel popup") &&
-    html.includes("Watch Cinema Memory Reel") &&
-    js.includes("setupStartupVideoModal"),
-  "Copyright footer modal should open the Cinema Memory Reel source instead of the old YouTube video",
+    html.includes("Play Cinema Memory Reel") &&
+    html.includes("data-cinema-reel-play") &&
+    html.includes("data-cinema-reel-video") &&
+    html.includes("controls") &&
+    html.includes("playsinline") &&
+    js.includes("playCinemaReel") &&
+    js.includes("resetCinemaReel") &&
+    js.includes('modal.classList.add("is-video-playing")'),
+  "Copyright footer modal should play the Cinema Memory Reel inline instead of redirecting away",
+);
+assert.ok(
+  !html.includes('href="https://photos.app.goo.gl/W245pUVpw55axXnaA"') &&
+    !html.includes('target="_blank"\n                    rel="noopener"\n                    aria-label="Open Cinema Memory Reel preview"'),
+  "Cinema reel preview should not be a redirecting external link",
 );
 assert.ok(
   css.includes(".startup-video-modal {\n  position: fixed;") &&
@@ -1417,6 +1434,14 @@ assert.ok(
     !css.includes(".startup-video-modal-card {\n  position: relative;\n  z-index: 1;\n  width: min(920px, 100%);\n  max-height: min(88vh, 760px);\n  overflow: auto;") &&
     css.includes("height: clamp(220px, 54dvh, 420px)"),
   "Cinema popup should fit title/text and preview in the viewport without an internal modal scrollbar",
+);
+assert.ok(
+  css.includes(".cinema-reel-video") &&
+    css.includes("object-fit: contain") &&
+    css.includes(".startup-video-modal.is-video-playing .startup-video-modal-frame") &&
+    css.includes("height: clamp(300px, 72dvh, 720px)") &&
+    css.includes(".startup-video-modal.is-video-playing .cinema-reel-video"),
+  "Cinema popup should have a larger inline playback mode with native video controls/fullscreen support",
 );
 assert.ok(
   !html.includes('data-youtube-id="KRxQ8JuqMyE"') &&
@@ -1786,7 +1811,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.14",
+  "v2.2.15",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",

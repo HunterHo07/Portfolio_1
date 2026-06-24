@@ -7475,11 +7475,62 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   filter: saturate(1.04) contrast(1.04);
 }
 
-.cinema-modal-link::after {
+.cinema-video-preview {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+}
+
+.cinema-video-preview::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.72));
+}
+
+.cinema-reel-video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.startup-video-modal.is-video-playing .startup-video-modal-card {
+  width: min(1180px, 100%);
+}
+
+.startup-video-modal.is-video-playing .startup-video-modal-copy {
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+
+.startup-video-modal.is-video-playing .startup-video-modal-frame {
+  height: clamp(300px, 72dvh, 720px);
+}
+
+.startup-video-modal.is-video-playing .cinema-video-preview {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.startup-video-modal.is-video-playing .cinema-reel-video {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .cinema-modal-link .cinema-play-button {
@@ -7509,8 +7560,9 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   line-height: 1.15;
 }
 
-.cinema-modal-link:hover,
-.cinema-modal-link:focus-visible {
+.cinema-video-preview:hover,
+.cinema-video-preview:focus-visible,
+.cinema-reel-video:focus-visible {
   outline: 3px solid rgba(116, 227, 255, 0.58);
   outline-offset: 4px;
 }

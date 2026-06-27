@@ -3164,8 +3164,8 @@
     var images = Array.prototype.slice.call(
       document.querySelectorAll("img[data-src]"),
     );
-    var prewarmDelay = 8500;
-    var prewarmGap = 420;
+    var prewarmDelay = 14000;
+    var prewarmGap = 650;
 
     function loadImage(image) {
       var src = image.getAttribute("data-src");
@@ -3265,7 +3265,14 @@
     images.forEach(function (image) {
       observer.observe(image);
     });
-    scheduleImagePrewarm();
+
+    window.addEventListener(
+      "load",
+      function () {
+        scheduleImagePrewarm();
+      },
+      { once: true },
+    );
   }
 
   function registerPortfolioServiceWorker() {

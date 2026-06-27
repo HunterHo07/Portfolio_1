@@ -1,0 +1,63 @@
+# Timeline Image Manifest
+
+- Source batch: Telegram image cache import
+- Unique images added: 50
+- Exact duplicate pairs skipped from import: 5
+- Champion loop order: `Z <> A <> B`
+
+## Champion loop
+- Z: `timeline-happening-24.webp` — IOTA Prize Pool
+- A: `timeline-happening-25.webp` — Startup Finals Pitch
+- B: `timeline-happening-26.webp` — Tech Talk Stage
+
+## Imported images
+- 24: `img_8c8a1c8f3a03.jpg` -> `images/hackathon/timeline-happening-24.webp` | `IOTA Prize Pool` | duplicates: img_96d433eed6f2.jpg
+- 25: `img_8fe040d9e644.jpg` -> `images/hackathon/timeline-happening-25.webp` | `Startup Finals Pitch` | duplicates: -
+- 26: `img_5327b2b993e2.jpg` -> `images/hackathon/timeline-happening-26.webp` | `Tech Talk Stage` | duplicates: img_54219f72af52.jpg
+- 27: `img_3da10cd8395f.jpg` -> `images/hackathon/timeline-happening-27.webp` | `Primitive Team Meetup` | duplicates: -
+- 28: `img_db801f038501.jpg` -> `images/hackathon/timeline-happening-28.webp` | `Large Team Group Shot` | duplicates: -
+- 29: `img_2f94d04374cc.jpg` -> `images/hackathon/timeline-happening-29.webp` | `Zeekr Track Moment` | duplicates: -
+- 30: `img_4c61d75e9e27.jpg` -> `images/hackathon/timeline-happening-30.webp` | `Signed Poster Selfie` | duplicates: -
+- 31: `img_241921c2f90a.jpg` -> `images/hackathon/timeline-happening-31.webp` | `Night Skyline Gathering` | duplicates: -
+- 32: `img_b1ed1a9b14de.jpg` -> `images/hackathon/timeline-happening-32.webp` | `Desk with Collectibles` | duplicates: -
+- 33: `img_8fc584a68dc8.jpg` -> `images/hackathon/timeline-happening-33.webp` | `Team Lunch Selfie` | duplicates: img_9b33420ac8ac.jpg
+- 34: `img_ccbef68ab283.jpg` -> `images/hackathon/timeline-happening-34.webp` | `System Architecture Slide` | duplicates: -
+- 35: `img_777f20ba3463.jpg` -> `images/hackathon/timeline-happening-35.webp` | `Smart City Dashboard` | duplicates: -
+- 36: `img_530e203c4a72.jpg` -> `images/hackathon/timeline-happening-36.webp` | `Coffee Meetup` | duplicates: -
+- 37: `img_14f7120840e2.jpg` -> `images/hackathon/timeline-happening-37.webp` | `Desk Setup & Figures` | duplicates: -
+- 38: `img_504de20cb8a6.jpg` -> `images/hackathon/timeline-happening-38.webp` | `Trackside Selfie` | duplicates: -
+- 39: `img_4e92138854f7.jpg` -> `images/hackathon/timeline-happening-39.webp` | `System Flow Diagram` | duplicates: -
+- 40: `img_f3e666315803.jpg` -> `images/hackathon/timeline-happening-40.webp` | `TOKEN2049 Entrance` | duplicates: -
+- 41: `img_b6a8407d68a3.jpg` -> `images/hackathon/timeline-happening-41.webp` | `TOKEN2049 Supercar` | duplicates: -
+- 42: `img_073b1dde6036.jpg` -> `images/hackathon/timeline-happening-42.webp` | `Rooftop Pool Skyline` | duplicates: -
+- 43: `img_4d7344a1b278.jpg` -> `images/hackathon/timeline-happening-43.webp` | `Innovation Funding Panel` | duplicates: -
+- 44: `img_2862ea7712bf.jpg` -> `images/hackathon/timeline-happening-44.webp` | `IP Strategy Keynote` | duplicates: -
+- 45: `img_1df0decb6655.jpg` -> `images/hackathon/timeline-happening-45.webp` | `Simpsons Exhibit Photo` | duplicates: -
+- 46: `img_d9148b77e6fc.jpg` -> `images/hackathon/timeline-happening-46.webp` | `Birthday Celebration Dinner` | duplicates: -
+- 47: `img_baeae7aa462c.jpg` -> `images/hackathon/timeline-happening-47.webp` | `Air Mobility Expo` | duplicates: -
+- 48: `img_2eb0b790d748.jpg` -> `images/hackathon/timeline-happening-48.webp` | `Collectible Figure Stack` | duplicates: img_8ea496b39268.jpg
+- 49: `img_8fa3d2f51064.jpg` -> `images/hackathon/timeline-happening-49.webp` | `Campus Live Stats` | duplicates: img_2c36bd80b12c.jpg
+- 50: `img_830e8f7231c8.jpg` -> `images/hackathon/timeline-happening-50.webp` | `Night Event Crowd Selfie` | duplicates: -
+- 51: `img_b3ba0dd0d7a3.jpg` -> `images/hackathon/timeline-happening-51.webp` | `Festival Entrance Crowd` | duplicates: -
+- 52: `img_b79e5f5649f0.jpg` -> `images/hackathon/timeline-happening-52.webp` | `Conference Team Selfie` | duplicates: -
+- 53: `img_fcddb45a2e2c.jpg` -> `images/hackathon/timeline-happening-53.webp` | `ChatGPT Construction Billboard` | duplicates: -
+- 54: `img_8977dd26419c.jpg` -> `images/hackathon/timeline-happening-54.webp` | `Conference Audience Moment` | duplicates: -
+- 55: `img_dbb1aad3a552.jpg` -> `images/hackathon/timeline-happening-55.webp` | `GDG KL Web Performance Meetup` | duplicates: -
+- 56: `img_904db35ae0a5.jpg` -> `images/hackathon/timeline-happening-56.webp` | `Startup Community Workspace` | duplicates: -
+- 57: `img_650a7006fbe8.jpg` -> `images/hackathon/timeline-happening-57.webp` | `Tech Event Q&A Session` | duplicates: -
+- 58: `img_968aa0d30099.jpg` -> `images/hackathon/timeline-happening-58.webp` | `Can You Hack It 24H` | duplicates: -
+- 59: `img_66aadc0c2162.jpg` -> `images/hackathon/timeline-happening-59.webp` | `Sunway KL Partner Wall` | duplicates: -
+- 60: `img_e6436842a585.jpg` -> `images/hackathon/timeline-happening-60.webp` | `Ethereum KL Event Kit` | duplicates: -
+- 61: `img_ad07e9cb8fe9.jpg` -> `images/hackathon/timeline-happening-61.webp` | `Late-Night Coding Session` | duplicates: -
+- 62: `img_e011220c9cdb.jpg` -> `images/hackathon/timeline-happening-62.webp` | `Ethereum KL Sponsor Booths` | duplicates: -
+- 63: `img_dbd1b18187df.jpg` -> `images/hackathon/timeline-happening-63.webp` | `Aleo Mantle Event Shirts` | duplicates: -
+- 64: `img_64aae8fcbe2d.jpg` -> `images/hackathon/timeline-happening-64.webp` | `Web3 Booth Giveaway Table` | duplicates: -
+- 65: `img_5fca5b193d5b.jpg` -> `images/hackathon/timeline-happening-65.webp` | `Builder Nights Panel Session` | duplicates: -
+- 66: `img_5dea451c5ad2.jpg` -> `images/hackathon/timeline-happening-66.webp` | `MYStartup Dev Session` | duplicates: -
+- 67: `img_23e40f10c211.jpg` -> `images/hackathon/timeline-happening-67.webp` | `AI Conference Welcome Remarks` | duplicates: -
+- 68: `img_fcddb45a2e2c.jpg` -> `images/hackathon/timeline-happening-68.webp` | `ChatGPT Construction Billboard` | duplicates: -
+- 69: `img_b79e5f5649f0.jpg` -> `images/hackathon/timeline-happening-69.webp` | `Workshop Meetup Selfie` | duplicates: -
+- 70: `img_904db35ae0a5.jpg` -> `images/hackathon/timeline-happening-70.webp` | `Techstars Startup Workspace` | duplicates: -
+- 71: `img_dbb1aad3a552.jpg` -> `images/hackathon/timeline-happening-71.webp` | `Startup Community Group Photo` | duplicates: -
+- 72: `img_898df00ce98b.jpg` -> `images/hackathon/timeline-happening-72.webp` | `Food Court Meetup Photo` | duplicates: -
+- 73: `img_7c914c525eba.jpg` -> `images/hackathon/timeline-happening-73.webp` | `Cradle CIP Spark Visit` | duplicates: -

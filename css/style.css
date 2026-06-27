@@ -3771,8 +3771,11 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-card {
   --card-angle: 0deg;
+  --card-angle-jitter: 0deg;
   --card-lift: 0px;
+  --card-lift-extra: 0px;
   --card-scale: 1;
+  --card-scale-bias: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -3792,10 +3795,10 @@ body.is-hero-ready .hero-image-loader,
     inset 0 -28px 48px rgba(255, 255, 255, 0.04);
   opacity: 0.95;
   transform:
-    translateY(var(--card-lift))
-    rotateY(var(--card-angle))
+    translateY(calc(var(--card-lift) + var(--card-lift-extra)))
+    rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))
     translateZ(var(--carousel-radius))
-    scale(var(--card-scale));
+    scale(calc(var(--card-scale) * var(--card-scale-bias)));
   transform-style: preserve-3d;
   backface-visibility: visible;
   -webkit-backface-visibility: visible;
@@ -3849,15 +3852,19 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-carousel-image {
+  --image-shift-x: 0px;
+  --image-shift-y: 0px;
+  --image-scale: 1;
   display: block;
   width: 100%;
   height: 100%;
   min-height: 0;
   object-fit: contain;
-  object-position: center top;
+  object-position: center center;
   pointer-events: none;
   -webkit-user-drag: none;
-  transform: none;
+  transform: translate3d(var(--image-shift-x), var(--image-shift-y), 0) scale(var(--image-scale));
+  transition: transform 0.55s ease;
 }
 
 .hackathon-carousel-frame figcaption {

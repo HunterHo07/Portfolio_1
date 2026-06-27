@@ -1,0 +1,770 @@
+{
+  "generated_from": "Telegram image batch",
+  "unique_images_added": 26,
+  "duplicate_pairs_detected_in_source_batch": 5,
+  "champion_loop_order": [
+    "Z",
+    "A",
+    "B"
+  ],
+  "champion_loop_files": [
+    {
+      "slot": "Z",
+      "dest": "images/hackathon/timeline-happening-24.webp",
+      "source": "img_8c8a1c8f3a03.jpg",
+      "title": "IOTA Prize Pool"
+    },
+    {
+      "slot": "A",
+      "dest": "images/hackathon/timeline-happening-25.webp",
+      "source": "img_8fe040d9e644.jpg",
+      "title": "Startup Finals Pitch"
+    },
+    {
+      "slot": "B",
+      "dest": "images/hackathon/timeline-happening-26.webp",
+      "source": "img_5327b2b993e2.jpg",
+      "title": "Tech Talk Stage"
+    }
+  ],
+  "items": [
+    {
+      "slot": 24,
+      "source": "img_8c8a1c8f3a03.jpg",
+      "duplicates": [
+        "img_96d433eed6f2.jpg"
+      ],
+      "dest": "images/hackathon/timeline-happening-24.webp",
+      "width": 960,
+      "height": 1280,
+      "alt": "IOTA Hackathon Malaysia 2025 prize pool stage screen",
+      "caption_en": [
+        "Achievement | IOTA | Prize",
+        "IOTA Prize Pool",
+        "Malaysia 2025 prize-stage moment"
+      ],
+      "caption_zh": [
+        "成果 | IOTA | 奖项",
+        "IOTA 奖池舞台",
+        "马来西亚 2025 奖项舞台时刻"
+      ],
+      "champion_slot": "Z",
+      "card_vars": {
+        "lift": "10px",
+        "angle": "-3deg",
+        "scale": "1.02",
+        "x": "0px",
+        "y": "-6px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 25,
+      "source": "img_8fe040d9e644.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-25.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Presenter speaking on a large startup finals stage",
+      "caption_en": [
+        "Startup | Finals | Pitch",
+        "Startup Finals Pitch",
+        "Champion-related finals presentation"
+      ],
+      "caption_zh": [
+        "创业 | 决赛 | 简报",
+        "创业决赛简报",
+        "与冠军相关的决赛演讲现场"
+      ],
+      "champion_slot": "A",
+      "card_vars": {
+        "lift": "14px",
+        "angle": "2.5deg",
+        "scale": "1.03",
+        "x": "4px",
+        "y": "-2px",
+        "img_scale": "1.03"
+      }
+    },
+    {
+      "slot": 26,
+      "source": "img_5327b2b993e2.jpg",
+      "duplicates": [
+        "img_54219f72af52.jpg"
+      ],
+      "dest": "images/hackathon/timeline-happening-26.webp",
+      "width": 800,
+      "height": 450,
+      "alt": "Speaker presenting on stage to an auditorium audience",
+      "caption_en": [
+        "Achievement | Stage | Talk",
+        "Tech Talk Stage",
+        "Champion-related event spotlight"
+      ],
+      "caption_zh": [
+        "成果 | 舞台 | 分享",
+        "技术分享舞台",
+        "与冠军相关的活动舞台亮点"
+      ],
+      "champion_slot": "B",
+      "card_vars": {
+        "lift": "8px",
+        "angle": "-1.5deg",
+        "scale": "1.01",
+        "x": "-5px",
+        "y": "0px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 27,
+      "source": "img_3da10cd8395f.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-27.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Small team group photo with Primitive branded shirts",
+      "caption_en": [
+        "Team | Primitive | Meetup",
+        "Primitive Team Meetup",
+        "White-shirt group moment with the Primitive crew"
+      ],
+      "caption_zh": [
+        "团队 | Primitive | 聚会",
+        "Primitive 团队聚会",
+        "与 Primitive 团队的白衣合照时刻"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-8px",
+        "angle": "2deg",
+        "scale": "0.99",
+        "x": "0px",
+        "y": "2px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 28,
+      "source": "img_db801f038501.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-28.webp",
+      "width": 800,
+      "height": 600,
+      "alt": "Large group photo with team members in white shirts",
+      "caption_en": [
+        "Team | Group | Culture",
+        "Large Team Group Shot",
+        "A bigger white-shirt group photo from the event floor"
+      ],
+      "caption_zh": [
+        "团队 | 合照 | 文化",
+        "大型团队合照",
+        "活动现场的大型白衣团队合照"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-4px",
+        "angle": "-2deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 29,
+      "source": "img_2f94d04374cc.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-29.webp",
+      "width": 800,
+      "height": 600,
+      "alt": "Cars driving on a racetrack under a Zeekr banner",
+      "caption_en": [
+        "Event | Automotive | Track",
+        "Zeekr Track Moment",
+        "Cars rolling under the Zeekr banner at sunset"
+      ],
+      "caption_zh": [
+        "活动 | 汽车 | 赛道",
+        "Zeekr 赛道时刻",
+        "夕阳下驶过 Zeekr 横幅的赛道车队"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-6px",
+        "angle": "1deg",
+        "scale": "0.99",
+        "x": "-3px",
+        "y": "0px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 30,
+      "source": "img_4c61d75e9e27.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-30.webp",
+      "width": 959,
+      "height": 1280,
+      "alt": "Selfie holding a large signed poster near GSC signage",
+      "caption_en": [
+        "Event | Selfie | Memorabilia",
+        "Signed Poster Selfie",
+        "Holding a signed board in a cinema or mall setting"
+      ],
+      "caption_zh": [
+        "活动 | 自拍 | 收藏",
+        "签名海报自拍",
+        "在商场／影院场景拿着签名板的自拍"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "0px",
+        "angle": "-1deg",
+        "scale": "1.0",
+        "x": "1px",
+        "y": "-2px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 31,
+      "source": "img_241921c2f90a.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-31.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Night city skyline viewed from a rooftop gathering space",
+      "caption_en": [
+        "Lifestyle | Skyline | Social",
+        "Night Skyline Gathering",
+        "Rooftop city lights and a relaxed evening crowd"
+      ],
+      "caption_zh": [
+        "生活 | 天际线 | 社交",
+        "夜景天际线聚会",
+        "屋顶城市夜景与轻松聚会氛围"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-10px",
+        "angle": "2.5deg",
+        "scale": "0.98",
+        "x": "2px",
+        "y": "0px",
+        "img_scale": "1.03"
+      }
+    },
+    {
+      "slot": 32,
+      "source": "img_b1ed1a9b14de.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-32.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Office desk decorated with plush toys and figurines",
+      "caption_en": [
+        "Workspace | Desk | Collectibles",
+        "Desk with Collectibles",
+        "A playful workspace full of plush toys and figurines"
+      ],
+      "caption_zh": [
+        "工作区 | 桌面 | 收藏",
+        "收藏摆件桌面",
+        "充满玩偶与模型的轻松办公桌面"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "4px",
+        "angle": "-2.5deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "-3px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 33,
+      "source": "img_8fc584a68dc8.jpg",
+      "duplicates": [
+        "img_9b33420ac8ac.jpg"
+      ],
+      "dest": "images/hackathon/timeline-happening-33.webp",
+      "width": 1280,
+      "height": 720,
+      "alt": "Five teammates taking a lunch selfie at a cafe table",
+      "caption_en": [
+        "Team | Meal | Event",
+        "Team Lunch Selfie",
+        "A café-table group selfie during a casual break"
+      ],
+      "caption_zh": [
+        "团队 | 用餐 | 活动",
+        "团队午餐自拍",
+        "咖啡馆休息时的团队合照"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-2px",
+        "angle": "1.5deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 34,
+      "source": "img_ccbef68ab283.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-34.webp",
+      "width": 1280,
+      "height": 512,
+      "alt": "Technical architecture slide showing API and system flows",
+      "caption_en": [
+        "Architecture | System | Presentation",
+        "System Architecture Slide",
+        "API, provider, and backoffice flow shown in a technical diagram"
+      ],
+      "caption_zh": [
+        "架构 | 系统 | 演示",
+        "系统架构图",
+        "展示 API、供应商与后台流程的技术架构图"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "6px",
+        "angle": "-1.5deg",
+        "scale": "1.02",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 35,
+      "source": "img_777f20ba3463.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-35.webp",
+      "width": 1116,
+      "height": 532,
+      "alt": "Dashboard showing a smart city style digital twin visualization",
+      "caption_en": [
+        "Dashboard | Smart City | Data",
+        "Smart City Dashboard",
+        "A digital-twin style city visualization with live metrics"
+      ],
+      "caption_zh": [
+        "仪表板 | 智慧城市 | 数据",
+        "智慧城市仪表板",
+        "带实时指标的数字孪生城市可视化"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "2px",
+        "angle": "2deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 36,
+      "source": "img_530e203c4a72.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-36.webp",
+      "width": 1280,
+      "height": 959,
+      "alt": "Three people smiling together at a cafe table",
+      "caption_en": [
+        "Team | Meetup | Coffee",
+        "Coffee Meetup",
+        "A casual three-person café catch-up and networking moment"
+      ],
+      "caption_zh": [
+        "团队 | 聚会 | 咖啡",
+        "咖啡聚会",
+        "三人咖啡馆交流与 networking 时刻"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-5px",
+        "angle": "-2deg",
+        "scale": "0.99",
+        "x": "0px",
+        "y": "2px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 37,
+      "source": "img_14f7120840e2.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-37.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Office workstation with figurines and collectibles around the monitor",
+      "caption_en": [
+        "Workspace | Office | Setup",
+        "Desk Setup & Figures",
+        "An office workstation surrounded by figurines and display pieces"
+      ],
+      "caption_zh": [
+        "工作区 | 办公 | 桌设",
+        "桌面与模型摆设",
+        "模型与展示柜围绕的办公工位"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "3px",
+        "angle": "1deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "-2px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 38,
+      "source": "img_504de20cb8a6.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-38.webp",
+      "width": 1280,
+      "height": 959,
+      "alt": "Selfie overlooking a racetrack pit lane and grandstand",
+      "caption_en": [
+        "Event | Track | Selfie",
+        "Trackside Selfie",
+        "Looking over the pit lane during a motorsport event"
+      ],
+      "caption_zh": [
+        "活动 | 赛道 | 自拍",
+        "赛道自拍",
+        "赛车场维修区上方的自拍视角"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-6px",
+        "angle": "2.5deg",
+        "scale": "1.0",
+        "x": "-2px",
+        "y": "0px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 39,
+      "source": "img_4e92138854f7.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-39.webp",
+      "width": 800,
+      "height": 653,
+      "alt": "Flow diagram showing services, users, and streaming components",
+      "caption_en": [
+        "Architecture | Backend | Diagram",
+        "System Flow Diagram",
+        "Services, users, live stream, and provider flows mapped on one board"
+      ],
+      "caption_zh": [
+        "架构 | 后端 | 流程图",
+        "系统流程图",
+        "把服务、用户、直播与供应商流程集中在一张图上"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "5px",
+        "angle": "-1deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 40,
+      "source": "img_f3e666315803.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-40.webp",
+      "width": 960,
+      "height": 1280,
+      "alt": "TOKEN2049 entrance area with security screening and blue lights",
+      "caption_en": [
+        "Web3 | TOKEN2049 | Expo",
+        "TOKEN2049 Entrance",
+        "Security lanes and blue lighting at the TOKEN2049 venue entrance"
+      ],
+      "caption_zh": [
+        "Web3 | TOKEN2049 | 展会",
+        "TOKEN2049 入口",
+        "TOKEN2049 会场入口的安检与蓝色灯光氛围"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-4px",
+        "angle": "1.5deg",
+        "scale": "0.99",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 41,
+      "source": "img_b6a8407d68a3.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-41.webp",
+      "width": 960,
+      "height": 1280,
+      "alt": "Sports car displayed inside the TOKEN2049 exhibition hall",
+      "caption_en": [
+        "Web3 | TOKEN2049 | Showcase",
+        "TOKEN2049 Supercar",
+        "A sports car showcase placed inside the conference hall"
+      ],
+      "caption_zh": [
+        "Web3 | TOKEN2049 | 展示",
+        "TOKEN2049 超跑展示",
+        "摆放在会场中的超跑展示台"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "0px",
+        "angle": "-2deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 42,
+      "source": "img_073b1dde6036.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-42.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "People by a rooftop infinity pool with a city skyline behind",
+      "caption_en": [
+        "Lifestyle | Rooftop | Skyline",
+        "Rooftop Pool Skyline",
+        "Relaxing by the infinity pool with a dense city backdrop"
+      ],
+      "caption_zh": [
+        "生活 | 屋顶 | 天际线",
+        "屋顶泳池天际线",
+        "在无边泳池旁看城市高楼景色"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-10px",
+        "angle": "2deg",
+        "scale": "0.98",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.03"
+      }
+    },
+    {
+      "slot": 43,
+      "source": "img_4d7344a1b278.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-43.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Panel discussion on stage about Malaysia innovation funding",
+      "caption_en": [
+        "Conference | Innovation | Panel",
+        "Innovation Funding Panel",
+        "A panel session about Malaysia innovation funding pathways"
+      ],
+      "caption_zh": [
+        "会议 | 创新 | 论坛",
+        "创新资金论坛",
+        "关于马来西亚创新资金路径的台上论坛"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "4px",
+        "angle": "-1.5deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 44,
+      "source": "img_2862ea7712bf.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-44.webp",
+      "width": 1280,
+      "height": 960,
+      "alt": "Speakers on stage during an IP strategy keynote session",
+      "caption_en": [
+        "Conference | IP | Keynote",
+        "IP Strategy Keynote",
+        "A stage session on intellectual property and enterprise value"
+      ],
+      "caption_zh": [
+        "会议 | 知识产权 | 主题演讲",
+        "IP 策略主题演讲",
+        "围绕知识产权与企业价值的台上分享"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "6px",
+        "angle": "1deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 45,
+      "source": "img_1df0decb6655.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-45.webp",
+      "width": 800,
+      "height": 600,
+      "alt": "Person posing beside life-size Simpsons character figures",
+      "caption_en": [
+        "Lifestyle | Exhibit | Pop Culture",
+        "Simpsons Exhibit Photo",
+        "Posing beside life-size Simpsons character figures"
+      ],
+      "caption_zh": [
+        "生活 | 展览 | 流行文化",
+        "辛普森展区合照",
+        "与真人尺寸辛普森角色模型的合照"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-2px",
+        "angle": "-2deg",
+        "scale": "0.99",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 46,
+      "source": "img_d9148b77e6fc.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-46.webp",
+      "width": 960,
+      "height": 1280,
+      "alt": "Two people at a restaurant table with a birthday cake",
+      "caption_en": [
+        "Lifestyle | Celebration | Dinner",
+        "Birthday Celebration Dinner",
+        "A restaurant cake moment with a personal celebration feel"
+      ],
+      "caption_zh": [
+        "生活 | 庆祝 | 晚餐",
+        "生日庆祝晚餐",
+        "带蛋糕的餐桌庆祝时刻"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "-3px",
+        "angle": "1.5deg",
+        "scale": "0.99",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.01"
+      }
+    },
+    {
+      "slot": 47,
+      "source": "img_baeae7aa462c.jpg",
+      "duplicates": [],
+      "dest": "images/hackathon/timeline-happening-47.webp",
+      "width": 800,
+      "height": 600,
+      "alt": "Person standing beside a MARIi Urban Air Mobility display aircraft",
+      "caption_en": [
+        "Expo | Tech | Air Mobility",
+        "Air Mobility Expo",
+        "Standing beside the MARIi Urban Air Mobility aircraft display"
+      ],
+      "caption_zh": [
+        "展会 | 科技 | 空中交通",
+        "空中交通展区",
+        "站在 MARIi Urban Air Mobility 展示机旁"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "2px",
+        "angle": "-1.5deg",
+        "scale": "1.0",
+        "x": "0px",
+        "y": "-2px",
+        "img_scale": "1.02"
+      }
+    },
+    {
+      "slot": 48,
+      "source": "img_2eb0b790d748.jpg",
+      "duplicates": [
+        "img_8ea496b39268.jpg"
+      ],
+      "dest": "images/hackathon/timeline-happening-48.webp",
+      "width": 960,
+      "height": 1280,
+      "alt": "Stacked anime and stylized collectible figures displayed in an office",
+      "caption_en": [
+        "Workspace | Figures | Collection",
+        "Collectible Figure Stack",
+        "A stacked display of anime and stylized figures in the office"
+      ],
+      "caption_zh": [
+        "工作区 | 模型 | 收藏",
+        "模型收藏展示",
+        "办公室里层叠摆放的动漫与公仔收藏"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "5px",
+        "angle": "2deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    },
+    {
+      "slot": 49,
+      "source": "img_8fa3d2f51064.jpg",
+      "duplicates": [
+        "img_2c36bd80b12c.jpg"
+      ],
+      "dest": "images/hackathon/timeline-happening-49.webp",
+      "width": 1280,
+      "height": 720,
+      "alt": "Large screen showing 42 Campus Kuala Lumpur live statistics dashboard",
+      "caption_en": [
+        "Dashboard | Campus | Analytics",
+        "Campus Live Stats",
+        "A Kuala Lumpur campus screen showing active users and learning stats"
+      ],
+      "caption_zh": [
+        "仪表板 | 校园 | 分析",
+        "校园实时数据",
+        "吉隆坡校区大屏展示活跃用户与学习统计"
+      ],
+      "champion_slot": null,
+      "card_vars": {
+        "lift": "4px",
+        "angle": "-1deg",
+        "scale": "1.01",
+        "x": "0px",
+        "y": "0px",
+        "img_scale": "1.0"
+      }
+    }
+  ]
+}

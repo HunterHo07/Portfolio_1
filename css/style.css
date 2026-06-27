@@ -3825,6 +3825,8 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-frame {
   position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -3841,32 +3843,36 @@ body.is-hero-ready .hero-image-loader,
   pointer-events: none;
   background:
     linear-gradient(115deg, rgba(255, 255, 255, 0.22), transparent 22%, transparent 60%, rgba(255, 255, 255, 0.12)),
-    linear-gradient(180deg, transparent 48%, rgba(5, 12, 22, 0.82));
+    linear-gradient(180deg, transparent 62%, rgba(5, 12, 22, 0.28));
   mix-blend-mode: screen;
-  opacity: 0.42;
+  opacity: 0.24;
 }
 
 .hackathon-carousel-image {
   display: block;
   width: 100%;
   height: 100%;
+  min-height: 0;
   object-fit: contain;
+  object-position: center top;
   pointer-events: none;
   -webkit-user-drag: none;
   transform: none;
 }
 
 .hackathon-carousel-frame figcaption {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  left: 14px;
+  position: relative;
   z-index: 3;
-  padding: 14px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
+  margin: 12px;
+  margin-top: 0;
+  padding: 14px 16px 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
   color: #f8f2e6;
-  background: rgba(5, 12, 22, 0.48);
+  background: linear-gradient(180deg, rgba(5, 12, 22, 0.74), rgba(5, 12, 22, 0.88));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -4004,20 +4010,21 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .hackathon-carousel-frame figcaption {
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    padding: 11px 12px;
+    margin: 10px;
+    margin-top: 0;
+    padding: 10px 11px 11px;
   }
 
   .hackathon-carousel-frame figcaption span,
   .hackathon-carousel-frame figcaption em {
-    font-size: 9px;
+    font-size: 8px;
+    letter-spacing: 0.08em;
   }
 
   .hackathon-carousel-frame figcaption strong {
-    margin: 7px 0 5px;
-    font-size: clamp(15px, 5vw, 20px);
+    margin: 6px 0 4px;
+    font-size: clamp(13px, 4.2vw, 17px);
+    line-height: 1.15;
   }
 
   .hackathon-carousel-control {

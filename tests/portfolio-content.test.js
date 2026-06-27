@@ -617,7 +617,6 @@ const requiredAssets = [
   "images/hackathon/timeline-happening-17.webp",
   "images/hackathon/timeline-happening-18.webp",
   "images/hackathon/timeline-happening-19.webp",
-  "images/hackathon/timeline-happening-20.webp",
   "images/hackathon/timeline-happening-21.webp",
   "images/hackathon/timeline-happening-22.webp",
   "images/hackathon/timeline-happening-23.webp",
@@ -2739,14 +2738,12 @@ assert.ok(
   "Standalone Champion Stage proof wall should be removed",
 );
 assert.ok(
-  (hackathonWinsSection.match(/class="hackathon-carousel-card/g) || [])
-    .length >= 25,
-  "Timeline gallery should include the full uploaded event photo set and stay open-ended for future additions",
+  (hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 24,
+  "Timeline gallery should keep the deduplicated uploaded event photo set and stay open-ended for future additions",
 );
 assert.ok(
-  (hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || [])
-    .length >= 25,
-  "Every timeline card should use a real image element",
+  (hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 24,
+  "Every deduplicated timeline card should use a real image element",
 );
 assert.ok(
   !hackathonWinsSection.includes("hackathon-card-placeholder"),
@@ -2784,7 +2781,6 @@ for (const hackathonAsset of [
   "images/hackathon/timeline-happening-17.webp",
   "images/hackathon/timeline-happening-18.webp",
   "images/hackathon/timeline-happening-19.webp",
-  "images/hackathon/timeline-happening-20.webp",
   "images/hackathon/timeline-happening-21.webp",
   "images/hackathon/timeline-happening-22.webp",
   "images/hackathon/timeline-happening-23.webp",

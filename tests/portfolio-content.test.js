@@ -223,7 +223,7 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.15"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.16"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -451,7 +451,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.15",
+  "Hunter v2.2.16",
 ];
 
 const requestedDemoUrls = [
@@ -958,9 +958,9 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.15") &&
-    html.includes("css/responsive.min.css?v=2.2.15"),
-  "Production stylesheets should use minified release cache keys",
+  html.includes("css/style.css?v=2.2.16") &&
+    html.includes("css/responsive.min.css?v=2.2.16"),
+  "Production stylesheets should use the active release cache keys",
 );
 assert.ok(
   !html.includes("contact-footer-layers/contact-footer-layer-01-backdrop.webp"),
@@ -1050,8 +1050,8 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.15"),
-  "Production script should use the minified release cache key",
+  html.includes("js/main.js?v=2.2.16"),
+  "Production script should use the active release cache key",
 );
 assert.ok(
   js.includes("setupContactCopyrightDock") &&
@@ -1097,7 +1097,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.15"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.16"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1810,7 +1810,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.15",
+  "v2.2.16",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2809,11 +2809,11 @@ assert.deepEqual(
 assert.deepEqual(
   hackathonCarouselSources.slice(-3),
   [
-    "images/hackathon/timeline-happening-23.webp",
-    "images/hackathon/timeline-happening-01.webp",
-    "images/ui/hackathon-champion-stage-v2.webp",
+    "images/hackathon/timeline-happening-71.webp",
+    "images/hackathon/timeline-happening-72.webp",
+    "images/hackathon/timeline-happening-73.webp",
   ],
-  "Hackathon carousel should still close on a proof image after the reshuffled line-up",
+  "Hackathon carousel should close on the latest imported proof images after the expanded line-up",
 );
 assert.ok(
   js.indexOf(
@@ -2926,11 +2926,11 @@ assert.ok(
 assert.ok(
   css.includes(".hackathon-carousel-card") &&
     css.includes("backdrop-filter: blur") &&
-    css.includes("rotateY(var(--card-angle))") &&
+    css.includes("rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))") &&
     css.includes("translateZ(var(--carousel-radius))") &&
     css.includes("calc(var(--carousel-radius) * -1)") &&
     css.includes("rotateY(var(--carousel-rotation))"),
-  "Timeline cards should use the Desandro-style 3D carousel pattern with panels around a circular stage",
+  "Timeline cards should use the active 3D circular-stage carousel pattern",
 );
 assert.ok(
   css.includes(".hackathon-carousel-card.is-ring-side-left") &&

@@ -4885,14 +4885,35 @@
       slideWidth = cards[0].getBoundingClientRect().width || 520;
       ringStep = 360 / cards.length;
       carouselRotation = -(activeIndex * ringStep);
-      carouselRadius = Math.round(
+
+      var halfStepRadians = Math.PI / cards.length;
+      var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
+      var spacingFactor =
+        window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18;
+      var baseRadius = Math.round(
         (slideWidth / 2 / Math.tan(Math.PI / cards.length)) * 1.32,
       );
-      carouselRadius = Math.max(carouselRadius, Math.round(slideWidth * 4.2));
-      carouselRadius = Math.min(carouselRadius, 3600);
+      var spacingRadius = Math.round(
+        (slideWidth * spacingFactor) / minimumTrig,
+      );
+
+      carouselRadius = Math.max(
+        baseRadius,
+        spacingRadius,
+        Math.round(slideWidth * 4.2),
+      );
+      carouselRadius = Math.min(
+        carouselRadius,
+        window.innerWidth < 768 ? 5600 : 9800,
+      );
+
       carousel.style.setProperty(
         "--carousel-radius",
         String(carouselRadius) + "px",
+      );
+      stage.style.setProperty(
+        "perspective",
+        String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
       );
 
       cards.forEach(function (card, cardIndex) {

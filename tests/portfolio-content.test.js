@@ -2950,16 +2950,19 @@ assert.ok(
 assert.ok(
   js.includes("requestAnimationFrame") &&
     js.includes("carouselRotation") &&
-    js.includes("activeIndex = nextIndex") &&
+    js.includes("activePosition = nextIndex") &&
+    js.includes("activeIndex = ((nextIndex % cards.length) + cards.length) % cards.length") &&
     js.includes("carouselRadius") &&
     js.includes("Math.tan(Math.PI / cards.length)") &&
     js.includes("carouselRotation += pointerDeltaX * 0.18") &&
     js.includes("scheduleCarouselAutoplay") &&
     js.includes("holdCarouselAutoplay") &&
-    js.includes("isCarouselHovered") &&
+    js.includes("window.innerWidth < 768") &&
+    js.includes("carousel.parentElement || carousel") &&
+    js.includes("data-carousel-mobile-controls-bound") &&
     js.includes("pointerdown") &&
     js.includes("dragThreshold"),
-  "Timeline gallery should use continuous forward carousel motion, drag support, and the Desandro radius formula for near-endless rotation",
+  "Timeline gallery should use drag support, dynamic radius math, mobile-safe controls, and stable scoped carousel motion",
 );
 
 for (const oldHeroOverlay of [

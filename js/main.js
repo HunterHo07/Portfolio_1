@@ -4787,20 +4787,28 @@
 
   function setupHackathonGlassCarousel() {
     var carousel = document.querySelector("[data-hackathon-carousel]");
+    var carouselScope;
+    var track;
+    var stage;
+    var cards;
+    var prevButton;
+    var nextButton;
     if (!carousel) {
       return;
     }
 
-    var track = carousel.querySelector("[data-carousel-track]");
-    var stage = carousel.querySelector(".hackathon-carousel-stage");
-    var cards = Array.prototype.slice.call(
+    carouselScope = carousel.parentElement || carousel;
+    track = carousel.querySelector("[data-carousel-track]");
+    stage = carousel.querySelector(".hackathon-carousel-stage");
+    cards = Array.prototype.slice.call(
       carousel.querySelectorAll(
         "[data-carousel-card]:not([data-carousel-clone])",
       ),
     );
-    var prevButton = carousel.querySelector("[data-carousel-prev]");
-    var nextButton = carousel.querySelector("[data-carousel-next]");
+    prevButton = carouselScope.querySelector("[data-carousel-prev]");
+    nextButton = carouselScope.querySelector("[data-carousel-next]");
     var activeIndex = 0;
+    var activePosition = 0;
     var carouselRotation = 0;
     var ringStep = 0;
     var carouselRadius = 1480;
@@ -4850,6 +4858,7 @@
       );
 
       cards.forEach(function (card, cardIndex) {
+        var isMobileViewport = window.innerWidth < 768;
         var cardAngle = cardIndex * ringStep;
         var displayAngle = (cardAngle + carouselRotation) % 360;
         var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
@@ -4858,8 +4867,18 @@
         var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
         var isSideLeft = isSide && normalizedAngle < 0;
         var isSideRight = isSide && normalizedAngle > 0;
-        var cardLift = isFocus ? 72 : isSide ? 16 : -94;
-        var cardScale = isFocus ? 1.4 : 1;
+        var cardLift = isMobileViewport
+          ? isFocus
+            ? 36
+            : isSide
+              ? 10
+              : -78
+          : isFocus
+            ? 72
+            : isSide
+              ? 16
+              : -94;
+        var cardScale = isFocus ? (isMobileViewport ? 1.16 : 1.4) : 1;
 
         card.style.setProperty("--card-lift", cardLift + "px");
         card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");
@@ -4876,15 +4895,16 @@
     }
 
     function setActiveIndex(nextIndex) {
-      activeIndex = nextIndex;
-      carouselRotation = -(activeIndex * ringStep);
+      activePosition = nextIndex;
+      activeIndex = ((nextIndex % cards.length) + cards.length) % cards.length;
+      carouselRotation = -(activePosition * ringStep);
       applyCarouselLayout();
     }
 
     function layoutRing() {
       slideWidth = cards[0].getBoundingClientRect().width || 520;
       ringStep = 360 / cards.length;
-      carouselRotation = -(activeIndex * ringStep);
+      carouselRotation = -(activePosition * ringStep);
 
       var halfStepRadians = Math.PI / cards.length;
       var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
@@ -4940,9 +4960,58 @@
         return;
       }
 
-      setActiveIndex(activeIndex - direction);
+      setActiveIndex(activePosition - direction);
       holdCarouselAutoplay();
       lockControlsBriefly();
+      window.requestAnimationFrame(refreshLayout);
+      window.setTimeout(refreshLayout, 420);
+    }
+
+    function bindControl(button, direction) {
+      var lastTouchActivationAt = 0;
+
+      if (!button) {
+        return;
+      }
+
+      function activateControl(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        stepTrack(direction);
+      }
+
+      button.addEventListener("pointerdown", function (event) {
+        event.stopPropagation();
+      });
+
+      button.addEventListener(
+        "touchstart",
+        function (event) {
+          lastTouchActivationAt = Date.now();
+          activateControl(event);
+        },
+        { passive: false },
+      );
+
+      button.addEventListener("pointerup", function (event) {
+        if (event.pointerType && event.pointerType !== "mouse") {
+          lastTouchActivationAt = Date.now();
+          activateControl(event);
+        }
+      });
+
+      button.addEventListener("click", function (event) {
+        if (Date.now() - lastTouchActivationAt < 700) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
+        activateControl(event);
+      });
     }
 
     function snapToNearestCard() {
@@ -4960,6 +5029,7 @@
 
     function shouldPauseCarouselAutoplay() {
       return (
+        window.innerWidth < 768 ||
         isReducedMotion() ||
         document.hidden ||
         isDragging ||
@@ -4971,7 +5041,7 @@
     function scheduleCarouselAutoplay() {
       clearCarouselAutoplay();
 
-      if (isReducedMotion()) {
+      if (isReducedMotion() || window.innerWidth < 768) {
         return;
       }
 
@@ -5001,17 +5071,8 @@
 
     carousel.setAttribute("data-carousel-bound", "true");
 
-    if (prevButton) {
-      prevButton.addEventListener("click", function () {
-        stepTrack(1);
-      });
-    }
-
-    if (nextButton) {
-      nextButton.addEventListener("click", function () {
-        stepTrack(-1);
-      });
-    }
+    bindControl(prevButton, 1);
+    bindControl(nextButton, -1);
 
     carousel.addEventListener("mouseenter", function () {
       isCarouselHovered = true;
@@ -5334,6 +5395,118 @@
     });
   }
 
+  function setupHackathonCarouselMobileControlFallback() {
+    var carousel = document.querySelector("[data-hackathon-carousel]");
+    var carouselScope;
+    var stage;
+    var track;
+    var cards;
+    var prevButton;
+    var nextButton;
+
+    if (!carousel || carousel.hasAttribute("data-carousel-mobile-controls-bound")) {
+      return;
+    }
+
+    carouselScope = carousel.parentElement || carousel;
+    stage = carousel.querySelector(".hackathon-carousel-stage");
+    track = carousel.querySelector("[data-carousel-track]");
+    cards = Array.prototype.slice.call(
+      carousel.querySelectorAll("[data-carousel-card]:not([data-carousel-clone])"),
+    );
+    prevButton = carouselScope.querySelector("[data-carousel-prev]");
+    nextButton = carouselScope.querySelector("[data-carousel-next]");
+
+    if (!track || cards.length < 2 || !prevButton || !nextButton) {
+      return;
+    }
+
+    carousel.setAttribute("data-carousel-mobile-controls-bound", "true");
+
+    function getRingStep() {
+      return 360 / cards.length;
+    }
+
+    function getRotation() {
+      var value = parseFloat(track.style.getPropertyValue("--carousel-rotation"));
+      return Number.isFinite(value) ? value : 0;
+    }
+
+    function applyRotation(rotation) {
+      var ringStep = getRingStep();
+      var mobile = window.innerWidth < 768;
+
+      track.style.setProperty("--carousel-rotation", rotation.toFixed(2) + "deg");
+
+      cards.forEach(function (card, cardIndex) {
+        var cardAngle = cardIndex * ringStep;
+        var displayAngle = (cardAngle + rotation) % 360;
+        var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
+        var absAngle = Math.abs(normalizedAngle);
+        var isFocus = absAngle < ringStep * 0.55;
+        var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
+        var isSideLeft = isSide && normalizedAngle < 0;
+        var isSideRight = isSide && normalizedAngle > 0;
+        var cardLift = mobile
+          ? isFocus
+            ? 36
+            : isSide
+              ? 10
+              : -78
+          : isFocus
+            ? 72
+            : isSide
+              ? 16
+              : -94;
+        var cardScale = isFocus ? (mobile ? 1.16 : 1.4) : 1;
+
+        card.style.setProperty("--card-lift", cardLift + "px");
+        card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");
+        card.style.setProperty("--card-scale", String(cardScale));
+        card.classList.toggle("is-ring-focus", isFocus);
+        card.classList.toggle("is-ring-side", isSide);
+        card.classList.toggle("is-ring-side-left", isSideLeft);
+        card.classList.toggle("is-ring-side-right", isSideRight);
+        card.classList.toggle("is-ring-back", !isFocus && !isSide);
+      });
+    }
+
+    function bindFallback(button, delta) {
+      button.addEventListener(
+        "pointerdown",
+        function (event) {
+          var ringStep;
+          var currentIndex;
+          var nextIndex;
+
+          if (window.innerWidth >= 768 || event.pointerType === "mouse") {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+
+          ringStep = getRingStep();
+          currentIndex = Math.round(-getRotation() / ringStep);
+          nextIndex = Math.max(
+            0,
+            Math.min(
+              cards.length - 1,
+              currentIndex + (delta < 0 ? 1 : -1),
+            ),
+          );
+
+          applyRotation(-(nextIndex * ringStep));
+        },
+        { capture: true },
+      );
+    }
+
+    bindFallback(prevButton, 1);
+    bindFallback(nextButton, -1);
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       setupLanguageToggle();
@@ -5357,6 +5530,7 @@
       setupModelsHunterBackground();
       setupStartupTechStackLights();
       setupHackathonGlassCarousel();
+      setupHackathonCarouselMobileControlFallback();
       setupResponsiveNavbarToggle();
       setupLazyYouTubeEmbeds();
       setupStartupVideoModal();
@@ -5385,6 +5559,7 @@
     setupModelsHunterBackground();
     setupStartupTechStackLights();
     setupHackathonGlassCarousel();
+    setupHackathonCarouselMobileControlFallback();
     setupResponsiveNavbarToggle();
     setupLazyYouTubeEmbeds();
     setupStartupVideoModal();

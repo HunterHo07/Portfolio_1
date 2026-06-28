@@ -4907,16 +4907,18 @@
         window.innerWidth < 768 ? 5600 : 9800,
       );
 
-      carousel.style.setProperty(
-        "--carousel-radius",
-        String(carouselRadius) + "px",
-      );
+      var resolvedRadius = String(carouselRadius) + "px";
+
+      carousel.style.setProperty("--carousel-radius", resolvedRadius);
+      stage.style.setProperty("--carousel-radius", resolvedRadius);
+      track.style.setProperty("--carousel-radius", resolvedRadius);
       stage.style.setProperty(
         "perspective",
         String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
       );
 
       cards.forEach(function (card, cardIndex) {
+        card.style.setProperty("--carousel-radius", resolvedRadius);
         card.style.setProperty("--card-lift", "0px");
         card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
         card.setAttribute("data-carousel-seq", String(cardIndex));

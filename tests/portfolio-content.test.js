@@ -455,7 +455,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.17",
+  "Hunter v2.2.19",
 ];
 
 const requestedDemoUrls = [
@@ -977,7 +977,7 @@ assert.ok(
 );
 assert.ok(
   html.includes("css/style.min.css?v=2.2.19") &&
-    html.includes("css/responsive.min.css?v=2.2.17"),
+    html.includes("css/responsive.min.css?v=2.2.19"),
   "Production stylesheets should use the active release cache keys",
 );
 assert.ok(
@@ -1115,7 +1115,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class=(?:"release-badge"|release-badge)[^>]*href=(?:"https:\/\/github\.com\/HunterHo07"|https:\/\/github\.com\/HunterHo07)[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.17"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.19"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1140,8 +1140,9 @@ assert.ok(
   "Hero CTAs should not keep the unclear old labels",
 );
 assert.ok(
-  html.includes('class="hero-hunter-popup"') &&
-    html.includes("data-hero-hunter-message"),
+  html.includes("class=hero-hunter-popup") &&
+    html.includes("id=hero-hunter-popup") &&
+    html.includes("aria-live=polite"),
   "Hero should include the delayed Hunter popup markup",
 );
 assert.ok(
@@ -1189,10 +1190,10 @@ assert.ok(
   "Hero Hunter popup should hide with an outro when the hero is no longer active",
 );
 
-const pricingIndex = html.indexOf('id="journal"');
-const aboutIndex = html.indexOf('id="about"');
-const servicesIndex = html.indexOf('id="services"');
-const contactIndex = html.indexOf('id="contact"');
+const pricingIndex = html.indexOf('id=journal');
+const aboutIndex = html.indexOf('id=about');
+const servicesIndex = html.indexOf('id=services');
+const contactIndex = html.indexOf('id=contact');
 assert.ok(
   pricingIndex === -1 &&
     aboutIndex !== -1 &&
@@ -1205,9 +1206,9 @@ assert.ok(
   "About and Services should stay merged into one bottom stack before Contact",
 );
 assert.ok(
-  html.indexOf('href="#about"') < html.indexOf('href="#services"') &&
-    !html.includes('href="#journal"') &&
-    html.indexOf('href="#services"') < html.indexOf('href="#contact"'),
+  html.indexOf('href=#about') < html.indexOf('href=#services') &&
+    !html.includes('href=#journal') &&
+    html.indexOf('href=#services') < html.indexOf('href=#contact'),
   "Static navbar should follow the merged About, Services, Contact order without Pricing",
 );
 const aboutSectionEnd = contactIndex;
@@ -1258,12 +1259,12 @@ assert.ok(
   "Merged section should keep capabilities without the removed commercial offer grid",
 );
 assert.equal(
-  (aboutServicesStack.match(/data-pricing-service="/g) || []).length,
+  (aboutServicesStack.match(/data-pricing-service=/g) || []).length,
   6,
   "Each Client Build Menu service card should open market pricing details",
 );
 assert.ok(
-  aboutServicesStack.includes('id="service-pricing-modal"') &&
+  aboutServicesStack.includes("id=service-pricing-modal") &&
     aboutServicesStack.includes("Market Pricing Snapshot") &&
     aboutServicesStack.includes("Why ask Hunter"),
   "Client Build Menu should include a reusable market pricing modal",
@@ -1382,10 +1383,10 @@ assert.ok(
   "Navbar scrollspy should not use offsetTop for nested section anchors",
 );
 
-const heroIndex = html.indexOf('id="header"');
-const labIndex = html.indexOf('id="trillionunicorn-lab"');
-const visionIndex = html.indexOf('id="founder-vision"');
-const journeyIndex = html.indexOf('id="founder-journey"');
+const heroIndex = html.indexOf('id=header');
+const labIndex = html.indexOf('id=trillionunicorn-lab');
+const visionIndex = html.indexOf('id=founder-vision');
+const journeyIndex = html.indexOf('id=founder-journey');
 assert.ok(
   heroIndex !== -1 && labIndex !== -1 && journeyIndex !== -1,
   "Hero, startup lab, and founder proof theater sections should exist",
@@ -1405,8 +1406,8 @@ assert.ok(
   "Startup lab should not load the YouTube iframe on initial page load",
 );
 assert.ok(
-  !html.includes('id="cinema-reel"') &&
-    !html.includes('href="#cinema-reel"') &&
+  !html.includes('id=cinema-reel') &&
+    !html.includes('href=#cinema-reel') &&
     !html.includes('data-nav-label="Cinema"'),
   "Cinema Memory Reel should not exist as a normal page section or navbar item",
 );
@@ -1473,7 +1474,7 @@ assert.equal(
   "Each Startup Lab concept icon should expose an English tooltip",
 );
 assert.equal(
-  (startupLabSection.match(/data-tooltip-zh="/g) || []).length,
+  (startupLabSection.match(/data-tooltip-zh=/g) || []).length,
   7,
   "Each Startup Lab concept icon should expose a Chinese tooltip",
 );
@@ -1705,15 +1706,15 @@ assert.ok(
   "Startup tech stack flow should rotate and randomly light individual pills with JavaScript",
 );
 
-const modelsSectionStart = html.indexOf('id="project-assets-section"');
-const modelsSectionEnd = html.indexOf(
-  "<!-- start section speaker teaching -->",
-);
+const modelsSectionStart = html.indexOf('id=project-assets-section');
+const modelsSectionEnd = html.indexOf('id=speaker-teaching');
 const modelsSection = html.slice(modelsSectionStart, modelsSectionEnd);
 const demoHunterStart = html.indexOf("data-demo-hunter-start");
 const demoHunterRange = html.slice(demoHunterStart, modelsSectionEnd);
 assert.ok(
-  demoHunterStart !== -1 && demoHunterStart < modelsSectionStart,
+  demoHunterStart !== -1 &&
+    modelsSectionStart !== -1 &&
+    demoHunterStart < modelsSectionStart,
   "Hunter matrix background should start at the Demo Projects heading, before the 3D Models section",
 );
 assert.ok(
@@ -1738,10 +1739,10 @@ assert.ok(
 );
 assert.ok(
   modelsSection.includes(
-    'data-alt-thumb="images/demo-thumb-qstyle-3d-models-lab-cards.webp"',
+    'data-alt-thumb=images/demo-thumb-qstyle-3d-models-lab-cards.webp',
   ) &&
     modelsSection.includes(
-      'data-extra-thumbs="images/demo-thumb-qstyle-3d-models-lab-detail.webp,images/demo-thumb-qstyle-3d-models-lab-mobile.webp"',
+      'data-extra-thumbs=images/demo-thumb-qstyle-3d-models-lab-detail.webp,images/demo-thumb-qstyle-3d-models-lab-mobile.webp',
     ),
   "Q-Style Assets 3 card should rotate through real per-card GLB preview thumbnails",
 );
@@ -1825,7 +1826,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.17",
+  "v2.2.19",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -1934,12 +1935,12 @@ assert.ok(
     /background:\s*rgba\(9,\s*21,\s*36,\s*0\.9\)/.test(scrolledNavBlock),
   "Navbar should become visible and clickable after scrolling with a 90% opacity background",
 );
-const navSectionLabels = html.match(/data-nav-label="/g) || [];
+const navSectionLabels = html.match(/data-nav-label=/g) || [];
 const navMenuBlock =
   (html.match(/<ul class="nav-menu list-unstyled">([\s\S]*?)<\/ul>/) ||
     [])[1] || "";
 const staticNavLinks =
-  navMenuBlock.match(/<a\b[^>]*href="#[^"]+"[^>]*class="smoothScroll"/g) || [];
+  navMenuBlock.match(/<a\b[^>]*href=#[^\s>]+[^>]*class=smoothScroll/g) || [];
 assert.equal(
   navSectionLabels.length,
   10,
@@ -1952,10 +1953,10 @@ assert.equal(
 );
 const markedSectionIds = [
   ...html.matchAll(
-    /<(section|div)\b[^>]*\bid="([^"]+)"[^>]*\bdata-nav-label="([^"]+)"/g,
+    /<(section|div)\b[^>]*\bid=([^\s>]+)[^>]*\bdata-nav-label=([^\s>]+)/g,
   ),
 ].map((match) => match[2]);
-const staticNavIds = [...navMenuBlock.matchAll(/href="#([^"]+)"/g)].map(
+const staticNavIds = [...navMenuBlock.matchAll(/href=#([^\s>]+)/g)].map(
   (match) => match[1],
 );
 assert.deepEqual(
@@ -2062,8 +2063,8 @@ assert.ok(
 );
 
 assert.ok(
-  html.includes('class="hero-three-stage"') &&
-    html.includes('id="hero-three-canvas"'),
+  html.includes('class=hero-three-stage') &&
+    html.includes('id=hero-three-canvas'),
   "Homepage hero should use the selected Option C 3D stage",
 );
 assert.ok(
@@ -2173,7 +2174,7 @@ assert.ok(
   "Founder title HUD should expose dynamic copy slots",
 );
 assert.ok(
-  html.includes('aria-live="polite"') &&
+  html.includes('aria-live=polite') &&
     !html.includes("One Hunter. Seven proof moments.</h2>"),
   "Founder title HUD should not keep the old static generic headline",
 );
@@ -2244,18 +2245,18 @@ assert.ok(
   "Founder final callouts should use animated digital highlights",
 );
 assert.equal(
-  (html.match(/data-final-proof="/g) || []).length,
+  (html.match(/data-final-proof=/g) || []).length,
   6,
   "Founder final callouts should be interactive targets for the six proof moments",
 );
 assert.equal(
-  (html.match(/class="[^"]*founder-proof-connector/g) || []).length,
+  (html.match(/class=(?:"[^"]*founder-proof-connector[^"]*"|[^\s>]*founder-proof-connector[^\s>]*)/g) || []).length,
   6,
   "Founder final poster should include six connector highlight lines to the correct image zones",
 );
 assert.ok(
   html.includes("founder-proof-color-spotlight") &&
-    html.includes('aria-hidden="true"'),
+    html.includes('aria-hidden=true'),
   "Founder final poster should include a masked color spotlight layer for focused proof regions",
 );
 assert.ok(
@@ -2433,19 +2434,19 @@ assert.ok(
   "Founder theater should start with no Hunter and end with all Hunters",
 );
 assert.equal(
-  (html.match(/data-founder-step="/g) || []).length,
+  (html.match(/data-founder-step=/g) || []).length,
   6,
   "Founder theater should expose exactly six single-Hunter steps after skipping the middle portrait layer",
 );
 assert.equal(
-  (html.match(/data-founder-target="/g) || []).length,
+  (html.match(/data-founder-target=/g) || []).length,
   6,
   "Founder bottom proof buttons should be clickable targets for each proof moment",
 );
 assert.ok(
-  html.includes('data-founder-action="prev"') &&
-    html.includes('data-founder-action="next"') &&
-    html.includes('data-founder-action="skip"'),
+  html.includes('data-founder-action=prev') &&
+    html.includes('data-founder-action=next') &&
+    html.includes('data-founder-action=skip'),
   "Founder theater should include Prev, Next, and Skip controls",
 );
 assert.ok(
@@ -2509,16 +2510,16 @@ assert.ok(
   "Founder theater should skip the middle portrait layer from the proof scroll sequence",
 );
 assert.equal(
-  (html.match(/class="founder-final-callout"/g) || []).length,
+  (html.match(/class=founder-final-callout\b/g) || []).length,
   6,
   "Founder final poster should show six proof callouts for the six useful moments",
 );
 
-const speakerIndex = html.indexOf('id="speaker-teaching"');
-const hackathonWinsIndex = html.indexOf('id="hackathon-wins"');
-const projectAssetsIndex = html.indexOf('id="project-assets-section"');
-const hunterIndex = html.indexOf('id="hunter"');
-const mobileDemoIndex = html.indexOf('id="mobile-app-demos"');
+const speakerIndex = html.indexOf('id=speaker-teaching');
+const hackathonWinsIndex = html.indexOf('id=hackathon-wins');
+const projectAssetsIndex = html.indexOf('id=project-assets-section');
+const hunterIndex = html.indexOf('id=hunter');
+const mobileDemoIndex = html.indexOf('id=mobile-app-demos');
 const demoProjectsIndex = html.indexOf('data-text="Demo Projects"');
 const gamesDemoIndex = html.indexOf('data-text="Games Demo"');
 const speakerEnd = hackathonWinsIndex;
@@ -2535,7 +2536,7 @@ const demoProjectsSection = html.slice(demoProjectsIndex, mobileDemoIndex);
 const normalizeDemoUrl = (url) => url.replace(/\/$/, "").toLowerCase();
 const demoCardUrls = [
   ...demoProjectsSection.matchAll(
-    /<div class="col-lg-4 col-md-6">\s*<div class="journal-info portfolio-project">\s*<a\s+target="_blank"\s+href="([^"]+)"/g,
+    /<div class="col-lg-4 col-md-6">\s*<div class="journal-info portfolio-project">\s*<a\s+target=_blank\s+href=([^\s>]+)/g,
   ),
 ].map((match) => normalizeDemoUrl(match[1]));
 const duplicateDemoCardUrls = demoCardUrls.filter(
@@ -2552,7 +2553,7 @@ for (const requestedDemoUrl of requestedDemoUrls) {
     `Missing requested demo card URL: ${requestedDemoUrl}`,
   );
 }
-const mobileSectionEnd = html.indexOf('id="project-detail-modal"', mobileDemoIndex);
+const mobileSectionEnd = html.indexOf('id=project-detail-modal', mobileDemoIndex);
 assert.ok(
   mobileSectionEnd > mobileDemoIndex,
   "Native Mobile App Projects section should end before the project detail modal for scoped checks",
@@ -2564,12 +2565,12 @@ assert.ok(
   "Mobile section should present native app projects, not web demos",
 );
 assert.equal(
-  (mobileSection.match(/class="app-build-status"/g) || []).length,
+  (mobileSection.match(/class=app-build-status/g) || []).length,
   2,
   "Each mobile card should expose app build status metadata",
 );
 assert.equal(
-  (mobileSection.match(/class="mobile-app-platforms"/g) || []).length,
+  (mobileSection.match(/class=mobile-app-platforms/g) || []).length,
   2,
   "Each mobile card should expose native platform tags",
 );
@@ -2725,12 +2726,12 @@ assert.ok(
   "Teaching section intro should frame invited sessions as giving practical IT back to the community",
 );
 assert.equal(
-  (speakerSection.match(/class="teaching-proof-card"/g) || []).length,
+  (speakerSection.match(/class=teaching-proof-card\b/g) || []).length,
   5,
   "Speaker & Teaching should keep five teaching cards after replacing the duplicate N8N poster with the new Krenovator additions",
 );
 assert.equal(
-  (speakerSection.match(/class="teaching-card-media"/g) || []).length,
+  (speakerSection.match(/class=teaching-card-media\b/g) || []).length,
   5,
   "Teaching cards should wrap all five teaching posters in a stable media frame",
 );
@@ -2744,11 +2745,11 @@ assert.ok(
   "Standalone Champion Stage proof wall should be removed",
 );
 assert.ok(
-  (hackathonWinsSection.match(/class="hackathon-carousel-card/g) || []).length >= 24,
+  (hackathonWinsSection.match(/class=hackathon-carousel-card\b/g) || []).length >= 24,
   "Timeline gallery should keep the deduplicated uploaded event photo set and stay open-ended for future additions",
 );
 assert.ok(
-  (hackathonWinsSection.match(/class="hackathon-carousel-image"/g) || []).length >= 24,
+  (hackathonWinsSection.match(/class=hackathon-carousel-image\b/g) || []).length >= 24,
   "Every deduplicated timeline card should use a real image element",
 );
 assert.ok(
@@ -2800,7 +2801,7 @@ for (const hackathonAsset of [
 }
 const hackathonCarouselSources = [
   ...hackathonWinsSection.matchAll(
-    /class="hackathon-carousel-image"[\s\S]*?data-src="([^"]+)"/g,
+    /class=hackathon-carousel-image[^>]*data-src=([^\s>]+)/g,
   ),
 ].map((match) => match[1]);
 assert.deepEqual(
@@ -2861,8 +2862,8 @@ assert.ok(
   "Timeline gallery should identify the moving media track in markup",
 );
 assert.ok(
-  html.indexOf('href="#speaker-teaching"') <
-    html.indexOf('href="#hackathon-wins"'),
+  html.indexOf('href=#speaker-teaching') <
+    html.indexOf('href=#hackathon-wins'),
   "Navbar order should place Teaching before Wins after moving the wins block",
 );
 for (const realTeachingAsset of [
@@ -2998,19 +2999,19 @@ for (const oldHeroOverlay of [
 }
 
 const thumbnailLoops =
-  html.match(/data-alt-thumb="images\/[^"]+-alt\.webp"/g) || [];
+  html.match(/data-alt-thumb=images\/[^\s>]+/g) || [];
 assert.ok(
   thumbnailLoops.length >= 30,
   `Expected at least 30 real second-state thumbnail loops, found ${thumbnailLoops.length}`,
 );
 assert.ok(
-  !/<a target="_blank" href="https:\/\/github\.com\/[^"]+"><img[^>]+data-alt-thumb=/.test(
+  !/<a target=_blank href=https:\/\/github\.com\/[^\s>]+><img[^>]+data-alt-thumb=/.test(
     html,
   ),
   "GitHub-only cards should not use live demo thumbnail loops",
 );
 
-for (const altThumb of [...html.matchAll(/data-alt-thumb="([^"]+)"/g)].map(
+for (const altThumb of [...html.matchAll(/data-alt-thumb=([^\s>]+)/g)].map(
   (match) => match[1],
 )) {
   assert.ok(
@@ -3020,7 +3021,7 @@ for (const altThumb of [...html.matchAll(/data-alt-thumb="([^"]+)"/g)].map(
 }
 
 for (const extraThumbs of [
-  ...html.matchAll(/data-extra-thumbs="([^"]+)"/g),
+  ...html.matchAll(/data-extra-thumbs=([^\s>]+)/g),
 ].map((match) => match[1])) {
   for (const extraThumb of extraThumbs
     .split(",")

@@ -4,7 +4,7 @@ const STATIC_ASSETS = [
   "./",
   "./index.html",
   "./css/style.min.css?v=2.2.19",
-  "./css/responsive.min.css?v=2.2.17",
+  "./css/responsive.min.css?v=2.2.19",
   "./js/main.min.js?v=2.2.19",
   "./images/logo.svg",
   "./images/favicon.svg",

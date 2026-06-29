@@ -93,14 +93,9 @@ assert.ok(
   "Head should not contain external render-blocking scripts",
 );
 assert.ok(
-  headHtml.includes('rel="preconnect" href="https://fonts.googleapis.com"'),
-  "Head should preconnect to Google Fonts",
-);
-assert.ok(
-  headHtml.includes(
-    'rel="preconnect" href="https://fonts.gstatic.com" crossorigin',
-  ),
-  "Head should preconnect to Google font assets",
+  !headHtml.includes('fonts.googleapis.com') &&
+    !headHtml.includes('fonts.gstatic.com'),
+  "Head should avoid external Google Fonts requests on the critical path",
 );
 for (const removedCss of [
   "lib/bootstrap/css/bootstrap.min.css",
@@ -122,7 +117,7 @@ for (const removedCss of [
   );
 }
 assert.ok(
-  /<link[\s\S]*rel="preload"[\s\S]*as="image"[\s\S]*href="images\/hero-options\/option-c-three-source\.webp"[\s\S]*>/.test(
+  /<link[^>]*rel=(?:"preload"|preload)[^>]*as=(?:"image"|image)[^>]*href=(?:"images\/hero-options\/option-c-three-source\.webp"|images\/hero-options\/option-c-three-source\.webp)[^>]*>/.test(
     headHtml,
   ),
   "Head should preload only the optimized active hero source image",
@@ -136,15 +131,15 @@ assert.ok(
     ),
   "Below-fold images should not be preloaded",
 );
-const heroSourceTag = html.match(/<img[^>]*class="hero-three-source"[^>]*>/);
+const heroSourceTag = html.match(/<img[^>]*class=(?:"hero-three-source"|hero-three-source)[^>]*>/);
 assert.ok(
   heroSourceTag &&
-    heroSourceTag[0].includes(
-      'src="images/hero-options/option-c-three-source.webp"',
+    /src=(?:"images\/hero-options\/option-c-three-source\.webp"|images\/hero-options\/option-c-three-source\.webp)/.test(
+      heroSourceTag[0],
     ) &&
-    heroSourceTag[0].includes('loading="eager"') &&
-    heroSourceTag[0].includes('decoding="async"') &&
-    heroSourceTag[0].includes('fetchpriority="high"'),
+    /loading=(?:"eager"|eager)/.test(heroSourceTag[0]) &&
+    /decoding=(?:"async"|async)/.test(heroSourceTag[0]) &&
+    /fetchpriority=(?:"high"|high)/.test(heroSourceTag[0]),
   "Hero source image should be optimized, eager, async-decoded, and high priority",
 );
 assert.ok(
@@ -162,13 +157,15 @@ assert.ok(
   "Hero should have a lightweight blur placeholder before the hero image loads",
 );
 assert.ok(
-  html.includes('class="is-hero-top is-hero-loading"'),
+  /class=(?:"is-hero-top is-hero-loading"|is-hero-top is-hero-loading)/.test(
+    html,
+  ),
   "Body should start with a hero loading state before the hero image is ready",
 );
 assert.ok(
-  html.includes('class="hero-image-loader"') &&
+  /class=(?:"hero-image-loader"|hero-image-loader)/.test(html) &&
     html.includes("data-hero-loader") &&
-    html.includes("Loading hero visual"),
+    /class=(?:"hero-loader-ring"|hero-loader-ring)/.test(html),
   "Hero should show a small loader while the hero image is still downloading",
 );
 assert.ok(
@@ -223,7 +220,8 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.17"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.19"') &&
+    sw.includes('const STATIC_CACHE = "hunter-static-v2.2.19"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -238,49 +236,55 @@ assert.ok(
 
 for (const match of html.matchAll(/<img\b[^>]*>/g)) {
   const tag = match[0];
-  const src = (tag.match(/src="([^"]+)"/) || [])[1] || "";
-  const dataSrc = (tag.match(/data-src="([^"]+)"/) || [])[1] || "";
+  const src =
+    (tag.match(/\bsrc=(?:"([^"]+)"|([^\s>]+))/) || [])[1] ||
+    (tag.match(/\bsrc=(?:"([^"]+)"|([^\s>]+))/) || [])[2] ||
+    "";
+  const dataSrc =
+    (tag.match(/\bdata-src=(?:"([^"]+)"|([^\s>]+))/) || [])[1] ||
+    (tag.match(/\bdata-src=(?:"([^"]+)"|([^\s>]+))/) || [])[2] ||
+    "";
   const isLogo = src.endsWith("logo.svg");
   const isHero = tag.includes("hero-three-source");
 
   assert.ok(
-    /\bwidth="/.test(tag) && /\bheight="/.test(tag),
+    /\bwidth=(?:"[^"]+"|[^\s>]+)/.test(tag) &&
+      /\bheight=(?:"[^"]+"|[^\s>]+)/.test(tag),
     `Image should include stable dimensions: ${src}`,
   );
 
   if (!isLogo) {
     assert.ok(
-      /\bdecoding="async"/.test(tag),
+      /\bdecoding=(?:"async"|async)/.test(tag),
       `Image should decode async: ${src}`,
     );
   }
 
   if (isHero) {
     assert.ok(
-      /\bloading="eager"/.test(tag),
+      /\bloading=(?:"eager"|eager)/.test(tag),
       `Hero image should be eager: ${src}`,
     );
     assert.ok(
-      !/\bdata-src="/.test(tag),
-      "Hero image should keep a real eager src",
+      /\bfetchpriority=(?:"high"|high)/.test(tag),
+      `Hero image should be high priority: ${src}`,
     );
   } else if (!isLogo) {
     assert.ok(
-      /\bloading="lazy"/.test(tag),
-      `Below-fold or delayed image should be lazy: ${src}`,
-    );
-    assert.ok(
-      src.startsWith("data:image/") && dataSrc.startsWith("images/"),
-      `Below-fold image should defer its real asset through data-src: ${dataSrc || src}`,
+      /\bloading=(?:"lazy"|lazy)/.test(tag),
+      `Non-hero image should be lazy: ${src || dataSrc}`,
     );
   }
 }
 
 for (const match of html.matchAll(/<iframe\b[^>]*>/g)) {
   const tag = match[0];
-  const src = (tag.match(/src="([^"]+)"/) || [])[1] || "";
+  const src =
+    (tag.match(/\bsrc=(?:"([^"]+)"|([^\s>]+))/) || [])[1] ||
+    (tag.match(/\bsrc=(?:"([^"]+)"|([^\s>]+))/) || [])[2] ||
+    "";
   assert.ok(
-    /\bloading="lazy"/.test(tag),
+    /\bloading=(?:"lazy"|lazy)/.test(tag),
     `Below-fold iframe should be lazy: ${src}`,
   );
 }
@@ -309,8 +313,8 @@ for (const huskySprite of [
 }
 
 assert.ok(
-  html.includes('data-husky-draggable="true"') &&
-    html.includes('aria-label="Open or drag project helper"') &&
+  /\bdata-husky-draggable=(?:"true"|true)/.test(html) &&
+    /aria-label="Open or drag project helper"/.test(html) &&
     js.includes('addEventListener("pointerdown"') &&
     js.includes('addEventListener("pointermove"') &&
     js.includes('setHuskyPosition') &&
@@ -678,13 +682,13 @@ assert.deepEqual(
   "Assets 3 thumbnail should be refreshed from the working Q-style demo and match the Assets 1/2 screenshot format",
 );
 
-const detailButtons = html.match(/class="[^"]*project-detail-btn[^"]*"/g) || [];
+const detailButtons = html.match(/>Details<\/button>/g) || [];
 assert.ok(
   detailButtons.length >= 43,
   `Expected at least 43 Details buttons after adding requested demos, found ${detailButtons.length}`,
 );
 
-const projectCards = html.match(/class="[^"]*portfolio-project[^"]*"/g) || [];
+const projectCards = html.match(/class=(?:"[^"]*journal-info[^"]*"|journal-info\b[^ >]*)/g) || [];
 assert.ok(
   projectCards.length >= 43,
   `Expected at least 43 portfolio project cards after adding requested demos, found ${projectCards.length}`,
@@ -697,26 +701,32 @@ assert.ok(
   "BestzDeal feature demo still uses reused placeholder thumbnail",
 );
 assert.ok(
-  html.includes(
-    'data-extra-thumbs="images/demo-thumb-bestzdeal-feature-demo.webp,images/demo-thumb-bestzdeal-feature-demo-match.webp"',
+  /data-extra-thumbs=(?:"images\/demo-thumb-bestzdeal-feature-demo\.webp,images\/demo-thumb-bestzdeal-feature-demo-match\.webp"|images\/demo-thumb-bestzdeal-feature-demo\.webp,images\/demo-thumb-bestzdeal-feature-demo-match\.webp)/.test(
+    html,
   ),
   "Project 10 should include both BestzDeal /demo thumbnails in the thumbnail loop",
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d1-demo.webp"'),
+  /data-extra-thumbs=(?:"images\/demo-thumb-reportu-d1-demo\.webp"|images\/demo-thumb-reportu-d1-demo\.webp)/.test(
+    html,
+  ),
   "Project 14 should include the ReportU /demo thumbnail in the thumbnail loop",
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-reportu-d2-demo.webp"'),
+  /data-extra-thumbs=(?:"images\/demo-thumb-reportu-d2-demo\.webp"|images\/demo-thumb-reportu-d2-demo\.webp)/.test(
+    html,
+  ),
   "Project 15 should include the ReportU D2 /demo thumbnail in the thumbnail loop",
 );
 assert.ok(
-  html.includes('data-extra-thumbs="images/demo-thumb-sim-work-d27-demo.webp"'),
+  /data-extra-thumbs=(?:"images\/demo-thumb-sim-work-d27-demo\.webp"|images\/demo-thumb-sim-work-d27-demo\.webp)/.test(
+    html,
+  ),
   "Project 12 should include the Sim Work D27 /demo thumbnail in the thumbnail loop",
 );
 assert.ok(
-  html.includes(
-    'data-extra-thumbs="images/demo-thumb-sim-work-d34-demo.webp,images/demo-thumb-sim-work-d34-project-manager.webp"',
+  /data-extra-thumbs=(?:"images\/demo-thumb-sim-work-d34-demo\.webp,images\/demo-thumb-sim-work-d34-project-manager\.webp"|images\/demo-thumb-sim-work-d34-demo\.webp,images\/demo-thumb-sim-work-d34-project-manager\.webp)/.test(
+    html,
   ),
   "Project 13 should include both Sim Work D34 /demo thumbnails in the thumbnail loop",
 );
@@ -776,6 +786,11 @@ for (const professionalName of [
   );
 }
 for (const [projectNumber, demoThumb] of [
+  [10, "images/demo-thumb-bestzdeal-feature-demo.webp"],
+  [12, "images/demo-thumb-sim-work-d27-demo.webp"],
+  [13, "images/demo-thumb-sim-work-d34-demo.webp"],
+  [14, "images/demo-thumb-reportu-d1-demo.webp"],
+  [15, "images/demo-thumb-reportu-d2-demo.webp"],
   [16, "images/demo-thumb-namecardai-d1-demo.webp"],
   [17, "images/demo-thumb-namecardai-d2-demo.webp"],
   [18, "images/demo-thumb-bestzdealai-d1-demo.webp"],
@@ -785,8 +800,11 @@ for (const [projectNumber, demoThumb] of [
   [22, "images/demo-thumb-messageyou-d2-demo.webp"],
   [23, "images/demo-thumb-warrantyai-d2-demo.webp"],
 ]) {
+  const escapedThumb = demoThumb.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   assert.ok(
-    html.includes(`data-extra-thumbs="${demoThumb}"`),
+    new RegExp(`data-extra-thumbs=(?:"${escapedThumb}"|${escapedThumb})`).test(
+      html,
+    ),
     `Project ${projectNumber} should include its /demo thumbnail in the thumbnail loop`,
   );
 }
@@ -958,7 +976,7 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.css?v=2.2.17") &&
+  html.includes("css/style.min.css?v=2.2.19") &&
     html.includes("css/responsive.min.css?v=2.2.17"),
   "Production stylesheets should use the active release cache keys",
 );
@@ -1018,7 +1036,7 @@ assert.ok(
   "Contact card should not anchor to Bootstrap's 1px column height",
 );
 assert.ok(
-  html.includes('class="contact-footer-lower"') &&
+  /class=(?:"contact-footer-lower"|contact-footer-lower)/.test(html) &&
     css.includes(".contact-footer-lower") &&
     css.includes("position: absolute") &&
     css.includes(".contact-info-dock") &&
@@ -1027,7 +1045,7 @@ assert.ok(
   "Contact footer should anchor the live maintenance offer to the image bottom-right instead of letting it drift left",
 );
 assert.ok(
-  html.includes('class="contact-copyright-dock"') &&
+  /class=(?:"contact-copyright-dock"|contact-copyright-dock)/.test(html) &&
     html.includes("&copy; Copyrights Hunter Ho. All rights reserved."),
   "Copyright should move into the contact section as an animated dock",
 );
@@ -1050,7 +1068,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.js?v=2.2.17"),
+  html.includes("js/main.min.js?v=2.2.19"),
   "Production script should use the active release cache key",
 );
 assert.ok(
@@ -1094,7 +1112,7 @@ assert.ok(
   "Floating helper should continue showing at the footer instead of being suppressed over the contact section",
 );
 const releaseBadgeTag = html.match(
-  /<a[^>]*class="release-badge"[^>]*href="https:\/\/github\.com\/HunterHo07"[^>]*>[\s\S]*?<\/a>/,
+  /<a[^>]*class=(?:"release-badge"|release-badge)[^>]*href=(?:"https:\/\/github\.com\/HunterHo07"|https:\/\/github\.com\/HunterHo07)[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
   releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.17"),
@@ -1192,13 +1210,10 @@ assert.ok(
     html.indexOf('href="#services"') < html.indexOf('href="#contact"'),
   "Static navbar should follow the merged About, Services, Contact order without Pricing",
 );
-const aboutSectionEnd = html.indexOf(
-  "<!-- end section about services stack -->",
-  aboutIndex,
-);
+const aboutSectionEnd = contactIndex;
 assert.ok(
   aboutSectionEnd > aboutIndex,
-  "About/Services stack should keep an explicit end marker for scoped checks",
+  "About/Services stack should end before Contact for scoped checks",
 );
 const aboutServicesStack = html.slice(aboutIndex, aboutSectionEnd);
 assert.ok(
@@ -2506,14 +2521,8 @@ const hunterIndex = html.indexOf('id="hunter"');
 const mobileDemoIndex = html.indexOf('id="mobile-app-demos"');
 const demoProjectsIndex = html.indexOf('data-text="Demo Projects"');
 const gamesDemoIndex = html.indexOf('data-text="Games Demo"');
-const speakerEnd = html.indexOf(
-  "<!-- end section speaker teaching -->",
-  speakerIndex,
-);
-const hackathonWinsEnd = html.indexOf(
-  "<!-- end section hackathon wins -->",
-  hackathonWinsIndex,
-);
+const speakerEnd = hackathonWinsIndex;
+const hackathonWinsEnd = aboutIndex;
 assert.ok(
   mobileDemoIndex !== -1 && demoProjectsIndex !== -1 && gamesDemoIndex !== -1,
   "Native Mobile App Projects, Demo Projects, and Games Demo sections should exist",
@@ -2543,13 +2552,10 @@ for (const requestedDemoUrl of requestedDemoUrls) {
     `Missing requested demo card URL: ${requestedDemoUrl}`,
   );
 }
-const mobileSectionEnd = html.indexOf(
-  "<!-- end mobile app demo -->",
-  mobileDemoIndex,
-);
+const mobileSectionEnd = html.indexOf('id="project-detail-modal"', mobileDemoIndex);
 assert.ok(
   mobileSectionEnd > mobileDemoIndex,
-  "Native Mobile App Projects section should keep an explicit end marker for scoped checks",
+  "Native Mobile App Projects section should end before the project detail modal for scoped checks",
 );
 const mobileSection = html.slice(mobileDemoIndex, mobileSectionEnd);
 assert.ok(
@@ -2919,27 +2925,33 @@ assert.ok(
 );
 assert.ok(
   css.includes(".hackathon-carousel-stage") &&
-    css.includes("perspective:") &&
-    css.includes("transform-style: preserve-3d"),
-  "Hackathon carousel should use a real 3D stage",
+    css.includes("min-height: var(--carousel-stage-height)") &&
+    css.includes("height: var(--carousel-stage-height)") &&
+    css.includes("overflow: hidden") &&
+    css.includes("touch-action: pan-y"),
+  "Hackathon carousel should use a tall bounded stage with overflow clipping and touch-safe vertical scrolling",
 );
 assert.ok(
-  css.includes(".hackathon-carousel-card") &&
+  css.includes("--carousel-card-width: 70%") &&
+    css.includes(".hackathon-carousel-card") &&
+    css.includes("left: 50%") &&
+    css.includes("top: 50%") &&
     css.includes("backdrop-filter: blur") &&
-    css.includes("rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))") &&
-    css.includes("translateZ(var(--carousel-radius))") &&
-    css.includes("calc(var(--carousel-radius) * -1)") &&
-    css.includes("rotateY(var(--carousel-rotation))"),
-  "Timeline cards should use the active 3D circular-stage carousel pattern",
+    css.includes(".hackathon-carousel-card.is-strip-focus") &&
+    css.includes(".hackathon-carousel-card.is-strip-side") &&
+    css.includes(".hackathon-carousel-card.is-strip-hidden"),
+  "Timeline cards should use the stable centered strip layout with 70 percent focus width and explicit focus/side/hidden states",
 );
 assert.ok(
-  css.includes(".hackathon-carousel-card.is-ring-side-left") &&
-    css.includes("clip-path: inset(0 70% 0 0 round 24px)") &&
-    css.includes(".hackathon-carousel-card.is-ring-side-right") &&
-    css.includes("clip-path: inset(0 0 0 70% round 24px)") &&
-    js.includes("is-ring-side-left") &&
-    js.includes("is-ring-side-right"),
-  "Mobile carousel side cards should be clipped to their outer edges so they do not cover the focused middle card",
+  js.includes("is-strip-side-left") &&
+    js.includes("is-strip-side-right") &&
+    js.includes("sideShift = stageWidth * 0.5 + cardWidth * 0.5 - sidePeekWidth + visibleGap") &&
+    js.includes("hiddenShift = stageWidth * 0.5 + cardWidth * 0.5 + stageWidth * 0.08") &&
+    js.includes("translateX = -sideShift + effectiveDrag * 0.35") &&
+    js.includes("translateX = sideShift + effectiveDrag * 0.35") &&
+    js.includes("getShortestOffset") &&
+    js.includes("window.innerWidth < 768 ? 0.94 : 0.92"),
+  "Timeline carousel should place the left and right side cards as clipped edge previews without overlap and stay stable for even or odd image counts",
 );
 assert.ok(
   js.includes("setupHackathonGlassCarousel") &&
@@ -2948,21 +2960,22 @@ assert.ok(
   "Hackathon carousel should be controlled by JavaScript",
 );
 assert.ok(
-  js.includes("requestAnimationFrame") &&
-    js.includes("carouselRotation") &&
-    js.includes("activePosition = nextIndex") &&
-    js.includes("activeIndex = ((nextIndex % cards.length) + cards.length) % cards.length") &&
-    js.includes("carouselRadius") &&
-    js.includes("Math.tan(Math.PI / cards.length)") &&
-    js.includes("carouselRotation += pointerDeltaX * 0.18") &&
-    js.includes("scheduleCarouselAutoplay") &&
+  js.includes("setActiveIndex") &&
+    js.includes("getShortestOffset") &&
+    js.includes("warmVisibleWindow") &&
+    js.includes("queueBackgroundPreload") &&
     js.includes("holdCarouselAutoplay") &&
+    js.includes("scheduleCarouselAutoplay") &&
     js.includes("window.innerWidth < 768") &&
     js.includes("carousel.parentElement || carousel") &&
-    js.includes("data-carousel-mobile-controls-bound") &&
-    js.includes("pointerdown") &&
-    js.includes("dragThreshold"),
-  "Timeline gallery should use drag support, dynamic radius math, mobile-safe controls, and stable scoped carousel motion",
+    js.includes("pointerup") &&
+    js.includes("dragThreshold") &&
+    js.includes("getThumbSrc") &&
+    js.includes("ensureImageThumb") &&
+    js.includes("image.loading = absOffset <= eagerRadius ? \"eager\" : \"lazy\"") &&
+    js.includes("queuedBackgroundCenter === activeIndex") &&
+    js.includes("backgroundPreloadHorizon"),
+  "Timeline gallery should use stable offset-based motion, drag support, scoped controls, and section-specific thumb-first preload plus bounded warm-cache behavior",
 );
 
 for (const oldHeroOverlay of [

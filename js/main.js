@@ -2479,9 +2479,18 @@
     });
 
     var ticking = false;
+    var activeSections = new Set();
+
+    function hasActiveSectionDepth() {
+      return !document.hidden && activeSections.size > 0;
+    }
 
     function updateSectionDepth() {
       ticking = false;
+
+      if (!hasActiveSectionDepth()) {
+        return;
+      }
       var viewportHeight = window.innerHeight || 1;
 
       sections.forEach(function (section) {
@@ -2509,7 +2518,33 @@
 
     window.addEventListener("scroll", requestSectionDepth, { passive: true });
     window.addEventListener("resize", requestSectionDepth);
-    updateSectionDepth();
+
+    if ("IntersectionObserver" in window) {
+      var sectionObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              activeSections.add(entry.target);
+            } else {
+              activeSections.delete(entry.target);
+            }
+          });
+          requestSectionDepth();
+        },
+        { rootMargin: "18% 0px 18% 0px", threshold: 0.01 },
+      );
+
+      sections.forEach(function (section) {
+        sectionObserver.observe(section);
+      });
+    } else {
+      sections.forEach(function (section) {
+        activeSections.add(section);
+      });
+    }
+
+    document.addEventListener("visibilitychange", requestSectionDepth);
+    requestSectionDepth();
   }
 
   function setupContactCopyrightDock() {
@@ -2573,9 +2608,14 @@
     }
 
     var ticking = false;
+    var aboutParallaxActive = false;
 
     function updateAboutServicesParallax() {
       ticking = false;
+
+      if (document.hidden || !aboutParallaxActive) {
+        return;
+      }
 
       var rect = stack.getBoundingClientRect();
       var viewportHeight = window.innerHeight || 1;
@@ -2607,7 +2647,27 @@
       passive: true,
     });
     window.addEventListener("resize", requestAboutServicesParallax);
-    updateAboutServicesParallax();
+
+    if ("IntersectionObserver" in window) {
+      var aboutParallaxObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.target === stack) {
+              aboutParallaxActive = entry.isIntersecting;
+            }
+          });
+          requestAboutServicesParallax();
+        },
+        { rootMargin: "20% 0px 20% 0px", threshold: 0.01 },
+      );
+
+      aboutParallaxObserver.observe(stack);
+    } else {
+      aboutParallaxActive = true;
+    }
+
+    document.addEventListener("visibilitychange", requestAboutServicesParallax);
+    requestAboutServicesParallax();
   }
 
   function setupAboutPortraitTalk() {
@@ -3114,9 +3174,14 @@
     }
 
     var ticking = false;
+    var hunterFocusActive = false;
 
     function updateHunterFocus() {
       ticking = false;
+
+      if (document.hidden || !hunterFocusActive) {
+        return;
+      }
 
       var viewportHeight = window.innerHeight || 1;
       var viewportCenter = viewportHeight * 0.48;
@@ -3157,13 +3222,39 @@
 
     window.addEventListener("scroll", requestHunterFocus, { passive: true });
     window.addEventListener("resize", requestHunterFocus);
-    updateHunterFocus();
+
+    if ("IntersectionObserver" in window) {
+      var hunterZoneObserver = new IntersectionObserver(
+        function (entries) {
+          hunterFocusActive = entries.some(function (entry) {
+            return entry.isIntersecting;
+          });
+          requestHunterFocus();
+        },
+        { rootMargin: "20% 0px 20% 0px", threshold: 0.01 },
+      );
+
+      hunterZones.forEach(function (zone) {
+        hunterZoneObserver.observe(zone);
+      });
+    } else {
+      hunterFocusActive = true;
+    }
+
+    document.addEventListener("visibilitychange", requestHunterFocus);
+    requestHunterFocus();
   }
 
   function setupDeferredImages() {
-    var images = Array.prototype.slice.call(
-      document.querySelectorAll("img[data-src]"),
-    );
+    var images = Array.prototype.slice
+      .call(document.querySelectorAll("img[data-src]"))
+      .filter(function (image) {
+        return (
+          !image.closest("[data-hackathon-carousel]") &&
+          !image.classList.contains("hero-hunter-portrait") &&
+          !image.classList.contains("models-hunter-bg-ghost")
+        );
+      });
     var prewarmDelay = 14000;
     var prewarmGap = 650;
 
@@ -3259,7 +3350,7 @@
           loadImage(entry.target);
         });
       },
-      { rootMargin: "360px 0px", threshold: 0.01 },
+      { rootMargin: "120px 0px", threshold: 0.01 },
     );
 
     images.forEach(function (image) {
@@ -4212,6 +4303,7 @@
   function setupHeroHunterPopup() {
     var popup = document.getElementById("hero-hunter-popup");
     var hero = document.getElementById("header");
+    var portrait = popup ? popup.querySelector(".hero-hunter-portrait") : null;
     var message = popup
       ? popup.querySelector("[data-hero-hunter-message]")
       : null;
@@ -4324,6 +4416,14 @@
         return;
       }
 
+      if (portrait && portrait.dataset.loaded !== "true") {
+        var portraitSrc = portrait.getAttribute("data-src");
+        if (portraitSrc) {
+          portrait.src = portraitSrc;
+          portrait.dataset.loaded = "true";
+        }
+      }
+
       isVisible = true;
       window.clearTimeout(leaveTimer);
       popup.classList.remove("is-leaving");
@@ -4423,6 +4523,9 @@
     ];
     var matrixColumns = [];
     var matrixFrame = 0;
+    var matrixActive = false;
+    var matrixFrameTimer = null;
+    var matrixAnimationFrame = null;
     var nextTimer = null;
     var fallbackTimer = null;
 
@@ -4434,6 +4537,14 @@
       isReducedMotion()
     ) {
       return;
+    }
+
+    function ensureGhostLoaded() {
+      var ghostSrc = ghost && ghost.getAttribute("data-src");
+      if (ghost && ghost.dataset.loaded !== "true" && ghostSrc) {
+        ghost.src = ghostSrc;
+        ghost.dataset.loaded = "true";
+      }
     }
 
     function pickRandom(items) {
@@ -4485,6 +4596,7 @@
       var effect = pickRandom(modelsHunterEffects);
       var duration = randomBetween(7600, 11800);
 
+      ensureGhostLoaded();
       clearEffectClasses();
       ghost.classList.add("effect-" + effect);
       stage.classList.add("stage-effect-" + effect);
@@ -4586,7 +4698,7 @@
         : 0;
       var glyphs = "01AI3D";
 
-      if (!context || !width || !height) {
+      if (!matrixActive || document.hidden || !context || !width || !height) {
         return;
       }
 
@@ -4614,9 +4726,37 @@
         }
       });
 
-      window.setTimeout(function () {
-        window.requestAnimationFrame(drawMatrix);
+      matrixFrameTimer = window.setTimeout(function () {
+        matrixAnimationFrame = window.requestAnimationFrame(drawMatrix);
       }, 68);
+    }
+
+    function stopMatrix() {
+      window.clearTimeout(matrixFrameTimer);
+      matrixFrameTimer = null;
+      if (matrixAnimationFrame) {
+        window.cancelAnimationFrame(matrixAnimationFrame);
+        matrixAnimationFrame = null;
+      }
+    }
+
+    function setMatrixActive(nextActive) {
+      if (!canvas || !context || isReducedMotion()) {
+        return;
+      }
+
+      if (matrixActive === nextActive) {
+        return;
+      }
+
+      matrixActive = nextActive;
+
+      if (matrixActive) {
+        stopMatrix();
+        matrixAnimationFrame = window.requestAnimationFrame(drawMatrix);
+      } else {
+        stopMatrix();
+      }
     }
 
     resizeMatrix();
@@ -4628,8 +4768,37 @@
     });
     window.setTimeout(runHunterPass, 650);
 
-    if (canvas && context) {
-      drawMatrix();
+    if (canvas && context && !isReducedMotion()) {
+      if ("IntersectionObserver" in window) {
+        var matrixObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.target === stage) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.08) {
+                  ensureGhostLoaded();
+                }
+                setMatrixActive(
+                  entry.isIntersecting && entry.intersectionRatio > 0.08,
+                );
+              }
+            });
+          },
+          { rootMargin: "18% 0px 18% 0px", threshold: [0, 0.08, 0.2] },
+        );
+
+        matrixObserver.observe(stage);
+      } else {
+        ensureGhostLoaded();
+        setMatrixActive(true);
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          stopMatrix();
+        } else if (matrixActive) {
+          setMatrixActive(true);
+        }
+      });
     }
   }
 
@@ -4791,8 +4960,27 @@
     var track;
     var stage;
     var cards;
+    var images;
     var prevButton;
     var nextButton;
+    var activeIndex = 0;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var dragOffsetX = 0;
+    var activePointerId = null;
+    var isDragging = false;
+    var controlsLocked = false;
+    var dragThreshold = 42;
+    var eagerRadius = 1;
+    var thumbRadius = 2;
+    var backgroundPreloadHorizon = 6;
+    var carouselAutoplayDelay = 3600;
+    var carouselInteractionHold = 7000;
+    var carouselAutoplayTimer = null;
+    var isCarouselHovered = false;
+    var interactionHoldUntil = 0;
+    var queuedBackgroundCenter = null;
+
     if (!carousel) {
       return;
     }
@@ -4801,35 +4989,13 @@
     track = carousel.querySelector("[data-carousel-track]");
     stage = carousel.querySelector(".hackathon-carousel-stage");
     cards = Array.prototype.slice.call(
-      carousel.querySelectorAll(
-        "[data-carousel-card]:not([data-carousel-clone])",
-      ),
+      carousel.querySelectorAll("[data-carousel-card]:not([data-carousel-clone])"),
     );
+    images = cards.map(function (card) {
+      return card.querySelector(".hackathon-carousel-image");
+    });
     prevButton = carouselScope.querySelector("[data-carousel-prev]");
     nextButton = carouselScope.querySelector("[data-carousel-next]");
-    var activeIndex = 0;
-    var activePosition = 0;
-    var carouselRotation = 0;
-    var ringStep = 0;
-    var carouselRadius = 1480;
-    var slideWidth = 0;
-    var dragStartX = 0;
-    var dragStartY = 0;
-    var lastPointerX = 0;
-    var dragDeltaX = 0;
-    var activePointerId = null;
-    var isDragging = false;
-    var controlsLocked = false;
-    var dragThreshold = 38;
-    var carouselAutoplayDelay = 3200;
-    var carouselInteractionHold = 7000;
-    var carouselAutoplayTimer = null;
-    var isCarouselHovered = false;
-    var interactionHoldUntil = 0;
-
-    if (!cards.length) {
-      return;
-    }
 
     if (!track || !stage || cards.length < 2) {
       return;
@@ -4838,6 +5004,75 @@
     cards.forEach(function (card) {
       card.removeAttribute("data-motion-card");
     });
+
+    if (cards.length >= 36) {
+      eagerRadius = 1;
+      thumbRadius = 2;
+      backgroundPreloadHorizon = 4;
+    } else if (cards.length >= 18) {
+      eagerRadius = 1;
+      thumbRadius = 3;
+      backgroundPreloadHorizon = 6;
+    } else {
+      eagerRadius = 2;
+      thumbRadius = 4;
+      backgroundPreloadHorizon = 8;
+    }
+
+    function getThumbSrc(image) {
+      var thumbSrc = image && image.getAttribute("data-thumb");
+      var dataSrc = image && image.getAttribute("data-src");
+
+      if (thumbSrc) {
+        return thumbSrc;
+      }
+
+      if (!dataSrc || dataSrc.indexOf("images/hackathon/") === -1) {
+        return null;
+      }
+
+      thumbSrc = dataSrc.replace("images/hackathon/", "images/hackathon/thumbs/");
+      image.setAttribute("data-thumb", thumbSrc);
+      return thumbSrc;
+    }
+
+    function ensureImageThumb(image) {
+      var thumbSrc;
+
+      if (!image || image.dataset.thumbReady === "true") {
+        return;
+      }
+
+      thumbSrc = getThumbSrc(image);
+
+      if (!thumbSrc) {
+        return;
+      }
+
+      image.dataset.thumbReady = "true";
+      image.classList.add("is-thumb-loading");
+      image.classList.remove("is-fullres-loaded");
+      image.src = thumbSrc;
+    }
+
+    function normalizeIndex(index) {
+      return ((index % cards.length) + cards.length) % cards.length;
+    }
+
+    function getShortestOffset(cardIndex, originIndex) {
+      var diff = cardIndex - originIndex;
+      var half = cards.length / 2;
+
+      if (diff > half) {
+        diff -= cards.length;
+      } else if (diff < -half) {
+        diff += cards.length;
+      } else if (cards.length % 2 === 0 && diff === half) {
+        diff -= cards.length;
+      }
+
+      return diff;
+    }
 
     function setControlsDisabled(isDisabled) {
       controlsLocked = isDisabled;
@@ -4851,100 +5086,214 @@
       });
     }
 
-    function applyCarouselLayout() {
-      track.style.setProperty(
-        "--carousel-rotation",
-        carouselRotation.toFixed(2) + "deg",
+    function ensureImageLoaded(image) {
+      var dataSrc;
+      var loader;
+
+      if (!image) {
+        return;
+      }
+
+      dataSrc = image.getAttribute("data-src");
+
+      if (!dataSrc || image.dataset.loaded === "true" || image.dataset.loaded === "pending") {
+        return;
+      }
+
+      ensureImageThumb(image);
+      image.dataset.loaded = "pending";
+      loader = new Image();
+      loader.decoding = "async";
+      loader.loading = "eager";
+      loader.src = dataSrc;
+
+      function finalizeLoad() {
+        image.src = dataSrc;
+        image.dataset.loaded = "true";
+        image.classList.remove("is-thumb-loading");
+        image.classList.add("is-fullres-loaded");
+
+        if (typeof image.decode === "function") {
+          image.decode().catch(function () {
+            return null;
+          });
+        }
+      }
+
+      if (loader.complete) {
+        finalizeLoad();
+        return;
+      }
+
+      loader.addEventListener("load", finalizeLoad, { once: true });
+      loader.addEventListener(
+        "error",
+        function () {
+          image.dataset.loaded = "true";
+          image.src = dataSrc;
+          image.classList.remove("is-thumb-loading");
+          image.classList.add("is-fullres-loaded");
+        },
+        { once: true },
       );
+    }
+
+    function warmVisibleWindow(centerIndex) {
+      var delta;
+
+      for (delta = -thumbRadius; delta <= thumbRadius; delta += 1) {
+        ensureImageThumb(images[normalizeIndex(centerIndex + delta)]);
+      }
+
+      for (delta = -eagerRadius; delta <= eagerRadius; delta += 1) {
+        ensureImageLoaded(images[normalizeIndex(centerIndex + delta)]);
+      }
+    }
+
+    function queueBackgroundPreload() {
+      var preloadOrder = [];
+      var seen = {};
+      var step;
+
+      if (queuedBackgroundCenter === activeIndex) {
+        return;
+      }
+
+      queuedBackgroundCenter = activeIndex;
+
+      for (step = thumbRadius + 1; step <= backgroundPreloadHorizon; step += 1) {
+        [normalizeIndex(activeIndex + step), normalizeIndex(activeIndex - step)].forEach(
+          function (index) {
+            if (seen[index]) {
+              return;
+            }
+
+            seen[index] = true;
+            preloadOrder.push(index);
+          },
+        );
+      }
+
+      function pump() {
+        var batch = 0;
+
+        while (preloadOrder.length && batch < 2) {
+          ensureImageThumb(images[preloadOrder.shift()]);
+          batch += 1;
+        }
+
+        if (!preloadOrder.length) {
+          return;
+        }
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(pump, { timeout: 800 });
+        } else {
+          window.setTimeout(pump, 90);
+        }
+      }
+
+      window.setTimeout(function () {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(pump, { timeout: 800 });
+        } else {
+          pump();
+        }
+      }, 260);
+    }
+
+    function applyImageLoadPolicy() {
+      cards.forEach(function (card, cardIndex) {
+        var offset = getShortestOffset(cardIndex, activeIndex);
+        var absOffset = Math.abs(offset);
+        var image = images[cardIndex];
+
+        if (!image) {
+          return;
+        }
+
+        image.loading = absOffset <= eagerRadius ? "eager" : "lazy";
+
+        if (absOffset === 0) {
+          image.setAttribute("fetchpriority", "high");
+        } else {
+          image.removeAttribute("fetchpriority");
+        }
+
+        if (absOffset <= thumbRadius) {
+          ensureImageThumb(image);
+        }
+
+        if (absOffset <= eagerRadius) {
+          ensureImageLoaded(image);
+        }
+      });
+    }
+
+    function applyCarouselLayout() {
+      var stageWidth = stage.clientWidth || 1;
 
       cards.forEach(function (card, cardIndex) {
-        var isMobileViewport = window.innerWidth < 768;
-        var cardAngle = cardIndex * ringStep;
-        var displayAngle = (cardAngle + carouselRotation) % 360;
-        var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
-        var absAngle = Math.abs(normalizedAngle);
-        var isFocus = absAngle < ringStep * 0.55;
-        var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
-        var isSideLeft = isSide && normalizedAngle < 0;
-        var isSideRight = isSide && normalizedAngle > 0;
-        var cardLift = isMobileViewport
-          ? isFocus
-            ? 36
-            : isSide
-              ? 10
-              : -78
-          : isFocus
-            ? 72
-            : isSide
-              ? 16
-              : -94;
-        var cardScale = isFocus ? (isMobileViewport ? 1.16 : 1.4) : 1;
+        var offset = getShortestOffset(cardIndex, activeIndex);
+        var absOffset = Math.abs(offset);
+        var isFocus = offset === 0;
+        var isSideLeft = offset === -1;
+        var isSideRight = offset === 1;
+        var isSide = absOffset === 1;
+        var isVisible = absOffset <= 1;
+        var cardWidth = card.offsetWidth || stageWidth * 0.7;
+        var sidePeekWidth = stageWidth * 0.15;
+        var visibleGap = Math.max(stageWidth * 0.015, 8);
+        var sideShift = stageWidth * 0.5 + cardWidth * 0.5 - sidePeekWidth + visibleGap;
+        var hiddenShift = stageWidth * 0.5 + cardWidth * 0.5 + stageWidth * 0.08;
+        var scale = isFocus ? 1 : isSide ? (window.innerWidth < 768 ? 0.94 : 0.92) : 0.84;
+        var opacity = isFocus ? 1 : isSide ? 0.74 : 0;
+        var pointerEvents = isFocus ? "auto" : "none";
+        var effectiveDrag = isVisible ? dragOffsetX : 0;
+        var translateX = 0;
 
-        card.style.setProperty("--card-lift", cardLift + "px");
-        card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");
-        card.style.setProperty("--card-scale", String(cardScale));
+        if (isFocus) {
+          translateX = effectiveDrag;
+        } else if (isSideLeft) {
+          translateX = -sideShift + effectiveDrag * 0.35;
+        } else if (isSideRight) {
+          translateX = sideShift + effectiveDrag * 0.35;
+        } else {
+          translateX = (offset < 0 ? -hiddenShift : hiddenShift) + effectiveDrag * 0.1;
+        }
+
+        card.style.transform =
+          "translate3d(calc(-50% + " +
+          String(Math.round(translateX)) +
+          "px), -50%, 0) scale(" +
+          String(scale) +
+          ")";
+        card.style.opacity = String(opacity);
+        card.style.zIndex = isFocus ? "4" : isSide ? "3" : "1";
+        card.style.pointerEvents = pointerEvents;
         card.hidden = false;
-        card.setAttribute("aria-hidden", "false");
-        card.style.zIndex = "";
+        card.setAttribute("aria-hidden", String(!isFocus));
+        card.setAttribute("data-carousel-seq", String(cardIndex));
+        card.setAttribute("data-carousel-offset", String(offset));
+        card.classList.toggle("is-strip-focus", isFocus);
+        card.classList.toggle("is-strip-side", isSide);
+        card.classList.toggle("is-strip-side-left", isSideLeft);
+        card.classList.toggle("is-strip-side-right", isSideRight);
+        card.classList.toggle("is-strip-hidden", !isVisible);
         card.classList.toggle("is-ring-focus", isFocus);
         card.classList.toggle("is-ring-side", isSide);
         card.classList.toggle("is-ring-side-left", isSideLeft);
         card.classList.toggle("is-ring-side-right", isSideRight);
-        card.classList.toggle("is-ring-back", !isFocus && !isSide);
+        card.classList.toggle("is-ring-back", !isVisible);
       });
+
+      warmVisibleWindow(activeIndex);
+      applyImageLoadPolicy();
     }
 
     function setActiveIndex(nextIndex) {
-      activePosition = nextIndex;
-      activeIndex = ((nextIndex % cards.length) + cards.length) % cards.length;
-      carouselRotation = -(activePosition * ringStep);
-      applyCarouselLayout();
-    }
-
-    function layoutRing() {
-      slideWidth = cards[0].getBoundingClientRect().width || 520;
-      ringStep = 360 / cards.length;
-      carouselRotation = -(activePosition * ringStep);
-
-      var halfStepRadians = Math.PI / cards.length;
-      var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
-      var spacingFactor =
-        window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18;
-      var baseRadius = Math.round(
-        (slideWidth / 2 / Math.tan(Math.PI / cards.length)) * 1.32,
-      );
-      var spacingRadius = Math.round(
-        (slideWidth * spacingFactor) / minimumTrig,
-      );
-
-      carouselRadius = Math.max(
-        baseRadius,
-        spacingRadius,
-        Math.round(slideWidth * 4.2),
-      );
-      carouselRadius = Math.min(
-        carouselRadius,
-        window.innerWidth < 768 ? 5600 : 9800,
-      );
-
-      var resolvedRadius = String(carouselRadius) + "px";
-
-      carousel.style.setProperty("--carousel-radius", resolvedRadius);
-      stage.style.setProperty("--carousel-radius", resolvedRadius);
-      track.style.setProperty("--carousel-radius", resolvedRadius);
-      stage.style.setProperty(
-        "perspective",
-        String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
-      );
-
-      cards.forEach(function (card, cardIndex) {
-        card.style.setProperty("--carousel-radius", resolvedRadius);
-        card.style.setProperty("--card-lift", "0px");
-        card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
-        card.setAttribute("data-carousel-seq", String(cardIndex));
-        card.setAttribute("aria-hidden", "false");
-      });
-
+      activeIndex = normalizeIndex(nextIndex);
+      dragOffsetX = 0;
       applyCarouselLayout();
     }
 
@@ -4952,7 +5301,7 @@
       setControlsDisabled(true);
       window.setTimeout(function () {
         setControlsDisabled(false);
-      }, 220);
+      }, 180);
     }
 
     function stepTrack(direction) {
@@ -4960,11 +5309,19 @@
         return;
       }
 
-      setActiveIndex(activePosition - direction);
+      setActiveIndex(activeIndex - direction);
       holdCarouselAutoplay();
+      queueBackgroundPreload();
       lockControlsBriefly();
-      window.requestAnimationFrame(refreshLayout);
-      window.setTimeout(refreshLayout, 420);
+    }
+
+    function activateControl(direction, event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      stepTrack(direction);
     }
 
     function bindControl(button, direction) {
@@ -4974,32 +5331,17 @@
         return;
       }
 
-      function activateControl(event) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        stepTrack(direction);
-      }
-
       button.addEventListener("pointerdown", function (event) {
+        if (event.pointerType && event.pointerType !== "mouse") {
+          lastTouchActivationAt = Date.now();
+        }
         event.stopPropagation();
       });
-
-      button.addEventListener(
-        "touchstart",
-        function (event) {
-          lastTouchActivationAt = Date.now();
-          activateControl(event);
-        },
-        { passive: false },
-      );
 
       button.addEventListener("pointerup", function (event) {
         if (event.pointerType && event.pointerType !== "mouse") {
           lastTouchActivationAt = Date.now();
-          activateControl(event);
+          activateControl(direction, event);
         }
       });
 
@@ -5010,12 +5352,8 @@
           return;
         }
 
-        activateControl(event);
+        activateControl(direction, event);
       });
-    }
-
-    function snapToNearestCard() {
-      setActiveIndex(Math.round(-carouselRotation / ringStep));
     }
 
     function clearCarouselAutoplay() {
@@ -5048,6 +5386,7 @@
       carouselAutoplayTimer = window.setTimeout(function () {
         if (!shouldPauseCarouselAutoplay()) {
           setActiveIndex(activeIndex + 1);
+          queueBackgroundPreload();
         }
 
         scheduleCarouselAutoplay();
@@ -5060,17 +5399,42 @@
     }
 
     function refreshLayout() {
-      layoutRing();
+      dragOffsetX = 0;
+      applyCarouselLayout();
     }
 
-    refreshLayout();
+    function finishDrag(event) {
+      var dragDeltaY;
+
+      if (!isDragging || activePointerId !== event.pointerId) {
+        return;
+      }
+
+      dragDeltaY = event.clientY - dragStartY;
+      isDragging = false;
+      activePointerId = null;
+      carousel.classList.remove("is-dragging");
+      holdCarouselAutoplay();
+
+      if (
+        Math.abs(dragOffsetX) > dragThreshold &&
+        Math.abs(dragOffsetX) > Math.abs(dragDeltaY)
+      ) {
+        setActiveIndex(activeIndex + (dragOffsetX < 0 ? 1 : -1));
+        queueBackgroundPreload();
+      } else {
+        dragOffsetX = 0;
+        applyCarouselLayout();
+      }
+    }
+
+    setActiveIndex(0);
 
     if (carousel.hasAttribute("data-carousel-bound")) {
       return;
     }
 
     carousel.setAttribute("data-carousel-bound", "true");
-
     bindControl(prevButton, 1);
     bindControl(nextButton, -1);
 
@@ -5095,7 +5459,6 @@
     });
 
     carousel.addEventListener("click", holdCarouselAutoplay);
-
     document.addEventListener("visibilitychange", scheduleCarouselAutoplay);
 
     stage.addEventListener("pointerdown", function (event) {
@@ -5111,45 +5474,26 @@
       activePointerId = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;
-      lastPointerX = event.clientX;
-      dragDeltaX = 0;
+      dragOffsetX = 0;
       carousel.classList.add("is-dragging");
       clearCarouselAutoplay();
     });
 
     window.addEventListener("pointermove", function (event) {
+      var maxDrag;
+
       if (!isDragging || activePointerId !== event.pointerId) {
         return;
       }
 
       event.preventDefault();
-      var pointerDeltaX = event.clientX - lastPointerX;
-      dragDeltaX = event.clientX - dragStartX;
-      lastPointerX = event.clientX;
-      carouselRotation += pointerDeltaX * 0.18;
+      maxDrag = Math.max(stage.clientWidth * 0.22, 72);
+      dragOffsetX = Math.max(
+        -maxDrag,
+        Math.min(maxDrag, event.clientX - dragStartX),
+      );
       applyCarouselLayout();
     });
-
-    function finishDrag(event) {
-      if (!isDragging || activePointerId !== event.pointerId) {
-        return;
-      }
-
-      var dragDeltaY = event.clientY - dragStartY;
-      isDragging = false;
-      activePointerId = null;
-      carousel.classList.remove("is-dragging");
-      holdCarouselAutoplay();
-
-      if (
-        Math.abs(dragDeltaX) > dragThreshold &&
-        Math.abs(dragDeltaX) > Math.abs(dragDeltaY)
-      ) {
-        snapToNearestCard();
-      } else {
-        snapToNearestCard();
-      }
-    }
 
     window.addEventListener("pointerup", finishDrag);
 
@@ -5160,12 +5504,35 @@
 
       isDragging = false;
       activePointerId = null;
+      dragOffsetX = 0;
       carousel.classList.remove("is-dragging");
       holdCarouselAutoplay();
-      snapToNearestCard();
+      applyCarouselLayout();
     });
 
     window.addEventListener("resize", refreshLayout);
+
+    if ("IntersectionObserver" in window) {
+      var preloadObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.18) {
+              return;
+            }
+
+            warmVisibleWindow(activeIndex);
+            queueBackgroundPreload();
+          });
+        },
+        { threshold: [0.18, 0.36], rootMargin: "180px 0px" },
+      );
+
+      preloadObserver.observe(carousel);
+    } else {
+      warmVisibleWindow(activeIndex);
+      queueBackgroundPreload();
+    }
+
     scheduleCarouselAutoplay();
   }
 
@@ -5255,10 +5622,15 @@
 
     function playCinemaReel() {
       var videoSrc = cinemaPlayer && cinemaPlayer.getAttribute("data-video-src");
+      var posterSrc = cinemaVideo && cinemaVideo.getAttribute("data-poster");
       var playPromise;
 
       if (!cinemaPlayer || !cinemaVideo || !videoSrc) {
         return;
+      }
+
+      if (posterSrc && !cinemaVideo.getAttribute("poster")) {
+        cinemaVideo.setAttribute("poster", posterSrc);
       }
 
       if (!cinemaVideo.getAttribute("src")) {
@@ -5507,40 +5879,7 @@
     bindFallback(nextButton, -1);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      setupLanguageToggle();
-      setupProjectDetails();
-      setupDeferredImages();
-      setupProjectThumbnailLoops();
-      setupSectionParallax();
-      setupContactCopyrightDock();
-      setupAboutServicesParallax();
-      setupAboutPortraitTalk();
-      setupStartupIconTooltips();
-      setupServiceMarketPricingModal();
-      setupSingleHunterFocus();
-      setupMagneticEffects();
-      setupFounderJourney();
-      setupHeroImageLoading();
-      scheduleHeroThreeScene();
-      setupMotionAndHelper();
-      setupSmartNavbar();
-      setupHeroHunterPopup();
-      setupModelsHunterBackground();
-      setupStartupTechStackLights();
-      setupHackathonGlassCarousel();
-      setupHackathonCarouselMobileControlFallback();
-      setupResponsiveNavbarToggle();
-      setupLazyYouTubeEmbeds();
-      setupStartupVideoModal();
-      setupSmoothAnchorScroll();
-      registerPortfolioServiceWorker();
-    });
-  } else {
-    setupLanguageToggle();
-    setupProjectDetails();
-    setupDeferredImages();
+  function runDeferredBootstrap() {
     setupProjectThumbnailLoops();
     setupSectionParallax();
     setupContactCopyrightDock();
@@ -5551,19 +5890,45 @@
     setupSingleHunterFocus();
     setupMagneticEffects();
     setupFounderJourney();
-    setupHeroImageLoading();
     scheduleHeroThreeScene();
     setupMotionAndHelper();
-    setupSmartNavbar();
     setupHeroHunterPopup();
     setupModelsHunterBackground();
     setupStartupTechStackLights();
     setupHackathonGlassCarousel();
-    setupHackathonCarouselMobileControlFallback();
-    setupResponsiveNavbarToggle();
     setupLazyYouTubeEmbeds();
     setupStartupVideoModal();
-    setupSmoothAnchorScroll();
     registerPortfolioServiceWorker();
+  }
+
+  function scheduleDeferredBootstrap() {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(runDeferredBootstrap, { timeout: 1200 });
+      return;
+    }
+
+    window.setTimeout(runDeferredBootstrap, 180);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      setupLanguageToggle();
+      setupProjectDetails();
+      setupDeferredImages();
+      setupHeroImageLoading();
+      setupSmartNavbar();
+      setupResponsiveNavbarToggle();
+      setupSmoothAnchorScroll();
+      scheduleDeferredBootstrap();
+    });
+  } else {
+    setupLanguageToggle();
+    setupProjectDetails();
+    setupDeferredImages();
+    setupHeroImageLoading();
+    setupSmartNavbar();
+    setupResponsiveNavbarToggle();
+    setupSmoothAnchorScroll();
+    scheduleDeferredBootstrap();
   }
 })();

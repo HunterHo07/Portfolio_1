@@ -51,7 +51,7 @@
 body {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: "Poppins", helvetica;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
   font-weight: 300;
   line-height: 20px;
@@ -59,13 +59,18 @@ body {
   overflow-x: hidden;
   margin: 0 auto;
   padding: 0;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
+
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 960px;
+}
+
 
 *,
 *::before,
@@ -3694,11 +3699,11 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-glass-carousel {
-  --carousel-card-width: clamp(440px, 44vw, 560px);
-  --carousel-card-height: clamp(352px, 34vw, 440px);
-  --carousel-radius: 1480px;
+  --carousel-stage-height: clamp(60vh, 72vh, 80vh);
+  --carousel-card-width: 70%;
+  --carousel-card-max-width: 980px;
   position: relative;
-  width: calc(100vw - 20px);
+  width: min(1380px, calc(100vw - 20px));
   margin-top: clamp(-18px, -1.4vw, -8px);
   margin-left: 50%;
   padding-right: 10px;
@@ -3734,11 +3739,11 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-stage {
   position: relative;
-  min-height: clamp(760px, 70vw, 940px);
-  overflow: visible;
+  min-height: var(--carousel-stage-height);
+  height: var(--carousel-stage-height);
+  overflow: hidden;
   border-radius: 0;
   background: transparent;
-  perspective: 4200px;
   box-shadow: none;
   touch-action: pan-y;
   user-select: none;
@@ -3749,38 +3754,19 @@ body.is-hero-ready .hero-image-loader,
   content: none;
 }
 
-.hackathon-carousel-stage::after {
-  content: none;
-}
-
 .hackathon-carousel-track {
-  --carousel-rotation: 0deg;
-  position: absolute;
-  top: clamp(260px, 20vw, 285px);
-  left: 50%;
-  z-index: 3;
-  width: var(--carousel-card-width);
-  height: var(--carousel-card-height);
-  transform:
-    translate3d(-50%, -50%, calc(var(--carousel-radius) * -1))
-    rotateY(var(--carousel-rotation));
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.2, 0.84, 0.2, 1);
-  will-change: transform;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .hackathon-carousel-card {
-  --card-angle: 0deg;
-  --card-angle-jitter: 0deg;
-  --card-lift: 0px;
-  --card-lift-extra: 0px;
-  --card-scale: 1;
-  --card-scale-bias: 1;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   width: var(--carousel-card-width);
-  height: var(--carousel-card-height);
+  max-width: var(--carousel-card-max-width);
+  height: calc(var(--carousel-stage-height) - 12px);
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 24px;
@@ -3793,37 +3779,31 @@ body.is-hero-ready .hero-image-loader,
     0 28px 72px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     inset 0 -28px 48px rgba(255, 255, 255, 0.04);
-  opacity: 0.95;
-  transform:
-    translateY(calc(var(--card-lift) + var(--card-lift-extra)))
-    rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))
-    translateZ(var(--carousel-radius))
-    scale(calc(var(--card-scale) * var(--card-scale-bias)));
-  transform-style: preserve-3d;
-  backface-visibility: visible;
-  -webkit-backface-visibility: visible;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) scale(0.9);
+  transform-origin: center center;
   transition:
-    opacity 0.35s ease,
-    filter 0.35s ease,
-    transform 0.35s ease;
-  pointer-events: auto;
+    opacity 0.28s ease,
+    filter 0.28s ease,
+    transform 0.28s ease;
+  pointer-events: none;
   will-change: transform, opacity, filter;
+  contain: layout paint style;
 }
 
-.hackathon-carousel-card.is-ring-focus {
+.hackathon-carousel-card.is-strip-focus {
   opacity: 1;
-  filter: saturate(1.16) contrast(1.04);
+  filter: saturate(1.1) contrast(1.03);
 }
 
-.hackathon-carousel-card.is-ring-side {
-  opacity: 0.92;
-  filter: saturate(0.96) brightness(0.9);
+.hackathon-carousel-card.is-strip-side {
+  opacity: 0.74;
+  filter: saturate(0.88) brightness(0.86);
 }
 
-.hackathon-carousel-card.is-ring-back {
-  opacity: 0.5;
-  filter: saturate(0.8) brightness(0.62);
-  pointer-events: auto;
+.hackathon-carousel-card.is-strip-hidden {
+  opacity: 0;
+  filter: saturate(0.72) brightness(0.56);
 }
 
 .hackathon-carousel-frame {
@@ -3863,8 +3843,18 @@ body.is-hero-ready .hero-image-loader,
   object-position: center center;
   pointer-events: none;
   -webkit-user-drag: none;
+  filter: blur(0);
   transform: translate3d(var(--image-shift-x), var(--image-shift-y), 0) scale(var(--image-scale));
-  transition: transform 0.55s ease;
+  transition: transform 0.55s ease, filter 0.32s ease;
+}
+
+.hackathon-carousel-image.is-thumb-loading {
+  filter: blur(12px) saturate(0.82) brightness(0.92);
+  transform: translate3d(var(--image-shift-x), var(--image-shift-y), 0) scale(calc(var(--image-scale) * 1.02));
+}
+
+.hackathon-carousel-image.is-fullres-loaded {
+  filter: blur(0);
 }
 
 .hackathon-carousel-frame figcaption {
@@ -3902,6 +3892,40 @@ body.is-hero-ready .hero-image-loader,
   color: #fff7e8;
   font-size: clamp(18px, 1.6vw, 24px);
   line-height: 1.1;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #0b1320;
+  color: #f8f2e6;
+}
+
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.journal-sub-link {
+  margin: 6px 0 10px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .hackathon-carousel-control {
@@ -3947,7 +3971,7 @@ body.is-hero-ready .hero-image-loader,
   cursor: grab;
 }
 
-.hackathon-glass-carousel.is-dragging .hackathon-carousel-track {
+.hackathon-glass-carousel.is-dragging .hackathon-carousel-card {
   transition: none;
 }
 
@@ -3958,11 +3982,11 @@ body.is-hero-ready .hero-image-loader,
 .hackathon-carousel-next {
   right: clamp(12px, 2vw, 28px);
 }
-
 @media (max-width: 767px) {
   .hackathon-glass-carousel {
-    --carousel-card-width: min(272px, calc(100vw - 116px));
-    --carousel-card-height: min(224px, 60vw);
+    --carousel-stage-height: clamp(60vh, 68vh, 80vh);
+    --carousel-card-width: 70%;
+    --carousel-card-max-width: calc(100% - 16px);
     margin-top: -8px;
     width: 100vw;
     max-width: 100vw;
@@ -3972,45 +3996,20 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .hackathon-carousel-stage {
-    min-height: 470px;
-    padding: 0 8px 102px;
+    min-height: var(--carousel-stage-height);
+    height: var(--carousel-stage-height);
     border-radius: 0;
     overflow: hidden;
-    perspective: 1700px;
-  }
-
-  .hackathon-carousel-track {
-    top: 40%;
-    left: 50%;
   }
 
   .hackathon-timeline-tags {
     justify-content: flex-start;
   }
 
-  .hackathon-carousel-card.is-ring-side {
-    z-index: 1;
-    opacity: 0.42;
-    filter: saturate(0.7) brightness(0.62) blur(1px);
-    pointer-events: none;
-  }
-
-  .hackathon-carousel-card.is-ring-focus {
-    z-index: 5;
-  }
-
-  .hackathon-carousel-card.is-ring-side-left {
-    clip-path: inset(0 70% 0 0 round 24px);
-  }
-
-  .hackathon-carousel-card.is-ring-side-right {
-    clip-path: inset(0 0 0 70% round 24px);
-  }
-
-  .hackathon-carousel-card.is-ring-back {
-    z-index: 0;
-    opacity: 0.14;
-    pointer-events: none;
+  .hackathon-carousel-card {
+    height: calc(var(--carousel-stage-height) - 8px);
+    padding: 8px;
+    border-radius: 20px;
   }
 
   .hackathon-carousel-frame {
@@ -4036,8 +4035,7 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .hackathon-carousel-control {
-    top: 52%;
-    bottom: auto;
+    top: 50%;
     min-width: 58px;
     min-height: 42px;
     transform: translate3d(0, -50%, 0);
@@ -4048,7 +4046,6 @@ body.is-hero-ready .hero-image-loader,
     transform: translate3d(0, -50%, 0) scale(1.04);
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .hackathon-carousel-track,
   .hackathon-carousel-card,
@@ -5489,11 +5486,11 @@ html[lang="zh-CN"] .about-services-stack .services-block::after {
   }
 
   .hackathon-carousel-track {
-    top: 41%;
+    top: auto;
   }
 
   .hackathon-carousel-control {
-    top: 52%;
+    top: 50%;
     bottom: auto;
     transform: translate3d(0, -50%, 0);
   }

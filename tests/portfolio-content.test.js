@@ -2973,8 +2973,10 @@ assert.ok(
     js.includes("ensureImageThumb") &&
     js.includes("image.loading = absOffset <= eagerRadius ? \"eager\" : \"lazy\"") &&
     js.includes("queuedBackgroundCenter === activeIndex") &&
-    js.includes("backgroundPreloadHorizon"),
-  "Timeline gallery should keep the restored circular interaction while retaining scoped controls and thumb-first preload behavior",
+    js.includes("backgroundPreloadHorizon") &&
+    js.includes("mobileImageFocusMap") &&
+    js.includes('URLSearchParams(window.location.search).get("carousel")'),
+  "Timeline gallery should keep scoped controls, thumb-first preload behavior, mobile focal tuning, and deep-link verification support",
 );
 
 for (const oldHeroOverlay of [

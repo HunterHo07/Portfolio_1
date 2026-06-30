@@ -4987,6 +4987,15 @@
     var isCarouselHovered = false;
     var interactionHoldUntil = 0;
     var queuedBackgroundCenter = null;
+    var mobileImageFocusMap = {
+      "images/hackathon/timeline-happening-61.webp": { x: 26, scale: 1.03 },
+      "images/hackathon/timeline-happening-62.webp": { x: -18, scale: 1.04 },
+      "images/hackathon/timeline-happening-66.webp": { x: 12, scale: 1.03 },
+      "images/hackathon/timeline-happening-69.webp": { x: -48, scale: 1.1 },
+      "images/hackathon/timeline-happening-70.webp": { x: -12, scale: 1.04 },
+      "images/hackathon/timeline-happening-71.webp": { x: -14, scale: 1.07 },
+      "images/hackathon/timeline-happening-72.webp": { x: -18, scale: 1.06 }
+    };
 
     if (!carousel) {
       return;
@@ -5024,6 +5033,15 @@
       eagerRadius = 2;
       thumbRadius = 4;
       backgroundPreloadHorizon = 8;
+    }
+
+    try {
+      var carouselIndexParam = new URLSearchParams(window.location.search).get("carousel");
+      if (carouselIndexParam !== null && carouselIndexParam !== "") {
+        activeIndex = normalizeIndex(parseInt(carouselIndexParam, 10) || 0);
+      }
+    } catch (error) {
+      activeIndex = normalizeIndex(activeIndex);
     }
 
     function getThumbSrc(image) {
@@ -5224,11 +5242,23 @@
       }, 260);
     }
 
+    function getMobileImageFocus(image) {
+      var src;
+
+      if (!image) {
+        return null;
+      }
+
+      src = image.getAttribute("data-src") || image.getAttribute("src") || "";
+      return mobileImageFocusMap[src] || null;
+    }
+
     function applyImageLoadPolicy() {
       cards.forEach(function (card, cardIndex) {
         var offset = getShortestOffset(cardIndex, activeIndex);
         var absOffset = Math.abs(offset);
         var image = images[cardIndex];
+        var mobileFocus;
 
         if (!image) {
           return;
@@ -5241,6 +5271,17 @@
         } else {
           image.removeAttribute("fetchpriority");
         }
+
+        mobileFocus = window.innerWidth < 768 ? getMobileImageFocus(image) : null;
+        image.style.setProperty(
+          "--image-shift-x",
+          mobileFocus ? mobileFocus.x + "px" : "0px",
+        );
+        image.style.setProperty("--image-shift-y", "0px");
+        image.style.setProperty(
+          "--image-scale",
+          mobileFocus && mobileFocus.scale ? String(mobileFocus.scale) : "1",
+        );
 
         if (absOffset <= thumbRadius) {
           ensureImageThumb(image);
@@ -5293,12 +5334,12 @@
             : 1.32
           : isSide
             ? mobile
-              ? 0.88
+              ? 0.8
               : 0.84
             : isNearBack
               ? 0.68
               : 0.58;
-        var cardOpacity = isFocus ? 1 : isSide ? (mobile ? 0.58 : 0.84) : isNearBack ? 0.14 : 0;
+        var cardOpacity = isFocus ? 1 : isSide ? (mobile ? 0.42 : 0.84) : isNearBack ? 0.14 : 0;
 
         card.style.setProperty("--card-lift", cardLift + "px");
         card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");

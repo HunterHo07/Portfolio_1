@@ -3703,13 +3703,13 @@ body.is-hero-ready .hero-image-loader,
   --carousel-card-height: clamp(352px, 34vw, 440px);
   --carousel-radius: 1480px;
   position: relative;
-  width: calc(100vw - 20px);
+  width: min(1400px, calc(100vw - 24px));
   margin-top: clamp(-18px, -1.4vw, -8px);
-  margin-left: 50%;
-  padding-right: 10px;
-  padding-left: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 12px;
+  padding-left: 12px;
   box-sizing: border-box;
-  transform: translateX(-50%);
 }
 
 .hackathon-timeline-tags {
@@ -3826,9 +3826,9 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-carousel-card.is-ring-back {
-  opacity: 0.5;
+  opacity: 0;
   filter: saturate(0.8) brightness(0.62);
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .hackathon-carousel-frame {
@@ -4012,10 +4012,10 @@ body.is-hero-ready .hero-image-loader,
     --carousel-card-width: min(288px, calc(100vw - 132px));
     --carousel-card-height: min(236px, 63vw);
     margin-top: -8px;
-    width: 100vw;
+    width: min(100vw, calc(100vw - 8px));
     max-width: 100vw;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
     overflow: hidden;
   }
 

@@ -2943,14 +2943,14 @@ assert.ok(
 );
 assert.ok(
   js.includes("carouselRotation") &&
-    js.includes("ringStep = 360 / cards.length") &&
-    js.includes("cardAngle = cardIndex * ringStep") &&
-    js.includes("translateZ(var(--carousel-radius))") === false &&
+    js.includes("getFractionalShortestOffset") &&
+    js.includes("visibleWindowRadius") &&
+    js.includes("track.style.setProperty(\"--carousel-rotation\", \"0deg\")") &&
+    js.includes("card.style.visibility = isVisible ? \"visible\" : \"hidden\"") &&
     js.includes("Math.round(-carouselRotation / ringStep)") &&
-    js.includes("window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18") &&
     js.includes("is-ring-side-left") &&
     js.includes("is-ring-side-right"),
-  "Timeline carousel should compute a circular ring with responsive radius math and snap back to the nearest proof card",
+  "Timeline carousel should keep a centered ring window, hide distant cards, and snap back to the nearest proof card",
 );
 assert.ok(
   js.includes("setupHackathonGlassCarousel") &&

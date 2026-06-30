@@ -2926,33 +2926,31 @@ assert.ok(
 );
 assert.ok(
   css.includes(".hackathon-carousel-stage") &&
-    css.includes("min-height: var(--carousel-stage-height)") &&
-    css.includes("height: var(--carousel-stage-height)") &&
-    css.includes("overflow: hidden") &&
+    css.includes("min-height: clamp(760px, 70vw, 940px)") &&
+    css.includes("perspective: 4200px") &&
     css.includes("touch-action: pan-y"),
-  "Hackathon carousel should use a tall bounded stage with overflow clipping and touch-safe vertical scrolling",
+  "Hackathon carousel should keep the tall circular stage with 3D perspective and touch-safe vertical scrolling",
 );
 assert.ok(
-  css.includes("--carousel-card-width: 70%") &&
-    css.includes(".hackathon-carousel-card") &&
-    css.includes("left: 50%") &&
-    css.includes("top: 50%") &&
-    css.includes("backdrop-filter: blur") &&
-    css.includes(".hackathon-carousel-card.is-strip-focus") &&
-    css.includes(".hackathon-carousel-card.is-strip-side") &&
-    css.includes(".hackathon-carousel-card.is-strip-hidden"),
-  "Timeline cards should use the stable centered strip layout with 70 percent focus width and explicit focus/side/hidden states",
+  css.includes("--carousel-card-width: clamp(440px, 44vw, 560px)") &&
+    css.includes("--carousel-radius: 1480px") &&
+    css.includes("translate3d(-50%, -50%, calc(var(--carousel-radius) * -1))") &&
+    css.includes("translateZ(var(--carousel-radius))") &&
+    css.includes(".hackathon-carousel-card.is-ring-focus") &&
+    css.includes(".hackathon-carousel-card.is-ring-side") &&
+    css.includes(".hackathon-carousel-card.is-ring-back"),
+  "Timeline cards should preserve the circular ring layout with depth-based focus, side, and back states",
 );
 assert.ok(
-  js.includes("is-strip-side-left") &&
-    js.includes("is-strip-side-right") &&
-    js.includes("sideShift = stageWidth * 0.5 + cardWidth * 0.5 - sidePeekWidth + visibleGap") &&
-    js.includes("hiddenShift = stageWidth * 0.5 + cardWidth * 0.5 + stageWidth * 0.08") &&
-    js.includes("translateX = -sideShift + effectiveDrag * 0.35") &&
-    js.includes("translateX = sideShift + effectiveDrag * 0.35") &&
-    js.includes("getShortestOffset") &&
-    js.includes("window.innerWidth < 768 ? 0.94 : 0.92"),
-  "Timeline carousel should place the left and right side cards as clipped edge previews without overlap and stay stable for even or odd image counts",
+  js.includes("carouselRotation") &&
+    js.includes("ringStep = 360 / cards.length") &&
+    js.includes("cardAngle = cardIndex * ringStep") &&
+    js.includes("translateZ(var(--carousel-radius))") === false &&
+    js.includes("Math.round(-carouselRotation / ringStep)") &&
+    js.includes("window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18") &&
+    js.includes("is-ring-side-left") &&
+    js.includes("is-ring-side-right"),
+  "Timeline carousel should compute a circular ring with responsive radius math and snap back to the nearest proof card",
 );
 assert.ok(
   js.includes("setupHackathonGlassCarousel") &&
@@ -2976,7 +2974,7 @@ assert.ok(
     js.includes("image.loading = absOffset <= eagerRadius ? \"eager\" : \"lazy\"") &&
     js.includes("queuedBackgroundCenter === activeIndex") &&
     js.includes("backgroundPreloadHorizon"),
-  "Timeline gallery should use stable offset-based motion, drag support, scoped controls, and section-specific thumb-first preload plus bounded warm-cache behavior",
+  "Timeline gallery should keep the restored circular interaction while retaining scoped controls and thumb-first preload behavior",
 );
 
 for (const oldHeroOverlay of [

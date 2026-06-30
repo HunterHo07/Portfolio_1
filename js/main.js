@@ -4964,17 +4964,22 @@
     var prevButton;
     var nextButton;
     var activeIndex = 0;
+    var carouselRotation = 0;
+    var ringStep = 0;
+    var carouselRadius = 1480;
+    var slideWidth = 0;
     var dragStartX = 0;
     var dragStartY = 0;
-    var dragOffsetX = 0;
+    var lastPointerX = 0;
+    var dragDeltaX = 0;
     var activePointerId = null;
     var isDragging = false;
     var controlsLocked = false;
-    var dragThreshold = 42;
+    var dragThreshold = 38;
     var eagerRadius = 1;
     var thumbRadius = 2;
     var backgroundPreloadHorizon = 6;
-    var carouselAutoplayDelay = 3600;
+    var carouselAutoplayDelay = 3200;
     var carouselInteractionHold = 7000;
     var carouselAutoplayTimer = null;
     var isCarouselHovered = false;
@@ -5231,60 +5236,43 @@
     }
 
     function applyCarouselLayout() {
-      var stageWidth = stage.clientWidth || 1;
+      track.style.setProperty(
+        "--carousel-rotation",
+        carouselRotation.toFixed(2) + "deg",
+      );
 
       cards.forEach(function (card, cardIndex) {
-        var offset = getShortestOffset(cardIndex, activeIndex);
-        var absOffset = Math.abs(offset);
-        var isFocus = offset === 0;
-        var isSideLeft = offset === -1;
-        var isSideRight = offset === 1;
-        var isSide = absOffset === 1;
-        var isVisible = absOffset <= 1;
-        var cardWidth = card.offsetWidth || stageWidth * 0.7;
-        var sidePeekWidth = stageWidth * 0.15;
-        var visibleGap = Math.max(stageWidth * 0.015, 8);
-        var sideShift = stageWidth * 0.5 + cardWidth * 0.5 - sidePeekWidth + visibleGap;
-        var hiddenShift = stageWidth * 0.5 + cardWidth * 0.5 + stageWidth * 0.08;
-        var scale = isFocus ? 1 : isSide ? (window.innerWidth < 768 ? 0.94 : 0.92) : 0.84;
-        var opacity = isFocus ? 1 : isSide ? 0.74 : 0;
-        var pointerEvents = isFocus ? "auto" : "none";
-        var effectiveDrag = isVisible ? dragOffsetX : 0;
-        var translateX = 0;
+        var cardAngle = cardIndex * ringStep;
+        var displayAngle = (cardAngle + carouselRotation) % 360;
+        var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
+        var absAngle = Math.abs(normalizedAngle);
+        var isFocus = absAngle < ringStep * 0.55;
+        var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
+        var isSideLeft = isSide && normalizedAngle < 0;
+        var isSideRight = isSide && normalizedAngle > 0;
+        var cardLift = isFocus ? 72 : isSide ? 16 : -94;
+        var cardScale = isFocus ? 1.4 : 1;
+        var cardOpacity = isFocus ? 1 : isSide ? 0.92 : 0.5;
 
-        if (isFocus) {
-          translateX = effectiveDrag;
-        } else if (isSideLeft) {
-          translateX = -sideShift + effectiveDrag * 0.35;
-        } else if (isSideRight) {
-          translateX = sideShift + effectiveDrag * 0.35;
-        } else {
-          translateX = (offset < 0 ? -hiddenShift : hiddenShift) + effectiveDrag * 0.1;
-        }
-
-        card.style.transform =
-          "translate3d(calc(-50% + " +
-          String(Math.round(translateX)) +
-          "px), -50%, 0) scale(" +
-          String(scale) +
-          ")";
-        card.style.opacity = String(opacity);
-        card.style.zIndex = isFocus ? "4" : isSide ? "3" : "1";
-        card.style.pointerEvents = pointerEvents;
+        card.style.setProperty("--card-lift", cardLift + "px");
+        card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");
+        card.style.setProperty("--card-scale", String(cardScale));
+        card.style.opacity = String(cardOpacity);
+        card.style.pointerEvents = isFocus ? "auto" : !isSide ? "auto" : "none";
         card.hidden = false;
         card.setAttribute("aria-hidden", String(!isFocus));
+        card.style.zIndex = isFocus ? "4" : isSide ? "3" : "1";
         card.setAttribute("data-carousel-seq", String(cardIndex));
-        card.setAttribute("data-carousel-offset", String(offset));
         card.classList.toggle("is-strip-focus", isFocus);
         card.classList.toggle("is-strip-side", isSide);
         card.classList.toggle("is-strip-side-left", isSideLeft);
         card.classList.toggle("is-strip-side-right", isSideRight);
-        card.classList.toggle("is-strip-hidden", !isVisible);
+        card.classList.toggle("is-strip-hidden", !isFocus && !isSide);
         card.classList.toggle("is-ring-focus", isFocus);
         card.classList.toggle("is-ring-side", isSide);
         card.classList.toggle("is-ring-side-left", isSideLeft);
         card.classList.toggle("is-ring-side-right", isSideRight);
-        card.classList.toggle("is-ring-back", !isVisible);
+        card.classList.toggle("is-ring-back", !isFocus && !isSide);
       });
 
       warmVisibleWindow(activeIndex);
@@ -5293,7 +5281,55 @@
 
     function setActiveIndex(nextIndex) {
       activeIndex = normalizeIndex(nextIndex);
-      dragOffsetX = 0;
+      carouselRotation = -(activeIndex * ringStep);
+      applyCarouselLayout();
+    }
+
+    function layoutRing() {
+      slideWidth = cards[0].getBoundingClientRect().width || 520;
+      ringStep = 360 / cards.length;
+      carouselRotation = -(activeIndex * ringStep);
+
+      var halfStepRadians = Math.PI / cards.length;
+      var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
+      var spacingFactor =
+        window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18;
+      var baseRadius = Math.round(
+        (slideWidth / 2 / Math.tan(Math.PI / cards.length)) * 1.32,
+      );
+      var spacingRadius = Math.round(
+        (slideWidth * spacingFactor) / minimumTrig,
+      );
+
+      carouselRadius = Math.max(
+        baseRadius,
+        spacingRadius,
+        Math.round(slideWidth * 4.2),
+      );
+      carouselRadius = Math.min(
+        carouselRadius,
+        window.innerWidth < 768 ? 5600 : 9800,
+      );
+
+      var resolvedRadius = String(carouselRadius) + "px";
+
+      carousel.style.setProperty("--carousel-radius", resolvedRadius);
+      stage.style.setProperty("--carousel-radius", resolvedRadius);
+      track.style.setProperty("--carousel-radius", resolvedRadius);
+      stage.style.setProperty(
+        "perspective",
+        String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
+      );
+
+      cards.forEach(function (card, cardIndex) {
+        card.style.setProperty("--carousel-radius", resolvedRadius);
+        card.style.setProperty("--card-lift", "0px");
+        card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
+        card.style.setProperty("--card-scale", "1");
+        card.setAttribute("data-carousel-seq", String(cardIndex));
+        card.setAttribute("aria-hidden", "false");
+      });
+
       applyCarouselLayout();
     }
 
@@ -5301,7 +5337,7 @@
       setControlsDisabled(true);
       window.setTimeout(function () {
         setControlsDisabled(false);
-      }, 180);
+      }, 220);
     }
 
     function stepTrack(direction) {
@@ -5356,6 +5392,11 @@
       });
     }
 
+    function snapToNearestCard() {
+      setActiveIndex(Math.round(-carouselRotation / ringStep));
+      queueBackgroundPreload();
+    }
+
     function clearCarouselAutoplay() {
       if (!carouselAutoplayTimer) {
         return;
@@ -5367,7 +5408,6 @@
 
     function shouldPauseCarouselAutoplay() {
       return (
-        window.innerWidth < 768 ||
         isReducedMotion() ||
         document.hidden ||
         isDragging ||
@@ -5399,36 +5439,10 @@
     }
 
     function refreshLayout() {
-      dragOffsetX = 0;
-      applyCarouselLayout();
+      layoutRing();
     }
 
-    function finishDrag(event) {
-      var dragDeltaY;
-
-      if (!isDragging || activePointerId !== event.pointerId) {
-        return;
-      }
-
-      dragDeltaY = event.clientY - dragStartY;
-      isDragging = false;
-      activePointerId = null;
-      carousel.classList.remove("is-dragging");
-      holdCarouselAutoplay();
-
-      if (
-        Math.abs(dragOffsetX) > dragThreshold &&
-        Math.abs(dragOffsetX) > Math.abs(dragDeltaY)
-      ) {
-        setActiveIndex(activeIndex + (dragOffsetX < 0 ? 1 : -1));
-        queueBackgroundPreload();
-      } else {
-        dragOffsetX = 0;
-        applyCarouselLayout();
-      }
-    }
-
-    setActiveIndex(0);
+    layoutRing();
 
     if (carousel.hasAttribute("data-carousel-bound")) {
       return;
@@ -5474,40 +5488,62 @@
       activePointerId = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;
-      dragOffsetX = 0;
+      lastPointerX = event.clientX;
+      dragDeltaX = 0;
       carousel.classList.add("is-dragging");
       clearCarouselAutoplay();
     });
 
     window.addEventListener("pointermove", function (event) {
-      var maxDrag;
+      var pointerDeltaX;
 
       if (!isDragging || activePointerId !== event.pointerId) {
         return;
       }
 
       event.preventDefault();
-      maxDrag = Math.max(stage.clientWidth * 0.22, 72);
-      dragOffsetX = Math.max(
-        -maxDrag,
-        Math.min(maxDrag, event.clientX - dragStartX),
-      );
+      pointerDeltaX = event.clientX - lastPointerX;
+      dragDeltaX = event.clientX - dragStartX;
+      lastPointerX = event.clientX;
+      carouselRotation += pointerDeltaX * 0.18;
       applyCarouselLayout();
     });
+
+    function finishDrag(event) {
+      var dragDeltaY;
+
+      if (!isDragging || activePointerId !== event.pointerId) {
+        return;
+      }
+
+      dragDeltaY = event.clientY - dragStartY;
+      isDragging = false;
+      activePointerId = null;
+      carousel.classList.remove("is-dragging");
+      holdCarouselAutoplay();
+
+      if (
+        Math.abs(dragDeltaX) > dragThreshold &&
+        Math.abs(dragDeltaX) > Math.abs(dragDeltaY)
+      ) {
+        snapToNearestCard();
+      } else {
+        snapToNearestCard();
+      }
+    }
 
     window.addEventListener("pointerup", finishDrag);
 
     window.addEventListener("pointercancel", function (event) {
-      if (activePointerId !== event.pointerId) {
+      if (activePointerId != event.pointerId) {
         return;
       }
 
       isDragging = false;
       activePointerId = null;
-      dragOffsetX = 0;
       carousel.classList.remove("is-dragging");
       holdCarouselAutoplay();
-      applyCarouselLayout();
+      snapToNearestCard();
     });
 
     window.addEventListener("resize", refreshLayout);

@@ -3699,11 +3699,11 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-glass-carousel {
-  --carousel-stage-height: clamp(60vh, 72vh, 80vh);
-  --carousel-card-width: 70%;
-  --carousel-card-max-width: 980px;
+  --carousel-card-width: clamp(440px, 44vw, 560px);
+  --carousel-card-height: clamp(352px, 34vw, 440px);
+  --carousel-radius: 1480px;
   position: relative;
-  width: min(1380px, calc(100vw - 20px));
+  width: calc(100vw - 20px);
   margin-top: clamp(-18px, -1.4vw, -8px);
   margin-left: 50%;
   padding-right: 10px;
@@ -3739,11 +3739,11 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-stage {
   position: relative;
-  min-height: var(--carousel-stage-height);
-  height: var(--carousel-stage-height);
-  overflow: hidden;
+  min-height: clamp(760px, 70vw, 940px);
+  overflow: visible;
   border-radius: 0;
   background: transparent;
+  perspective: 4200px;
   box-shadow: none;
   touch-action: pan-y;
   user-select: none;
@@ -3754,19 +3754,38 @@ body.is-hero-ready .hero-image-loader,
   content: none;
 }
 
+.hackathon-carousel-stage::after {
+  content: none;
+}
+
 .hackathon-carousel-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  --carousel-rotation: 0deg;
+  position: absolute;
+  top: clamp(260px, 20vw, 285px);
+  left: 50%;
+  z-index: 3;
+  width: var(--carousel-card-width);
+  height: var(--carousel-card-height);
+  transform:
+    translate3d(-50%, -50%, calc(var(--carousel-radius) * -1))
+    rotateY(var(--carousel-rotation));
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.84, 0.2, 1);
+  will-change: transform;
 }
 
 .hackathon-carousel-card {
+  --card-angle: 0deg;
+  --card-angle-jitter: 0deg;
+  --card-lift: 0px;
+  --card-lift-extra: 0px;
+  --card-scale: 1;
+  --card-scale-bias: 1;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: var(--carousel-card-width);
-  max-width: var(--carousel-card-max-width);
-  height: calc(var(--carousel-stage-height) - 12px);
+  height: var(--carousel-card-height);
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 24px;
@@ -3779,31 +3798,37 @@ body.is-hero-ready .hero-image-loader,
     0 28px 72px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     inset 0 -28px 48px rgba(255, 255, 255, 0.04);
-  opacity: 0;
-  transform: translate3d(-50%, -50%, 0) scale(0.9);
-  transform-origin: center center;
+  opacity: 0.95;
+  transform:
+    translateY(calc(var(--card-lift) + var(--card-lift-extra)))
+    rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))
+    translateZ(var(--carousel-radius))
+    scale(calc(var(--card-scale) * var(--card-scale-bias)));
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
   transition:
-    opacity 0.28s ease,
-    filter 0.28s ease,
-    transform 0.28s ease;
-  pointer-events: none;
+    opacity 0.35s ease,
+    filter 0.35s ease,
+    transform 0.35s ease;
+  pointer-events: auto;
   will-change: transform, opacity, filter;
-  contain: layout paint style;
 }
 
-.hackathon-carousel-card.is-strip-focus {
+.hackathon-carousel-card.is-ring-focus {
   opacity: 1;
-  filter: saturate(1.1) contrast(1.03);
+  filter: saturate(1.16) contrast(1.04);
 }
 
-.hackathon-carousel-card.is-strip-side {
-  opacity: 0.74;
-  filter: saturate(0.88) brightness(0.86);
+.hackathon-carousel-card.is-ring-side {
+  opacity: 0.92;
+  filter: saturate(0.96) brightness(0.9);
 }
 
-.hackathon-carousel-card.is-strip-hidden {
-  opacity: 0;
-  filter: saturate(0.72) brightness(0.56);
+.hackathon-carousel-card.is-ring-back {
+  opacity: 0.5;
+  filter: saturate(0.8) brightness(0.62);
+  pointer-events: auto;
 }
 
 .hackathon-carousel-frame {
@@ -3930,7 +3955,7 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-carousel-control {
   position: absolute;
-  z-index: 8;
+  z-index: 4;
   top: 50%;
   display: inline-grid;
   place-items: center;
@@ -3946,7 +3971,6 @@ body.is-hero-ready .hero-image-loader,
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  touch-action: manipulation;
   transform: translate3d(0, -50%, 0);
   transition: background 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
 }
@@ -3971,7 +3995,7 @@ body.is-hero-ready .hero-image-loader,
   cursor: grab;
 }
 
-.hackathon-glass-carousel.is-dragging .hackathon-carousel-card {
+.hackathon-glass-carousel.is-dragging .hackathon-carousel-track {
   transition: none;
 }
 
@@ -3982,11 +4006,11 @@ body.is-hero-ready .hero-image-loader,
 .hackathon-carousel-next {
   right: clamp(12px, 2vw, 28px);
 }
+
 @media (max-width: 767px) {
   .hackathon-glass-carousel {
-    --carousel-stage-height: clamp(60vh, 68vh, 80vh);
-    --carousel-card-width: 70%;
-    --carousel-card-max-width: calc(100% - 16px);
+    --carousel-card-width: min(288px, calc(100vw - 132px));
+    --carousel-card-height: min(236px, 63vw);
     margin-top: -8px;
     width: 100vw;
     max-width: 100vw;
@@ -3996,20 +4020,36 @@ body.is-hero-ready .hero-image-loader,
   }
 
   .hackathon-carousel-stage {
-    min-height: var(--carousel-stage-height);
-    height: var(--carousel-stage-height);
+    min-height: 454px;
+    padding: 0 8px 74px;
     border-radius: 0;
     overflow: hidden;
+    perspective: 1700px;
+  }
+
+  .hackathon-carousel-track {
+    top: 44%;
+    left: 50%;
   }
 
   .hackathon-timeline-tags {
     justify-content: flex-start;
   }
 
-  .hackathon-carousel-card {
-    height: calc(var(--carousel-stage-height) - 8px);
-    padding: 8px;
-    border-radius: 20px;
+  .hackathon-carousel-card.is-ring-side {
+    z-index: 1;
+    opacity: 0.42;
+    filter: saturate(0.7) brightness(0.62) blur(1px);
+    pointer-events: none;
+  }
+
+  .hackathon-carousel-card.is-ring-back {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hackathon-carousel-card.is-ring-focus {
+    z-index: 3;
   }
 
   .hackathon-carousel-frame {
@@ -4046,6 +4086,7 @@ body.is-hero-ready .hero-image-loader,
     transform: translate3d(0, -50%, 0) scale(1.04);
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .hackathon-carousel-track,
   .hackathon-carousel-card,

@@ -220,8 +220,8 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.19"') &&
-    sw.includes('const STATIC_CACHE = "hunter-static-v2.2.19"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.20"') &&
+    sw.includes('const STATIC_CACHE = "hunter-static-v2.2.20"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -397,8 +397,8 @@ assert.ok(
   "Hero options should animate efficiently and respect reduced motion",
 );
 assert.ok(
-  heroOptionsJs.includes("preserveDrawingBuffer: true"),
-  "Option C Three.js renderer should preserve the frame buffer so browser verification can sample nonblank canvas pixels",
+  !heroOptionsJs.includes("preserveDrawingBuffer: true"),
+  "Option C Three.js renderer should avoid preserveDrawingBuffer unless canvas capture or readback is required",
 );
 
 const requiredText = [
@@ -455,7 +455,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.19",
+  "Hunter v2.2.20",
 ];
 
 const requestedDemoUrls = [
@@ -976,8 +976,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.19") &&
-    html.includes("css/responsive.min.css?v=2.2.19"),
+  html.includes("css/style.min.css?v=2.2.20") &&
+    html.includes("css/responsive.min.css?v=2.2.20"),
   "Production stylesheets should use the active release cache keys",
 );
 assert.ok(
@@ -1068,7 +1068,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.19"),
+  html.includes("js/main.min.js?v=2.2.20"),
   "Production script should use the active release cache key",
 );
 assert.ok(
@@ -1115,7 +1115,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class=(?:"release-badge"|release-badge)[^>]*href=(?:"https:\/\/github\.com\/HunterHo07"|https:\/\/github\.com\/HunterHo07)[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.19"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.20"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1826,7 +1826,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.19",
+  "v2.2.20",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2095,8 +2095,8 @@ assert.ok(
   "Homepage JS should initialize and animate the Option C hero",
 );
 assert.ok(
-  js.includes("preserveDrawingBuffer: true"),
-  "Homepage Three.js renderer should preserve the frame buffer for browser verification",
+  !js.includes("preserveDrawingBuffer: true"),
+  "Homepage Three.js renderer should avoid preserveDrawingBuffer unless canvas capture or readback is required",
 );
 assert.ok(
   js.includes(

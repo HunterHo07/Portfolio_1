@@ -1613,6 +1613,11 @@
     );
   }
 
+  function isMobilePerfMode() {
+    var connection = navigator.connection || {};
+    return window.innerWidth < 768 || connection.saveData;
+  }
+
   function isFounderJourneyMobileMode() {
     return window.matchMedia && window.matchMedia("(max-width: 600px)").matches;
   }
@@ -2460,7 +2465,7 @@
   }
 
   function setupSectionParallax() {
-    if (isReducedMotion()) {
+    if (isReducedMotion() || isMobilePerfMode()) {
       return;
     }
 
@@ -2598,7 +2603,7 @@
   }
 
   function setupAboutServicesParallax() {
-    if (isReducedMotion()) {
+    if (isReducedMotion() || isMobilePerfMode()) {
       return;
     }
 
@@ -3772,7 +3777,6 @@
     var contextAttributes = {
       alpha: true,
       antialias: true,
-      preserveDrawingBuffer: true,
     };
     var glContext;
 
@@ -3802,7 +3806,6 @@
         context: glContext,
         alpha: true,
         antialias: true,
-        preserveDrawingBuffer: true,
       });
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
@@ -3929,7 +3932,7 @@
     var heroThreeDelay = 12000;
     var isQueued = false;
 
-    if (connection.saveData) {
+    if (connection.saveData || isMobilePerfMode()) {
       return;
     }
 
@@ -4132,6 +4135,13 @@
       revealTargets.forEach(function (element) {
         element.classList.add("reveal-visible");
       });
+    }
+
+    if (isMobilePerfMode()) {
+      revealTargets.forEach(function (element) {
+        element.classList.add("reveal-visible");
+      });
+      return;
     }
 
     function updateScrollEffects() {
@@ -4534,7 +4544,8 @@
       !demoHunterStart ||
       !demoHunterEnd ||
       !ghost ||
-      isReducedMotion()
+      isReducedMotion() ||
+      isMobilePerfMode()
     ) {
       return;
     }
@@ -4805,7 +4816,7 @@
   function setupStartupTechStackLights() {
     var flow = document.querySelector(".startup-tech-stack-flow");
 
-    if (!flow || isReducedMotion()) {
+    if (!flow || isReducedMotion() || isMobilePerfMode()) {
       return;
     }
 

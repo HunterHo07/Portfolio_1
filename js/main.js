@@ -1777,7 +1777,8 @@
     var maxIndex = Math.max(steps.length - 1, 0);
     var totalStates = steps.length + 2;
     var maxState = Math.max(totalStates - 1, 0);
-    var currentFounderState = 0;
+    var minimumFounderState = Math.min(maxState, 1);
+    var currentFounderState = minimumFounderState;
     var currentFounderCopyState = -1;
     var lockedFinalProof = "";
     var finalCalloutsVisible = false;
@@ -2393,7 +2394,7 @@
       var progress = Math.min(Math.max((0 - rect.top) / denominator, 0), 1);
       var activeState = Math.min(
         maxState,
-        Math.max(0, Math.round(progress * maxState)),
+        Math.max(minimumFounderState, Math.round(progress * maxState)),
       );
       setFounderPosterLayerState(activeState, progress);
     }
@@ -2409,7 +2410,10 @@
         return;
       }
 
-      var state = Math.min(maxState, Math.max(0, targetState));
+      var state = Math.min(
+        maxState,
+        Math.max(minimumFounderState, targetState),
+      );
       var rect = journey.getBoundingClientRect();
       var pageTop = window.pageYOffset + rect.top;
       var denominator = Math.max(journey.offsetHeight - window.innerHeight, 1);

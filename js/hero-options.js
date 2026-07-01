@@ -91,8 +91,7 @@
       var renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
-        antialias: true,
-        preserveDrawingBuffer: true
+        antialias: true
       });
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);

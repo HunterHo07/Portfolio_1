@@ -5312,85 +5312,65 @@
 
     function applyCarouselLayout() {
       activeIndex = normalizeIndex(Math.round(-carouselRotation / ringStep));
-      stableStripMode = cards.length > stableStripThreshold;
-      carousel.classList.toggle("is-stable-strip", stableStripMode);
-      track.style.setProperty(
-        "--carousel-rotation",
-        stableStripMode ? "0deg" : carouselRotation.toFixed(2) + "deg",
-      );
-      track.style.transform = stableStripMode
-        ? "translate(-50%, -50%)"
-        : "";
+      stableStripMode = false;
+      carousel.classList.remove("is-stable-strip");
+      track.style.setProperty("--carousel-rotation", "0deg");
+      track.style.transform = "translate(-50%, -50%)";
+
+      var visibleArc = window.innerWidth < 768 ? 2 : 3;
+      var preloadArc = visibleArc + 2;
 
       cards.forEach(function (card, cardIndex) {
-        var cardAngle = cardIndex * ringStep;
         var shortestOffset = getShortestOffset(cardIndex, activeIndex);
         var absOffset = Math.abs(shortestOffset);
-        var displayAngle = (cardAngle + carouselRotation) % 360;
-        var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
-        var isFocus = stableStripMode
-          ? shortestOffset === 0
-          : Math.abs(normalizedAngle) < ringStep * 0.55;
-        var isSide = stableStripMode
-          ? absOffset === 1
-          : Math.abs(normalizedAngle) >= ringStep * 0.55 && Math.abs(normalizedAngle) < ringStep * 1.55;
-        var isSideLeft = stableStripMode ? shortestOffset === -1 : isSide && normalizedAngle < 0;
-        var isSideRight = stableStripMode ? shortestOffset === 1 : isSide && normalizedAngle > 0;
-        var isBack = !isFocus && !isSide;
-        var cardLift = stableStripMode ? (isFocus ? 72 : isSide ? 10 : -30) : isFocus ? 72 : isSide ? 16 : -94;
-        var cardScale = stableStripMode ? (isFocus ? 1.28 : isSide ? 0.92 : 0.76) : isFocus ? 1.4 : 1;
-        var cardOpacity = stableStripMode ? (isFocus ? 1 : isSide ? 0.64 : 0) : isFocus ? 1 : isSide ? 0.92 : 0.5;
-        var stripShiftX = stableStripMode
-          ? shortestOffset === -1
-            ? -Math.round(slideWidth * 0.64)
-            : shortestOffset === 1
-              ? Math.round(slideWidth * 0.64)
-              : shortestOffset < -1
-                ? -Math.round(slideWidth * 1.4)
-                : shortestOffset > 1
-                  ? Math.round(slideWidth * 1.4)
-                  : 0
-          : 0;
-        var stripRotateY = stableStripMode
-          ? shortestOffset === -1
-            ? 22
-            : shortestOffset === 1
-              ? -22
-              : shortestOffset < 0
-                ? 30
-                : shortestOffset > 0
-                  ? -30
-                  : 0
-          : 0;
-        var stripDepth = stableStripMode ? (isFocus ? 180 : isSide ? -120 : -520) : 0;
+        var thetaDeg = shortestOffset * ringStep;
+        var thetaRad = (thetaDeg * Math.PI) / 180;
+        var translateX = Math.sin(thetaRad) * carouselRadius;
+        var translateZ = Math.cos(thetaRad) * carouselRadius - carouselRadius;
+        var isFocus = absOffset === 0;
+        var isSide = absOffset === 1;
+        var isVisible = absOffset <= visibleArc;
+        var isFarVisible = isVisible && !isFocus && !isSide;
+        var isPreload = absOffset <= preloadArc;
+        var isSideLeft = shortestOffset < 0 && isVisible && !isFocus;
+        var isSideRight = shortestOffset > 0 && isVisible && !isFocus;
+        var isBack = !isVisible;
+        var cardLift = isFocus ? 72 : isSide ? 16 : Math.max(-78, -12 - absOffset * 12);
+        var cardScale = isFocus ? 1.22 : isSide ? 0.96 : Math.max(0.72, 1 - absOffset * 0.08);
+        var cardOpacity = !isVisible ? 0 : isFocus ? 1 : isSide ? 0.92 : Math.max(0.22, 0.82 - absOffset * 0.18);
+        var cardRotateY = thetaDeg;
 
         card.style.setProperty("--card-lift", cardLift + "px");
-        card.style.setProperty("--card-angle", stableStripMode ? "0deg" : cardAngle.toFixed(2) + "deg");
+        card.style.setProperty("--card-angle", thetaDeg.toFixed(2) + "deg");
         card.style.setProperty("--card-scale", String(cardScale));
-        card.style.setProperty("--card-shift-x", stripShiftX + "px");
-        card.style.setProperty("--card-strip-rotate-y", stripRotateY + "deg");
-        card.style.setProperty("--card-strip-depth", stripDepth + "px");
+        card.style.setProperty("--card-shift-x", translateX.toFixed(2) + "px");
+        card.style.setProperty("--card-strip-rotate-y", "0deg");
+        card.style.setProperty("--card-strip-depth", translateZ.toFixed(2) + "px");
         card.style.left = "0";
-        card.style.transform = stableStripMode
-          ? "translate(" + stripShiftX + "px, " + cardLift + "px) translateZ(" + stripDepth + "px) rotateY(" + stripRotateY + "deg) scale(" + cardScale + ")"
-          : "";
+        card.style.transform = "translate3d(" + translateX.toFixed(2) + "px, " + cardLift + "px, " + translateZ.toFixed(2) + "px) rotateY(" + cardRotateY.toFixed(2) + "deg) scale(" + cardScale + ")";
         card.style.opacity = String(cardOpacity);
-        card.style.visibility = stableStripMode && isBack ? "hidden" : "visible";
-        card.style.pointerEvents = isFocus ? "auto" : isSide ? "none" : "none";
+        card.style.visibility = isVisible ? "visible" : "hidden";
+        card.style.pointerEvents = isFocus ? "auto" : "none";
         card.hidden = false;
         card.setAttribute("aria-hidden", String(!isFocus));
-        card.style.zIndex = isFocus ? "4" : isSide ? "3" : "1";
+        card.style.zIndex = isFocus ? "5" : isSide ? "4" : isVisible ? String(Math.max(2, visibleArc - absOffset + 2)) : "1";
         card.setAttribute("data-carousel-seq", String(cardIndex));
-        card.classList.toggle("is-strip-focus", isFocus);
-        card.classList.toggle("is-strip-side", isSide);
-        card.classList.toggle("is-strip-side-left", isSideLeft);
-        card.classList.toggle("is-strip-side-right", isSideRight);
-        card.classList.toggle("is-strip-hidden", isBack);
+        card.classList.toggle("is-strip-focus", false);
+        card.classList.toggle("is-strip-side", false);
+        card.classList.toggle("is-strip-side-left", false);
+        card.classList.toggle("is-strip-side-right", false);
+        card.classList.toggle("is-strip-hidden", false);
         card.classList.toggle("is-ring-focus", isFocus);
         card.classList.toggle("is-ring-side", isSide);
         card.classList.toggle("is-ring-side-left", isSideLeft);
         card.classList.toggle("is-ring-side-right", isSideRight);
-        card.classList.toggle("is-ring-back", isBack);
+        card.classList.toggle("is-ring-back", isBack || isFarVisible);
+
+        if (!isPreload) {
+          card.style.filter = "brightness(0.72) saturate(0.84)";
+        } else {
+          card.style.filter = "";
+        }
       });
 
       warmVisibleWindow(activeIndex);
@@ -5407,27 +5387,15 @@
       slideWidth = cards[0].getBoundingClientRect().width || 520;
       ringStep = 360 / cards.length;
       carouselRotation = -(activeIndex * ringStep);
-      stableStripMode = cards.length > stableStripThreshold;
+      stableStripMode = false;
 
-      var halfStepRadians = Math.PI / cards.length;
-      var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
-      var spacingFactor =
-        window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18;
-      var baseRadius = Math.round(
-        (slideWidth / 2 / Math.tan(Math.PI / cards.length)) * 1.32,
-      );
-      var spacingRadius = Math.round(
-        (slideWidth * spacingFactor) / minimumTrig,
-      );
+      var chordGap = window.innerWidth < 768 ? 26 : window.innerWidth < 1200 ? 34 : 42;
+      var minimumTrig = Math.max(2 * Math.sin(Math.PI / cards.length), 0.01);
+      var targetChord = slideWidth + chordGap;
 
       carouselRadius = Math.max(
-        baseRadius,
-        spacingRadius,
-        Math.round(slideWidth * 4.2),
-      );
-      carouselRadius = Math.min(
-        carouselRadius,
-        window.innerWidth < 768 ? 5600 : 9800,
+        Math.round(targetChord / minimumTrig),
+        Math.round(slideWidth * 1.6),
       );
 
       var resolvedRadius = String(carouselRadius) + "px";
@@ -5437,9 +5405,7 @@
       track.style.setProperty("--carousel-radius", resolvedRadius);
       stage.style.setProperty(
         "perspective",
-        stableStripMode
-          ? "2200px"
-          : String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
+        window.innerWidth < 768 ? "1800px" : "2600px",
       );
 
       cards.forEach(function (card, cardIndex) {

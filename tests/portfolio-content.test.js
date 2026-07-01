@@ -220,8 +220,8 @@ assert.ok(
 assert.ok(
   js.includes("registerPortfolioServiceWorker") &&
     js.includes('navigator.serviceWorker.register("sw.js")') &&
-    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.22"') &&
-    sw.includes('const STATIC_CACHE = "hunter-static-v2.2.22"') &&
+    sw.includes('const IMAGE_CACHE = "hunter-images-v2.2.23"') &&
+    sw.includes('const STATIC_CACHE = "hunter-static-v2.2.23"') &&
     sw.includes('request.destination === "image"') &&
     sw.includes("cacheFirst(request, IMAGE_CACHE)") &&
     sw.includes("staleWhileRevalidate(request, STATIC_CACHE)"),
@@ -455,7 +455,7 @@ const requiredText = [
   "Builder Since 2007",
   "Proof Theater",
   "Choose a proof moment.",
-  "Hunter v2.2.22",
+  "Hunter v2.2.23",
 ];
 
 const requestedDemoUrls = [
@@ -976,8 +976,8 @@ assert.ok(
   "Language switching should point at the generated CN founder banner asset, not a missing old contact-email variant",
 );
 assert.ok(
-  html.includes("css/style.min.css?v=2.2.22") &&
-    html.includes("css/responsive.min.css?v=2.2.22"),
+  html.includes("css/style.min.css?v=2.2.23") &&
+    html.includes("css/responsive.min.css?v=2.2.23"),
   "Production stylesheets should use the active release cache keys",
 );
 assert.ok(
@@ -1068,7 +1068,7 @@ assert.ok(
   "Contact footer should no longer reserve fixed-height blank space below the banner",
 );
 assert.ok(
-  html.includes("js/main.min.js?v=2.2.22"),
+  html.includes("js/main.min.js?v=2.2.23"),
   "Production script should use the active release cache key",
 );
 assert.ok(
@@ -1115,7 +1115,7 @@ const releaseBadgeTag = html.match(
   /<a[^>]*class=(?:"release-badge"|release-badge)[^>]*href=(?:"https:\/\/github\.com\/HunterHo07"|https:\/\/github\.com\/HunterHo07)[^>]*>[\s\S]*?<\/a>/,
 );
 assert.ok(
-  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.22"),
+  releaseBadgeTag && releaseBadgeTag[0].includes("Hunter v2.2.23"),
   "Release badge should link to Hunter GitHub profile and use Hunter v2 version label",
 );
 assert.ok(
@@ -1826,7 +1826,7 @@ for (const token of [
   "hero.headlinePhrases",
   "headlineHoldDelay",
   "hero-word-special",
-  "v2.2.22",
+  "v2.2.23",
   "rotateHeadlinePhrase",
   "heroWordIn",
   "heroTypingCaret",
@@ -2944,15 +2944,15 @@ assert.ok(
 assert.ok(
   js.includes("carouselRotation") &&
     js.includes("ringStep = 360 / cards.length") &&
-    js.includes("track.style.setProperty(") &&
-    js.includes('"--carousel-rotation"') &&
-    js.includes("carouselRotation.toFixed(2) + \"deg\"") &&
-    js.includes("cardIndex * ringStep") &&
-    js.includes("displayAngle = (cardAngle + carouselRotation) % 360") &&
     js.includes("Math.round(-carouselRotation / ringStep)") &&
+    js.includes("getShortestOffset(cardIndex, activeIndex)") &&
+    js.includes("var thetaDeg = shortestOffset * ringStep") &&
+    js.includes("Math.sin(thetaRad) * carouselRadius") &&
+    js.includes("Math.cos(thetaRad) * carouselRadius - carouselRadius") &&
+    js.includes('track.style.transform = "translate(-50%, -50%)"') &&
     js.includes("is-ring-side-left") &&
     js.includes("is-ring-side-right"),
-  "Timeline carousel should keep a real circular ring rotation and snap to the nearest proof card",
+  "Timeline carousel should keep a real circular ring geometry and snap to the nearest proof card",
 );
 assert.ok(
   js.includes("setupHackathonGlassCarousel") &&

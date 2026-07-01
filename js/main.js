@@ -5294,62 +5294,34 @@
     }
 
     function applyCarouselLayout() {
-      var virtualIndex = -carouselRotation / ringStep;
-      var focusIndex = normalizeIndex(Math.round(virtualIndex));
-      var mobile = window.innerWidth < 768;
-      var hardVisibleRadius = visibleWindowRadius + 0.65;
-
-      activeIndex = focusIndex;
-      track.style.setProperty("--carousel-rotation", "0deg");
+      track.style.setProperty(
+        "--carousel-rotation",
+        carouselRotation.toFixed(2) + "deg",
+      );
 
       cards.forEach(function (card, cardIndex) {
-        var offset = getFractionalShortestOffset(cardIndex, virtualIndex);
-        var absOffset = Math.abs(offset);
-        var isFocus = absOffset < 0.55;
-        var isSide = absOffset >= 0.55 && absOffset < 1.6;
-        var isNearBack = absOffset >= 1.6 && absOffset < hardVisibleRadius;
-        var isVisible = absOffset < hardVisibleRadius;
-        var isSideLeft = isSide && offset < 0;
-        var isSideRight = isSide && offset > 0;
-        var clampedOffset = clamp(offset, -visibleWindowRadius - 0.5, visibleWindowRadius + 0.5);
-        var cardAngle = clampedOffset * ringStep;
-        var cardLift = isFocus
-          ? mobile
-            ? 36
-            : 72
-          : isSide
-            ? mobile
-              ? 10
-              : 18
-            : isNearBack
-              ? mobile
-                ? -18
-                : -46
-              : mobile
-                ? -42
-                : -82;
-        var cardScale = isFocus
-          ? mobile
-            ? 1.14
-            : 1.32
-          : isSide
-            ? mobile
-              ? 0.8
-              : 0.84
-            : isNearBack
-              ? 0.68
-              : 0.58;
-        var cardOpacity = isFocus ? 1 : isSide ? (mobile ? 0.42 : 0.84) : isNearBack ? 0.14 : 0;
+        var cardAngle = cardIndex * ringStep;
+        var displayAngle = (cardAngle + carouselRotation) % 360;
+        var normalizedAngle = ((displayAngle + 180 + 360) % 360) - 180;
+        var absAngle = Math.abs(normalizedAngle);
+        var isFocus = absAngle < ringStep * 0.55;
+        var isSide = absAngle >= ringStep * 0.55 && absAngle < ringStep * 1.55;
+        var isSideLeft = isSide && normalizedAngle < 0;
+        var isSideRight = isSide && normalizedAngle > 0;
+        var cardLift = isFocus ? 72 : isSide ? 16 : -94;
+        var cardScale = isFocus ? 1.4 : 1;
+        var cardOpacity = isFocus ? 1 : isSide ? 0.92 : 0.5;
 
+        activeIndex = normalizeIndex(Math.round(-carouselRotation / ringStep));
         card.style.setProperty("--card-lift", cardLift + "px");
         card.style.setProperty("--card-angle", cardAngle.toFixed(2) + "deg");
         card.style.setProperty("--card-scale", String(cardScale));
         card.style.opacity = String(cardOpacity);
-        card.style.visibility = isVisible ? "visible" : "hidden";
-        card.style.pointerEvents = isFocus ? "auto" : "none";
+        card.style.visibility = "visible";
+        card.style.pointerEvents = isFocus ? "auto" : !isSide ? "auto" : "none";
         card.hidden = false;
         card.setAttribute("aria-hidden", String(!isFocus));
-        card.style.zIndex = isFocus ? "4" : isSide ? "3" : isNearBack ? "2" : "1";
+        card.style.zIndex = isFocus ? "4" : isSide ? "3" : "1";
         card.setAttribute("data-carousel-seq", String(cardIndex));
         card.classList.toggle("is-strip-focus", isFocus);
         card.classList.toggle("is-strip-side", isSide);
@@ -5363,7 +5335,7 @@
         card.classList.toggle("is-ring-back", !isFocus && !isSide);
       });
 
-      warmVisibleWindow(focusIndex);
+      warmVisibleWindow(activeIndex);
       applyImageLoadPolicy();
     }
 
@@ -5374,19 +5346,30 @@
     }
 
     function layoutRing() {
-      var mobile = window.innerWidth < 768;
-      var angleStep = mobile ? 22 : window.innerWidth < 1200 ? 20 : 18;
-
       slideWidth = cards[0].getBoundingClientRect().width || 520;
-      visibleWindowRadius = mobile ? 2 : 3;
-      ringStep = angleStep;
-      visibleRingRadius = Math.round(slideWidth * (mobile ? 1.24 : 1.38));
-      carouselRadius = clamp(
-        visibleRingRadius,
-        mobile ? 320 : 560,
-        mobile ? 640 : 980,
-      );
+      ringStep = 360 / cards.length;
       carouselRotation = -(activeIndex * ringStep);
+
+      var halfStepRadians = Math.PI / cards.length;
+      var minimumTrig = Math.max(2 * Math.sin(halfStepRadians), 0.01);
+      var spacingFactor =
+        window.innerWidth < 768 ? 0.94 : window.innerWidth < 1200 ? 1.04 : 1.18;
+      var baseRadius = Math.round(
+        (slideWidth / 2 / Math.tan(Math.PI / cards.length)) * 1.32,
+      );
+      var spacingRadius = Math.round(
+        (slideWidth * spacingFactor) / minimumTrig,
+      );
+
+      carouselRadius = Math.max(
+        baseRadius,
+        spacingRadius,
+        Math.round(slideWidth * 4.2),
+      );
+      carouselRadius = Math.min(
+        carouselRadius,
+        window.innerWidth < 768 ? 5600 : 9800,
+      );
 
       var resolvedRadius = String(carouselRadius) + "px";
 
@@ -5395,13 +5378,13 @@
       track.style.setProperty("--carousel-radius", resolvedRadius);
       stage.style.setProperty(
         "perspective",
-        String(Math.max(mobile ? 1600 : 2200, Math.round(carouselRadius * (mobile ? 2.1 : 2.4)))) + "px",
+        String(Math.max(4200, Math.round(carouselRadius * 1.75))) + "px",
       );
 
       cards.forEach(function (card, cardIndex) {
         card.style.setProperty("--carousel-radius", resolvedRadius);
         card.style.setProperty("--card-lift", "0px");
-        card.style.setProperty("--card-angle", "0deg");
+        card.style.setProperty("--card-angle", String(cardIndex * ringStep) + "deg");
         card.style.setProperty("--card-scale", "1");
         card.setAttribute("data-carousel-seq", String(cardIndex));
         card.setAttribute("aria-hidden", "false");

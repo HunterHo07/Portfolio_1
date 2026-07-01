@@ -3826,9 +3826,9 @@ body.is-hero-ready .hero-image-loader,
 }
 
 .hackathon-carousel-card.is-ring-back {
-  opacity: 0;
+  opacity: 0.5;
   filter: saturate(0.8) brightness(0.62);
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .hackathon-carousel-frame {

@@ -3781,6 +3781,9 @@ body.is-hero-ready .hero-image-loader,
   --card-lift-extra: 0px;
   --card-scale: 1;
   --card-scale-bias: 1;
+  --card-shift-x: 0px;
+  --card-strip-rotate-y: 0deg;
+  --card-strip-depth: 0px;
   position: absolute;
   top: 0;
   left: 0;
@@ -3800,8 +3803,8 @@ body.is-hero-ready .hero-image-loader,
     inset 0 -28px 48px rgba(255, 255, 255, 0.04);
   opacity: 0.95;
   transform:
-    translateY(calc(var(--card-lift) + var(--card-lift-extra)))
-    rotateY(calc(var(--card-angle) + var(--card-angle-jitter)))
+    translate3d(var(--card-shift-x), calc(var(--card-lift) + var(--card-lift-extra)), var(--card-strip-depth))
+    rotateY(calc(var(--card-angle) + var(--card-angle-jitter) + var(--card-strip-rotate-y)))
     translateZ(var(--carousel-radius))
     scale(calc(var(--card-scale) * var(--card-scale-bias)));
   transform-style: preserve-3d;
@@ -3997,6 +4000,23 @@ body.is-hero-ready .hero-image-loader,
 
 .hackathon-glass-carousel.is-dragging .hackathon-carousel-track {
   transition: none;
+}
+
+.hackathon-glass-carousel.is-stable-strip .hackathon-carousel-track {
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.hackathon-glass-carousel.is-stable-strip .hackathon-carousel-card {
+  left: 50%;
+  transform:
+    translate3d(calc(-50% + var(--card-shift-x)), calc(var(--card-lift) + var(--card-lift-extra)), var(--card-strip-depth))
+    rotateY(var(--card-strip-rotate-y))
+    scale(calc(var(--card-scale) * var(--card-scale-bias)));
+}
+
+.hackathon-glass-carousel.is-stable-strip .hackathon-carousel-card.is-ring-back {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hackathon-carousel-prev {
